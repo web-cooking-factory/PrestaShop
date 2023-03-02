@@ -252,7 +252,11 @@ abstract class ObjectModelCore implements \PrestaShop\PrestaShop\Core\Foundation
                 throw new PrestaShopException('Identifier or table format not valid for class ' . $class_name);
             }
 
-            ObjectModel::$loaded_classes[$class_name] = get_object_vars($this);
+            $defaults = get_object_vars($this);
+
+            Hook::exec('actionAddCustomFieldsDefault', ['class' => $class_name, 'defaults' => &$defaults]);
+
+            ObjectModel::$loaded_classes[$class_name] = $defaults;
         } else {
             foreach (ObjectModel::$loaded_classes[$class_name] as $key => $value) {
                 $this->{$key} = $value;
@@ -280,6 +284,8 @@ abstract class ObjectModelCore implements \PrestaShop\PrestaShop\Core\Foundation
             /** @var \PrestaShop\PrestaShop\Adapter\EntityMapper $entity_mapper */
             $entity_mapper = ServiceLocator::get('\\PrestaShop\\PrestaShop\\Adapter\\EntityMapper');
             $entity_mapper->load($id, $this->id_lang, $this, $this->def, $this->id_shop, self::$cache_objects);
+
+            Hook::exec('actionAddCustomFieldsValue', ['class' => $class_name, 'id' => $id, 'object' => &$this]);
         }
     }
 
@@ -2144,6 +2150,8 @@ abstract class ObjectModelCore implements \PrestaShop\PrestaShop\Core\Foundation
         if ($field !== null || !Cache::isStored($cache_id)) {
             /** @var array<string, mixed> $definition */
             $definition = $class::$definition;
+
+            Hook:exec('actionAddCustomFieldsDefinition', ['class' => $class, 'definition' => &$definition]);
 
             $definition['classname'] = $class;
 
