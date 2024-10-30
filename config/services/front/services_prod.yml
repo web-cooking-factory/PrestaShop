@@ -1,6 +1,5 @@
 imports:
     - { resource: ../common.yml }
-    - { resource: ../../../modules/*/config/front_services.yml }
 
 services:
     _defaults:
