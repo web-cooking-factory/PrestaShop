@@ -57,8 +57,3 @@ services:
       class: PrestaShopBundle\Translation\TranslatorLanguageLoader
       arguments:
         - '@prestashop.adapter.module.repository.module_repository'
-
-    prestashop.hook.module.filter:
-      class: PrestaShop\PrestaShop\Core\Hook\HookModuleFilter
-      arguments:
-        - !tagged core.hook_module_exec_filter
