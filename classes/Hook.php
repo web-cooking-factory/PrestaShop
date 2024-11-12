@@ -1123,7 +1123,11 @@ class HookCore extends ObjectModel
      */
     private static function getHookModuleFilter()
     {
-        $serviceContainer = ContainerBuilder::getContainer('front', _PS_MODE_DEV_);
+        $serviceContainer = SymfonyContainer::getInstance();
+
+        if (is_null($serviceContainer)) {
+            $serviceContainer = ContainerBuilder::getContainer('front', _PS_MODE_DEV_);
+        }
 
         try {
             $hookModuleFilter = $serviceContainer->get('prestashop.hook.module.filter');
