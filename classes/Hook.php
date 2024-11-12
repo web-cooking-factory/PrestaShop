@@ -1130,7 +1130,7 @@ class HookCore extends ObjectModel
         }
 
         try {
-            $hookModuleFilter = $serviceContainer->get('prestashop.hook.module.filter');
+            $hookModuleFilter = $serviceContainer->get(HookModuleFilter::class);
         } catch (Exception $e) {
             return null;
         }

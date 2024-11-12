@@ -26,7 +26,6 @@ services:
         public: false
         tags: ['container.env_var_processor']
 
-    prestashop.hook.module.filter:
-      class: PrestaShop\PrestaShop\Core\Hook\HookModuleFilter
+    PrestaShop\PrestaShop\Core\Hook\HookModuleFilter:
       arguments:
         - !tagged core.hook_module_exec_filter
