@@ -374,6 +374,16 @@ abstract class ModuleCore implements ModuleInterface
     {
         Hook::exec('actionModuleInstallBefore', ['object' => $this]);
 
+        PrestaShopLogger::addLog(
+            Context::getContext()->getTranslator()->trans(
+                'Starting module install: %s v%s',
+                [$this->name, $this->version],
+                'Admin.Modules.Notification'
+            ),
+            1,
+            null,
+            'Module'
+        );
         if ($this->_errors) {
             return false;
         }
@@ -478,6 +488,16 @@ abstract class ModuleCore implements ModuleInterface
 
         // Adding Restrictions for client groups
         Group::addRestrictionsForModule($this->id, Shop::getShops(true, null, true));
+        PrestaShopLogger::addLog(
+            Context::getContext()->getTranslator()->trans(
+                'Module installed succesfully: %s v%s',
+                [$this->name, $this->version],
+                'Admin.Modules.Notification'
+            ),
+            1,
+            null,
+            'Module'
+        );
         Hook::exec('actionModuleInstallAfter', ['object' => $this]);
 
         if (Module::$update_translations_after_install) {
@@ -596,6 +616,16 @@ abstract class ModuleCore implements ModuleInterface
      */
     public function runUpgradeModule()
     {
+        PrestaShopLogger::addLog(
+            Context::getContext()->getTranslator()->trans(
+                'Starting module upgrade: %s v%s to v%s',
+                [$this->name, $this->database_version, $this->version],
+                'Admin.Modules.Notification'
+            ),
+            1,
+            null,
+            'Module'
+        );
         $upgrade = &static::$modules_cache[$this->name]['upgrade'];
         foreach ($upgrade['upgrade_file_left'] as $num => $file_detail) {
             foreach ($file_detail['upgrade_function'] as $item) {
@@ -638,6 +668,16 @@ abstract class ModuleCore implements ModuleInterface
         // Update module version in DB with the last succeed upgrade
         if ($upgrade['upgraded_to']) {
             Module::upgradeModuleVersion($this->name, $upgrade['upgraded_to']);
+            PrestaShopLogger::addLog(
+                Context::getContext()->getTranslator()->trans(
+                    'Module upgraded succesfully: %s to v%s',
+                    [$this->name, $upgrade['upgraded_to']],
+                    'Admin.Modules.Notification'
+                ),
+                1,
+                null,
+                'Module'
+            );
         }
         $this->setUpgradeMessage($upgrade);
 
@@ -801,6 +841,16 @@ abstract class ModuleCore implements ModuleInterface
     {
         Hook::exec('actionModuleUninstallBefore', ['object' => $this]);
 
+        PrestaShopLogger::addLog(
+            Context::getContext()->getTranslator()->trans(
+                'Starting module uninstall: %s v%s',
+                [$this->name, $this->version],
+                'Admin.Modules.Notification'
+            ),
+            1,
+            null,
+            'Module'
+        );
         // Check if module instance is valid
         if (!Validate::isUnsignedId($this->id)) {
             $this->_errors[] = Context::getContext()->getTranslator()->trans('The module is not installed.', [], 'Admin.Modules.Notification');
@@ -857,7 +907,16 @@ abstract class ModuleCore implements ModuleInterface
         if (Db::getInstance()->execute('DELETE FROM `' . _DB_PREFIX_ . 'module` WHERE `id_module` = ' . (int) $this->id)) {
             Cache::clean('Module::isInstalled' . $this->name);
             Cache::clean('Module::getModuleIdByName_' . pSQL($this->name));
-
+            PrestaShopLogger::addLog(
+                Context::getContext()->getTranslator()->trans(
+                    'Module uninstalled succesfully: %s v%s',
+                    [$this->name, $this->version],
+                    'Admin.Modules.Notification'
+                ),
+                1,
+                null,
+                'Module'
+            );
             Hook::exec('actionModuleUninstallAfter', ['object' => $this]);
 
             return true;
