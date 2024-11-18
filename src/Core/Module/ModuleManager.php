@@ -229,6 +229,16 @@ class ModuleManager implements ModuleManagerInterface
 
         $this->hookManager->exec('actionBeforeUpgradeModule', ['moduleName' => $name, 'source' => $source]);
 
+        \PrestaShopLogger::addLog(
+            $this->translator->trans(
+                'Starting module upgrade: %s',
+                [$name],
+                'Admin.Modules.Notification'
+            ),
+            1,
+            null,
+            'Module'
+        );
         $module = $this->moduleRepository->getModule($name);
         $upgraded = $this->upgradeMigration($name) && $module->onUpgrade($module->get('version'));
 

@@ -490,7 +490,7 @@ abstract class ModuleCore implements ModuleInterface
         Group::addRestrictionsForModule($this->id, Shop::getShops(true, null, true));
         PrestaShopLogger::addLog(
             Context::getContext()->getTranslator()->trans(
-                'Module installed succesfully: %s v%s',
+                'Module installed successfully: %s v%s',
                 [$this->name, $this->version],
                 'Admin.Modules.Notification'
             ),
@@ -670,7 +670,7 @@ abstract class ModuleCore implements ModuleInterface
             Module::upgradeModuleVersion($this->name, $upgrade['upgraded_to']);
             PrestaShopLogger::addLog(
                 Context::getContext()->getTranslator()->trans(
-                    'Module upgraded succesfully: %s to v%s',
+                    'Module upgraded successfully: %s to v%s',
                     [$this->name, $upgrade['upgraded_to']],
                     'Admin.Modules.Notification'
                 ),
@@ -909,7 +909,7 @@ abstract class ModuleCore implements ModuleInterface
             Cache::clean('Module::getModuleIdByName_' . pSQL($this->name));
             PrestaShopLogger::addLog(
                 Context::getContext()->getTranslator()->trans(
-                    'Module uninstalled succesfully: %s v%s',
+                    'Module uninstalled successfully: %s v%s',
                     [$this->name, $this->version],
                     'Admin.Modules.Notification'
                 ),
