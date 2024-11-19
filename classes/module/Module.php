@@ -382,7 +382,9 @@ abstract class ModuleCore implements ModuleInterface
             ),
             1,
             null,
-            'Module'
+            'Module',
+            null,
+            true
         );
         if ($this->_errors) {
             return false;
@@ -496,7 +498,9 @@ abstract class ModuleCore implements ModuleInterface
             ),
             1,
             null,
-            'Module'
+            'Module',
+            null,
+            true
         );
         Hook::exec('actionModuleInstallAfter', ['object' => $this]);
 
@@ -624,7 +628,9 @@ abstract class ModuleCore implements ModuleInterface
             ),
             1,
             null,
-            'Module'
+            'Module',
+            null,
+            true
         );
         $upgrade = &static::$modules_cache[$this->name]['upgrade'];
         foreach ($upgrade['upgrade_file_left'] as $num => $file_detail) {
@@ -676,7 +682,9 @@ abstract class ModuleCore implements ModuleInterface
                 ),
                 1,
                 null,
-                'Module'
+                'Module',
+                null,
+                true
             );
         }
         $this->setUpgradeMessage($upgrade);
@@ -849,7 +857,9 @@ abstract class ModuleCore implements ModuleInterface
             ),
             1,
             null,
-            'Module'
+            'Module',
+            null,
+            true
         );
         // Check if module instance is valid
         if (!Validate::isUnsignedId($this->id)) {
@@ -915,7 +925,9 @@ abstract class ModuleCore implements ModuleInterface
                 ),
                 1,
                 null,
-                'Module'
+                'Module',
+                null,
+                true
             );
             Hook::exec('actionModuleUninstallAfter', ['object' => $this]);
 
