@@ -34,7 +34,6 @@ use PrestaShop\PrestaShop\Adapter\HookManager;
 use PrestaShop\PrestaShop\Adapter\LegacyLogger;
 use PrestaShop\PrestaShop\Adapter\Module\AdminModuleDataProvider;
 use PrestaShop\PrestaShop\Adapter\Module\ModuleDataProvider;
-use PrestaShop\PrestaShop\Adapter\ServiceLocator;
 use PrestaShop\PrestaShop\Core\Module\SourceHandler\SourceHandlerFactory;
 use PrestaShopBundle\Event\ModuleManagementEvent;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -231,7 +230,7 @@ class ModuleManager implements ModuleManagerInterface
 
         $this->hookManager->exec('actionBeforeUpgradeModule', ['moduleName' => $name, 'source' => $source]);
 
-        $logger = ServiceLocator::get(LegacyLogger::class);
+        $logger = new LegacyLogger();
         $logger->info(
             $this->translator->trans(
                 'Starting module upgrade: %s',
