@@ -84,7 +84,6 @@ class ModuleManagerTest extends TestCase
             ->getMock()
         ;
         $this->moduleManager->method('upgradeMigration')->willReturn(true);
-        $this->moduleManager->method('log')->willReturn(true);
     }
 
     public function testInstall(): void

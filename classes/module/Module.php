@@ -380,7 +380,7 @@ abstract class ModuleCore implements ModuleInterface
                 [$this->name, $this->version],
                 'Admin.Modules.Notification'
             ),
-            1,
+            PrestaShopLogger::LOG_SEVERITY_LEVEL_INFORMATIVE,
             null,
             'Module',
             null,
@@ -496,7 +496,7 @@ abstract class ModuleCore implements ModuleInterface
                 [$this->name, $this->version],
                 'Admin.Modules.Notification'
             ),
-            1,
+            PrestaShopLogger::LOG_SEVERITY_LEVEL_INFORMATIVE,
             null,
             'Module',
             null,
@@ -626,7 +626,7 @@ abstract class ModuleCore implements ModuleInterface
                 [$this->name, $this->database_version, $this->version],
                 'Admin.Modules.Notification'
             ),
-            1,
+            PrestaShopLogger::LOG_SEVERITY_LEVEL_INFORMATIVE,
             null,
             'Module',
             null,
@@ -680,7 +680,7 @@ abstract class ModuleCore implements ModuleInterface
                     [$this->name, $upgrade['upgraded_to']],
                     'Admin.Modules.Notification'
                 ),
-                1,
+                PrestaShopLogger::LOG_SEVERITY_LEVEL_INFORMATIVE,
                 null,
                 'Module',
                 null,
@@ -855,7 +855,7 @@ abstract class ModuleCore implements ModuleInterface
                 [$this->name, $this->version],
                 'Admin.Modules.Notification'
             ),
-            1,
+            PrestaShopLogger::LOG_SEVERITY_LEVEL_INFORMATIVE,
             null,
             'Module',
             null,
@@ -923,7 +923,7 @@ abstract class ModuleCore implements ModuleInterface
                     [$this->name, $this->version],
                     'Admin.Modules.Notification'
                 ),
-                1,
+                PrestaShopLogger::LOG_SEVERITY_LEVEL_INFORMATIVE,
                 null,
                 'Module',
                 null,
