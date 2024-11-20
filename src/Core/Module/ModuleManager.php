@@ -30,6 +30,7 @@ namespace PrestaShop\PrestaShop\Core\Module;
 
 use Exception;
 use Module as LegacyModule;
+use Monolog\Logger;
 use PrestaShop\PrestaShop\Adapter\HookManager;
 use PrestaShop\PrestaShop\Adapter\LegacyLogger;
 use PrestaShop\PrestaShop\Adapter\Module\AdminModuleDataProvider;
@@ -230,18 +231,15 @@ class ModuleManager implements ModuleManagerInterface
 
         $this->hookManager->exec('actionBeforeUpgradeModule', ['moduleName' => $name, 'source' => $source]);
 
-        $logger = new LegacyLogger();
-        $logger->info(
+        $this->log(
+            Logger::INFO,
             $this->translator->trans(
                 'Starting module upgrade: %s',
                 [$name],
                 'Admin.Modules.Notification'
-            ),
-            [
-                'object_type' => 'Module',
-                'allow_duplicate' => true,
-            ]
+            )
         );
+
         $module = $this->moduleRepository->getModule($name);
         $upgraded = $this->upgradeMigration($name) && $module->onUpgrade($module->get('version'));
 
@@ -398,5 +396,18 @@ class ModuleManager implements ModuleManagerInterface
     private function dispatch(string $event, ModuleInterface $module): void
     {
         $this->eventDispatcher->dispatch(new ModuleManagementEvent($module), $event);
+    }
+
+    protected function log($level, $message)
+    {
+        $logger = new LegacyLogger();
+        $logger->log(
+            $level,
+            $message,
+            [
+                'object_type' => 'Module',
+                'allow_duplicate' => true,
+            ]
+        );
     }
 }
