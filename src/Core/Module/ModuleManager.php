@@ -30,9 +30,7 @@ namespace PrestaShop\PrestaShop\Core\Module;
 
 use Exception;
 use Module as LegacyModule;
-use Monolog\Logger;
 use PrestaShop\PrestaShop\Adapter\HookManager;
-use PrestaShop\PrestaShop\Adapter\LegacyLogger;
 use PrestaShop\PrestaShop\Adapter\Module\AdminModuleDataProvider;
 use PrestaShop\PrestaShop\Adapter\Module\ModuleDataProvider;
 use PrestaShop\PrestaShop\Core\Module\SourceHandler\SourceHandlerFactory;
@@ -80,7 +78,7 @@ class ModuleManager implements ModuleManagerInterface
         SourceHandlerFactory $sourceFactory,
         TranslatorInterface $translator,
         EventDispatcherInterface $eventDispatcher,
-        HookManager $hookManager,
+        HookManager $hookManager
     ) {
         $this->filesystem = new Filesystem();
         $this->moduleRepository = $moduleRepository;
@@ -230,15 +228,6 @@ class ModuleManager implements ModuleManagerInterface
         $this->hookManager->disableHooksForModule($this->moduleDataProvider->getModuleIdByName($name));
 
         $this->hookManager->exec('actionBeforeUpgradeModule', ['moduleName' => $name, 'source' => $source]);
-
-        $this->log(
-            Logger::INFO,
-            $this->translator->trans(
-                'Starting module upgrade: %s',
-                [$name],
-                'Admin.Modules.Notification'
-            )
-        );
 
         $module = $this->moduleRepository->getModule($name);
         $upgraded = $this->upgradeMigration($name) && $module->onUpgrade($module->get('version'));
@@ -396,18 +385,5 @@ class ModuleManager implements ModuleManagerInterface
     private function dispatch(string $event, ModuleInterface $module): void
     {
         $this->eventDispatcher->dispatch(new ModuleManagementEvent($module), $event);
-    }
-
-    protected function log($level, $message)
-    {
-        $logger = new LegacyLogger();
-        $logger->log(
-            $level,
-            $message,
-            [
-                'object_type' => 'Module',
-                'allow_duplicate' => true,
-            ]
-        );
     }
 }

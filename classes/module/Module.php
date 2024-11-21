@@ -590,6 +590,34 @@ abstract class ModuleCore implements ModuleInterface
             $module->database_version = $moduleVersion;
         }
 
+        if ($module->database_version == $module->version) {
+            PrestaShopLogger::addLog(
+                Context::getContext()->getTranslator()->trans(
+                    'Starting module install: %s v%s',
+                    [$module->name, $module->version],
+                    'Admin.Modules.Notification'
+                ),
+                PrestaShopLogger::LOG_SEVERITY_LEVEL_INFORMATIVE,
+                null,
+                'Module',
+                null,
+                true
+            );
+        } else {
+            PrestaShopLogger::addLog(
+                Context::getContext()->getTranslator()->trans(
+                    'Starting module upgrade: %s v%s to v%s',
+                    [$module->name, $module->database_version, $module->version],
+                    'Admin.Modules.Notification'
+                ),
+                PrestaShopLogger::LOG_SEVERITY_LEVEL_INFORMATIVE,
+                null,
+                'Module',
+                null,
+                true
+            );
+        }
+
         /*
          * Init default upgrade data.
          *
@@ -620,18 +648,6 @@ abstract class ModuleCore implements ModuleInterface
      */
     public function runUpgradeModule()
     {
-        PrestaShopLogger::addLog(
-            Context::getContext()->getTranslator()->trans(
-                'Starting module upgrade: %s v%s to v%s',
-                [$this->name, $this->database_version, $this->version],
-                'Admin.Modules.Notification'
-            ),
-            PrestaShopLogger::LOG_SEVERITY_LEVEL_INFORMATIVE,
-            null,
-            'Module',
-            null,
-            true
-        );
         $upgrade = &static::$modules_cache[$this->name]['upgrade'];
         foreach ($upgrade['upgrade_file_left'] as $num => $file_detail) {
             foreach ($file_detail['upgrade_function'] as $item) {

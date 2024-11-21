@@ -80,7 +80,7 @@ class ModuleManagerTest extends TestCase
                 $this->createMock(EventDispatcherInterface::class),
                 $this->createMock(HookManager::class),
             ])
-            ->onlyMethods(['upgradeMigration', 'log'])
+            ->onlyMethods(['upgradeMigration'])
             ->getMock()
         ;
         $this->moduleManager->method('upgradeMigration')->willReturn(true);
