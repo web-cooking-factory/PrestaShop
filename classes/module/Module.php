@@ -3461,6 +3461,12 @@ abstract class ModuleCore implements ModuleInterface
      */
     public function get($serviceName)
     {
+        if ($serviceName === 'twig' && method_exists($this->context->controller, 'getTwig')) {
+            trigger_deprecation('prestashop/prestashop', '9.0', 'Load Twig using $this->context->controller->getTwig().', 'getTwig');
+
+            return $this->context->controller->getTwig();
+        }
+
         try {
             $container = $this->getContainer();
         } catch (ContainerNotFoundException $e) {
