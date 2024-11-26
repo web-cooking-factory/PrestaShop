@@ -43,8 +43,8 @@
             </h2>
           </div>
           <div id="viewFullDetails" class="col-xxl-5 text-xxl-right">
-            <a class="d-print-none" href="{{ path('admin_customers_view', {customerId: orderForViewing.customer.id}) }}">
-              {{ 'View full details'|trans({}, 'Admin.Actions') }}
+            <a class="d-print-none btn btn-primary btn-sm" href="{{ path('admin_customers_view', {customerId: orderForViewing.customer.id}) }}">
+              {{ 'View details'|trans({}, 'Admin.Actions') }}
             </a>
           </div>
         {% else %}

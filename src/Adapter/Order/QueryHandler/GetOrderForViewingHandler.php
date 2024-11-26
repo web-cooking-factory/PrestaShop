@@ -243,7 +243,7 @@ final class GetOrderForViewingHandler extends AbstractOrderHandler implements Ge
         $currency = new Currency($order->id_currency);
         $customer = new Customer($order->id_customer);
         $genderName = '';
-        $totalSpentSinceRegistration = null;
+        $totalSpentSinceRegistration = 0;
 
         if (!Validate::isLoadedObject($customer)) {
             $customer = $this->buildFakeCustomerObject($order, $invoiceAddress);
@@ -290,7 +290,7 @@ final class GetOrderForViewingHandler extends AbstractOrderHandler implements Ge
             $genderName,
             $customer->email,
             new DateTimeImmutable($customer->date_add ?? 'now'),
-            $totalSpentSinceRegistration !== null ? $this->locale->formatPrice($totalSpentSinceRegistration, $currency->iso_code) : '',
+            $this->locale->formatPrice((float) $totalSpentSinceRegistration, $currency->iso_code),
             $customerStats['nb_orders'],
             $customer->note,
             (bool) $customer->is_guest,
