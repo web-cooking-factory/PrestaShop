@@ -838,6 +838,11 @@ class ProductLazyArray extends AbstractLazyArray
             return false;
         }
 
+        // Do not enable add to cart button if prices are hidden
+        if (!$this->shouldShowPrice($settings, $product)) {
+            return false;
+        }
+
         if (($product['customizable'] == 2 || !empty($product['customization_required']))) {
             $shouldEnable = false;
 
