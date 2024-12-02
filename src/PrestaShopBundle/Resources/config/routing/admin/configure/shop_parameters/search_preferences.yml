@@ -14,7 +14,7 @@ admin_search_alias_search:
     gridDefinitionFactoryServiceId: PrestaShop\PrestaShop\Core\Grid\Definition\Factory\AliasGridDefinitionFactory
     redirectRoute: admin_search_alias_index
     _legacy_link: AdminAliases:submitFilteralias
-    _legacy_controller: AdminAliases
+    _legacy_controller: AdminSearchConf
 
 admin_search_alias_delete:
   path: /{searchTerm}/delete
