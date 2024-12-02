@@ -622,10 +622,21 @@ class ProductLazyArray extends AbstractLazyArray
         }
 
         if ($this->shouldShowOutOfStockLabel($this->settings, $this->product)) {
-            $config = $this->configuration->get('PS_LABEL_OOS_PRODUCTS_BOD');
+            // For the label, we will follow the same logic as for normal stock label,
+            // we will try combination label, then product label, then the general label.
+            $combinationData = $this->getCombinationSpecificData();
+            if (!empty($combinationData['available_later'])) {
+                $message = $combinationData['available_later'];
+            } elseif (!empty($this->product['available_later'])) {
+                $message = $this->product['available_later'];
+            } else {
+                $config = $this->configuration->get('PS_LABEL_OOS_PRODUCTS_BOD');
+                $message = $config[$this->language->getId()] ?? null;
+            }
+
             $flags['out_of_stock'] = [
                 'type' => 'out_of_stock',
-                'label' => $config[$this->language->getId()] ?? null,
+                'label' => $message,
             ];
         }
 
