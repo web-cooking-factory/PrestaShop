@@ -318,6 +318,7 @@ class LanguageController extends PrestaShopAdminController
     private function getErrorMessages()
     {
         $iniConfig = $this->container->get(IniConfiguration::class);
+
         return [
             LanguageNotFoundException::class => $this->trans(
                 'The object cannot be loaded (or found).',

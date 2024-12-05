@@ -518,7 +518,6 @@ class ThemeController extends PrestaShopAdminController
     /**
      * Gets exception or exception and its code error mapping.
      *
-     *
      * @return array
      */
     private function getLogoUploadErrorMessages(): array
@@ -541,6 +540,7 @@ class ThemeController extends PrestaShopAdminController
             [$availableIconFormat],
             'Admin.Notifications.Error',
         );
+
         return [
             NotSupportedLogoImageExtensionException::class => $logoImageFormatError,
             NotSupportedMailAndInvoiceImageExtensionException::class => $mailAndInvoiceImageFormatError,

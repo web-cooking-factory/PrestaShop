@@ -293,6 +293,7 @@ class FeatureRepository extends AbstractMultiShopObjectModelRepository
         // Filters not handled yet
         $qb = $this->connection->createQueryBuilder();
         $qb->from($this->dbPrefix . 'feature', 'f');
+
         return $qb;
     }
 }

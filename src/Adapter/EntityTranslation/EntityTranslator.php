@@ -225,7 +225,6 @@ class EntityTranslator implements EntityTranslatorInterface
     /**
      * Builds the table name using the DataLang class as source
      *
-     *
      * @return string The table name, including prefix
      */
     private function buildTableNameFromDataLang(): string
@@ -234,6 +233,7 @@ class EntityTranslator implements EntityTranslatorInterface
         if (!str_starts_with($tableName, $this->dbPrefix)) {
             $tableName = $this->dbPrefix . $tableName;
         }
+
         return $tableName;
     }
 }

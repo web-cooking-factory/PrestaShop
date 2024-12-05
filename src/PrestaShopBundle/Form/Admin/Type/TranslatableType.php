@@ -207,6 +207,7 @@ class TranslatableType extends TranslatorAwareType
      *
      * @param FormInterface $form
      * @param array $locales
+     *
      * @return array|null
      */
     private function getErrorsByLocale(FormInterface $form, array $locales)

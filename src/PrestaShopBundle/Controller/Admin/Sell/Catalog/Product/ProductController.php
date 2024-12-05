@@ -1373,7 +1373,6 @@ class ProductController extends PrestaShopAdminController
     /**
      * Gets an error by exception class and its code.
      *
-     *
      * @return array
      */
     private function getErrorMessages(): array

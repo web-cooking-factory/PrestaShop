@@ -375,6 +375,7 @@ class CartLazyArray extends AbstractLazyArray
      * simply because the system was unable to determine shipping cost at this point and thus send an empty string to hide the shipping line.
      *
      * @param float $shippingCost
+     *
      * @return string
      */
     private function getShippingDisplayValue($shippingCost): string
