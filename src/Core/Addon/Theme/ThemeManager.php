@@ -296,7 +296,7 @@ class ThemeManager implements AddonManagerInterface
         $moduleManagerBuilder = ModuleManagerBuilder::getInstance();
         $moduleManager = $moduleManagerBuilder->build();
 
-        foreach ($modules as $key => $moduleName) {
+        foreach ($modules as $moduleName) {
             if ($moduleManager->isInstalled($moduleName) && $moduleManager->isEnabled($moduleName)) {
                 $moduleManager->disable($moduleName);
             }

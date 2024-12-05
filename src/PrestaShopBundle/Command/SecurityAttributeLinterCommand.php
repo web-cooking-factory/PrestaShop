@@ -192,7 +192,7 @@ final class SecurityAttributeLinterCommand extends Command
     {
         $listing = [];
 
-        foreach ($this->adminRouteProvider->getRoutes() as $routeName => $route) {
+        foreach ($this->adminRouteProvider->getRoutes() as $route) {
             /* @var Route $route */
             try {
                 $attributes = $this->securityAttributeLinter->getRouteSecurityAttributes($route);
