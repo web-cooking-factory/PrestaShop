@@ -493,9 +493,6 @@ class ProductDuplicator extends AbstractMultiShopObjectModelRepository
     private function duplicateSuppliers(int $oldProductId, int $newProductId, array $combinationMatching): void
     {
         $oldSuppliers = $this->getRows('product_supplier', ['id_product' => $oldProductId], CannotDuplicateProductException::FAILED_DUPLICATE_SUPPLIERS);
-        if (empty($oldSuppliers)) {
-            return;
-        }
 
         foreach ($oldSuppliers as $oldSupplier) {
             $newProductSupplier = $this->productSupplierRepository->get(new ProductSupplierId((int) $oldSupplier['id_product_supplier']));
