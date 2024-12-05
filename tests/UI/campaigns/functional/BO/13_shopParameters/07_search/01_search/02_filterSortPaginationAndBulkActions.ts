@@ -77,13 +77,12 @@ describe('BO - Shop Parameters - Search : Filter, sort, pagination and bulk acti
     await testContext.addContextItem(this, 'testIdentifier', 'resetFilterFirst', baseContext);
 
     numberOfSearch = await boSearchAliasPage.resetAndGetNumberOfLines(page);
-    numberOfSearch = 2;
     expect(numberOfSearch).to.be.above(0);
   });
 
-  // 1 - Create 19 aliases
-  const creationTests: number[] = new Array(19).fill(0, 0, 19);
-  describe.skip('Create 19 aliases in BO', async () => {
+  // 1 - Create 20 aliases
+  const creationTests: number[] = new Array(20).fill(0, 0, 19);
+  describe.skip('Create 20 aliases in BO', async () => {
     creationTests.forEach((test: number, index: number) => {
       const aliasData: FakerSearchAlias = new FakerSearchAlias({alias: `todelete${index}`});
 
@@ -145,14 +144,14 @@ describe('BO - Shop Parameters - Search : Filter, sort, pagination and bulk acti
       {
         testIdentifier: 'filterAliases',
         filterType: 'input',
-        filterBy: 'alias',
+        filterBy: 'search',
         filterValue: 'todelete5',
       },
       {
         testIdentifier: 'filterSearch',
         filterType: 'input',
-        filterBy: 'search',
-        filterValue: 'blouse',
+        filterBy: 'alias',
+        filterValue: 'bloose',
       },
     ].forEach((test: {
       testIdentifier: string
@@ -171,7 +170,7 @@ describe('BO - Shop Parameters - Search : Filter, sort, pagination and bulk acti
         );
 
         const numberOfGroupsAfterFilter = await boSearchAliasPage.getNumberOfElementInGrid(page);
-        expect(numberOfGroupsAfterFilter).to.be.at.most(numberOfSearch);
+        expect(numberOfGroupsAfterFilter).to.be.gt(0).and.at.most(numberOfSearch);
 
         for (let row = 1; row <= numberOfGroupsAfterFilter; row++) {
           const textColumn = await boSearchAliasPage.getTextColumn(page, row, test.filterBy);
@@ -183,7 +182,7 @@ describe('BO - Shop Parameters - Search : Filter, sort, pagination and bulk acti
         await testContext.addContextItem(this, 'testIdentifier', `${test.testIdentifier}Reset`, baseContext);
 
         const numberOfGroupsAfterReset = await boSearchAliasPage.resetAndGetNumberOfLines(page);
-        expect(numberOfGroupsAfterReset).to.equal(numberOfSearch + 19);
+        expect(numberOfGroupsAfterReset).to.equal(numberOfSearch);
       });
     });
   });
@@ -211,7 +210,7 @@ describe('BO - Shop Parameters - Search : Filter, sort, pagination and bulk acti
         sortBy: 'search', 
         sortDirection: 'desc',
       },
-    ].forEach((test: { testIdentifier: string, sortBy: string, sortDirection: string}) => {
+    ].forEach((test: {testIdentifier: string, sortBy: string, sortDirection: string}) => {
       it(`should sort by '${test.sortBy}' '${test.sortDirection}' and check result`, async function () {
         await testContext.addContextItem(this, 'testIdentifier', test.testIdentifier, baseContext);
 
@@ -243,9 +242,9 @@ describe('BO - Shop Parameters - Search : Filter, sort, pagination and bulk acti
     });
 
     [
-      {args: {action: 'disable', value: false}},
-      {args: {action: 'enable', value: true}},
-    ].forEach((test) => {
+      {action: 'disable', value: false},
+      {action: 'enable', value: true},
+    ].forEach((test: {action: string, value: boolean}) => {
       it(`should ${test.action} with bulk actions and check Result`, async function () {
         await testContext.addContextItem(this, 'testIdentifier', `${test.action}Status`, baseContext);
 
