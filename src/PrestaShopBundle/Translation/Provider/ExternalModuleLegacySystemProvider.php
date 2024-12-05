@@ -129,7 +129,7 @@ class ExternalModuleLegacySystemProvider extends AbstractProvider implements Use
      */
     public function setDomain($domain)
     {
-        throw new InvalidArgumentException(__CLASS__ . ' does not allow calls to setDomain()');
+        throw new InvalidArgumentException(self::class . ' does not allow calls to setDomain()');
     }
 
     /**
