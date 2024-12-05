@@ -85,7 +85,7 @@ class EntityTranslator implements EntityTranslatorInterface
         $this->db = $db;
         $this->dbPrefix = $dbPrefix;
         $this->translator = $translator;
-        $this->tableName = $this->buildTableNameFromDataLang($dataLang);
+        $this->tableName = $this->buildTableNameFromDataLang();
     }
 
     /**
@@ -225,17 +225,15 @@ class EntityTranslator implements EntityTranslatorInterface
     /**
      * Builds the table name using the DataLang class as source
      *
-     * @param DataLangCore $dataLang
      *
      * @return string The table name, including prefix
      */
-    private function buildTableNameFromDataLang(DataLangCore $dataLang): string
+    private function buildTableNameFromDataLang(): string
     {
         $tableName = $this->dataLang->getTableName();
         if (!str_starts_with($tableName, $this->dbPrefix)) {
             $tableName = $this->dbPrefix . $tableName;
         }
-
         return $tableName;
     }
 }
