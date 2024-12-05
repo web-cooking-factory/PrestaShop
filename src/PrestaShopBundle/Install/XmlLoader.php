@@ -290,7 +290,7 @@ class XmlLoader
 
                 try {
                     $xml_langs[$id_lang] = $this->fileLoader->load($entity, $iso);
-                } catch (PrestashopInstallerException $e) {
+                } catch (PrestashopInstallerException) {
                     $xml_langs[$id_lang] = null;
                 }
             }

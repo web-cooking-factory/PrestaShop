@@ -723,7 +723,7 @@ class ProductRepository extends AbstractMultiShopObjectModelRepository
 
         try {
             $accessories = Product::getAccessoriesLight($languageId->getValue(), $productIdValue);
-        } catch (PrestaShopException $e) {
+        } catch (PrestaShopException) {
             throw new CoreException(sprintf(
                 'Error occurred when fetching related products for product #%d',
                 $productIdValue

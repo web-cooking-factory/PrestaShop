@@ -205,7 +205,7 @@ final class SecurityAttributeLinterCommand extends Command
                         self::parseExpression($attribute->getAttribute()),
                     ];
                 }
-            } catch (LinterException $e) {
+            } catch (LinterException) {
                 $listing[] = [
                     $route->getDefault('_controller'),
                     implode(', ', $route->getMethods()),
@@ -236,7 +236,7 @@ final class SecurityAttributeLinterCommand extends Command
             }
             try {
                 $this->securityAttributeLinter->lint($routeName, $route);
-            } catch (LinterException $e) {
+            } catch (LinterException) {
                 $notConfiguredRoutes[] = $routeName;
             }
         }
