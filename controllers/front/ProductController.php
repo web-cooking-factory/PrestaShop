@@ -502,7 +502,7 @@ class ProductControllerCore extends ProductPresentingFrontControllerCore
             'actionProductControllerAjaxRefresh',
             [
                 'ajaxData' => &$ajaxData,
-                'product' => $product
+                'product' => $product,
             ],
             null,
             true
@@ -513,7 +513,7 @@ class ProductControllerCore extends ProductPresentingFrontControllerCore
                 $ajaxData['modules'][$moduleName] = $data;
             }
         }
-        
+
         ob_end_clean();
         header('Content-Type: application/json');
         $this->ajaxRender(json_encode($ajaxData));
