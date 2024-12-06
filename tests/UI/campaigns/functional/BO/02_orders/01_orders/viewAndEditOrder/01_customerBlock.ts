@@ -210,7 +210,7 @@ describe('BO - Orders - View and edit order : Check and edit customer block', as
 
   // 2 - check customer block
   describe('View customer block', async () => {
-    it('should check customer title, name, lastname, reference', async function () {
+    it('should check customer title, name, lastname, id', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'checkCustomerInfo', baseContext);
 
       const customerInfo = await orderPageCustomerBlock.getCustomerInfoBlock(page);
@@ -218,8 +218,8 @@ describe('BO - Orders - View and edit order : Check and edit customer block', as
       expect(customerInfo).to.contains(customerData.firstName);
       expect(customerInfo).to.contains(customerData.lastName);
 
-      const customerBasicInfo = await orderPageCustomerBlock.getBasicInformation(page);
-      expect(customerBasicInfo).to.contains(customerID.toString());
+      const customerId = await orderPageCustomerBlock.getCustomerID(page);
+      expect(customerId).to.contains(customerID.toString());
     });
 
     it('should check customer email address', async function () {

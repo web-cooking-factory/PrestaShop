@@ -245,7 +245,7 @@ describe('BO - Orders - Create order : Select previous orders', async () => {
       expect(isIframeVisible, 'View order Iframe is not visible!').to.eq(true);
     });
 
-    it('should check customer title, name, lastname', async function () {
+    it('should check customer title, name, lastname, id', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'checkCustomerInfo', baseContext);
 
       orderIframe = addOrderPage.getOrderIframe(page, orderID);
@@ -255,6 +255,9 @@ describe('BO - Orders - Create order : Select previous orders', async () => {
       expect(customerInfo).to.contains(newCustomer.socialTitle);
       expect(customerInfo).to.contains(newCustomer.firstName);
       expect(customerInfo).to.contains(newCustomer.lastName);
+
+      const customerId = await orderPageCustomerBlock.getCustomerID(page);
+      expect(customerId).to.contains(customerID.toString());
     });
 
     it('should check number of ordered products', async function () {

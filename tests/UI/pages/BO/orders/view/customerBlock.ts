@@ -15,8 +15,6 @@ import {
 class CustomerBlock extends ViewOrderBasePage {
   private readonly customerInfoBlock: string;
 
-  private readonly customerBasicInformationBlock: string;
-
   private readonly customerIDStrong: string;
 
   private readonly ViewAllDetailsLink: string;
@@ -64,11 +62,10 @@ class CustomerBlock extends ViewOrderBasePage {
 
     // Customer block
     this.customerInfoBlock = '#customerInfo';
-    this.customerBasicInformationBlock = '#customerBasicInfo';
-    this.customerIDStrong = `${this.customerBasicInformationBlock} #customerId`;
+    this.customerIDStrong = '#customerId';
     this.ViewAllDetailsLink = '#viewFullDetails a';
-    this.customerEmailLink = '#customerEmail a';
-    this.validatedOrders = '#validatedOrders span.badge';
+    this.customerEmailLink = '#customerEmail';
+    this.validatedOrders = '#validatedOrders';
     this.shippingAddressBlock = '#addressShipping';
     this.shippingAddressToolTipLink = `${this.shippingAddressBlock} .tooltip-link`;
     this.editShippingAddressButton = '#js-delivery-address-edit-btn';
@@ -106,12 +103,12 @@ class CustomerBlock extends ViewOrderBasePage {
   }
 
   /**
-   * Get customer basic information
+   * Get order basic information
    * @param page {Frame|Page} Browser tab
    * @returns {Promise<string>}
    */
   async getBasicInformation(page: Frame | Page): Promise<string> {
-    return this.getTextContent(page, this.customerBasicInformationBlock);
+    return this.getTextContent(page, this.orderBasicInformationBlock);
   }
 
   /**
