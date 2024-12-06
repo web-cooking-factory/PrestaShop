@@ -64,7 +64,7 @@ class CustomerBlock extends ViewOrderBasePage {
     this.customerInfoBlock = '#customerInfo';
     this.customerIDStrong = '#customerId';
     this.ViewAllDetailsLink = '#viewFullDetails a';
-    this.customerEmailLink = '#customerEmail';
+    this.customerEmailLink = '#customerEmail a';
     this.validatedOrders = '#validatedOrders';
     this.shippingAddressBlock = '#addressShipping';
     this.shippingAddressToolTipLink = `${this.shippingAddressBlock} .tooltip-link`;
@@ -103,15 +103,6 @@ class CustomerBlock extends ViewOrderBasePage {
   }
 
   /**
-   * Get order basic information
-   * @param page {Frame|Page} Browser tab
-   * @returns {Promise<string>}
-   */
-  async getBasicInformation(page: Frame | Page): Promise<string> {
-    return this.getTextContent(page, this.orderBasicInformationBlock);
-  }
-
-  /**
    * Get customer information
    * @param page {Frame|Page} Browser tab
    * @returns {Promise<string>}
@@ -126,7 +117,7 @@ class CustomerBlock extends ViewOrderBasePage {
    * @returns {Promise<number>}
    */
   async getCustomerID(page: Page): Promise<number> {
-    return parseInt((await this.getTextContent(page, this.customerIDStrong)), 10);
+    return this.getNumberFromText(page, this.customerIDStrong);
   }
 
   /**
@@ -171,7 +162,7 @@ class CustomerBlock extends ViewOrderBasePage {
    * @returns {Promise<number>}
    */
   getValidatedOrdersNumber(page: Page): Promise<number> {
-    return this.getNumberFromText(page, `${this.validatedOrders}.badge-dark`);
+    return this.getNumberFromText(page, this.validatedOrders);
   }
 
   /**

@@ -219,7 +219,7 @@ describe('BO - Orders - View and edit order : Check and edit customer block', as
       expect(customerInfo).to.contains(customerData.lastName);
 
       const customerId = await orderPageCustomerBlock.getCustomerID(page);
-      expect(customerId).to.contains(customerID.toString());
+      expect(customerId).to.equal(customerID);
     });
 
     it('should check customer email address', async function () {
