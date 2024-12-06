@@ -217,7 +217,9 @@ describe('BO - Orders - View and edit order : Check and edit customer block', as
       expect(customerInfo).to.contains(customerData.socialTitle);
       expect(customerInfo).to.contains(customerData.firstName);
       expect(customerInfo).to.contains(customerData.lastName);
-      expect(customerInfo).to.contains(customerID.toString());
+
+      const customerBasicInfo = await orderPageCustomerBlock.getBasicInformation(page);
+      expect(customerBasicInfo).to.contains(customerID.toString());
     });
 
     it('should check customer email address', async function () {
