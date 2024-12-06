@@ -461,9 +461,7 @@ class ProductControllerCore extends ProductPresentingFrontControllerCore
             $minimalProductQuantity = 1;
         }
 
-        ob_end_clean();
-        header('Content-Type: application/json');
-        $this->ajaxRender(json_encode([
+        $ajaxData = [
             'product_prices' => $this->render('catalog/_partials/product-prices'),
             'product_cover_thumbnails' => $this->render('catalog/_partials/product-cover-thumbnails'),
             'product_customization' => $this->render(
@@ -498,7 +496,27 @@ class ProductControllerCore extends ProductPresentingFrontControllerCore
             'id_customization' => $product['id_customization'],
             'product_title' => $this->getTemplateVarPage()['meta']['title'],
             'is_quick_view' => $this->isQuickView(),
-        ]));
+        ];
+
+        $modulesAjaxData = Hook::exec(
+            'actionProductControllerAjaxRefresh',
+            [
+                'ajaxData' => &$ajaxData,
+                'product' => $product
+            ],
+            null,
+            true
+        );
+
+        if (is_array($modulesAjaxData)) {
+            foreach ($modulesAjaxData as $moduleName => $data) {
+                $ajaxData['modules'][$moduleName] = $data;
+            }
+        }
+        
+        ob_end_clean();
+        header('Content-Type: application/json');
+        $this->ajaxRender(json_encode($ajaxData));
     }
 
     /**
