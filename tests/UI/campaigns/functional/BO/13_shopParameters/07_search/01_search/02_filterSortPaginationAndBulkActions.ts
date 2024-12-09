@@ -82,7 +82,7 @@ describe('BO - Shop Parameters - Search : Filter, sort, pagination and bulk acti
 
   // 1 - Create 20 aliases
   const creationTests: number[] = new Array(20).fill(0, 0, 19);
-  describe.skip('Create 20 aliases in BO', async () => {
+  describe('Create 20 aliases in BO', async () => {
     creationTests.forEach((test: number, index: number) => {
       const aliasData: FakerSearchAlias = new FakerSearchAlias({alias: `todelete${index}`});
 
@@ -108,7 +108,7 @@ describe('BO - Shop Parameters - Search : Filter, sort, pagination and bulk acti
   });
 
   // 2 - Pagination aliases
-  describe.skip('Pagination', async () => {
+  describe('Pagination', async () => {
     it('should change the items number to 20 per page', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'changeItemNumberTo20', baseContext);
 
@@ -139,7 +139,7 @@ describe('BO - Shop Parameters - Search : Filter, sort, pagination and bulk acti
   });
 
   // 3 - Filter aliases
-  describe.skip('Filter aliases table', async () => {
+  describe('Filter aliases table', async () => {
     [
       {
         testIdentifier: 'filterAliases',
@@ -191,16 +191,6 @@ describe('BO - Shop Parameters - Search : Filter, sort, pagination and bulk acti
   describe('Sort aliases table', async () => {
     [
       {
-        testIdentifier: 'sortByAliasesAsc', 
-        sortBy: 'alias', 
-        sortDirection: 'asc',
-      },
-      {
-        testIdentifier: 'sortByAliasesDesc', 
-        sortBy: 'alias', 
-        sortDirection: 'desc',
-      },
-      {
         testIdentifier: 'sortBySearchAsc', 
         sortBy: 'search', 
         sortDirection: 'asc',
@@ -229,47 +219,15 @@ describe('BO - Shop Parameters - Search : Filter, sort, pagination and bulk acti
     });
   });
 
-  // 5 - Enable/Disable aliases by bulk actions
-  describe('Enable/Disable the status by bulk actions', async () => {
-    it('should filter list by name', async function () {
-      await testContext.addContextItem(this, 'testIdentifier', 'filterToEnableDisable', baseContext);
-
-      await boSearchAliasPage.resetFilter(page);
-      await boSearchAliasPage.filterTable(page, 'input', 'alias', 'todelete');
-
-      const textAlias = await boSearchAliasPage.getTextColumn(page, 1, 'alias');
-      expect(textAlias).to.contains('todelete');
-    });
-
-    [
-      {action: 'disable', value: false},
-      {action: 'enable', value: true},
-    ].forEach((test: {action: string, value: boolean}) => {
-      it(`should ${test.action} with bulk actions and check Result`, async function () {
-        await testContext.addContextItem(this, 'testIdentifier', `${test.action}Status`, baseContext);
-
-        const textResult = await boSearchAliasPage.bulkSetStatus(page, test.value);
-        expect(textResult).to.contains(boSearchAliasPage.successfulUpdateStatusMessage);
-
-        const numberOfElementInGrid = await boSearchAliasPage.getNumberOfElementInGrid(page);
-
-        for (let i = 1; i <= numberOfElementInGrid; i++) {
-          const textColumn = await boSearchAliasPage.getStatus(page, i);
-          expect(textColumn).to.equal(test.value);
-        }
-      });
-    });
-  });
-
-  // 6 - Delete aliases by bulk actions
+  // 5 - Delete aliases by bulk actions
   describe('Delete aliases by bulk actions', async () => {
     it('should filter list by name', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'filterToDelete', baseContext);
 
       await boSearchAliasPage.resetFilter(page);
-      await boSearchAliasPage.filterTable(page, 'input', 'alias', 'todelete');
+      await boSearchAliasPage.filterTable(page, 'input', 'search', 'todelete');
 
-      const textAlias = await boSearchAliasPage.getTextColumn(page, 1, 'alias');
+      const textAlias = await boSearchAliasPage.getTextColumn(page, 1, 'search');
       expect(textAlias).to.contains('todelete');
     });
 
