@@ -66,7 +66,6 @@ describe('BO - Payment', async () => {
           boDashboardPage.paymentParentLink,
           boDashboardPage.preferencesLink,
         );
-        await preferencesPage.closeSfToolBar(page);
     
         const pageTitle = await preferencesPage.getPageTitle(page);
         expect(pageTitle).to.contains(preferencesPage.pageTitle);
