@@ -74,3 +74,4 @@ describe('BO - Payment', async () => {
         expect(jsErrors.length).to.equals(0);
       });
 });
+
