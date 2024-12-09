@@ -1,6 +1,5 @@
 import {expect} from 'chai';
 import testContext from '@utils/testContext';
-
 import preferencesPage from '@pages/BO/payment/preferences';
 
 import {
@@ -14,7 +13,7 @@ import {
 
 const baseContext: string = 'audit_BO_payment';
 
-describe('BO - Payment methods', async () => {
+describe('BO - Payment', async () => {
     let browserContext: BrowserContext;
     let page: Page;
   
@@ -59,8 +58,8 @@ describe('BO - Payment methods', async () => {
         expect(jsErrors.length).to.equals(0);
       });
 
-      it('should go to \'Preferences\' page', async function () {
-        await testContext.addContextItem(this, 'testIdentifier', 'goToPaymentMethodsPage', baseContext);
+      it('should go to \'Payment > Preferences\' page', async function () {
+        await testContext.addContextItem(this, 'testIdentifier', 'goToPaymentPreferencesPage', baseContext);
     
         await boDashboardPage.goToSubMenu(
           page,
@@ -75,5 +74,4 @@ describe('BO - Payment methods', async () => {
         const jsErrors = utilsPlaywright.getJsErrors();
         expect(jsErrors.length).to.equals(0);
       });
-
 });
