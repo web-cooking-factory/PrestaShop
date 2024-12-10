@@ -47,9 +47,35 @@ use PrestaShop\PrestaShop\Core\Domain\Product\ValueObject\ProductType;
 use PrestaShop\PrestaShop\Core\Domain\Shop\ValueObject\ShopConstraint;
 use PrestaShopBundle\ApiPlatform\Serializer\DomainSerializer;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Tests\Integration\Utility\LanguageTrait;
+use Tests\Resources\ApiPlatform\Resources\LocalizedResource;
+use Tests\Resources\Resetter\LanguageResetter;
 
 class DomainSerializerTest extends KernelTestCase
 {
+    use LanguageTrait;
+
+    protected const EN_LANG_ID = 1;
+
+    protected static ?int $frenchLangId = null;
+
+    public static function tearDownAfterClass(): void
+    {
+        parent::tearDownAfterClass();
+        self::$frenchLangId = null;
+        LanguageResetter::resetLanguages();
+    }
+
+    protected static function getFrenchId(): int
+    {
+        if (empty(self::$frenchLangId)) {
+            LanguageResetter::resetLanguages();
+            self::$frenchLangId = self::addLanguageByLocale('fr-FR');
+        }
+
+        return self::$frenchLangId;
+    }
+
     /**
      * @dataProvider getExpectedDenormalizedData
      */
@@ -266,6 +292,44 @@ class DomainSerializerTest extends KernelTestCase
 
     public function getNormalizationData(): iterable
     {
+        $localizedResource = new LocalizedResource([
+            'fr-FR' => 'http://mylink.fr',
+            'en-US' => 'http://mylink.com',
+        ]);
+        $localizedResource->names = [
+            self::getFrenchId() => 'Nom français',
+            self::EN_LANG_ID => 'English name',
+        ];
+        $localizedResource->descriptions = [
+            'fr-FR' => 'Description française',
+            'en-US' => 'French description',
+        ];
+        $localizedResource->titles = [
+            'fr-FR' => 'Titre français',
+            'en-US' => 'French title',
+        ];
+        yield 'normalize localized resource' => [
+            $localizedResource,
+            [
+                'names' => [
+                    self::getFrenchId() => 'Nom français',
+                    self::EN_LANG_ID => 'English name',
+                ],
+                'descriptions' => [
+                    self::getFrenchId() => 'Description française',
+                    self::EN_LANG_ID => 'French description',
+                ],
+                'titles' => [
+                    self::getFrenchId() => 'Titre français',
+                    self::EN_LANG_ID => 'French title',
+                ],
+                'localizedLinks' => [
+                    self::getFrenchId() => 'http://mylink.fr',
+                    self::EN_LANG_ID => 'http://mylink.com',
+                ],
+            ],
+        ];
+
         $createdApiClient = new CreatedApiClient(42, 'my_secret');
         yield 'normalize command result that contains a ValueObject' => [
             $createdApiClient,

@@ -28,6 +28,9 @@ declare(strict_types=1);
 
 namespace PrestaShopBundle\ApiPlatform\Normalizer;
 
+use PrestaShopBundle\ApiPlatform\Exception\LocaleNotFoundException;
+use PrestaShopBundle\ApiPlatform\Metadata\LocalizedValue;
+use PrestaShopBundle\Entity\Repository\LangRepository;
 use ReflectionClass;
 use ReflectionMethod;
 use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
@@ -49,13 +52,22 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
  *     ex: new CreatedApiAccess(42, 'my_secret') is not normalized as ['apiAccessId' => ['value' => 42], 'secret' => 'my_secret']
  *         but as ['apiAccessId' => 42, 'secret' => 'my_secret']
  *         Again this is useful to help the automatic mapping when denormalizing the following DTO in our workflow
+ *  - converts localized values keys in the arrays:
+ *    - the input is indexed by locale ['fr-FR' => 'Nom de la valeur', 'en-US' => 'Value name']
+ *    - the data is normalized and indexed by locale ID [1 => 'Nom de la valeur', 2 => 'Value name']
+ *    - reversely localized data indexed by IDs are converted into an array localized by locale
  */
 #[AutoconfigureTag('prestashop.api.normalizers')]
 class CQRSApiNormalizer extends ObjectNormalizer
 {
     protected $protectedObjectClassResolver;
 
+    protected array $localesByID;
+
+    protected array $idsByLocale;
+
     public function __construct(
+        protected LangRepository $languageRepository,
         ?ClassMetadataFactoryInterface $classMetadataFactory = null,
         ?NameConverterInterface $nameConverter = null,
         ?PropertyAccessorInterface $propertyAccessor = null,
@@ -130,6 +142,9 @@ class CQRSApiNormalizer extends ObjectNormalizer
         if ($this->isValueObject($attributeValue)) {
             $attributeValue = $attributeValue->getValue();
         }
+        if (($context[LocalizedValue::IS_LOCALIZED_VALUE] ?? false) && is_array($attributeValue)) {
+            $attributeValue = $this->indexByID($attributeValue);
+        }
 
         return $attributeValue;
     }
@@ -141,6 +156,35 @@ class CQRSApiNormalizer extends ObjectNormalizer
             && method_exists($object, 'getValue')
             && str_contains(get_class($object), 'ValueObject')
         ;
+    }
+
+    protected function indexByID(array $localizedValue): array
+    {
+        $indexLocalizedValue = [];
+        $this->fetchLanguagesMapping();
+        foreach ($localizedValue as $localeKey => $localeValue) {
+            if (is_string($localeKey)) {
+                if (!isset($this->idsByLocale[$localeKey])) {
+                    throw new LocaleNotFoundException('Locale "' . $localeKey . '" not found.');
+                }
+
+                $indexLocalizedValue[$this->idsByLocale[$localeKey]] = $localeValue;
+            }
+        }
+
+        return $indexLocalizedValue;
+    }
+
+    protected function fetchLanguagesMapping(): void
+    {
+        if (!isset($this->localesByID) || !isset($this->idsByLocale)) {
+            $this->localesByID = [];
+            $this->idsByLocale = [];
+            foreach ($this->languageRepository->getMapping() as $langId => $language) {
+                $this->localesByID[(int) $langId] = $language['locale'];
+                $this->idsByLocale[$language['locale']] = (int) $langId;
+            }
+        }
     }
 
     /**
