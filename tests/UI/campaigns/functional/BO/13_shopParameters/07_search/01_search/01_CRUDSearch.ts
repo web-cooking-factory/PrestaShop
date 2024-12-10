@@ -26,7 +26,7 @@ describe('BO - Shop Parameters - Search : Create, update and delete search in BO
   let numberOfSearch: number = 0;
 
   const createAliasData: FakerSearchAlias = new FakerSearchAlias();
-  const editSearchData: FakerSearchAlias = new FakerSearchAlias({alias: createAliasData.alias});
+  const editSearchData: FakerSearchAlias = new FakerSearchAlias({search: createAliasData.search});
 
   before(async function () {
     browserContext = await utilsPlaywright.createBrowserContext(this.browser);
@@ -104,9 +104,9 @@ describe('BO - Shop Parameters - Search : Create, update and delete search in BO
       await testContext.addContextItem(this, 'testIdentifier', 'filterForUpdate', baseContext);
 
       await boSearchAliasPage.resetFilter(page);
-      await boSearchAliasPage.filterTable(page, 'input', 'alias', createAliasData.alias);
+      await boSearchAliasPage.filterTable(page, 'input', 'search', createAliasData.search);
 
-      const textEmail = await boSearchAliasPage.getTextColumn(page, 1, 'alias');
+      const textEmail = await boSearchAliasPage.getTextColumn(page, 1, 'search');
       expect(textEmail).to.contains(createAliasData.alias);
     });
 
@@ -136,9 +136,9 @@ describe('BO - Shop Parameters - Search : Create, update and delete search in BO
       await testContext.addContextItem(this, 'testIdentifier', 'filterForDelete', baseContext);
 
       await boSearchAliasPage.resetFilter(page);
-      await boSearchAliasPage.filterTable(page, 'input', 'alias', createAliasData.alias);
+      await boSearchAliasPage.filterTable(page, 'input', 'search', createAliasData.search);
 
-      const textEmail = await boSearchAliasPage.getTextColumn(page, 1, 'alias');
+      const textEmail = await boSearchAliasPage.getTextColumn(page, 1, 'search');
       expect(textEmail).to.contains(createAliasData.alias);
     });
 

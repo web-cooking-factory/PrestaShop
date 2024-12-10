@@ -1,7 +1,6 @@
-// Import utils
 import testContext from '@utils/testContext';
-
 import {expect} from 'chai';
+
 import {
   boDashboardPage,
   boLoginPage,
@@ -84,7 +83,7 @@ describe('BO - Shop Parameters - Search : Filter, sort, pagination and bulk acti
   const creationTests: number[] = new Array(20).fill(0, 0, 19);
   describe('Create 20 aliases in BO', async () => {
     creationTests.forEach((test: number, index: number) => {
-      const aliasData: FakerSearchAlias = new FakerSearchAlias({alias: `todelete${index}`});
+      const aliasData: FakerSearchAlias = new FakerSearchAlias({search: `todelete${index}`});
 
       it('should go to add new search page', async function () {
         await testContext.addContextItem(this, 'testIdentifier', `goToAddAliasPage${index}`, baseContext);
