@@ -15,89 +15,87 @@ import {
 const baseContext: string = 'audit_BO_shipping';
 
 describe('BO - Shipping', async () => {
-    let browserContext: BrowserContext;
-    let page: Page;
+  let browserContext: BrowserContext;
+  let page: Page;
 
-    before(async function () {
-      utilsPlaywright.setErrorsCaptured(true);
+  before(async function () {
+    utilsPlaywright.setErrorsCaptured(true);
 
-      browserContext = await utilsPlaywright.createBrowserContext(this.browser);
-      page = await utilsPlaywright.newTab(browserContext);
-    });
+    browserContext = await utilsPlaywright.createBrowserContext(this.browser);
+    page = await utilsPlaywright.newTab(browserContext);
+  });
 
-    after(async () => {
-        await utilsPlaywright.closeBrowserContext(browserContext);
-    });
+  after(async () => {
+    await utilsPlaywright.closeBrowserContext(browserContext);
+  });
 
-    it('should login in BO', async function () {
-        await testContext.addContextItem(this, 'testIdentifier', 'loginBO', baseContext);
+  it('should login in BO', async function () {
+    await testContext.addContextItem(this, 'testIdentifier', 'loginBO', baseContext);
 
-        await boLoginPage.goTo(page, global.BO.URL);
-        await boLoginPage.successLogin(page, global.BO.EMAIL, global.BO.PASSWD);
+    await boLoginPage.goTo(page, global.BO.URL);
+    await boLoginPage.successLogin(page, global.BO.EMAIL, global.BO.PASSWD);
 
-        const pageTitle = await boDashboardPage.getPageTitle(page);
-        expect(pageTitle).to.contains(boDashboardPage.pageTitle);
+    const pageTitle = await boDashboardPage.getPageTitle(page);
+    expect(pageTitle).to.contains(boDashboardPage.pageTitle);
 
-        const jsErrors = utilsPlaywright.getJsErrors();
-        expect(jsErrors.length).to.equals(0);
-    });
+    const jsErrors = utilsPlaywright.getJsErrors();
+    expect(jsErrors.length).to.equals(0);
+  });
 
-    it('should go to \'Shipping > Carriers\' page', async function () {
-        await testContext.addContextItem(this, 'testIdentifier', 'goToShippingCarriersPage', baseContext);
+  it('should go to \'Shipping > Carriers\' page', async function () {
+    await testContext.addContextItem(this, 'testIdentifier', 'goToShippingCarriersPage', baseContext);
 
-        await boDashboardPage.goToSubMenu(
-          page,
-          boDashboardPage.shippingLink,
-          boDashboardPage.carriersLink,
-        );
-        await boCarriersPage.closeSfToolBar(page);
+    await boDashboardPage.goToSubMenu(
+      page,
+      boDashboardPage.shippingLink,
+      boDashboardPage.carriersLink,
+    );
+    await boCarriersPage.closeSfToolBar(page);
 
-        const pageTitle = await boCarriersPage.getPageTitle(page);
-        expect(pageTitle).to.contains(boCarriersPage.pageTitle);
+    const pageTitle = await boCarriersPage.getPageTitle(page);
+    expect(pageTitle).to.contains(boCarriersPage.pageTitle);
 
-        const jsErrors = utilsPlaywright.getJsErrors();
-        expect(jsErrors.length).to.equals(0);
-    });
+    const jsErrors = utilsPlaywright.getJsErrors();
+    expect(jsErrors.length).to.equals(0);
+  });
 
-    it('should go to add new carrier page', async function () {
-        await testContext.addContextItem(this, 'testIdentifier', 'goToAddCarrierPage', baseContext);
-  
-        await boCarriersPage.goToAddNewCarrierPage(page);
-  
-        const pageTitle = await boCarriersCreatePage.getPageTitle(page);
-        expect(pageTitle).to.contains(boCarriersCreatePage.pageTitleCreate);
+  it('should go to add new carrier page', async function () {
+    await testContext.addContextItem(this, 'testIdentifier', 'goToAddCarrierPage', baseContext);
 
-        const jsErrors = utilsPlaywright.getJsErrors();
-        expect(jsErrors.length).to.equals(0);
-    });
+    await boCarriersPage.goToAddNewCarrierPage(page);
 
-    it('should return to \'Shipping > Carriers\' page', async function () {
-        await testContext.addContextItem(this, 'testIdentifier', 'goBackToShippingCarriersPage', baseContext);
+    const pageTitle = await boCarriersCreatePage.getPageTitle(page);
+    expect(pageTitle).to.contains(boCarriersCreatePage.pageTitleCreate);
 
-        await boCarriersCreatePage.goToPreviousPage(page);
+    const jsErrors = utilsPlaywright.getJsErrors();
+    expect(jsErrors.length).to.equals(0);
+  });
 
-        const pageTitle = await boCarriersPage.getPageTitle(page);
-        expect(pageTitle).to.contains(boCarriersPage.pageTitle);
+  it('should return to \'Shipping > Carriers\' page', async function () {
+    await testContext.addContextItem(this, 'testIdentifier', 'goBackToShippingCarriersPage', baseContext);
 
-        const jsErrors = utilsPlaywright.getJsErrors();
-        expect(jsErrors.length).to.equals(0);
+    await boCarriersCreatePage.goToPreviousPage(page);
 
-    });
+    const pageTitle = await boCarriersPage.getPageTitle(page);
+    expect(pageTitle).to.contains(boCarriersPage.pageTitle);
 
-    it('should go to \'Shipping > Preferences\' page', async function () {
-        await testContext.addContextItem(this, 'testIdentifier', 'goToShippingPreferencesPage', baseContext);
+    const jsErrors = utilsPlaywright.getJsErrors();
+    expect(jsErrors.length).to.equals(0);
+  });
 
-        await boDashboardPage.goToSubMenu(
-          page,
-          boDashboardPage.shippingLink,
-          boDashboardPage.shippingPreferencesLink,
-        );
+  it('should go to \'Shipping > Preferences\' page', async function () {
+    await testContext.addContextItem(this, 'testIdentifier', 'goToShippingPreferencesPage', baseContext);
 
-        const pageTitle = await preferencesPage.getPageTitle(page);
-        expect(pageTitle).to.contains(preferencesPage.pageTitle);
+    await boDashboardPage.goToSubMenu(
+      page,
+      boDashboardPage.shippingLink,
+      boDashboardPage.shippingPreferencesLink,
+    );
 
-        const jsErrors = utilsPlaywright.getJsErrors();
-        expect(jsErrors.length).to.equals(0);
-      });
+    const pageTitle = await preferencesPage.getPageTitle(page);
+    expect(pageTitle).to.contains(preferencesPage.pageTitle);
+
+    const jsErrors = utilsPlaywright.getJsErrors();
+    expect(jsErrors.length).to.equals(0);
+  });
 });
-
