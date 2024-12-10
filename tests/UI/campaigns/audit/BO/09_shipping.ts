@@ -83,6 +83,18 @@ describe('BO - Shipping', async () => {
     expect(jsErrors.length).to.equals(0);
   });
 
+  it('should edit first line', async function () {
+    await testContext.addContextItem(this, 'testIdentifier', 'goToEditCarrierFreeShipping', baseContext);
+
+    await boCarriersPage.goToEditCarrierPage(page, 1);
+
+    const pageTitle = await boCarriersCreatePage.getPageTitle(page);
+    expect(pageTitle).to.contains(boCarriersCreatePage.pageTitleEdit);
+
+    const jsErrors = utilsPlaywright.getJsErrors();
+    expect(jsErrors.length).to.equals(0);
+  });
+
   it('should go to \'Shipping > Preferences\' page', async function () {
     await testContext.addContextItem(this, 'testIdentifier', 'goToShippingPreferencesPage', baseContext);
 
