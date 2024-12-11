@@ -26,11 +26,12 @@ Disable status by bulk actions
 Delete the created aliases by bulk actions
  */
 describe('BO - Shop Parameters - Search : Filter, sort, pagination and bulk actions', async () => {
+  const numAliases: number = 20;
+
   let browserContext: BrowserContext;
   let page: Page;
   let numberOfSearch: number = 0;
 
-  // before and after functions
   before(async function () {
     browserContext = await utilsPlaywright.createBrowserContext(this.browser);
     page = await utilsPlaywright.newTab(browserContext);
@@ -80,8 +81,8 @@ describe('BO - Shop Parameters - Search : Filter, sort, pagination and bulk acti
   });
 
   // 1 - Create 20 aliases
-  const creationTests: number[] = new Array(20).fill(0, 0, 20);
-  describe('Create 20 aliases in BO', async () => {
+  const creationTests: number[] = new Array(numAliases).fill(0, 0, numAliases);
+  describe(`Create ${numAliases} aliases in BO`, async () => {
     creationTests.forEach((test: number, index: number) => {
       const aliasData: FakerSearchAlias = new FakerSearchAlias({search: `todelete${index}`});
 
@@ -181,7 +182,7 @@ describe('BO - Shop Parameters - Search : Filter, sort, pagination and bulk acti
         await testContext.addContextItem(this, 'testIdentifier', `${test.testIdentifier}Reset`, baseContext);
 
         const numberOfGroupsAfterReset = await boSearchAliasPage.resetAndGetNumberOfLines(page);
-        expect(numberOfGroupsAfterReset).to.equal(numberOfSearch);
+        expect(numberOfGroupsAfterReset).to.equal(numberOfSearch + numAliases);
       });
     });
   });
