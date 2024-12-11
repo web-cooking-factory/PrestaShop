@@ -107,7 +107,7 @@ describe('BO - Shop Parameters - Search : Create, update and delete search in BO
       await boSearchAliasPage.filterTable(page, 'input', 'search', createAliasData.search);
 
       const textEmail = await boSearchAliasPage.getTextColumn(page, 1, 'search');
-      expect(textEmail).to.contains(createAliasData.alias);
+      expect(textEmail).to.contains(createAliasData.search);
     });
 
     it('should go to edit alias page', async function () {
@@ -139,7 +139,7 @@ describe('BO - Shop Parameters - Search : Create, update and delete search in BO
       await boSearchAliasPage.filterTable(page, 'input', 'search', createAliasData.search);
 
       const textEmail = await boSearchAliasPage.getTextColumn(page, 1, 'search');
-      expect(textEmail).to.contains(createAliasData.alias);
+      expect(textEmail).to.contains(createAliasData.search);
     });
 
     it('should delete alias', async function () {
