@@ -80,7 +80,7 @@ describe('BO - Shop Parameters - Search : Filter, sort, pagination and bulk acti
   });
 
   // 1 - Create 20 aliases
-  const creationTests: number[] = new Array(20).fill(0, 0, 19);
+  const creationTests: number[] = new Array(20).fill(0, 0, 20);
   describe('Create 20 aliases in BO', async () => {
     creationTests.forEach((test: number, index: number) => {
       const aliasData: FakerSearchAlias = new FakerSearchAlias({search: `todelete${index}`});
