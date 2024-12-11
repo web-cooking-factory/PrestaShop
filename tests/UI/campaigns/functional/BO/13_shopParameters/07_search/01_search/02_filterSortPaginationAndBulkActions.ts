@@ -191,13 +191,13 @@ describe('BO - Shop Parameters - Search : Filter, sort, pagination and bulk acti
   describe('Sort aliases table', async () => {
     [
       {
-        testIdentifier: 'sortBySearchAsc', 
-        sortBy: 'search', 
+        testIdentifier: 'sortBySearchAsc',
+        sortBy: 'search',
         sortDirection: 'asc',
       },
       {
-        testIdentifier: 'sortBySearchDesc', 
-        sortBy: 'search', 
+        testIdentifier: 'sortBySearchDesc',
+        sortBy: 'search',
         sortDirection: 'desc',
       },
     ].forEach((test: {testIdentifier: string, sortBy: string, sortDirection: string}) => {
