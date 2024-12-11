@@ -118,7 +118,8 @@ class ValueObjectNormalizerTest extends TestCase
      * @dataProvider getSupportsDenormalizeValues
      *
      * @param mixed $data
-     * @param bool $expectedSupport
+     * @param string $type
+     * @param mixed $expectedDenormalize
      * @param array $context
      *
      * @return void

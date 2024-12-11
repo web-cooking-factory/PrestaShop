@@ -33,6 +33,7 @@ use PrestaShopBundle\ApiPlatform\Metadata\LocalizedValue;
 use PrestaShopBundle\Entity\Repository\LangRepository;
 use ReflectionClass;
 use ReflectionMethod;
+use ReflectionParameter;
 use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Component\PropertyInfo\PropertyTypeExtractorInterface;
@@ -60,8 +61,6 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 #[AutoconfigureTag('prestashop.api.normalizers')]
 class CQRSApiNormalizer extends ObjectNormalizer
 {
-    protected $protectedObjectClassResolver;
-
     protected array $localesByID;
 
     protected array $idsByLocale;
@@ -77,28 +76,28 @@ class CQRSApiNormalizer extends ObjectNormalizer
         array $defaultContext = []
     ) {
         parent::__construct($classMetadataFactory, $nameConverter, $propertyAccessor, $propertyTypeExtractor, $classDiscriminatorResolver, $objectClassResolver, $defaultContext);
-
-        $this->protectedObjectClassResolver = $objectClassResolver ?? function ($class) {
-            return \is_object($class) ? \get_class($class) : $class;
-        };
     }
 
-    public function normalize($object, ?string $format = null, array $context = [])
+    /**
+     * This method is only used to denormalize the constructor parameters, the CQRS classes usually expect scalar input values that
+     * are converted into ValueObject in the constructor, so only in this phase of the denormalization we disable the ValueObjectNormalizer
+     * by specifying the context option ValueObjectNormalizer::VALUE_OBJECT_RETURNED_AS_SCALAR.
+     */
+    protected function denormalizeParameter(ReflectionClass $class, ReflectionParameter $parameter, string $parameterName, mixed $parameterData, array $context, ?string $format = null): mixed
     {
-        $normalizedObject = parent::normalize($object, $format, $context);
+        return parent::denormalizeParameter($class, $parameter, $parameterName, $parameterData, $context + [ValueObjectNormalizer::VALUE_OBJECT_RETURNED_AS_SCALAR => true], $format);
+    }
 
-        if (!$this->isValueObject($object)) {
-            return $normalizedObject;
-        }
+    /**
+     * This method is used when normalizing nested children, in nested value we don't want the ValueObject to be returned as arrays but as simple
+     * values, so we force the ValueObjectNormalizer::VALUE_OBJECT_RETURNED_AS_SCALAR option. So ValueObject are only normalized as array when they
+     * are the root object.
+     */
+    protected function createChildContext(array $parentContext, string $attribute, ?string $format): array
+    {
+        $childContext = parent::createChildContext($parentContext, $attribute, $format);
 
-        // Returned normalized ValueObject with array key matching value object class (ex: ProductId => ['productId' => 42])
-        $objectValue = $object->getValue();
-        $class = ($this->protectedObjectClassResolver)($object);
-        $reflClass = new ReflectionClass($class);
-
-        return [
-            lcfirst($reflClass->getShortName()) => $objectValue,
-        ];
+        return $childContext + [ValueObjectNormalizer::VALUE_OBJECT_RETURNED_AS_SCALAR => true];
     }
 
     protected function extractAttributes(object $object, ?string $format = null, array $context = []): array
@@ -107,8 +106,8 @@ class CQRSApiNormalizer extends ObjectNormalizer
 
         // Check methods that may have been ignored by the parent, the parent normalizer only checks getter if they start
         // with "is" or "get" we increase this behaviour on other potential getters that don't match this convention
-        $class = ($this->protectedObjectClassResolver)($object);
-        $reflClass = new ReflectionClass($class);
+        $metadata = $this->classMetadataFactory->getMetadataFor($object);
+        $reflClass = $metadata->getReflectionClass();
 
         foreach ($reflClass->getMethods(ReflectionMethod::IS_PUBLIC) as $reflMethod) {
             if (
@@ -138,24 +137,11 @@ class CQRSApiNormalizer extends ObjectNormalizer
     protected function getAttributeValue(object $object, string $attribute, ?string $format = null, array $context = []): mixed
     {
         $attributeValue = parent::getAttributeValue($object, $attribute, $format, $context);
-        // Value objects are not returned as is, the value itself is returned
-        if ($this->isValueObject($attributeValue)) {
-            $attributeValue = $attributeValue->getValue();
-        }
         if (($context[LocalizedValue::IS_LOCALIZED_VALUE] ?? false) && is_array($attributeValue)) {
             $attributeValue = $this->indexByID($attributeValue);
         }
 
         return $attributeValue;
-    }
-
-    protected function isValueObject($object): bool
-    {
-        return is_object($object)
-            && !is_iterable($object)
-            && method_exists($object, 'getValue')
-            && str_contains(get_class($object), 'ValueObject')
-        ;
     }
 
     protected function indexByID(array $localizedValue): array
