@@ -53,7 +53,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class SearchAliasController extends PrestaShopAdminController
 {
-    #[AdminSecurity("is_granted('read', 'AdminSearchConf')")]
+    #[AdminSecurity("is_granted('read', request.get('_legacy_controller'))")]
     public function indexAction(
         Request $request,
         AliasFilters $filters,
@@ -75,7 +75,7 @@ class SearchAliasController extends PrestaShopAdminController
         ]);
     }
 
-    #[AdminSecurity("is_granted('create', 'AdminSearchConf')", redirectRoute: 'admin_search_alias_index', message: 'You need permission to create new aliases.')]
+    #[AdminSecurity("is_granted('create', request.get('_legacy_controller'))", redirectRoute: 'admin_search_alias_index', message: 'You need permission to create new aliases.')]
     public function createAction(
         Request $request,
         #[Autowire(service: 'prestashop.core.form.identifiable_object.builder.alias_search_term_form_builder')]
@@ -106,7 +106,7 @@ class SearchAliasController extends PrestaShopAdminController
         ]);
     }
 
-    #[AdminSecurity("is_granted('update', 'AdminSearchConf')", redirectRoute: 'admin_search_alias_index', message: 'You need permission to edit this.')]
+    #[AdminSecurity("is_granted('update', request.get('_legacy_controller'))", redirectRoute: 'admin_search_alias_index', message: 'You need permission to edit this.')]
     public function editAction(
         string $searchTerm,
         Request $request,
@@ -148,7 +148,7 @@ class SearchAliasController extends PrestaShopAdminController
         ]);
     }
 
-    #[AdminSecurity("is_granted('delete', 'AdminSearchConf')", redirectRoute: 'admin_search_alias_index')]
+    #[AdminSecurity("is_granted('delete', request.get('_legacy_controller'))", redirectRoute: 'admin_search_alias_index')]
     public function deleteAction(string $searchTerm): RedirectResponse
     {
         try {
@@ -163,7 +163,7 @@ class SearchAliasController extends PrestaShopAdminController
         return $this->redirectToRoute('admin_search_alias_index');
     }
 
-    #[AdminSecurity("is_granted('delete', 'AdminSearchConf')", redirectRoute: 'admin_search_alias_index')]
+    #[AdminSecurity("is_granted('delete', request.get('_legacy_controller'))", redirectRoute: 'admin_search_alias_index')]
     public function bulkDeleteAction(Request $request): RedirectResponse
     {
         $searchTerms = $request->request->all('alias_term_bulk');
