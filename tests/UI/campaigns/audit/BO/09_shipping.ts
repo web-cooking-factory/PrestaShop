@@ -59,7 +59,7 @@ describe('BO - Shipping', async () => {
     expect(jsErrors.length).to.equals(0);
   });
 
-  it('should go to add new carrier page', async function () {
+  it('should go to \'Shipping > Carriers > New Carrier\' page', async function () {
     await testContext.addContextItem(this, 'testIdentifier', 'goToAddCarrierPage', baseContext);
 
     await boCarriersPage.goToAddNewCarrierPage(page);
@@ -71,21 +71,10 @@ describe('BO - Shipping', async () => {
     expect(jsErrors.length).to.equals(0);
   });
 
-  it('should return to \'Shipping > Carriers\' page', async function () {
+  it('should go to \'Shipping > Carriers > Edit Carrier\' page', async function () {
     await testContext.addContextItem(this, 'testIdentifier', 'goBackToShippingCarriersPage', baseContext);
 
     await boCarriersCreatePage.goToPreviousPage(page);
-
-    const pageTitle = await boCarriersPage.getPageTitle(page);
-    expect(pageTitle).to.contains(boCarriersPage.pageTitle);
-
-    const jsErrors = utilsPlaywright.getJsErrors();
-    expect(jsErrors.length).to.equals(0);
-  });
-
-  it('should edit first line', async function () {
-    await testContext.addContextItem(this, 'testIdentifier', 'goToEditCarrierFreeShipping', baseContext);
-
     await boCarriersPage.goToEditCarrierPage(page, 1);
 
     const pageTitle = await boCarriersCreatePage.getPageTitle(page);
