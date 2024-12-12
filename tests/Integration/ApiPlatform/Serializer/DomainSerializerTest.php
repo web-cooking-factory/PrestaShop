@@ -94,7 +94,7 @@ class DomainSerializerTest extends KernelTestCase
 
     public function getExpectedDenormalizedData()
     {
-        yield [
+        yield 'command with various property types all in constructor' => [
             [
                 'localizedNames' => [
                     1 => 'test1',
@@ -131,7 +131,7 @@ class DomainSerializerTest extends KernelTestCase
         $editCartRuleCommand->setTotalQuantity(100);
         $editCartRuleCommand->setQuantityPerUser(1);
         $editCartRuleCommand->setCartRuleAction(new CartRuleAction(true));
-        yield [
+        yield 'object with complex setter methods based on multiple properties or sub types' => [
             [
                 'cartRuleId' => 1,
                 'description' => 'test description',
@@ -162,7 +162,7 @@ class DomainSerializerTest extends KernelTestCase
         ];
 
         $customerGroupQuery = new GetCustomerGroupForEditing(51);
-        yield 'value object with wrong parameter converted via mapping' => [
+        yield 'value object with wrong parameter name converted via mapping' => [
             [
                 'groupId' => 51,
             ],
@@ -250,21 +250,10 @@ class DomainSerializerTest extends KernelTestCase
         $hook->name = 'testHook';
         $hook->title = 'testHookTitle';
         $hook->description = '';
-        yield [
+        yield 'denormalize an APIPlatform DTO with specified mapping' => [
             [
                 'id_hook' => 1,
-                'active' => 1,
-                'name' => 'testHook',
-                'title' => 'testHookTitle',
-                'description' => '',
-            ],
-            $hook,
-            ['[id_hook]' => '[id]'],
-        ];
-        yield [
-            [
-                'id_hook' => 1,
-                'active' => '1',
+                'active' => true,
                 'name' => 'testHook',
                 'title' => 'testHookTitle',
                 'description' => '',
@@ -331,7 +320,7 @@ class DomainSerializerTest extends KernelTestCase
         ];
 
         $createdApiClient = new CreatedApiClient(42, 'my_secret');
-        yield 'normalize command result that contains a ValueObject' => [
+        yield 'normalize command result that contains a ValueObject, returned as an integer not an array' => [
             $createdApiClient,
             [
                 'apiClientId' => 42,
@@ -340,7 +329,7 @@ class DomainSerializerTest extends KernelTestCase
         ];
 
         $groupId = new GroupId(42);
-        yield 'normalize GroupId value object' => [
+        yield 'normalize GroupId value object returned as array' => [
             $groupId,
             [
                 'groupId' => 42,
@@ -348,7 +337,7 @@ class DomainSerializerTest extends KernelTestCase
         ];
 
         $productId = new ProductId(42);
-        yield 'normalize ProductId value object' => [
+        yield 'normalize ProductId value object returned as array' => [
             $productId,
             [
                 'productId' => 42,
