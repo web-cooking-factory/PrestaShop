@@ -732,7 +732,7 @@ class WebserviceRequestCore
             E_RECOVERABLE_ERROR => 'Recoverable error',
         ];
         $type = $errortype[$errno] ?? 'Unknown error';
-        Tools::error_log('[PHP ' . $type . ' #' . $errno . '] ' . $errstr . ' (' . $errfile . ', line ' . $errline . ')');
+        error_log('[PHP ' . $type . ' #' . $errno . '] ' . $errstr . ' (' . $errfile . ', line ' . $errline . ')');
 
         switch ($errno) {
             case E_ERROR:

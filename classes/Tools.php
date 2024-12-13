@@ -1078,6 +1078,9 @@ class ToolsCore
      *
      * @see error_log()
      *
+     * @deprecated since 9.0.0 and will be removed in 10.0.0. Use error_log directly.
+     *             If you have an object or array, you can stringify it for example by print_r($object, true).
+     *
      * @param mixed $object
      * @param int|null $message_type
      * @param string|null $destination
