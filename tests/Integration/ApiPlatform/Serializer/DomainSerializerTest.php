@@ -103,22 +103,31 @@ class DomainSerializerTest extends KernelTestCase
 
     public function getExpectedDenormalizedData()
     {
-        $productResource = new Product();
-        $productResource->productId = 42;
-        $productResource->names = [
-            'en-US' => 'english name',
-            'fr-FR' => 'nom français',
+        $localizedResource = new LocalizedResource([
+            'en-US' => 'english link',
+            'fr-FR' => 'lien français',
+        ]);
+
+        // This property has no context attributes, so it remains indexed by IDs
+        $localizedResource->names = [
+            self::EN_LANG_ID => 'english name',
+            self::getFrenchId() => 'nom français',
         ];
-        $productResource->descriptions = [
+        $localizedResource->descriptions = [
             'en-US' => 'english description',
             'fr-FR' => 'description française',
         ];
-        $productResource->active = true;
-        $productResource->type = ProductType::TYPE_STANDARD;
+        $localizedResource->titles = [
+            'en-US' => 'english title',
+            'fr-FR' => 'titre français',
+        ];
 
         yield 'api resource with localized properties should have indexes based on locale values instead of integers' => [
             [
-                'productId' => 42,
+                'localizedLinks' => [
+                    self::EN_LANG_ID => 'english link',
+                    self::getFrenchId() => 'lien français',
+                ],
                 'names' => [
                     self::EN_LANG_ID => 'english name',
                     self::getFrenchId() => 'nom français',
@@ -127,10 +136,12 @@ class DomainSerializerTest extends KernelTestCase
                     self::EN_LANG_ID => 'english description',
                     self::getFrenchId() => 'description française',
                 ],
-                'active' => true,
-                'type' => ProductType::TYPE_STANDARD,
+                'titles' => [
+                    self::EN_LANG_ID => 'english title',
+                    self::getFrenchId() => 'titre français',
+                ],
             ],
-            $productResource,
+            $localizedResource,
         ];
 
         yield 'command with various property types all in constructor' => [

@@ -63,8 +63,14 @@ class CQRSApiNormalizer extends ObjectNormalizer
 {
     public const CAST_BOOL = 'cast_bool';
 
+    /**
+     * @var array<int, string>
+     */
     protected array $localesByID;
 
+    /**
+     * @var array<string, int>
+     */
     protected array $idsByLocale;
 
     public function __construct(
@@ -87,10 +93,10 @@ class CQRSApiNormalizer extends ObjectNormalizer
      */
     protected function instantiateObject(array &$data, string $class, array &$context, ReflectionClass $reflectionClass, bool|array $allowedAttributes, ?string $format = null)
     {
+        $this->castBooleanAttributes($data, $context, $reflectionClass);
         $object = parent::instantiateObject($data, $class, $context, $reflectionClass, $allowedAttributes, $format);
         $methodsWithMultipleArguments = $this->findMethodsWithMultipleArguments($reflectionClass, $data);
         $this->executeMethodsWithMultipleArguments($data, $object, $methodsWithMultipleArguments, $context, $format);
-        $this->castBooleanAttributes($data, $context, $reflectionClass);
 
         return $object;
     }
@@ -102,6 +108,10 @@ class CQRSApiNormalizer extends ObjectNormalizer
      */
     protected function denormalizeParameter(ReflectionClass $class, ReflectionParameter $parameter, string $parameterName, mixed $parameterData, array $context, ?string $format = null): mixed
     {
+        if (($context[LocalizedValue::IS_LOCALIZED_VALUE] ?? false) && is_array($parameterData)) {
+            $parameterData = $this->updateLanguageIndexesWithLocales($parameterData);
+        }
+
         return parent::denormalizeParameter($class, $parameter, $parameterName, $parameterData, $context + [ValueObjectNormalizer::VALUE_OBJECT_RETURNED_AS_SCALAR => true], $format);
     }
 
@@ -220,6 +230,11 @@ class CQRSApiNormalizer extends ObjectNormalizer
     /**
      * Force casting boolean properties si that values like (1, 0, true, on, false, ...) are valid, this is useful for
      * data coming from DB where boolean are returned as tiny integers. Requires CAST_BOOL context option to be true.
+     *
+     * Note: in Symfony 7.1 a new option AbstractNormalizer::FILTER_BOOL has been introduced, when we upgrade our
+     * Symfony dependencies our custom CAST_BOOL option (inspired by the Symfony one) can be removed.
+     *
+     * https://symfony.com/doc/7.1/serializer.html#handling-boolean-values
      */
     protected function castBooleanAttributes(array &$data, array $context, ReflectionClass $reflectionClass): void
     {

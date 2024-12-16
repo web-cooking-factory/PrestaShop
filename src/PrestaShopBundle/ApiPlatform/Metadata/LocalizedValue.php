@@ -29,6 +29,13 @@ namespace PrestaShopBundle\ApiPlatform\Metadata;
 use Attribute;
 use Symfony\Component\Serializer\Attribute\Context;
 
+/**
+ * This attribute can be added on a property in an API resource class, when set the localized values
+ * are no longer index by Language IDs but by Language's locale instead. It impacts both inputs and outputs
+ * where JSON localized value must be indexed by locale:
+ *
+ *   {names: {"2": "english name", "4": "nom français"}} => {"names": {"en-US": "english name", "fr-FR": "nom français"}}
+ */
 #[Attribute(Attribute::TARGET_PROPERTY | Attribute::TARGET_METHOD | Attribute::IS_REPEATABLE)]
 class LocalizedValue extends Context
 {
