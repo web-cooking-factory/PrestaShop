@@ -66,23 +66,32 @@ class DomainSerializerTest extends KernelTestCase
         LanguageResetter::resetLanguages();
     }
 
+    public static function setUpBeforeClass(): void
+    {
+        parent::setUpBeforeClass();
+        self::$frenchLangId = null;
+        LanguageResetter::resetLanguages();
+    }
+
     protected static function getFrenchId(): int
     {
         if (empty(self::$frenchLangId)) {
-            LanguageResetter::resetLanguages();
             self::$frenchLangId = self::addLanguageByLocale('fr-FR');
         }
 
         return self::$frenchLangId;
     }
 
-    /**
-     * @dataProvider getExpectedDenormalizedData
-     */
-    public function testDenormalize($dataToDenormalize, $denormalizedObject, ?array $normalizationMapping = []): void
+    public function testDenormalize(): void
     {
         $serializer = self::getContainer()->get(DomainSerializer::class);
-        self::assertEquals($denormalizedObject, $serializer->denormalize($dataToDenormalize, get_class($denormalizedObject), null, [DomainSerializer::NORMALIZATION_MAPPING => $normalizationMapping]));
+
+        // We don't use @dataProvider because the class DB setup was messy, so we do it manually
+        foreach ($this->getExpectedDenormalizedData() as $denormalizedData) {
+            list($dataToDenormalize, $denormalizedObject) = $denormalizedData;
+            $normalizationMapping = $denormalizedData[2] ?? [];
+            self::assertEquals($denormalizedObject, $serializer->denormalize($dataToDenormalize, get_class($denormalizedObject), null, [DomainSerializer::NORMALIZATION_MAPPING => $normalizationMapping]));
+        }
     }
 
     public function testDenormalizeWithEmptyValues(): void
@@ -94,11 +103,41 @@ class DomainSerializerTest extends KernelTestCase
 
     public function getExpectedDenormalizedData()
     {
+        $productResource = new Product();
+        $productResource->productId = 42;
+        $productResource->names = [
+            'en-US' => 'english name',
+            'fr-FR' => 'nom français',
+        ];
+        $productResource->descriptions = [
+            'en-US' => 'english description',
+            'fr-FR' => 'description française',
+        ];
+        $productResource->active = true;
+        $productResource->type = ProductType::TYPE_STANDARD;
+
+        yield 'api resource with localized properties should have indexes based on locale values instead of integers' => [
+            [
+                'productId' => 42,
+                'names' => [
+                    self::EN_LANG_ID => 'english name',
+                    self::getFrenchId() => 'nom français',
+                ],
+                'descriptions' => [
+                    self::EN_LANG_ID => 'english description',
+                    self::getFrenchId() => 'description française',
+                ],
+                'active' => true,
+                'type' => ProductType::TYPE_STANDARD,
+            ],
+            $productResource,
+        ];
+
         yield 'command with various property types all in constructor' => [
             [
                 'localizedNames' => [
-                    1 => 'test1',
-                    2 => 'test2',
+                    self::EN_LANG_ID => 'test en',
+                    self::getFrenchId() => 'test fr',
                 ],
                 'reductionPercent' => 10.3,
                 'displayPriceTaxExcluded' => true,
@@ -107,8 +146,8 @@ class DomainSerializerTest extends KernelTestCase
             ],
             new AddCustomerGroupCommand(
                 [
-                    1 => 'test1',
-                    2 => 'test2',
+                    self::EN_LANG_ID => 'test en',
+                    self::getFrenchId() => 'test fr',
                 ],
                 new DecimalNumber('10.3'),
                 true,
@@ -122,7 +161,7 @@ class DomainSerializerTest extends KernelTestCase
         $editCartRuleCommand->setCode('test code');
         $editCartRuleCommand->setMinimumAmount('10', 1, true, true);
         $editCartRuleCommand->setCustomerId(1);
-        $editCartRuleCommand->setLocalizedNames([1 => 'test1', 2 => 'test2']);
+        $editCartRuleCommand->setLocalizedNames([self::EN_LANG_ID => 'test en', self::getFrenchId() => 'test fr']);
         $editCartRuleCommand->setHighlightInCart(true);
         $editCartRuleCommand->setAllowPartialUse(true);
         $editCartRuleCommand->setPriority(1);
@@ -139,8 +178,8 @@ class DomainSerializerTest extends KernelTestCase
                 'minimumAmount' => ['minimumAmount' => '10', 'currencyId' => 1, 'taxIncluded' => true, 'shippingIncluded' => true],
                 'customerId' => 1,
                 'localizedNames' => [
-                    1 => 'test1',
-                    2 => 'test2',
+                    self::EN_LANG_ID => 'test en',
+                    self::getFrenchId() => 'test fr',
                 ],
                 'highlightInCart' => true,
                 'allowPartialUse' => true,
@@ -263,13 +302,16 @@ class DomainSerializerTest extends KernelTestCase
         ];
     }
 
-    /**
-     * @dataProvider getNormalizationData
-     */
-    public function testNormalize($dataToNormalize, $expectedNormalizedData, ?array $normalizationMapping = []): void
+    public function testNormalize(): void
     {
         $serializer = self::getContainer()->get(DomainSerializer::class);
-        self::assertEquals($expectedNormalizedData, $serializer->normalize($dataToNormalize, null, [DomainSerializer::NORMALIZATION_MAPPING => $normalizationMapping]));
+
+        // We don't use @dataProvider because the class DB setup was messy, so we do it manually
+        foreach ($this->getNormalizationData() as $normalizationData) {
+            list($dataToNormalize, $expectedNormalizedData) = $normalizationData;
+            $normalizationMapping = $normalizationData[2] ?? [];
+            self::assertEquals($expectedNormalizedData, $serializer->normalize($dataToNormalize, null, [DomainSerializer::NORMALIZATION_MAPPING => $normalizationMapping]));
+        }
     }
 
     public function testNormalizeWithEmptyValues(): void

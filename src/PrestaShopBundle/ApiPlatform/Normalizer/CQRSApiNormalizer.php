@@ -51,10 +51,10 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
  * our CQRS <-> ApiPlatform conversion:
  *  - handle getters that match the property without starting by get, has, is
  *  - set appropriate context for the ValueObjectNormalizer for when we don't want a ValueObject but the scalar value to be used
- *  - converts localized values keys in the arrays:
+ *  - converts localized values keys in the arrays on properties that have been flagged as LocalizedValue:
  *    - the input is indexed by locale ['fr-FR' => 'Nom de la valeur', 'en-US' => 'Value name']
  *    - the data is normalized and indexed by locale ID [1 => 'Nom de la valeur', 2 => 'Value name']
- *    - reversely localized data indexed by IDs are converted into an array localized by locale
+ *    - reversely localized data indexed by IDs are converted into an array localized by locale during denormalization
  *  - handle setter methods that use multiple parameters
  *  - handle casting of boolean values
  */
@@ -157,8 +157,8 @@ class CQRSApiNormalizer extends ObjectNormalizer
     }
 
     /**
-     * This method is overridden, so we can dynamically change the localized properties identified by a context or the LocalizedValue
-     * helper attribute. The used key that are based on Language's locale are automatically converted to rely on Language's ID.
+     * This method is overridden in order to dynamically change the localized properties identified by a context or the LocalizedValue
+     * helper attribute. The used key that are based on Language's locale are automatically converted to rely on Language's database ID.
      */
     protected function getAttributeValue(object $object, string $attribute, ?string $format = null, array $context = []): mixed
     {
@@ -168,6 +168,19 @@ class CQRSApiNormalizer extends ObjectNormalizer
         }
 
         return $attributeValue;
+    }
+
+    /**
+     * This method is overridden in order to dynamically change the localized properties identified by a context or the LocalizedValue
+     *  helper attribute. he used key that are based on Language's database ID are automatically converted to rely on Language's locale.
+     */
+    protected function setAttributeValue(object $object, string $attribute, mixed $value, ?string $format = null, array $context = [])
+    {
+        if (($context[LocalizedValue::IS_LOCALIZED_VALUE] ?? false) && is_array($value)) {
+            $value = $this->updateLanguageIndexesWithLocales($value);
+        }
+
+        parent::setAttributeValue($object, $attribute, $value, $format, $context);
     }
 
     /**
@@ -276,7 +289,7 @@ class CQRSApiNormalizer extends ObjectNormalizer
     }
 
     /**
-     * Return the localized array with keys based on local string value transformed into integer database IDs.
+     * Return the localized array with keys based on locale string value transformed into integer database IDs.
      *
      * @param array $localizedValue
      *
@@ -299,6 +312,32 @@ class CQRSApiNormalizer extends ObjectNormalizer
         }
 
         return $indexLocalizedValue;
+    }
+
+    /**
+     * Return the localized array with keys based on integer database IDs transformed into locale string values.
+     *
+     * @param array $localizedValue
+     *
+     * @return array
+     *
+     * @throws LocaleNotFoundException
+     */
+    protected function updateLanguageIndexesWithLocales(array $localizedValue): array
+    {
+        $localeLocalizedValue = [];
+        $this->fetchLanguagesMapping();
+        foreach ($localizedValue as $localeId => $localeValue) {
+            if (is_numeric($localeId)) {
+                if (!isset($this->localesByID[$localeId])) {
+                    throw new LocaleNotFoundException('Locale with ID "' . $localeId . '" not found.');
+                }
+
+                $localeLocalizedValue[$this->localesByID[$localeId]] = $localeValue;
+            }
+        }
+
+        return $localeLocalizedValue;
     }
 
     /**
