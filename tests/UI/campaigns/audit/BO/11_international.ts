@@ -2,7 +2,6 @@ import {expect} from 'chai';
 import testContext from '@utils/testContext';
 
 // Import pages
-
 import geolocationPage from '@pages/BO/international/localization/geolocation';
 import zonesPage from '@pages/BO/international/locations';
 import addZonePage from '@pages/BO/international/locations/add';
@@ -59,7 +58,7 @@ describe('BO - International', async () => {
     expect(jsErrors.length).to.equals(0);
   });
 
-  it('should go to \'Localization\' page > Localization tab', async function () {
+  it('should go to \'Localization > Localization\' page', async function () {
     await testContext.addContextItem(this, 'testIdentifier', 'goToLocalizationPage', baseContext);
 
     await boDashboardPage.goToSubMenu(
@@ -76,7 +75,7 @@ describe('BO - International', async () => {
     expect(jsErrors.length).to.equals(0);
   });
 
-  it('should go to \'Languages\' page', async function () {
+  it('should go to \'Localization > Languages\' page', async function () {
     await testContext.addContextItem(this, 'testIdentifier', 'goToLanguagesPage', baseContext);
 
     await boLocalizationPage.goToSubTabLanguages(page);
@@ -88,7 +87,7 @@ describe('BO - International', async () => {
     expect(jsErrors.length).to.equals(0);
   });
 
-  it('should go to add new language page', async function () {
+  it('should go to \'Localization > Languages > New Language\' page', async function () {
     await testContext.addContextItem(this, 'testIdentifier', 'goToAddNewLanguages', baseContext);
 
     await boLanguagesPage.goToAddNewLanguage(page);
@@ -100,7 +99,7 @@ describe('BO - International', async () => {
     expect(jsErrors.length).to.equals(0);
   });
 
-  it('should go to edit Language page', async function () {
+  it('should go to \'Localization > Languages > Edit Language\' page', async function () {
     await testContext.addContextItem(this, 'testIdentifier', 'goToEditLanguagesPage', baseContext);
 
     await boLocalizationPage.goToSubTabLanguages(page);
@@ -113,7 +112,7 @@ describe('BO - International', async () => {
     expect(jsErrors.length).to.equals(0);
   });
 
-  it('should go to \'Currencies\' page', async function () {
+  it('should go to \'Localization > Currencies\' page', async function () {
     await testContext.addContextItem(this, 'testIdentifier', 'goToCurrenciesPage', baseContext);
 
     await boLocalizationPage.goToSubTabCurrencies(page);
@@ -125,7 +124,7 @@ describe('BO - International', async () => {
     expect(jsErrors.length).to.equals(0);
   });
 
-  it('should go to create new currency page', async function () {
+  it('should go to \'Localization > Currencies > New Currency\' page', async function () {
     await testContext.addContextItem(this, 'testIdentifier', 'goToAddNewCurrencyPage', baseContext);
 
     await boCurrenciesPage.goToAddNewCurrencyPage(page);
@@ -137,7 +136,7 @@ describe('BO - International', async () => {
     expect(jsErrors.length).to.equals(0);
   });
 
-  it('should go to edit Currencies page', async function () {
+  it('should go to \'Localization > Currencies > Edit Currency\' page', async function () {
     await testContext.addContextItem(this, 'testIdentifier', 'goToEditCurrenciesPage', baseContext);
 
     await boLocalizationPage.goToSubTabCurrencies(page);
@@ -150,7 +149,7 @@ describe('BO - International', async () => {
     expect(jsErrors.length).to.equals(0);
   });
 
-  it('should go to \'Geolocation\' page', async function () {
+  it('should go to \'Localization > Geolocation\' page', async function () {
     await testContext.addContextItem(this, 'testIdentifier', 'goToGeolocationPage', baseContext);
 
     await boLocalizationPage.goToSubTabGeolocation(page);
@@ -159,7 +158,7 @@ describe('BO - International', async () => {
     expect(pageTitle).to.equal(geolocationPage.pageTitle);
   });
 
-  it('should go to \'Locations\' page > Zones tab', async function () {
+  it('should go to \'Locations > Zones\' page', async function () {
     await testContext.addContextItem(this, 'testIdentifier', 'goToZonesPage', baseContext);
 
     await boDashboardPage.goToSubMenu(
@@ -176,7 +175,7 @@ describe('BO - International', async () => {
     expect(jsErrors.length).to.equals(0);
   });
 
-  it('should go to add new zone page', async function () {
+  it('should go to \'Locations > Zones > New Zone\' page', async function () {
     await testContext.addContextItem(this, 'testIdentifier', 'goToAddNewZonePage', baseContext);
 
     await zonesPage.goToAddNewZonePage(page);
@@ -188,13 +187,13 @@ describe('BO - International', async () => {
     expect(jsErrors.length).to.equals(0);
   });
 
-  it('should go to edit Zones page', async function () {
+  it('should go to \'Locations > Zones > Edit Zone\' page', async function () {
     await testContext.addContextItem(this, 'testIdentifier', 'goEditToZonesPage', baseContext);
 
     await addZonePage.goToSubMenu(
-        page,
-        boDashboardPage.internationalParentLink,
-        boDashboardPage.locationsLink,
+      page,
+      boDashboardPage.internationalParentLink,
+      boDashboardPage.locationsLink,
     );
 
     await zonesPage.goToEditZonePage(page, 1);
@@ -206,7 +205,7 @@ describe('BO - International', async () => {
     expect(jsErrors.length).to.equals(0);
   });
 
-  it('should go to \'Countries\' page', async function () {
+  it('should go to \'Locations > Countries\' page', async function () {
     await testContext.addContextItem(this, 'testIdentifier', 'goToCountriesPage', baseContext);
 
     await zonesPage.goToSubTabCountries(page);
@@ -218,7 +217,7 @@ describe('BO - International', async () => {
     expect(jsErrors.length).to.equals(0);
   });
 
-  it('should go to add new country page', async function () {
+  it('should go to \'Locations > Countries > New Country\' page', async function () {
     await testContext.addContextItem(this, 'testIdentifier', 'goToAddNewCountryPage', baseContext);
 
     await boCountriesPage.goToAddNewCountryPage(page);
@@ -230,7 +229,7 @@ describe('BO - International', async () => {
     expect(jsErrors.length).to.equals(0);
   });
 
-  it('should go to edit Countries page', async function () {
+  it('should go to \'Locations > Countries > Edit Country\' page', async function () {
     await testContext.addContextItem(this, 'testIdentifier', 'goToEditCountriesPage', baseContext);
 
     await zonesPage.goToSubTabCountries(page);
@@ -243,7 +242,7 @@ describe('BO - International', async () => {
     expect(jsErrors.length).to.equals(0);
   });
 
-  it('should go to \'States\' page', async function () {
+  it('should go to \'Locations > States\' page', async function () {
     await testContext.addContextItem(this, 'testIdentifier', 'goToStatesPage', baseContext);
 
     await zonesPage.goToSubTabStates(page);
@@ -255,7 +254,7 @@ describe('BO - International', async () => {
     expect(jsErrors.length).to.equals(0);
   });
 
-  it('should go to add new state page', async function () {
+  it('should go to \'Locations > States > New State\' page', async function () {
     await testContext.addContextItem(this, 'testIdentifier', 'goToAddNewStatePage', baseContext);
 
     await statesPage.goToAddNewStatePage(page);
@@ -267,7 +266,7 @@ describe('BO - International', async () => {
     expect(jsErrors.length).to.equals(0);
   });
 
-  it('should go to edit States page', async function () {
+  it('should go to \'Locations > States > Edit State\' page', async function () {
     await testContext.addContextItem(this, 'testIdentifier', 'goToEditStatesPage', baseContext);
 
     await zonesPage.goToSubTabStates(page);
@@ -296,7 +295,7 @@ describe('BO - International', async () => {
     expect(jsErrors.length).to.equals(0);
   });
 
-  it('should go to add new tax page', async function () {
+  it('should go to \'International > Taxes > Add Tax\' page', async function () {
     await testContext.addContextItem(this, 'testIdentifier', 'goToNewTax', baseContext);
 
     await taxesPage.goToAddNewTaxPage(page);
@@ -308,13 +307,13 @@ describe('BO - International', async () => {
     expect(jsErrors.length).to.equals(0);
   });
 
-  it('should go to edit Taxes page', async function () {
+  it('should go to \'International > Taxes > Edit Tax\' page', async function () {
     await testContext.addContextItem(this, 'testIdentifier', 'goToEditTaxesPage', baseContext);
 
     await addTaxPage.goToSubMenu(
-        page,
-        boDashboardPage.internationalParentLink,
-        boDashboardPage.taxesLink,
+      page,
+      boDashboardPage.internationalParentLink,
+      boDashboardPage.taxesLink,
     );
     await taxesPage.goToEditTaxPage(page, 1);
 
@@ -325,7 +324,7 @@ describe('BO - International', async () => {
     expect(jsErrors.length).to.equals(0);
   });
 
-  it('should go to \'Tax Rules\' page', async function () {
+  it('should go to \'International > TaxRules\' page', async function () {
     await testContext.addContextItem(this, 'testIdentifier', 'goToTaxRulesPage', baseContext);
 
     await taxesPage.goToTaxRulesPage(page);
@@ -337,7 +336,7 @@ describe('BO - International', async () => {
     expect(jsErrors.length).to.equals(0);
   });
 
-  it('should go to Add new tax rules group page', async function () {
+  it('should go to \'International > TaxRules > Add Tax Rule Group\' page', async function () {
     await testContext.addContextItem(this, 'testIdentifier', 'goToAddTaxRulePageToCreate', baseContext);
 
     await taxRulesPage.goToAddNewTaxRulesGroupPage(page);
@@ -349,7 +348,7 @@ describe('BO - International', async () => {
     expect(jsErrors.length).to.equals(0);
   });
 
-  it('should go to edit Tax Rules page', async function () {
+  it('should go to \'International > TaxRules > Edit Tax Rule Group\' page', async function () {
     await testContext.addContextItem(this, 'testIdentifier', 'goToEditTaxRulesPage', baseContext);
 
     await taxesPage.goToTaxRulesPage(page);
