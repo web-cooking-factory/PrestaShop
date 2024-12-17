@@ -101,7 +101,7 @@ describe('BO - International', async () => {
   });
 
   it('should go to \'Languages\' page', async function () {
-    await testContext.addContextItem(this, 'testIdentifier', 'goToLanguagesPage', baseContext);
+    await testContext.addContextItem(this, 'testIdentifier', 'goBackToLanguagesPage', baseContext);
 
     await boLocalizationPage.goToSubTabLanguages(page);
 
@@ -146,7 +146,7 @@ describe('BO - International', async () => {
   });
 
   it('should go to \'Currencies\' page', async function () {
-    await testContext.addContextItem(this, 'testIdentifier', 'goToCurrenciesPage', baseContext);
+    await testContext.addContextItem(this, 'testIdentifier', 'goBackToCurrenciesPage', baseContext);
 
     await boLocalizationPage.goToSubTabCurrencies(page);
 
@@ -208,7 +208,7 @@ describe('BO - International', async () => {
   });
 
   it('should go to \'Locations\' page > Zones tab', async function () {
-    await testContext.addContextItem(this, 'testIdentifier', 'goToZonesPage', baseContext);
+    await testContext.addContextItem(this, 'testIdentifier', 'goBackToZonesPage', baseContext);
 
     await boDashboardPage.goToSubMenu(
       page,
@@ -258,7 +258,7 @@ describe('BO - International', async () => {
   });
 
   it('should go to \'Countries\' page', async function () {
-    await testContext.addContextItem(this, 'testIdentifier', 'goToCountriesPage', baseContext);
+    await testContext.addContextItem(this, 'testIdentifier', 'goBackToCountriesPage', baseContext);
 
     await zonesPage.goToSubTabCountries(page);
 
@@ -303,7 +303,7 @@ describe('BO - International', async () => {
   });
 
   it('should go to \'States\' page', async function () {
-    await testContext.addContextItem(this, 'testIdentifier', 'goToStatesPage', baseContext);
+    await testContext.addContextItem(this, 'testIdentifier', 'goBackToStatesPage', baseContext);
 
     await zonesPage.goToSubTabStates(page);
 
@@ -352,7 +352,7 @@ describe('BO - International', async () => {
   });
 
   it('should go to \'International > Taxes\' page', async function () {
-    await testContext.addContextItem(this, 'testIdentifier', 'goToTaxesPage', baseContext);
+    await testContext.addContextItem(this, 'testIdentifier', 'goBackToTaxesPage', baseContext);
 
     await boDashboardPage.goToSubMenu(
       page,
@@ -401,7 +401,7 @@ describe('BO - International', async () => {
   });
 
   it('should go to \'Tax Rules\' page', async function () {
-    await testContext.addContextItem(this, 'testIdentifier', 'goToTaxRulesPage', baseContext);
+    await testContext.addContextItem(this, 'testIdentifier', 'goBackToTaxRulesPage', baseContext);
 
     await taxesPage.goToTaxRulesPage(page);
 
