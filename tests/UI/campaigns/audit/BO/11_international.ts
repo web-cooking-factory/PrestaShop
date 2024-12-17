@@ -107,7 +107,6 @@ describe('BO - International', async () => {
 
     const pageTitle = await boLanguagesPage.getPageTitle(page);
     expect(pageTitle).to.contains(boLanguagesPage.pageTitle);
-
   });
 
   it('should go to edit language page', async function () {
@@ -164,6 +163,7 @@ describe('BO - International', async () => {
     await boCurrenciesPage.goToEditCurrencyPage(page, 1);
 
     const pageTitle = await boCurrenciesCreatePage.getPageTitle(page);
+    expect(pageTitle).to.contains(boCurrenciesCreatePage.editCurrencyPage);
 
     const jsErrors = utilsPlaywright.getJsErrors();
     expect(jsErrors.length).to.equals(0);
@@ -176,7 +176,6 @@ describe('BO - International', async () => {
 
     const pageTitle = await geolocationPage.getPageTitle(page);
     expect(pageTitle).to.equal(geolocationPage.pageTitle);
-
   });
 
   it('should go to \'Locations\' page > Zones tab', async function () {
@@ -276,7 +275,7 @@ describe('BO - International', async () => {
     expect(pageTitle).to.contains(boCountriesCreatePage.pageTitleEdit);
 
     const jsErrors = utilsPlaywright.getJsErrors();
-    expect(jsErrors.length).to.equals(0);    
+    expect(jsErrors.length).to.equals(0);
   });
 
   it('should go to \'States\' page', async function () {
@@ -288,7 +287,7 @@ describe('BO - International', async () => {
     expect(pageTitle).to.contains(statesPage.pageTitle);
 
     const jsErrors = utilsPlaywright.getJsErrors();
-    expect(jsErrors.length).to.equals(0);   
+    expect(jsErrors.length).to.equals(0);
   });
 
   it('should go to add new state page', async function () {
@@ -300,7 +299,7 @@ describe('BO - International', async () => {
     expect(pageTitle).to.contains(addStatePage.pageTitleCreate);
 
     const jsErrors = utilsPlaywright.getJsErrors();
-    expect(jsErrors.length).to.equals(0); 
+    expect(jsErrors.length).to.equals(0);
   });
 
   it('should go to \'States\' page', async function () {
@@ -309,7 +308,7 @@ describe('BO - International', async () => {
     await zonesPage.goToSubTabStates(page);
 
     const pageTitle = await statesPage.getPageTitle(page);
-    expect(pageTitle).to.contains(statesPage.pageTitle);  
+    expect(pageTitle).to.contains(statesPage.pageTitle);
   });
 
   it('should go to edit state page', async function () {
@@ -321,7 +320,7 @@ describe('BO - International', async () => {
     expect(pageTitle).to.contains(addStatePage.pageTitleEdit);
 
     const jsErrors = utilsPlaywright.getJsErrors();
-    expect(jsErrors.length).to.equals(0); 
+    expect(jsErrors.length).to.equals(0);
   });
 
   it('should go to \'International > Taxes\' page', async function () {
@@ -337,7 +336,7 @@ describe('BO - International', async () => {
     expect(pageTitle).to.contains(taxesPage.pageTitle);
 
     const jsErrors = utilsPlaywright.getJsErrors();
-    expect(jsErrors.length).to.equals(0); 
+    expect(jsErrors.length).to.equals(0);
   });
 
   it('should go to add new tax page', async function () {
@@ -349,7 +348,7 @@ describe('BO - International', async () => {
     expect(pageTitle).to.contains(addTaxPage.pageTitleCreate);
 
     const jsErrors = utilsPlaywright.getJsErrors();
-    expect(jsErrors.length).to.equals(0); 
+    expect(jsErrors.length).to.equals(0);
   });
 
   it('should go to \'International > Taxes\' page', async function () {
@@ -374,7 +373,7 @@ describe('BO - International', async () => {
     expect(pageTitle).to.contains(addTaxPage.pageTitleEdit);
 
     const jsErrors = utilsPlaywright.getJsErrors();
-    expect(jsErrors.length).to.equals(0); 
+    expect(jsErrors.length).to.equals(0);
   });
 
   it('should go to \'Tax Rules\' page', async function () {
@@ -386,7 +385,7 @@ describe('BO - International', async () => {
     expect(pageTitle).to.contains(taxRulesPage.pageTitle);
 
     const jsErrors = utilsPlaywright.getJsErrors();
-    expect(jsErrors.length).to.equals(0); 
+    expect(jsErrors.length).to.equals(0);
   });
 
   it('should go to Add new tax rules group page', async function () {
@@ -398,7 +397,7 @@ describe('BO - International', async () => {
     expect(pageTitle).to.contains(addTaxRulesPage.pageTitleCreate);
 
     const jsErrors = utilsPlaywright.getJsErrors();
-    expect(jsErrors.length).to.equals(0); 
+    expect(jsErrors.length).to.equals(0);
   });
 
   it('should go to \'Tax Rules\' page', async function () {
@@ -431,5 +430,4 @@ describe('BO - International', async () => {
     const pageTitle = await boTranslationsPage.getPageTitle(page);
     expect(pageTitle).to.contains(boTranslationsPage.pageTitle);
   });
-
 });
