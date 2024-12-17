@@ -315,8 +315,8 @@ describe('BO - International', async () => {
         page,
         boDashboardPage.internationalParentLink,
         boDashboardPage.taxesLink,
-      );
-      await taxesPage.goToEditTaxPage(page, 1);
+    );
+    await taxesPage.goToEditTaxPage(page, 1);
 
     const pageTitle = await addTaxPage.getPageTitle(page);
     expect(pageTitle).to.contains(addTaxPage.pageTitleEdit);
