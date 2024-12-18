@@ -27,7 +27,7 @@ Feature: Add basic alias from Back Office (BO)
       | large | true   |
       | small | false  |
 
-  Scenario: I add alises for one search term for the second time
+  Scenario: I add aliases for one search term for the second time
     Given following aliases should exist:
       | search | alias  | active |
       | big    | large  | true   |
@@ -46,7 +46,7 @@ Feature: Add basic alias from Back Office (BO)
       | small   | false  |
       | so biig | true   |
 
-  Scenario: I add alises for one search term for the second time with different active status
+  Scenario: I add aliases for one search term for the second time with different active status
     Given following aliases should exist:
       | search | alias   | active |
       | big    | large   | true   |
