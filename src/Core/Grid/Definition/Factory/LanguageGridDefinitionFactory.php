@@ -124,6 +124,13 @@ final class LanguageGridDefinitionFactory extends AbstractGridDefinitionFactory
                     ])
             )
             ->add(
+                (new DataColumn('locale'))
+                    ->setName($this->trans('Locale', [], 'Admin.International.Feature'))
+                    ->setOptions([
+                        'field' => 'locale',
+                    ])
+            )
+            ->add(
                 (new DataColumn('date_format_lite'))
                     ->setName($this->trans('Date format', [], 'Admin.International.Feature'))
                     ->setOptions([
@@ -206,7 +213,7 @@ final class LanguageGridDefinitionFactory extends AbstractGridDefinitionFactory
                     ->setTypeOptions([
                         'required' => false,
                         'attr' => [
-                            'placeholder' => $this->translator->trans('Search ISO code', [], 'Admin.Actions'),
+                            'placeholder' => $this->translator->trans('Search ISO code', [], 'Admin.Internaltional.Help'),
                         ],
                     ])
                     ->setAssociatedColumn('iso_code')
@@ -216,17 +223,27 @@ final class LanguageGridDefinitionFactory extends AbstractGridDefinitionFactory
                     ->setTypeOptions([
                         'required' => false,
                         'attr' => [
-                            'placeholder' => $this->translator->trans('Search code', [], 'Admin.Actions'),
+                            'placeholder' => $this->translator->trans('Search code', [], 'Admin.Internaltional.Help'),
                         ],
                     ])
                     ->setAssociatedColumn('language_code')
+            )
+            ->add(
+                (new Filter('locale', TextType::class))
+                    ->setTypeOptions([
+                        'required' => false,
+                        'attr' => [
+                            'placeholder' => $this->translator->trans('Search locale', [], 'Admin.Internaltional.Help'),
+                        ],
+                    ])
+                    ->setAssociatedColumn('locale')
             )
             ->add(
                 (new Filter('date_format_lite', TextType::class))
                     ->setTypeOptions([
                         'required' => false,
                         'attr' => [
-                            'placeholder' => $this->translator->trans('Search date format', [], 'Admin.Actions'),
+                            'placeholder' => $this->translator->trans('Search date format', [], 'Admin.Internaltional.Help'),
                         ],
                     ])
                     ->setAssociatedColumn('date_format_lite')
@@ -236,7 +253,7 @@ final class LanguageGridDefinitionFactory extends AbstractGridDefinitionFactory
                     ->setTypeOptions([
                         'required' => false,
                         'attr' => [
-                            'placeholder' => $this->translator->trans('Search date format', [], 'Admin.Actions'),
+                            'placeholder' => $this->translator->trans('Search date format', [], 'Admin.Internaltional.Help'),
                         ],
                     ])
                     ->setAssociatedColumn('date_format_full')
