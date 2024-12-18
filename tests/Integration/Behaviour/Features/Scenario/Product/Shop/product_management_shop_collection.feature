@@ -355,3 +355,56 @@ Feature: Copy product from shop to shop.
       | locale | value |
       | en-US  |       |
       | fr-FR  |       |
+
+  Scenario: I can update product stock for specific shops
+    Given product "product" should have following stock information for shops "shop1,shop2,shop3,shop4":
+      | out_of_stock_type | default |
+      | quantity          | 0       |
+      | location          |         |
+    When I update product "product" stock for shops "shop2,shop3" with following information:
+      | out_of_stock_type | not_available |
+      | delta_quantity    | 69            |
+      | location          | upa           |
+    Then product "product" should have following stock information for shops "shop2,shop3":
+      | out_of_stock_type | not_available |
+      | location          | upa           |
+      | quantity          | 69            |
+    And product "product" last stock movements for shops "shop2,shop3" should be:
+      | employee   | delta_quantity |
+      | Puff Daddy | 69             |
+    And product "product" should have following stock information for shops "shop1,shop4":
+      | out_of_stock_type | default |
+      | quantity          | 0       |
+      | location          |         |
+    And product "product" should have no stock movements for shops "shop1,shop4"
+    # Update different shops and check the appropriate stock and movements for each one
+    When I update product "product" stock for shops "shop1,shop2" with following information:
+      | delta_quantity | 12      |
+      | location       | nowhere |
+    # Shop1
+    Then product "product" should have following stock information for shop shop1:
+      | location | nowhere |
+      | quantity | 12      |
+    And product "product" last stock movements for shop shop1 should be:
+      | employee   | delta_quantity |
+      | Puff Daddy | 12             |
+    # Shop2
+    And product "product" should have following stock information for shop shop2:
+      | location | nowhere |
+      | quantity | 81      |
+    And product "product" last stock movements for shop shop2 should be:
+      | employee   | delta_quantity |
+      | Puff Daddy | 12             |
+      | Puff Daddy | 69             |
+    # Shop3
+    And product "product" should have following stock information for shop shop3:
+      | location | upa |
+      | quantity | 69  |
+    And product "product" last stock movements for shop shop3 should be:
+      | employee   | delta_quantity |
+      | Puff Daddy | 69             |
+    # Shop4
+    And product "product" should have following stock information for shop shop4:
+      | location |   |
+      | quantity | 0 |
+    And product "product" should have no stock movements for shop shop4
