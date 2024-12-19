@@ -100,6 +100,7 @@ Feature: Edit product with specific list of shops.
       | reference      |       |
     # Product status
     And product "product" should be disabled for shops "shop1,shop2,shop3,shop4"
+    And product "product" should not be indexed for shops "shop1,shop2,shop3,shop4"
     ## Multilang fields
     Then product "product" localized "name" for shops "shop1,shop2,shop3,shop4" should be:
       | locale | value       |
@@ -145,7 +146,7 @@ Feature: Edit product with specific list of shops.
       | description_short[en-US]                | cool magic staff                |
       | description_short[fr-FR]                | baton magique cool              |
       # Options
-      | visibility                              | catalog                         |
+      | visibility                              | search                          |
       | available_for_order                     | false                           |
       | online_only                             | true                            |
       | show_price                              | false                           |
@@ -203,7 +204,7 @@ Feature: Edit product with specific list of shops.
     #
     Then product "product" should have following options for shops "shop2,shop3":
       | product option      | value        |
-      | visibility          | catalog      |
+      | visibility          | search       |
       | available_for_order | false        |
       | online_only         | true         |
       | show_price          | false        |
@@ -247,6 +248,7 @@ Feature: Edit product with specific list of shops.
       | reference      | ref1              |
     # Product status
     And product "product" should be enabled for shops "shop2,shop3"
+    And product "product" should be indexed for shops "shop2,shop3"
     ## Multilang fields
     Then product "product" localized "name" for shops "shop2,shop3" should be:
       | locale | value              |
@@ -330,6 +332,7 @@ Feature: Edit product with specific list of shops.
       | reference      | ref1              |
     # Product status
     And product "product" should be disabled for shops "shop1,shop4"
+    And product "product" should not be indexed for shops "shop1,shop4"
     ## Multilang fields
     Then product "product" localized "name" for shops "shop1,shop4" should be:
       | locale | value       |
@@ -647,3 +650,86 @@ Feature: Edit product with specific list of shops.
     Then product "product" should not be customizable for shops "shop1,shop2,shop3,shop4"
     Then product product should have 0 customizable text fields for shops "shop1,shop2,shop3,shop4"
     And product product should have 0 customizable file fields for shops "shop1,shop2,shop3,shop4"
+
+  Scenario: Delete one product for specific shops
+    When I delete product "product" from shops "shop1,shop3"
+    Then product product is associated to shops "shop2,shop4"
+    And product product is not associated to shops "shop1,shop3"
+    When I delete product "product" from shops "shop2,shop4"
+    And product product should not exist anymore
+
+  Scenario: Bulk delete for specific shops
+    Given I add product "product2" to shop "shop1" with following information:
+      | name[en-US] | magic staff |
+      | type        | standard    |
+    And default shop for product product2 is shop1
+    And I set following shops for product "product2":
+      | source shop | shop1                   |
+      | shops       | shop1,shop2,shop3,shop4 |
+    Then product product2 is associated to shops "shop1,shop2,shop3,shop4"
+    And I add product "product3" to shop "shop1" with following information:
+      | name[en-US] | magic staff |
+      | type        | standard    |
+    And default shop for product product3 is shop1
+    And I set following shops for product "product3":
+      | source shop | shop1                   |
+      | shops       | shop1,shop2,shop3,shop4 |
+    Then product product3 is associated to shops "shop1,shop2,shop3,shop4"
+    # Now start bulk deleting
+    When I bulk delete following products from shops "shop1,shop3":
+      | reference |
+      | product   |
+      | product3  |
+    Then product product is associated to shops "shop2,shop4"
+    And product product is not associated to shops "shop1,shop3"
+    And product product2 is associated to shops "shop1,shop2,shop3,shop4"
+    And product product3 is associated to shops "shop2,shop4"
+    And product product3 is not associated to shops "shop1,shop3"
+    When I bulk delete following products from shops "shop2,shop4":
+      | reference |
+      | product2  |
+      | product3  |
+    Then product product is associated to shops "shop2,shop4"
+    And product product is not associated to shops "shop1,shop3"
+    And product product2 is associated to shops "shop1,shop3"
+    And product product2 is not associated to shops "shop2,shop4"
+    And product product3 should not exist anymore
+
+  Scenario: I update product statuses for specific shops
+    Given product "product" should be disabled for shops "shop1,shop2,shop3,shop4"
+    And product "product" should not be indexed for shops "shop1,shop2,shop3,shop4"
+    Given I add product "product2" to shop "shop1" with following information:
+      | name[en-US] | magic staff |
+      | type        | standard    |
+    And default shop for product product2 is shop1
+    And I set following shops for product "product2":
+      | source shop | shop1                   |
+      | shops       | shop1,shop2,shop3,shop4 |
+    Then product product2 is associated to shops "shop1,shop2,shop3,shop4"
+    Given product "product2" should be disabled for shops "shop1,shop2,shop3,shop4"
+    And product "product2" should not be indexed for shops "shop1,shop2,shop3,shop4"
+    And I add product "product3" to shop "shop1" with following information:
+      | name[en-US] | magic staff |
+      | type        | standard    |
+    And default shop for product product3 is shop1
+    And I set following shops for product "product3":
+      | source shop | shop1                   |
+      | shops       | shop1,shop2,shop3,shop4 |
+    Then product product3 is associated to shops "shop1,shop2,shop3,shop4"
+    Given product "product3" should be disabled for shops "shop1,shop2,shop3,shop4"
+    And product "product3" should not be indexed for shops "shop1,shop2,shop3,shop4"
+    # Now update status and check indexes
+    When I bulk change status to be enabled for following products for shops "shop2,shop4":
+      | reference |
+      | product   |
+      | product3  |
+    Then product "product" should be enabled for shops "shop2,shop4"
+    And product "product" should be indexed for shops "shop2,shop4"
+    And product "product" should be disabled for shops "shop1,shop3"
+    And product "product" should not be indexed for shops "shop1,shop3"
+    And product "product2" should be disabled for shops "shop1,shop2,shop3,shop4"
+    And product "product2" should not be indexed for shops "shop1,shop2,shop3,shop4"
+    Then product "product3" should be enabled for shops "shop2,shop4"
+    And product "product3" should be indexed for shops "shop2,shop4"
+    And product "product3" should be disabled for shops "shop1,shop3"
+    And product "product3" should not be indexed for shops "shop1,shop3"

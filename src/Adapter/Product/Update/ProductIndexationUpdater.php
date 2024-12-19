@@ -126,6 +126,7 @@ class ProductIndexationUpdater
 
     private function updateProductIndexesByShopConstraint(int $productId, ShopConstraint $shopConstraint): void
     {
+        $this->adaptShopContext($shopConstraint);
         if (!Search::indexation(false, $productId)) {
             throw new CannotUpdateProductException(
                 sprintf('Cannot update search indexes for product %d', $productId),
@@ -147,13 +148,11 @@ class ProductIndexationUpdater
             // If a specific list is provided we update them one by one
             if ($shopConstraint instanceof ShopCollection && $shopConstraint->hasShopIds()) {
                 foreach ($shopConstraint->getShopIds() as $shopId) {
-                    $this->adaptShopContext(ShopConstraint::shop($shopId->getValue()));
-                    Search::removeProductsSearchIndex([$productId]);
+                    $this->removeProductIndexesByShopConstraint($productId, ShopConstraint::shop($shopId->getValue()));
                 }
             } else {
                 // If not the other types of ShopConstraint are handled by this method
-                $this->adaptShopContext($shopConstraint);
-                Search::removeProductsSearchIndex([$productId]);
+                $this->removeProductIndexesByShopConstraint($productId, $shopConstraint);
             }
         } catch (PrestaShopException $e) {
             throw new CoreException(
@@ -164,6 +163,12 @@ class ProductIndexationUpdater
         } finally {
             $this->contextStateManager->restorePreviousContext();
         }
+    }
+
+    private function removeProductIndexesByShopConstraint(int $productId, ShopConstraint $shopConstraint): void
+    {
+        $this->adaptShopContext($shopConstraint);
+        Search::removeProductsSearchIndex([$productId]);
     }
 
     private function adaptShopContext(ShopConstraint $shopConstraint): void
