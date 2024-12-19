@@ -122,6 +122,12 @@ class ProductImageRepository extends AbstractMultiShopObjectModelRepository
             $this->productRepository->assertProductIsAssociatedToShop($productId, $shopConstraint->getShopId());
         }
 
+        if ($shopConstraint instanceof ShopCollection && $shopConstraint->hasShopIds()) {
+            foreach ($shopConstraint->getShopIds() as $shopId) {
+                $this->productRepository->assertProductIsAssociatedToShop($productId, $shopId);
+            }
+        }
+
         return array_map(
             function (ImageId $imageId) use ($shopConstraint): Image {
                 return $this->getByShopConstraint($imageId, $shopConstraint);
@@ -168,11 +174,22 @@ class ProductImageRepository extends AbstractMultiShopObjectModelRepository
                     )
                     ->setParameter('shopGroupId', $shopConstraint->getShopGroupId()->getValue())
                 ;
-            } else {
+            } elseif ($shopConstraint instanceof ShopCollection && $shopConstraint->hasShopIds()) {
+                $qb
+                    ->andWhere('img_shop.id_shop IN (:shopIds)')
+                    ->setParameter(
+                        'shopIds',
+                        array_map(fn (ShopId $shopId) => $shopId->getValue(), $shopConstraint->getShopIds()),
+                        ArrayParameterType::INTEGER
+                    )
+                ;
+            } elseif ($shopConstraint->getShopId()) {
                 $this->productRepository->assertProductIsAssociatedToShop($productId, $shopConstraint->getShopId());
                 $qb->andWhere('img_shop.id_shop = :shopId')
                     ->setParameter('shopId', $shopConstraint->getShopId()->getValue())
                 ;
+            } else {
+                throw new InvalidShopConstraintException('Cannot handle this type of ShopConstraint');
             }
         }
 

@@ -141,12 +141,14 @@ class ProductStockUpdater
         }
 
         if ($shopConstraint->forAllShops()) {
-            $shops = $this->productRepository->getAssociatedShopIds($productId);
+            $shopIds = $this->productRepository->getAssociatedShopIds($productId);
+        } elseif ($shopConstraint instanceof ShopCollection && $shopConstraint->hasShopIds()) {
+            $shopIds = $shopConstraint->getShopIds();
         } else {
-            $shops = [$shopConstraint->getShopId()];
+            $shopIds = [$shopConstraint->getShopId()];
         }
 
-        foreach ($shops as $shopId) {
+        foreach ($shopIds as $shopId) {
             $stockAvailable = $this->stockAvailableRepository->getForProduct($productId, $shopId);
             if ((int) $stockAvailable->quantity === 0) {
                 continue;
