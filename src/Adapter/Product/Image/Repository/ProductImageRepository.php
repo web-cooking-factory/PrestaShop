@@ -189,7 +189,7 @@ class ProductImageRepository extends AbstractMultiShopObjectModelRepository
                     ->setParameter('shopId', $shopConstraint->getShopId()->getValue())
                 ;
             } else {
-                throw new InvalidShopConstraintException('Cannot handle this type of ShopConstraint');
+                throw new InvalidShopConstraintException('Cannot handle this kind of ShopConstraint');
             }
         }
 

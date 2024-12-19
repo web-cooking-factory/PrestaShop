@@ -848,7 +848,7 @@ class CombinationRepository extends AbstractMultiShopObjectModelRepository
                 'pac.id_product_attribute = pa.id_product_attribute AND pa.id_shop = :shopId'
             )->setParameter('shopId', $shopConstraint->getShopId()->getValue());
         } else {
-            throw new InvalidShopConstraintException('Cannot handle this type of ShopConstraint');
+            throw new InvalidShopConstraintException('Cannot handle this kind of ShopConstraint');
         }
 
         $qb

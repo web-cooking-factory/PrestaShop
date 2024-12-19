@@ -39,7 +39,6 @@ use PrestaShop\PrestaShop\Core\Domain\Product\Image\Exception\CannotUpdateProduc
 use PrestaShop\PrestaShop\Core\Domain\Shop\Exception\InvalidShopConstraintException;
 use PrestaShop\PrestaShop\Core\Domain\Shop\Exception\ShopAssociationNotFound;
 use PrestaShop\PrestaShop\Core\Domain\Shop\ValueObject\ShopCollection;
-use PrestaShop\PrestaShop\Core\Exception\InvalidArgumentException;
 
 #[AsCommandHandler]
 class UpdateProductImageHandler implements UpdateProductImageHandlerInterface
@@ -118,7 +117,7 @@ class UpdateProductImageHandler implements UpdateProductImageHandlerInterface
         }
 
         if (!$shopId) {
-            throw new InvalidArgumentException('Could not deduce shopId from provided shop constraint');
+            throw new InvalidShopConstraintException('Could not deduce shopId from provided ShopConstraint');
         }
 
         $image = $this->productImageRepository->get(
