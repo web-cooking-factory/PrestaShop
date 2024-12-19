@@ -175,7 +175,7 @@ describe('API : GET /hook/{id}', async () => {
     it('should request the endpoint /hook/{id}', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'requestEndpoint', baseContext);
 
-      const apiResponse = await apiContext.get(`hooks/${idHook}`, {
+      const apiResponse = await apiContext.get(`hook/${idHook}`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
