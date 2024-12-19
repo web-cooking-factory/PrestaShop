@@ -295,7 +295,7 @@ class CombinationRepository extends AbstractMultiShopObjectModelRepository
                     // Find first shop IDs that is both in the specified list and the valid associated shops
                     $validShopIds = array_map(fn (ShopId $shopId) => $shopId->getValue(), $associatedShopIds);
                     foreach ($shopConstraint->getShopIds() as $shopId) {
-                        if (in_array($shopId, $validShopIds)) {
+                        if (in_array($shopId->getValue(), $validShopIds)) {
                             $defaultShopId = $shopId;
                             break;
                         }
