@@ -36,7 +36,9 @@ use PrestaShop\PrestaShop\Core\Domain\Product\Customization\ValueObject\Customiz
 use PrestaShop\PrestaShop\Core\Domain\Product\Exception\CannotUpdateProductException;
 use PrestaShop\PrestaShop\Core\Domain\Product\ProductCustomizabilitySettings;
 use PrestaShop\PrestaShop\Core\Domain\Product\ValueObject\ProductId;
+use PrestaShop\PrestaShop\Core\Domain\Shop\ValueObject\ShopCollection;
 use PrestaShop\PrestaShop\Core\Domain\Shop\ValueObject\ShopConstraint;
+use PrestaShop\PrestaShop\Core\Exception\InvalidArgumentException;
 
 /**
  * Updates CustomizationField & Product relation
@@ -88,7 +90,15 @@ class ProductCustomizationFieldUpdater
 
         foreach ($customizationFields as $customizationField) {
             if ($customizationField->id) {
-                $this->customizationFieldRepository->update($customizationField, [$shopConstraint->getShopId()]);
+                if ($shopConstraint->getShopId()) {
+                    $shopIds = [$shopConstraint->getShopId()];
+                } elseif ($shopConstraint instanceof ShopCollection && $shopConstraint->hasShopIds()) {
+                    $shopIds = $shopConstraint->getShopIds();
+                } else {
+                    throw new InvalidArgumentException('Cannot handle this kind of ShopConstraint');
+                }
+
+                $this->customizationFieldRepository->update($customizationField, $shopIds);
             } else {
                 $this->customizationFieldRepository->add($customizationField, $productShops);
             }

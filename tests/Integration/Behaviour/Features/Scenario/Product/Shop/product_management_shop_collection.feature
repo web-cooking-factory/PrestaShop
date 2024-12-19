@@ -611,3 +611,39 @@ Feature: Edit product with specific list of shops.
       | id reference | name    | is default |
       | home         | Home    | true       |
       | clothes      | Clothes | false      |
+
+  Scenario: I can edit customization fields for specific shops
+      # New customization field creation is shared to all shops by default even if only one is selected
+    When I update product product with following customization fields for shop shop1:
+      | reference    | type | name[en-US] | name[fr-FR]    | is required |
+      | customField1 | text | front-text  | texte-devant   | true        |
+      | customField2 | text | back-text   | texte-derriere | false       |
+    Then product product should have 2 customizable text field for shops "shop1,shop2,shop3,shop4"
+    And product product should have 0 customizable file field for shops "shop1,shop2,shop3,shop4"
+    And product product should have following customization fields for shops "shop1,shop2,shop3,shop4":
+      | reference    | type | name[en-US] | name[fr-FR]    | is required |
+      | customField1 | text | front-text  | texte-devant   | true        |
+      | customField2 | text | back-text   | texte-derriere | false       |
+    # New customization field will have same wording for all shops, only selected shops have their wordings updated
+    When I update product product with following customization fields for shops shop2,shop3:
+      | reference    | type | name[en-US] | name[fr-FR]     | is required |
+      | customField1 | text | front-text2 | texte-devant2   | false       |
+      | customField2 | text | back-text2  | texte-derriere2 | false       |
+      | customField3 | file | back image  | image derriere  | false       |
+    And product product should have 2 customizable text field for shops "shop1,shop2,shop3,shop4"
+    And product product should have 1 customizable file field for shops "shop1,shop2,shop3,shop4"
+    And product product should have following customization fields for shops "shop2,shop3":
+      | reference    | type | name[en-US] | name[fr-FR]     | is required |
+      | customField1 | text | front-text2 | texte-devant2   | false       |
+      | customField2 | text | back-text2  | texte-derriere2 | false       |
+      | customField3 | file | back image  | image derriere  | false       |
+    And product product should have following customization fields for shops "shop1,shop4":
+      | reference    | type | name[en-US] | name[fr-FR]    | is required |
+      | customField1 | text | front-text  | texte-devant   | false       |
+      | customField2 | text | back-text   | texte-derriere | false       |
+      | customField3 | file | back image  | image derriere | false       |
+    # Remove all removes for all shops
+    When I remove all customization fields from product product
+    Then product "product" should not be customizable for shops "shop1,shop2,shop3,shop4"
+    Then product product should have 0 customizable text fields for shops "shop1,shop2,shop3,shop4"
+    And product product should have 0 customizable file fields for shops "shop1,shop2,shop3,shop4"

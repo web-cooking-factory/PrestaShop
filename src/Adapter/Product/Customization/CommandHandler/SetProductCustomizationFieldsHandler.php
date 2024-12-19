@@ -36,7 +36,9 @@ use PrestaShop\PrestaShop\Core\Domain\Product\Customization\Command\SetProductCu
 use PrestaShop\PrestaShop\Core\Domain\Product\Customization\CommandHandler\SetProductCustomizationFieldsHandlerInterface;
 use PrestaShop\PrestaShop\Core\Domain\Product\Customization\CustomizationField as CustomizationFieldDTO;
 use PrestaShop\PrestaShop\Core\Domain\Product\ValueObject\ProductId;
+use PrestaShop\PrestaShop\Core\Domain\Shop\ValueObject\ShopCollection;
 use PrestaShop\PrestaShop\Core\Domain\Shop\ValueObject\ShopId;
+use PrestaShop\PrestaShop\Core\Exception\InvalidArgumentException;
 
 /**
  * Handles @see SetProductCustomizationFieldsCommand using legacy object model
@@ -73,14 +75,22 @@ class SetProductCustomizationFieldsHandler implements SetProductCustomizationFie
      */
     public function handle(SetProductCustomizationFieldsCommand $command): array
     {
-        $shopId = $command->getShopConstraint()->getShopId();
+        $shopConstraint = $command->getShopConstraint();
+        if ($shopConstraint->getShopId()) {
+            $shopId = $shopConstraint->getShopId();
+        } elseif ($shopConstraint instanceof ShopCollection && $shopConstraint->hasShopIds()) {
+            $shopId = $shopConstraint->getShopIds()[0];
+        } else {
+            throw new InvalidArgumentException('Cannot handle this kind of ShopConstraint');
+        }
+
         $productId = $command->getProductId();
 
         $customizationFields = [];
         foreach ($command->getCustomizationFields() as $providedCustomizationField) {
             $customizationFields[] = $this->buildEntityFromDTO($productId, $providedCustomizationField, $shopId);
         }
-        $this->productCustomizationFieldUpdater->setProductCustomizationFields($productId, $customizationFields, $command->getShopConstraint());
+        $this->productCustomizationFieldUpdater->setProductCustomizationFields($productId, $customizationFields, $shopConstraint);
 
         return $this->customizationFieldRepository->getCustomizationFieldIds($productId);
     }
