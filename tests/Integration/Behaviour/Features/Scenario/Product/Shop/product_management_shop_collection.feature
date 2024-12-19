@@ -479,3 +479,95 @@ Feature: Edit product with specific list of shops.
       | image1          | false    |                  |                    | 1        | http://myshop.com/img/p/{image1}.jpg | http://myshop.com/img/p/{image1}-small_default.jpg | shop2,shop3 |
       | image3          | true     | preston is alive | preston est vivant | 2        | http://myshop.com/img/p/{image3}.jpg | http://myshop.com/img/p/{image3}-small_default.jpg | shop3,shop4 |
       | image2          | false    |                  |                    | 3        | http://myshop.com/img/p/{image2}.jpg | http://myshop.com/img/p/{image2}-small_default.jpg | shop1,shop2 |
+
+  Scenario: I can duplicate a product for specific shops (we don't fully check all fields)
+    Given I update product "product" for shops "shop2,shop3" with following values:
+      # Basic information
+      | name[en-US]              | cool magic staff                |
+      | name[fr-FR]              | baton magique cool              |
+      | description[en-US]       | such a cool magic staff         |
+      | description[fr-FR]       | tellement cool ce baton magique |
+      | description_short[en-US] | cool magic staff                |
+      | description_short[fr-FR] | baton magique cool              |
+      # Prices
+      | price                    | 100.99                          |
+      | ecotax                   | 0                               |
+      | tax rules group          | US-AL Rate (4%)                 |
+      | on_sale                  | true                            |
+      | wholesale_price          | 70                              |
+      | unit_price               | 10                              |
+      | unity                    | bag of ten                      |
+      # SEO
+      | link_rewrite[en-US]      | cool-magic-staff                |
+      | link_rewrite[fr-FR]      | baton-magique-cool              |
+    # Add name in french because we cannot validate "copie de " the space is trimmed for comparison
+    And I update product "product" for shops "shop1,shop4" with following values:
+      | name[fr-FR] | baton magique |
+    Given I add new image "image1" named "app_icon.png" to product "product" for all shops
+    # Duplicate product for shop1 and shop3 only
+    When I duplicate product product to a productCopy for shops shop1,shop3
+    Then product productCopy is associated to shops "shop1,shop3"
+    And product productCopy is not associated to shops "shop2,shop4"
+    And default shop for product productCopy is shop1
+    And product "productCopy" should be disabled for shops "shop1,shop3"
+    # Shop1
+    And product productCopy should have following prices information for shop shop1:
+      | price           | 0               |
+      | ecotax          | 0               |
+      | tax rules group | US-FL Rate (6%) |
+      | on_sale         | false           |
+      | wholesale_price | 0               |
+      | unit_price      | 0               |
+      | unity           |                 |
+    And product "productCopy" localized "name" for shop "shop1" should be:
+      | locale | value                  |
+      | en-US  | copy of magic staff    |
+      | fr-FR  | copie de baton magique |
+    And product "productCopy" localized "description" for shop "shop1" should be:
+      | locale | value |
+      | en-US  |       |
+      | fr-FR  |       |
+    And product "productCopy" localized "description_short" for shop "shop1" should be:
+      | locale | value |
+      | en-US  |       |
+      | fr-FR  |       |
+    And product "productCopy" localized "link_rewrite" for shop "shop1" should be:
+      | locale | value                  |
+      | en-US  | copy-of-magic-staff    |
+      | fr-FR  | copie-de-baton-magique |
+    # Shop3
+    And product productCopy should have following prices information for shop shop3:
+      | price           | 100.99          |
+      | ecotax          | 0               |
+      | tax rules group | US-AL Rate (4%) |
+      | on_sale         | true            |
+      | wholesale_price | 70              |
+      | unit_price      | 10              |
+      | unity           | bag of ten      |
+    And product "productCopy" localized "name" for shop "shop3" should be:
+      | locale | value                       |
+      | en-US  | copy of cool magic staff    |
+      | fr-FR  | copie de baton magique cool |
+    And product "productCopy" localized "description" for shop "shop3" should be:
+      | locale | value                           |
+      | en-US  | such a cool magic staff         |
+      | fr-FR  | tellement cool ce baton magique |
+    And product "productCopy" localized "description_short" for shop "shop3" should be:
+      | locale | value              |
+      | en-US  | cool magic staff   |
+      | fr-FR  | baton magique cool |
+    And product "productCopy" localized "link_rewrite" for shop "shop3" should be:
+      | locale | value                       |
+      | en-US  | copy-of-cool-magic-staff    |
+      | fr-FR  | copie-de-baton-magique-cool |
+    # Images have been duplicated as well
+    And product "productCopy" should have following images for shops "shop1,shop3":
+      | new image reference | is cover | legend[en-US] | legend[fr-FR] | position | image url                                | thumbnail url                                          | shops       |
+      | image1Copy          | true     |               |               | 1        | http://myshop.com/img/p/{image1Copy}.jpg | http://myshop.com/img/p/{image1Copy}-small_default.jpg | shop1,shop3 |
+    And image1 and image1Copy have different values
+    # Duplicate without default shop and check that it is updated
+    When I duplicate product product to a otherProductCopy for shops shop2,shop3
+    Then product otherProductCopy is associated to shops "shop2,shop3"
+    And product otherProductCopy is not associated to shops "shop1,shop4"
+    And default shop for product otherProductCopy is shop2
+    And product "otherProductCopy" should be disabled for shops "shop2,shop3"
