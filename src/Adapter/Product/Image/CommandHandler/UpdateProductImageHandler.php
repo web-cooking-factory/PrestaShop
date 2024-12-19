@@ -38,6 +38,8 @@ use PrestaShop\PrestaShop\Core\Domain\Product\Image\CommandHandler\UpdateProduct
 use PrestaShop\PrestaShop\Core\Domain\Product\Image\Exception\CannotUpdateProductImageException;
 use PrestaShop\PrestaShop\Core\Domain\Shop\Exception\InvalidShopConstraintException;
 use PrestaShop\PrestaShop\Core\Domain\Shop\Exception\ShopAssociationNotFound;
+use PrestaShop\PrestaShop\Core\Domain\Shop\ValueObject\ShopCollection;
+use PrestaShop\PrestaShop\Core\Exception\InvalidArgumentException;
 
 #[AsCommandHandler]
 class UpdateProductImageHandler implements UpdateProductImageHandlerInterface
@@ -98,20 +100,25 @@ class UpdateProductImageHandler implements UpdateProductImageHandlerInterface
             $this->imageValidator->assertIsValidImageType($command->getFilePath());
         }
 
-        // shop constraint assertion above already ensures that it is either shopId or allShops
-        $shopId = $shopConstraint->getShopId() ?: null;
-
-        if (!$shopId) {
+        $shopId = null;
+        if ($shopConstraint instanceof ShopCollection && $shopConstraint->hasShopIds()) {
+            $shopId = $shopConstraint->getShopIds()[0];
+        } elseif ($shopConstraint->forAllShops()) {
             $associatedShopIds = $this->productImageRepository->getAssociatedShopIds($imageId);
             // this we makes sure to load image from shop in which it exists,
             // else legacy ObjectModel would try to load context shop and some required data would end up being empty
             // only is_cover prop is multi-shop compatible now and is handled separately,
             // so we don't really care from which shop other properties are loaded
             $shopId = reset($associatedShopIds);
-
             if (!$shopId) {
                 throw new ShopAssociationNotFound('Image is not associated to any shop');
             }
+        } elseif ($shopConstraint->getShopId()) {
+            $shopId = $shopConstraint->getShopId();
+        }
+
+        if (!$shopId) {
+            throw new InvalidArgumentException('Could not deduce shopId from provided shop constraint');
         }
 
         $image = $this->productImageRepository->get(

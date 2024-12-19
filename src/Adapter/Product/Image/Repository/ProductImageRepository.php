@@ -28,6 +28,7 @@ declare(strict_types=1);
 
 namespace PrestaShop\PrestaShop\Adapter\Product\Image\Repository;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Image;
 use ImageType;
@@ -46,6 +47,7 @@ use PrestaShop\PrestaShop\Core\Domain\Product\Image\ValueObject\ImageId;
 use PrestaShop\PrestaShop\Core\Domain\Product\ValueObject\ProductId;
 use PrestaShop\PrestaShop\Core\Domain\Shop\Exception\InvalidShopConstraintException;
 use PrestaShop\PrestaShop\Core\Domain\Shop\Exception\ShopAssociationNotFound;
+use PrestaShop\PrestaShop\Core\Domain\Shop\ValueObject\ShopCollection;
 use PrestaShop\PrestaShop\Core\Domain\Shop\ValueObject\ShopConstraint;
 use PrestaShop\PrestaShop\Core\Domain\Shop\ValueObject\ShopId;
 use PrestaShop\PrestaShop\Core\Exception\CoreException;
@@ -360,6 +362,15 @@ class ProductImageRepository extends AbstractMultiShopObjectModelRepository
             $qb
                 ->andWhere('is.id_shop = :shopId')
                 ->setParameter('shopId', $shopConstraint->getShopId()->getValue())
+            ;
+        } elseif ($shopConstraint instanceof ShopCollection && $shopConstraint->hasShopIds()) {
+            $qb
+                ->andWhere('is.id_shop IN (:shopIds)')
+                ->setParameter(
+                    'shopIds',
+                    array_map(fn (ShopId $shopId) => $shopId->getValue(), $shopConstraint->getShopIds()),
+                    ArrayParameterType::INTEGER
+                )
             ;
         }
 

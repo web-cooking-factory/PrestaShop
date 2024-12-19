@@ -7,8 +7,8 @@
 @clear-cache-after-feature
 @product-multishop
 @product-management-shop-collection
-Feature: Copy product from shop to shop.
-  As a BO user I want to be able to copy product from shop to shop.
+Feature: Edit product with specific list of shops.
+  As a BO user I want to be able to edit a product for specific shops.
 
   Background:
     Given I enable multishop feature
@@ -25,6 +25,13 @@ Feature: Copy product from shop to shop.
     And attribute "Blue" named "Blue" in en language exists
     And manufacturer studioDesign named "Studio Design" exists
     And manufacturer graphicCorner named "Graphic Corner" exists
+    And following image types should be applicable to products:
+      | reference     | name           | width | height |
+      | cartDefault   | cart_default   | 125   | 125    |
+      | homeDefault   | home_default   | 250   | 250    |
+      | largeDefault  | large_default  | 800   | 800    |
+      | mediumDefault | medium_default | 452   | 452    |
+      | smallDefault  | small_default  | 98    | 98     |
     And shop "shop1" with name "test_shop" exists
     And shop group "default_shop_group" with name "Default" exists
     And I add a shop "shop2" with name "test_second_shop" and color "red" for the group "default_shop_group"
@@ -41,6 +48,7 @@ Feature: Copy product from shop to shop.
       | source shop | shop1                   |
       | shops       | shop1,shop2,shop3,shop4 |
     Then product product is associated to shops "shop1,shop2,shop3,shop4"
+    And product "product" should have no images
 
   Scenario: I can update product information for specific shops
     #
@@ -408,3 +416,66 @@ Feature: Copy product from shop to shop.
       | location |   |
       | quantity | 0 |
     And product "product" should have no stock movements for shop shop4
+
+  Scenario: I can upload and edit images for specific shops
+    When I add new image "image1" named "app_icon.png" to product "product" for shops "shop2,shop3"
+    Then image "image1" should have same file as "app_icon.png"
+    When I add new image "image2" named "logo.jpg" to product "product" for shops "shop1,shop2"
+    Then image "image2" should have same file as "logo.jpg"
+    When I add new image "image3" named "logo.jpg" to product "product" for shops "shop3,shop4"
+    Then image "image3" should have same file as "logo.jpg"
+    And images "[image1, image2,image3]" should have following types generated:
+      | name           | width | height |
+      | cart_default   | 125   | 125    |
+      | home_default   | 250   | 250    |
+      | large_default  | 800   | 800    |
+      | medium_default | 452   | 452    |
+      | small_default  | 98    | 98     |
+    # This always step returns all the images but the cover may vary depending on associations
+    # Shop1 only has image2 associated so it is the cover
+    And product "product" should have following images for shop "shop1":
+      | image reference | is cover | legend[en-US] | legend[fr-FR] | position | image url                            | thumbnail url                                      | shops       |
+      | image1          | false    |               |               | 1        | http://myshop.com/img/p/{image1}.jpg | http://myshop.com/img/p/{image1}-small_default.jpg | shop2,shop3 |
+      | image2          | true     |               |               | 2        | http://myshop.com/img/p/{image2}.jpg | http://myshop.com/img/p/{image2}-small_default.jpg | shop1,shop2 |
+      | image3          | false    |               |               | 3        | http://myshop.com/img/p/{image3}.jpg | http://myshop.com/img/p/{image3}-small_default.jpg | shop3,shop4 |
+    # Shop2 and Shop3 both have image1 associated first so it is their cover
+    And product "product" should have following images for shop "shop2,shop3":
+      | image reference | is cover | legend[en-US] | legend[fr-FR] | position | image url                            | thumbnail url                                      | shops       |
+      | image1          | true     |               |               | 1        | http://myshop.com/img/p/{image1}.jpg | http://myshop.com/img/p/{image1}-small_default.jpg | shop2,shop3 |
+      | image2          | false    |               |               | 2        | http://myshop.com/img/p/{image2}.jpg | http://myshop.com/img/p/{image2}-small_default.jpg | shop1,shop2 |
+      | image3          | false    |               |               | 3        | http://myshop.com/img/p/{image3}.jpg | http://myshop.com/img/p/{image3}-small_default.jpg | shop3,shop4 |
+    # Shop4 has image1 has cover even if it is not associated because it is the global cover as the first uploaded image
+    And product "product" should have following images for shop "shop4":
+      | image reference | is cover | legend[en-US] | legend[fr-FR] | position | image url                            | thumbnail url                                      | shops       |
+      | image1          | false    |               |               | 1        | http://myshop.com/img/p/{image1}.jpg | http://myshop.com/img/p/{image1}-small_default.jpg | shop2,shop3 |
+      | image2          | false    |               |               | 2        | http://myshop.com/img/p/{image2}.jpg | http://myshop.com/img/p/{image2}-small_default.jpg | shop1,shop2 |
+      | image3          | true     |               |               | 3        | http://myshop.com/img/p/{image3}.jpg | http://myshop.com/img/p/{image3}-small_default.jpg | shop3,shop4 |
+    # Update an image content for two shops only
+    When I update image "image3" with following information for shops "shop3,shop4":
+      | file          | app_icon.png       |
+      | legend[en-US] | preston is alive   |
+      | legend[fr-FR] | preston est vivant |
+      | position      | 2                  |
+      | cover         | true               |
+    # All the data are common to all shops, the only multishop info for now (aside from association) is the cover
+    Then image "image3" should have same file as "app_icon.png"
+    And product "product" should have following images for shop "shop1":
+      | image reference | is cover | legend[en-US]    | legend[fr-FR]      | position | image url                            | thumbnail url                                      | shops       |
+      | image1          | false    |                  |                    | 1        | http://myshop.com/img/p/{image1}.jpg | http://myshop.com/img/p/{image1}-small_default.jpg | shop2,shop3 |
+      | image3          | false    | preston is alive | preston est vivant | 2        | http://myshop.com/img/p/{image3}.jpg | http://myshop.com/img/p/{image3}-small_default.jpg | shop3,shop4 |
+      | image2          | true     |                  |                    | 3        | http://myshop.com/img/p/{image2}.jpg | http://myshop.com/img/p/{image2}-small_default.jpg | shop1,shop2 |
+    And product "product" should have following images for shop "shop2":
+      | image reference | is cover | legend[en-US]    | legend[fr-FR]      | position | image url                            | thumbnail url                                      | shops       |
+      | image1          | true     |                  |                    | 1        | http://myshop.com/img/p/{image1}.jpg | http://myshop.com/img/p/{image1}-small_default.jpg | shop2,shop3 |
+      | image3          | false    | preston is alive | preston est vivant | 2        | http://myshop.com/img/p/{image3}.jpg | http://myshop.com/img/p/{image3}-small_default.jpg | shop3,shop4 |
+      | image2          | false    |                  |                    | 3        | http://myshop.com/img/p/{image2}.jpg | http://myshop.com/img/p/{image2}-small_default.jpg | shop1,shop2 |
+    And product "product" should have following images for shop "shop3":
+      | image reference | is cover | legend[en-US]    | legend[fr-FR]      | position | image url                            | thumbnail url                                      | shops       |
+      | image1          | false    |                  |                    | 1        | http://myshop.com/img/p/{image1}.jpg | http://myshop.com/img/p/{image1}-small_default.jpg | shop2,shop3 |
+      | image3          | true     | preston is alive | preston est vivant | 2        | http://myshop.com/img/p/{image3}.jpg | http://myshop.com/img/p/{image3}-small_default.jpg | shop3,shop4 |
+      | image2          | false    |                  |                    | 3        | http://myshop.com/img/p/{image2}.jpg | http://myshop.com/img/p/{image2}-small_default.jpg | shop1,shop2 |
+    And product "product" should have following images for shop "shop4":
+      | image reference | is cover | legend[en-US]    | legend[fr-FR]      | position | image url                            | thumbnail url                                      | shops       |
+      | image1          | false    |                  |                    | 1        | http://myshop.com/img/p/{image1}.jpg | http://myshop.com/img/p/{image1}-small_default.jpg | shop2,shop3 |
+      | image3          | true     | preston is alive | preston est vivant | 2        | http://myshop.com/img/p/{image3}.jpg | http://myshop.com/img/p/{image3}-small_default.jpg | shop3,shop4 |
+      | image2          | false    |                  |                    | 3        | http://myshop.com/img/p/{image2}.jpg | http://myshop.com/img/p/{image2}-small_default.jpg | shop1,shop2 |
