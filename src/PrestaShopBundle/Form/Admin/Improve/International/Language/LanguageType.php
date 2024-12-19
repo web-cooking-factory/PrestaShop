@@ -105,7 +105,7 @@ class LanguageType extends TranslatorAwareType
                     'maxLength' => 5,
                 ],
                 'label' => $this->trans('Language code', 'Admin.International.Feature'),
-                'help' => $this->trans('IETF language tag (e.g. en-US, pt-BR) in lower case.', 'Admin.International.Help'),
+                'help' => $this->trans('IETF language tag (e.g. en-us, pt-br) in lower case.', 'Admin.International.Help'),
                 'constraints' => [
                     new NotBlank([
                         'message' => $this->trans('This field cannot be empty.', 'Admin.Notifications.Error'),
