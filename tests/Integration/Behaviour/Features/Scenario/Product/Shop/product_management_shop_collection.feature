@@ -571,3 +571,43 @@ Feature: Edit product with specific list of shops.
     And product otherProductCopy is not associated to shops "shop1,shop4"
     And default shop for product otherProductCopy is shop2
     And product "otherProductCopy" should be disabled for shops "shop2,shop3"
+
+  Scenario: I can edit categories for specific shops
+    Given category "home" in default language named "Home" exists
+    And category "home" is the default one
+    And category "men" in default language named "Men" exists
+    And category "clothes" in default language named "Clothes" exists
+    And category "women" in default language named "Women" exists
+    And category "accessories" in default language named "Accessories" exists
+    And I edit home category "home" with following details:
+      | associated shops | shop1,shop2,shop3,shop4 |
+    And I edit category "clothes" with following details:
+      | associated shops | shop1,shop2,shop3,shop4 |
+    And I edit category "accessories" with following details:
+      | associated shops | shop1,shop2,shop3,shop4 |
+    # Men is only associated in shop1
+    And I edit category "men" with following details:
+      | associated shops | shop1 |
+    # Women is only associated in shop2 and is the default category
+    And I edit category "women" with following details:
+      | associated shops | shop2 |
+    And I set "women" as default category for shop shop2
+    Given product "product" should be assigned to following categories for shops "shop1,shop2,shop3,shop4":
+      | id reference | name | is default |
+      | home         | Home | true       |
+    # Now we assign categories for specific shops
+    When I assign product product to following categories for shops shop1,shop3:
+      | categories       | [home, men, clothes] |
+      | default category | men                  |
+    # Category association is shared for all shops, the only thing that may vary is if the category is in the shop, the position and the default category
+    # Shop1 has the new update categories
+    Then product "product" should be assigned to following categories for shop shop1:
+      | id reference | name    | is default |
+      | home         | Home    | false      |
+      | men          | Men     | true       |
+      | clothes      | Clothes | false      |
+    # The other shops have a new category clothes but keeps home as default, they don't have men because it is only on shop1
+    And product "product" should be assigned to following categories for shops "shop2,shop3,shop4":
+      | id reference | name    | is default |
+      | home         | Home    | true       |
+      | clothes      | Clothes | false      |
