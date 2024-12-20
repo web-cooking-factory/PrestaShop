@@ -27,7 +27,7 @@ describe('API : Basic Test', async () => {
     it('should request the endpoint /hooks', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'requestNewApiHookStatus', baseContext);
 
-      const apiResponse = await apiContext.get('hooks');
+      const apiResponse = await apiContext.put('hooks');
       expect(apiResponse.status()).to.eq(405);
     });
   });
