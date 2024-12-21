@@ -48,7 +48,7 @@ class ShopChoiceTreeType extends AbstractType
     /**
      * @var DataTransformerInterface
      */
-     private $defaultLanguageToFilledArrayDataTransformer;
+    private $defaultLanguageToFilledArrayDataTransformer;
 
     /**
      * @var DataTransformerInterface
