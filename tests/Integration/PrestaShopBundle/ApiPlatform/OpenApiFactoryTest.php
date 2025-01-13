@@ -86,7 +86,9 @@ class OpenApiFactoryTest extends KernelTestCase
             ]),
         ];
 
-        // Type and shopId must use scalar type not ShopId and ProductType
+        // First productType and shopId must use scalar type, not ShopId and ProductType Value Objects
+        // Then shopID is removed because it's automatically feed from the context, and other fields are renamed to
+        // match the API format from the Api Resource class naming
         yield 'Product input for creation based on AddProductCommand' => [
             'Product.AddProductCommand',
             new ArrayObject([
@@ -94,15 +96,12 @@ class OpenApiFactoryTest extends KernelTestCase
                 'description' => '',
                 'deprecated' => false,
                 'properties' => [
-                    'productType' => new ArrayObject([
+                    'type' => new ArrayObject([
                         'type' => 'string',
                     ]),
-                    'localizedNames' => new ArrayObject([
+                    'names' => new ArrayObject([
                         'type' => 'array',
                         'items' => ['type' => 'string'],
-                    ]),
-                    'shopId' => new ArrayObject([
-                        'type' => 'integer',
                     ]),
                 ],
             ]),

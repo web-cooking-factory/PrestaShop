@@ -1,5 +1,5 @@
 # These decorators are used to generate the OpenApi Json schema automatically for CQRS commands with format and examples
-# matching our expected contract The interact with the implementation of API Platform that handles this Open API doc generation
+# matching our expected contract They interact with the implementation of API Platform that handles this Open API doc generation
 services:
   _defaults:
     public: false
@@ -23,3 +23,11 @@ services:
 
   prestashop_bundle.api_platform.open_api.reflection_extractor:
     class: Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor
+
+  # This decorator applies the CQRSCommandMapping on the full extracted schema
+  PrestaShopBundle\ApiPlatform\OpenApi\Factory\CQRSOpenApiFactory:
+    decorates: 'api_platform.openapi.factory'
+    decoration_on_invalid: ignore
+    arguments:
+      $decorated: '@.inner'
+      $definitionNameFactory: '@api_platform.json_schema.definition_name_factory'
