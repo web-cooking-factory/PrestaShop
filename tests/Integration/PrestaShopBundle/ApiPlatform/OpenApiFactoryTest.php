@@ -69,12 +69,18 @@ class OpenApiFactoryTest extends KernelTestCase
                         'type' => 'boolean',
                     ]),
                     'names' => new ArrayObject([
-                        'type' => 'array',
-                        'items' => ['type' => 'string'],
+                        'type' => 'object',
+                        'example' => [
+                            'en-US' => 'value',
+                            'fr-FR' => 'valeur',
+                        ],
                     ]),
                     'descriptions' => new ArrayObject([
-                        'type' => 'array',
-                        'items' => ['type' => 'string'],
+                        'type' => 'object',
+                        'example' => [
+                            'en-US' => 'value',
+                            'fr-FR' => 'valeur',
+                        ],
                     ]),
                     // Shop IDs are documented via an ApiProperty attribute
                     'shopIds' => new ArrayObject([
@@ -100,8 +106,11 @@ class OpenApiFactoryTest extends KernelTestCase
                         'type' => 'string',
                     ]),
                     'names' => new ArrayObject([
-                        'type' => 'array',
-                        'items' => ['type' => 'string'],
+                        'type' => 'object',
+                        'example' => [
+                            'en-US' => 'value',
+                            'fr-FR' => 'valeur',
+                        ],
                     ]),
                 ],
             ]),
