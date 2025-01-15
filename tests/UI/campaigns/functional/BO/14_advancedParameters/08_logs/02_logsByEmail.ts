@@ -6,7 +6,6 @@ import {resetSmtpConfigTest, setupSmtpConfigTest} from '@commonTests/BO/advanced
 import {createProductTest} from '@commonTests/BO/catalog/product';
 
 // Import pages
-import logsPage from '@pages/BO/advancedParameters/logs';
 import createProductsPage from '@pages/BO/catalog/products/add';
 
 import {expect} from 'chai';
@@ -14,6 +13,7 @@ import {faker} from '@faker-js/faker';
 import {
   boDashboardPage,
   boLoginPage,
+  boLogsPage,
   boProductsPage,
   type BrowserContext,
   dataEmployees,
@@ -84,31 +84,31 @@ describe('BO - Advanced Parameters - Logs : Logs by email', async () => {
       await testContext.addContextItem(this, 'testIdentifier', 'goToLogsPageToEraseLogs', baseContext);
 
       await boDashboardPage.goToSubMenu(page, boDashboardPage.advancedParametersLink, boDashboardPage.logsLink);
-      await logsPage.closeSfToolBar(page);
+      await boLogsPage.closeSfToolBar(page);
 
-      const pageTitle = await logsPage.getPageTitle(page);
-      expect(pageTitle).to.contains(logsPage.pageTitle);
+      const pageTitle = await boLogsPage.getPageTitle(page);
+      expect(pageTitle).to.contains(boLogsPage.pageTitle);
     });
 
     it('should enter an invalid email in \'Send emails to\' input and check the error message', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'setInvalidEmail', baseContext);
 
-      const errorMessage = await logsPage.setEmail(page, 'demo@prestashop.');
+      const errorMessage = await boLogsPage.setEmail(page, 'demo@prestashop.');
       expect(errorMessage).to.eq('Invalid email: demo@prestashop..');
     });
 
     it('should enter a valid email in \'Send emails to\' input', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'setValidEmail', baseContext);
 
-      const errorMessage = await logsPage.setEmail(page, dataEmployees.defaultEmployee.email);
-      expect(errorMessage).to.eq(logsPage.successfulUpdateMessage);
+      const errorMessage = await boLogsPage.setEmail(page, dataEmployees.defaultEmployee.email);
+      expect(errorMessage).to.eq(boLogsPage.successfulUpdateMessage);
     });
 
     it('should choose \'Informative Only\' in minimum severity level', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'chooseSeverity', baseContext);
 
-      const errorMessage = await logsPage.setMinimumSeverityLevel(page, 'Informative only');
-      expect(errorMessage).to.eq(logsPage.successfulUpdateMessage);
+      const errorMessage = await boLogsPage.setMinimumSeverityLevel(page, 'Informative only');
+      expect(errorMessage).to.eq(boLogsPage.successfulUpdateMessage);
     });
 
     it('should go to \'Catalog > Products\' page', async function () {
