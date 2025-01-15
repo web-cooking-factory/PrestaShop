@@ -3,11 +3,11 @@ import testContext from '@utils/testContext';
 
 // Import pages
 // Import BO pages
-import addCustomerPage from '@pages/BO/customers/add';
 import viewCustomerPage from '@pages/BO/customers/view';
 
 import {
   boCustomersPage,
+  boCustomersCreatePage,
   boDashboardPage,
   boLoginPage,
   type BrowserContext,
@@ -82,14 +82,14 @@ describe('BO - Customers - Customers : CRUD Customer in BO', async () => {
 
       await boCustomersPage.goToAddNewCustomerPage(page);
 
-      const pageTitle = await addCustomerPage.getPageTitle(page);
-      expect(pageTitle).to.contains(addCustomerPage.pageTitleCreate);
+      const pageTitle = await boCustomersCreatePage.getPageTitle(page);
+      expect(pageTitle).to.contains(boCustomersCreatePage.pageTitleCreate);
     });
 
     it('should create customer and check result', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'createCustomer', baseContext);
 
-      const textResult = await addCustomerPage.createEditCustomer(page, createCustomerData);
+      const textResult = await boCustomersCreatePage.createEditCustomer(page, createCustomerData);
       expect(textResult).to.equal(boCustomersPage.successfulCreationMessage);
 
       const numberOfCustomersAfterCreation = await boCustomersPage.getNumberOfElementInGrid(page);
@@ -209,14 +209,14 @@ describe('BO - Customers - Customers : CRUD Customer in BO', async () => {
 
       await boCustomersPage.goToEditCustomerPage(page, 1);
 
-      const pageTitle = await addCustomerPage.getPageTitle(page);
-      expect(pageTitle).to.contains(addCustomerPage.pageTitleEdit);
+      const pageTitle = await boCustomersCreatePage.getPageTitle(page);
+      expect(pageTitle).to.contains(boCustomersCreatePage.pageTitleEdit);
     });
 
     it('should update customer', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'updateCustomer', baseContext);
 
-      const textResult = await addCustomerPage.createEditCustomer(page, editCustomerData);
+      const textResult = await boCustomersCreatePage.createEditCustomer(page, editCustomerData);
       expect(textResult).to.equal(boCustomersPage.successfulUpdateMessage);
 
       const numberOfCustomersAfterUpdate = await boCustomersPage.resetAndGetNumberOfLines(page);

@@ -14,7 +14,6 @@ import productCommentsPage from '@pages/BO/modules/productComments';
 import {orderHistoryPage} from '@pages/FO/classic/myAccount/orderHistory';
 import {orderDetailsPage} from '@pages/FO/classic/myAccount/orderDetails';
 import {merchandiseReturnsPage as foMerchandiseReturnsPage} from '@pages/FO/classic/myAccount/merchandiseReturns';
-import addCustomerPage from '@pages/BO/customers/add';
 
 // Import common tests
 import {enableMerchandiseReturns, disableMerchandiseReturns} from '@commonTests/BO/customerService/merchandiseReturns';
@@ -23,6 +22,7 @@ import {deleteCustomerTest} from '@commonTests/BO/customers/customer';
 
 import {
   boCustomersPage,
+  boCustomersCreatePage,
   boDashboardPage,
   boLoginPage,
   boOrdersPage,
@@ -600,7 +600,7 @@ describe('BO - Dashboard : Activity overview', async () => {
 
         await boCustomersPage.goToAddNewCustomerPage(page);
 
-        const textResult = await addCustomerPage.createEditCustomer(page, createCustomerData);
+        const textResult = await boCustomersCreatePage.createEditCustomer(page, createCustomerData);
         expect(textResult).to.equal(boCustomersPage.successfulCreationMessage);
 
         await boCustomersPage.setNewsletterStatus(page, 1, true);

@@ -6,10 +6,10 @@ import statsPage from '@pages/BO/stats';
 import newCategoryPage from '@pages/BO/catalog/categories/add';
 import newVoucherPage from '@pages/BO/catalog/discounts/add';
 import addNewQuickAccessPage from '@pages/BO/quickAccess/add';
-import newCustomerPage from '@pages/BO/customers/add';
 
 import {expect} from 'chai';
 import {
+  boCustomersCreatePage,
   boDashboardPage,
   boLoginPage,
   boOrdersPage,
@@ -130,14 +130,14 @@ describe('BO - Header : Quick access links', async () => {
 
       page = await boDashboardPage.quickAccessToPageNewWindow(page, quickAccessLinkData.name);
 
-      const pageTitle = await newCustomerPage.getPageTitle(page);
-      expect(pageTitle).to.contains(newCustomerPage.pageTitleCreate);
+      const pageTitle = await boCustomersCreatePage.getPageTitle(page);
+      expect(pageTitle).to.contains(boCustomersCreatePage.pageTitleCreate);
     });
 
     it('should go to \'Manage quick access\' page', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'goToManageQuickAccessPageToDeleteLink', baseContext);
 
-      await newCustomerPage.goToManageQuickAccessPage(page);
+      await boCustomersCreatePage.goToManageQuickAccessPage(page);
 
       const pageTitle = await boQuickAccessPage.getPageTitle(page);
       expect(pageTitle).to.contains(boQuickAccessPage.pageTitle);

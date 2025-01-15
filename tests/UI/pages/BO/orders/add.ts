@@ -1,8 +1,7 @@
-// Import BO pages
 import BOBasePage from '@pages/BO/BObasePage';
-import addCustomerPage from '@pages/BO/customers/add';
 
 import {
+  boCustomersCreatePage,
   type FakerCustomer,
   type FakerOrderStatus,
   type FakerProduct,
@@ -426,8 +425,8 @@ class AddOrder extends BOBasePage {
       throw new Error('The customerFrame doesn\'t exist!');
     }
 
-    await addCustomerPage.closeSfToolBar(customerFrame!);
-    await addCustomerPage.createEditCustomer(customerFrame!, customerData, false);
+    await boCustomersCreatePage.closeSfToolBar(customerFrame!);
+    await boCustomersCreatePage.createEditCustomer(customerFrame!, customerData, false);
 
     await this.waitForHiddenSelector(page, this.iframe);
 
