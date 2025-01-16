@@ -6,7 +6,6 @@ import statsPage from '@pages/BO/stats';
 import {viewOrderBasePage} from '@pages/BO/orders/view/viewOrderBasePage';
 import merchandiseReturnsPage from '@pages/BO/customerService/merchandiseReturns';
 import monitoringPage from '@pages/BO/catalog/monitoring';
-import createProductPage from '@pages/BO/catalog/products/add';
 import customerServicePage from '@pages/BO/customerService/customerService';
 import productCommentsPage from '@pages/BO/modules/productComments';
 
@@ -27,6 +26,7 @@ import {
   boLoginPage,
   boOrdersPage,
   boProductsPage,
+  boProductsCreatePage,
   boShoppingCartsPage,
   type BrowserContext,
   dataCustomers,
@@ -438,15 +438,15 @@ describe('BO - Dashboard : Activity overview', async () => {
         await boProductsPage.selectProductType(page, productData.type);
         await boProductsPage.clickOnAddNewProduct(page);
 
-        const pageTitle = await createProductPage.getPageTitle(page);
-        expect(pageTitle).to.contains(createProductPage.pageTitle);
+        const pageTitle = await boProductsCreatePage.getPageTitle(page);
+        expect(pageTitle).to.contains(boProductsCreatePage.pageTitle);
       });
 
       it('should create out of stock product', async function () {
         await testContext.addContextItem(this, 'testIdentifier', 'createStandardProduct', baseContext);
 
-        const createProductMessage = await createProductPage.setProduct(page, productData);
-        expect(createProductMessage).to.equal(createProductPage.successfulUpdateMessage);
+        const createProductMessage = await boProductsCreatePage.setProduct(page, productData);
+        expect(createProductMessage).to.equal(boProductsCreatePage.successfulUpdateMessage);
       });
 
       it('should go back to dashboard page', async function () {

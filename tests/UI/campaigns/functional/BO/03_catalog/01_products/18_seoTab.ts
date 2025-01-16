@@ -1,15 +1,12 @@
-// Import utils
 import testContext from '@utils/testContext';
-
-// Import BO pages
-import createProductPage from '@pages/BO/catalog/products/add';
 import seoTab from '@pages/BO/catalog/products/add/seoTab';
-
 import {expect} from 'chai';
+
 import {
   boDashboardPage,
   boLoginPage,
   boProductsPage,
+  boProductsCreatePage,
   type BrowserContext,
   dataProducts,
   FakerProduct,
@@ -90,15 +87,15 @@ describe('BO - Catalog - Products : Seo tab', async () => {
       await boProductsPage.selectProductType(page, newProductData.type);
       await boProductsPage.clickOnAddNewProduct(page);
 
-      const pageTitle = await createProductPage.getPageTitle(page);
-      await expect(pageTitle).to.contains(createProductPage.pageTitle);
+      const pageTitle = await boProductsCreatePage.getPageTitle(page);
+      await expect(pageTitle).to.contains(boProductsCreatePage.pageTitle);
     });
 
     it('should create standard product', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'createStandardProduct', baseContext);
 
-      const createProductMessage = await createProductPage.setProduct(page, newProductData);
-      await expect(createProductMessage).to.equal(createProductPage.successfulUpdateMessage);
+      const createProductMessage = await boProductsCreatePage.setProduct(page, newProductData);
+      await expect(createProductMessage).to.equal(boProductsCreatePage.successfulUpdateMessage);
     });
   });
 
@@ -107,11 +104,11 @@ describe('BO - Catalog - Products : Seo tab', async () => {
     it('should fill all fields on SEO Tab and check the error message', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'checkErrorMessage', baseContext);
 
-      await createProductPage.goToTab(page, 'seo');
+      await boProductsCreatePage.goToTab(page, 'seo');
       await seoTab.setMetaTitle(page, editProductData.metaTitle!);
       await seoTab.setMetaDescription(page, editProductData.metaDescription!);
       await seoTab.setFriendlyUrl(page, editProductData.friendlyUrl!);
-      await createProductPage.clickOnSaveProductButton(page);
+      await boProductsCreatePage.clickOnSaveProductButton(page);
 
       const errorMessage = await seoTab.getErrorMessageOfFriendlyUrl(page);
       expect(errorMessage).to.eq('"lorem ipsum" is invalid - Language: English (English)');
@@ -122,8 +119,8 @@ describe('BO - Catalog - Products : Seo tab', async () => {
 
       await seoTab.setFriendlyUrl(page, 'lorem-ipsum');
 
-      const message = await createProductPage.saveProduct(page);
-      expect(message).to.eq(createProductPage.successfulUpdateMessage);
+      const message = await boProductsCreatePage.saveProduct(page);
+      expect(message).to.eq(boProductsCreatePage.successfulUpdateMessage);
     });
 
     it('should reset URL', async function () {
@@ -131,8 +128,8 @@ describe('BO - Catalog - Products : Seo tab', async () => {
 
       await seoTab.clickOnGenerateUrlFromNameButton(page);
 
-      const message = await createProductPage.saveProduct(page);
-      expect(message).to.eq(createProductPage.successfulUpdateMessage);
+      const message = await boProductsCreatePage.saveProduct(page);
+      expect(message).to.eq(boProductsCreatePage.successfulUpdateMessage);
 
       const friendlyUrl = await seoTab.getValue(page, 'link_rewrite', '1');
       expect(friendlyUrl).to.eq('oriental-fresh-chair');
@@ -141,10 +138,10 @@ describe('BO - Catalog - Products : Seo tab', async () => {
     it('should switch the product status to off', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'switchProductStatusToOff', baseContext);
 
-      await createProductPage.setProductStatus(page, false);
+      await boProductsCreatePage.setProductStatus(page, false);
 
-      const message = await createProductPage.saveProduct(page);
-      expect(message).to.eq(createProductPage.successfulUpdateMessage);
+      const message = await boProductsCreatePage.saveProduct(page);
+      expect(message).to.eq(boProductsCreatePage.successfulUpdateMessage);
     });
 
     it(`'should choose redirectionPage 'Products : ${dataProducts.demo_1.name}'`, async function () {
@@ -153,15 +150,15 @@ describe('BO - Catalog - Products : Seo tab', async () => {
       await seoTab.selectRedirectionPage(page, 'Permanent redirection to a product (301)');
       await seoTab.searchOptionTarget(page, dataProducts.demo_1.name);
 
-      const message = await createProductPage.saveProduct(page);
-      expect(message).to.eq(createProductPage.successfulUpdateMessage);
+      const message = await boProductsCreatePage.saveProduct(page);
+      expect(message).to.eq(boProductsCreatePage.successfulUpdateMessage);
     });
 
     it(`should preview product and check '${dataProducts.demo_1.name}' page`, async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'previewProduct2', baseContext);
 
       // Click on preview button
-      page = await createProductPage.previewProduct(page);
+      page = await boProductsCreatePage.previewProduct(page);
       await foClassicProductPage.changeLanguage(page, 'en');
 
       const pageTitle = await foClassicProductPage.getPageTitle(page);
@@ -174,8 +171,8 @@ describe('BO - Catalog - Products : Seo tab', async () => {
       // Go back to BO
       page = await foClassicProductPage.closePage(browserContext, page, 0);
 
-      const pageTitle = await createProductPage.getPageTitle(page);
-      expect(pageTitle).to.contains(createProductPage.pageTitle);
+      const pageTitle = await boProductsCreatePage.getPageTitle(page);
+      expect(pageTitle).to.contains(boProductsCreatePage.pageTitle);
     });
 
     it('should choose redirectionPage \'Category : Home accessories\'', async function () {
@@ -184,15 +181,15 @@ describe('BO - Catalog - Products : Seo tab', async () => {
       await seoTab.selectRedirectionPage(page, 'Permanent redirection to a category (301)');
       await seoTab.searchOptionTarget(page, 'Home accessories');
 
-      const message = await createProductPage.saveProduct(page);
-      expect(message).to.eq(createProductPage.successfulUpdateMessage);
+      const message = await boProductsCreatePage.saveProduct(page);
+      expect(message).to.eq(boProductsCreatePage.successfulUpdateMessage);
     });
 
     it('should preview product and check \'Home Accessories\' page', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'previewProduct', baseContext);
 
       // Click on preview button
-      page = await createProductPage.previewProduct(page);
+      page = await boProductsCreatePage.previewProduct(page);
       const currentUrl = await foClassicProductPage.getCurrentURL(page);
       const newUrl = currentUrl.split('token');
       await foClassicProductPage.goTo(page, newUrl[0]);
@@ -208,8 +205,8 @@ describe('BO - Catalog - Products : Seo tab', async () => {
       // Go back to BO
       page = await foClassicProductPage.closePage(browserContext, page, 0);
 
-      const pageTitle = await createProductPage.getPageTitle(page);
-      expect(pageTitle).to.contains(createProductPage.pageTitle);
+      const pageTitle = await boProductsCreatePage.getPageTitle(page);
+      expect(pageTitle).to.contains(boProductsCreatePage.pageTitle);
     });
 
     it('should add tag', async function () {
@@ -217,24 +214,24 @@ describe('BO - Catalog - Products : Seo tab', async () => {
 
       await seoTab.setTag(page, 'welcome');
 
-      const message = await createProductPage.saveProduct(page);
-      expect(message).to.eq(createProductPage.successfulUpdateMessage);
+      const message = await boProductsCreatePage.saveProduct(page);
+      expect(message).to.eq(boProductsCreatePage.successfulUpdateMessage);
     });
 
     it('should switch the product status to on', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'switchProductStatusToOn', baseContext);
 
-      await createProductPage.setProductStatus(page, true);
+      await boProductsCreatePage.setProductStatus(page, true);
 
-      const message = await createProductPage.saveProduct(page);
-      expect(message).to.eq(createProductPage.successfulUpdateMessage);
+      const message = await boProductsCreatePage.saveProduct(page);
+      expect(message).to.eq(boProductsCreatePage.successfulUpdateMessage);
     });
 
     it('should preview product', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'previewProduct3', baseContext);
 
       // Click on preview button
-      page = await createProductPage.previewProduct(page);
+      page = await boProductsCreatePage.previewProduct(page);
       await foClassicProductPage.changeLanguage(page, 'en');
 
       const pageTitle = await foClassicProductPage.getPageTitle(page);
@@ -259,8 +256,8 @@ describe('BO - Catalog - Products : Seo tab', async () => {
       // Go back to BO
       page = await foClassicProductPage.closePage(browserContext, page, 0);
 
-      const pageTitle = await createProductPage.getPageTitle(page);
-      expect(pageTitle).to.contains(createProductPage.pageTitle);
+      const pageTitle = await boProductsCreatePage.getPageTitle(page);
+      expect(pageTitle).to.contains(boProductsCreatePage.pageTitle);
     });
   });
 
@@ -269,7 +266,7 @@ describe('BO - Catalog - Products : Seo tab', async () => {
     it('should delete product', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'deleteProduct', baseContext);
 
-      const createProductMessage = await createProductPage.deleteProduct(page);
+      const createProductMessage = await boProductsCreatePage.deleteProduct(page);
       expect(createProductMessage).to.equal(boProductsPage.successfulDeleteMessage);
     });
   });

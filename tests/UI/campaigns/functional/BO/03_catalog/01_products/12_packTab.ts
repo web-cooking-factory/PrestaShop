@@ -1,18 +1,13 @@
-// Import utils
 import testContext from '@utils/testContext';
-
-// Import common tests
 import {deleteProductTest} from '@commonTests/BO/catalog/product';
-
-// Import pages
-// Import BO pages
-import createProductsPage from '@pages/BO/catalog/products/add';
+import {expect} from 'chai';
 
 import {
   boDashboardPage,
   boLoginPage,
   boOrdersPage,
   boProductsPage,
+  boProductsCreatePage,
   boProductsCreateTabPackPage,
   boProductsCreateTabPricingPage,
   type BrowserContext,
@@ -30,7 +25,6 @@ import {
   utilsPlaywright,
 } from '@prestashop-core/ui-testing';
 
-import {expect} from 'chai';
 
 const baseContext: string = 'functional_BO_catalog_products_packTab';
 
@@ -134,8 +128,8 @@ describe('BO - Catalog - Products : Pack Tab', async () => {
 
       await boProductsPage.selectProductType(page, 'pack');
 
-      const pageTitle = await createProductsPage.getPageTitle(page);
-      expect(pageTitle).to.contains(createProductsPage.pageTitle);
+      const pageTitle = await boProductsCreatePage.getPageTitle(page);
+      expect(pageTitle).to.contains(boProductsCreatePage.pageTitle);
     });
 
     it('should go to new product page', async function () {
@@ -143,19 +137,19 @@ describe('BO - Catalog - Products : Pack Tab', async () => {
 
       await boProductsPage.clickOnAddNewProduct(page);
 
-      const pageTitle = await createProductsPage.getPageTitle(page);
-      expect(pageTitle).to.contains(createProductsPage.pageTitle);
+      const pageTitle = await boProductsCreatePage.getPageTitle(page);
+      expect(pageTitle).to.contains(boProductsCreatePage.pageTitle);
     });
 
     it('should edit the product name', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'editProductNameEn', baseContext);
 
-      await createProductsPage.setProductName(page, productNameEn, 'en');
-      await createProductsPage.setProductName(page, productNameFr, 'fr');
-      await createProductsPage.setProductStatus(page, true);
+      await boProductsCreatePage.setProductName(page, productNameEn, 'en');
+      await boProductsCreatePage.setProductName(page, productNameFr, 'fr');
+      await boProductsCreatePage.setProductStatus(page, true);
 
-      const message = await createProductsPage.saveProduct(page);
-      expect(message).to.eq(createProductsPage.successfulUpdateMessage);
+      const message = await boProductsCreatePage.saveProduct(page);
+      expect(message).to.eq(boProductsCreatePage.successfulUpdateMessage);
     });
   });
 
@@ -164,9 +158,9 @@ describe('BO - Catalog - Products : Pack Tab', async () => {
       await testContext.addContextItem(this, 'testIdentifier', 'goToPackTab', baseContext);
 
       // The Pack Tab has the identifier `stock`
-      await createProductsPage.goToTab(page, 'stock');
+      await boProductsCreatePage.goToTab(page, 'stock');
 
-      const isTabActive = await createProductsPage.isTabActive(page, 'stock');
+      const isTabActive = await boProductsCreatePage.isTabActive(page, 'stock');
       expect(isTabActive).to.be.eq(true);
     });
 
@@ -175,8 +169,8 @@ describe('BO - Catalog - Products : Pack Tab', async () => {
 
       await boProductsCreateTabPackPage.addProductToPack(page, 'shirt', 1);
 
-      const updateProductMessage = await createProductsPage.saveProduct(page);
-      expect(updateProductMessage).to.equal(createProductsPage.successfulUpdateMessage);
+      const updateProductMessage = await boProductsCreatePage.saveProduct(page);
+      expect(updateProductMessage).to.equal(boProductsCreatePage.successfulUpdateMessage);
 
       const numberOfProducts = await boProductsCreateTabPackPage.getNumberOfProductsInPack(page);
       expect(numberOfProducts).to.equal(1);
@@ -198,8 +192,8 @@ describe('BO - Catalog - Products : Pack Tab', async () => {
 
       await boProductsCreateTabPackPage.addProductToPack(page, dataProducts.demo_14.reference, 1);
 
-      const updateProductMessage = await createProductsPage.saveProduct(page);
-      expect(updateProductMessage).to.equal(createProductsPage.successfulUpdateMessage);
+      const updateProductMessage = await boProductsCreatePage.saveProduct(page);
+      expect(updateProductMessage).to.equal(boProductsCreatePage.successfulUpdateMessage);
 
       const numberOfProducts = await boProductsCreateTabPackPage.getNumberOfProductsInPack(page);
       expect(numberOfProducts).to.equal(2);
@@ -217,8 +211,8 @@ describe('BO - Catalog - Products : Pack Tab', async () => {
 
       await boProductsCreateTabPackPage.setProductQuantity(page, 0, productQuantity);
 
-      const updateProductMessage = await createProductsPage.saveProduct(page);
-      expect(updateProductMessage).to.equal(createProductsPage.successfulUpdateMessage);
+      const updateProductMessage = await boProductsCreatePage.saveProduct(page);
+      expect(updateProductMessage).to.equal(boProductsCreatePage.successfulUpdateMessage);
 
       const numberOfProducts = await boProductsCreateTabPackPage.getNumberOfProductsInPack(page);
       expect(numberOfProducts).to.equal(2);
@@ -240,8 +234,8 @@ describe('BO - Catalog - Products : Pack Tab', async () => {
 
       await boProductsCreateTabPackPage.deleteProduct(page, 2, true);
 
-      const updateProductMessage = await createProductsPage.saveProduct(page);
-      expect(updateProductMessage).to.equal(createProductsPage.successfulUpdateMessage);
+      const updateProductMessage = await boProductsCreatePage.saveProduct(page);
+      expect(updateProductMessage).to.equal(boProductsCreatePage.successfulUpdateMessage);
 
       const numberOfProducts = await boProductsCreateTabPackPage.getNumberOfProductsInPack(page);
       expect(numberOfProducts).to.equal(1);
@@ -252,8 +246,8 @@ describe('BO - Catalog - Products : Pack Tab', async () => {
 
       await boProductsCreateTabPackPage.addProductToPack(page, dataProducts.demo_9.reference, 1);
 
-      const updateProductMessage = await createProductsPage.saveProduct(page);
-      expect(updateProductMessage).to.equal(createProductsPage.successfulUpdateMessage);
+      const updateProductMessage = await boProductsCreatePage.saveProduct(page);
+      expect(updateProductMessage).to.equal(boProductsCreatePage.successfulUpdateMessage);
 
       const numberOfProducts = await boProductsCreateTabPackPage.getNumberOfProductsInPack(page);
       expect(numberOfProducts).to.equal(2);
@@ -274,16 +268,16 @@ describe('BO - Catalog - Products : Pack Tab', async () => {
 
       await boProductsCreateTabPackPage.editQuantity(page, productStock);
 
-      const updateProductMessage = await createProductsPage.saveProduct(page);
-      expect(updateProductMessage).to.equal(createProductsPage.successfulUpdateMessage);
+      const updateProductMessage = await boProductsCreatePage.saveProduct(page);
+      expect(updateProductMessage).to.equal(boProductsCreatePage.successfulUpdateMessage);
     });
 
     it('should go to the Pricing tab', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'goToPricingTab', baseContext);
 
-      await createProductsPage.goToTab(page, 'pricing');
+      await boProductsCreatePage.goToTab(page, 'pricing');
 
-      const isTabActive = await createProductsPage.isTabActive(page, 'pricing');
+      const isTabActive = await boProductsCreatePage.isTabActive(page, 'pricing');
       expect(isTabActive).to.be.eq(true);
     });
 
@@ -292,10 +286,10 @@ describe('BO - Catalog - Products : Pack Tab', async () => {
 
       await boProductsCreateTabPricingPage.setRetailPrice(page, true, productRetailPrice);
 
-      const message = await createProductsPage.saveProduct(page);
-      expect(message).to.eq(createProductsPage.successfulUpdateMessage);
+      const message = await boProductsCreatePage.saveProduct(page);
+      expect(message).to.eq(boProductsCreatePage.successfulUpdateMessage);
 
-      const productHeaderSummary = await createProductsPage.getProductHeaderSummary(page);
+      const productHeaderSummary = await boProductsCreatePage.getProductHeaderSummary(page);
       expect(productHeaderSummary.priceTaxExc).to.equals(`€${productRetailPrice.toFixed(2)} tax excl.`);
 
       const taxValue = await utilsCore.percentage(productRetailPrice, mostUsedTaxValue);
@@ -307,7 +301,7 @@ describe('BO - Catalog - Products : Pack Tab', async () => {
     it('should preview the product on front-office', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'previewPack', baseContext);
 
-      page = await createProductsPage.previewProduct(page);
+      page = await boProductsCreatePage.previewProduct(page);
       await foClassicProductPage.changeLanguage(page, 'en');
 
       const pageTitle: string = await foClassicProductPage.getPageTitle(page);
@@ -389,17 +383,17 @@ describe('BO - Catalog - Products : Pack Tab', async () => {
       page = await foClassicCheckoutOrderConfirmationPage.closePage(browserContext, page, 0);
       await page.reload();
 
-      const pageTitle = await createProductsPage.getPageTitle(page);
-      expect(pageTitle).to.contains(createProductsPage.pageTitle);
+      const pageTitle = await boProductsCreatePage.getPageTitle(page);
+      expect(pageTitle).to.contains(boProductsCreatePage.pageTitle);
     });
 
     it('should return to the Pack tab', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'returnToPackTab', baseContext);
 
       // The Pack Tab has the identifier `stock`
-      await createProductsPage.goToTab(page, 'stock');
+      await boProductsCreatePage.goToTab(page, 'stock');
 
-      const isTabActive = await createProductsPage.isTabActive(page, 'stock');
+      const isTabActive = await boProductsCreatePage.isTabActive(page, 'stock');
       expect(isTabActive).to.be.eq(true);
     });
 
@@ -451,17 +445,17 @@ describe('BO - Catalog - Products : Pack Tab', async () => {
 
       await boProductsPage.goToProductPage(page);
 
-      const pageTitle: string = await createProductsPage.getPageTitle(page);
-      expect(pageTitle).to.contains(createProductsPage.pageTitle);
+      const pageTitle: string = await boProductsCreatePage.getPageTitle(page);
+      expect(pageTitle).to.contains(boProductsCreatePage.pageTitle);
     });
 
     it('should return to the Pack tab', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'returnToPackTab1', baseContext);
 
       // The Pack Tab has the identifier `stock`
-      await createProductsPage.goToTab(page, 'stock');
+      await boProductsCreatePage.goToTab(page, 'stock');
 
-      const isTabActive = await createProductsPage.isTabActive(page, 'stock');
+      const isTabActive = await boProductsCreatePage.isTabActive(page, 'stock');
       expect(isTabActive).to.be.eq(true);
     });
 
@@ -483,14 +477,14 @@ describe('BO - Catalog - Products : Pack Tab', async () => {
 
       await boProductsCreateTabPackPage.editPackStockType(page, 'Use quantity of products in the pack');
 
-      const updateProductMessage = await createProductsPage.saveProduct(page);
-      expect(updateProductMessage).to.equal(createProductsPage.successfulUpdateMessage);
+      const updateProductMessage = await boProductsCreatePage.saveProduct(page);
+      expect(updateProductMessage).to.equal(boProductsCreatePage.successfulUpdateMessage);
     });
 
     it('should preview the product on front-office', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'previewPack2', baseContext);
 
-      page = await createProductsPage.previewProduct(page);
+      page = await boProductsCreatePage.previewProduct(page);
       await foClassicProductPage.changeLanguage(page, 'en');
 
       const pageTitle: string = await foClassicProductPage.getPageTitle(page);
@@ -527,8 +521,8 @@ describe('BO - Catalog - Products : Pack Tab', async () => {
 
       page = await foClassicCheckoutOrderConfirmationPage.closePage(browserContext, page, 0);
 
-      const pageTitle = await createProductsPage.getPageTitle(page);
-      expect(pageTitle).to.contains(createProductsPage.pageTitle);
+      const pageTitle = await boProductsCreatePage.getPageTitle(page);
+      expect(pageTitle).to.contains(boProductsCreatePage.pageTitle);
     });
 
     it('should go to \'Catalog > Products\' page', async function () {

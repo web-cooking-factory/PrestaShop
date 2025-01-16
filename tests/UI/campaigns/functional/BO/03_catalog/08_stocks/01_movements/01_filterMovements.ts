@@ -7,7 +7,6 @@ import cleanTableStockMovements from '@commonTests/BO/catalog/stock';
 
 // Import pages
 // Import BO pages
-import addProductPage from '@pages/BO/catalog/products/add';
 import combinationsTab from '@pages/BO/catalog/products/add/combinationsTab';
 import movementsPage from '@pages/BO/catalog/stocks/movements';
 
@@ -17,6 +16,7 @@ import {
   boOrdersPage,
   boOrdersViewBlockProductsPage,
   boProductsPage,
+  boProductsCreatePage,
   boStockPage,
   type BrowserContext,
   dataCategories,
@@ -392,16 +392,16 @@ describe('BO - Stocks - Movements : Filter by category, movement type, employee 
 
         await boProductsPage.goToProductPage(page, 1);
 
-        const pageTitle = await addProductPage.getPageTitle(page);
-        expect(pageTitle).to.contains(addProductPage.pageTitle);
+        const pageTitle = await boProductsCreatePage.getPageTitle(page);
+        expect(pageTitle).to.contains(boProductsCreatePage.pageTitle);
       });
 
       it('should go to the Combinations tab', async function () {
         await testContext.addContextItem(this, 'testIdentifier', 'goToCombinationsTab', baseContext);
 
-        await addProductPage.goToTab(page, 'combinations');
+        await boProductsCreatePage.goToTab(page, 'combinations');
 
-        const isTabActive = await addProductPage.isTabActive(page, 'combinations');
+        const isTabActive = await boProductsCreatePage.isTabActive(page, 'combinations');
         expect(isTabActive).to.eq(true);
       });
 
@@ -593,17 +593,17 @@ describe('BO - Stocks - Movements : Filter by category, movement type, employee 
 
         await boProductsPage.goToProductPage(page, 1);
 
-        const pageTitle = await addProductPage.getPageTitle(page);
-        expect(pageTitle).to.contains(addProductPage.pageTitle);
+        const pageTitle = await boProductsCreatePage.getPageTitle(page);
+        expect(pageTitle).to.contains(boProductsCreatePage.pageTitle);
       });
 
       it('should disable the product', async function () {
         await testContext.addContextItem(this, 'testIdentifier', 'disableProduct', baseContext);
 
-        await addProductPage.setProductStatus(page, false);
+        await boProductsCreatePage.setProductStatus(page, false);
 
-        const updateProductMessage = await addProductPage.saveProduct(page);
-        expect(updateProductMessage).to.equal(addProductPage.successfulUpdateMessage);
+        const updateProductMessage = await boProductsCreatePage.saveProduct(page);
+        expect(updateProductMessage).to.equal(boProductsCreatePage.successfulUpdateMessage);
       });
     });
 
@@ -690,17 +690,17 @@ describe('BO - Stocks - Movements : Filter by category, movement type, employee 
 
         await boProductsPage.goToProductPage(page, 1);
 
-        const pageTitle = await addProductPage.getPageTitle(page);
-        expect(pageTitle).to.contains(addProductPage.pageTitle);
+        const pageTitle = await boProductsCreatePage.getPageTitle(page);
+        expect(pageTitle).to.contains(boProductsCreatePage.pageTitle);
       });
 
       it('should enable the product', async function () {
         await testContext.addContextItem(this, 'testIdentifier', 'enableProduct', baseContext);
 
-        await addProductPage.setProductStatus(page, true);
+        await boProductsCreatePage.setProductStatus(page, true);
 
-        const updateProductMessage = await addProductPage.saveProduct(page);
-        expect(updateProductMessage).to.equal(addProductPage.successfulUpdateMessage);
+        const updateProductMessage = await boProductsCreatePage.saveProduct(page);
+        expect(updateProductMessage).to.equal(boProductsCreatePage.successfulUpdateMessage);
       });
     });
   });

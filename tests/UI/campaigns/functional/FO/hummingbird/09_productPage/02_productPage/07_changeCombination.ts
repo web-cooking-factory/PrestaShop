@@ -1,23 +1,18 @@
-// Import utils
 import testContext from '@utils/testContext';
-
-// import common tests
 import {deleteProductTest} from '@commonTests/BO/catalog/product';
 import {enableHummingbird, disableHummingbird} from '@commonTests/BO/design/hummingbird';
-
-// Import BO pages
 import viewAttributePage from '@pages/BO/catalog/attributes/view';
 import addValuePage from '@pages/BO/catalog/attributes/addValue';
-import createProductsPage from '@pages/BO/catalog/products/add';
 import combinationsTab from '@pages/BO/catalog/products/add/combinationsTab';
-
 import {expect} from 'chai';
+
 import {
   boAttributesPage,
   boAttributesCreatePage,
   boDashboardPage,
   boLoginPage,
   boProductsPage,
+  boProductsCreatePage,
   type BrowserContext,
   FakerAttribute,
   FakerAttributeValue,
@@ -220,17 +215,17 @@ describe('FO - Product page - Product page : Change combination', async () => {
 
       await boProductsPage.clickOnAddNewProduct(page);
 
-      const pageTitle = await createProductsPage.getPageTitle(page);
-      expect(pageTitle).to.contains(createProductsPage.pageTitle);
+      const pageTitle = await boProductsCreatePage.getPageTitle(page);
+      expect(pageTitle).to.contains(boProductsCreatePage.pageTitle);
     });
 
     it('should create product', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'createProduct', baseContext);
 
-      await createProductsPage.closeSfToolBar(page);
+      await boProductsCreatePage.closeSfToolBar(page);
 
-      const createProductMessage = await createProductsPage.setProduct(page, newProductData);
-      expect(createProductMessage).to.equal(createProductsPage.successfulUpdateMessage);
+      const createProductMessage = await boProductsCreatePage.setProduct(page, newProductData);
+      expect(createProductMessage).to.equal(boProductsCreatePage.successfulUpdateMessage);
     });
 
     it('should create combinations and check generate combinations button', async function () {
@@ -319,14 +314,14 @@ describe('FO - Product page - Product page : Change combination', async () => {
 
       page = await foHummingbirdProductPage.closePage(browserContext, page, 0);
 
-      const pageTitle = await createProductsPage.getPageTitle(page);
-      expect(pageTitle).to.contains(createProductsPage.pageTitle);
+      const pageTitle = await boProductsCreatePage.getPageTitle(page);
+      expect(pageTitle).to.contains(boProductsCreatePage.pageTitle);
     });
 
     it('should go to attributes page', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'goBackToAttributesPageToDelete', baseContext);
 
-      await createProductsPage.goToSubMenu(
+      await boProductsCreatePage.goToSubMenu(
         page,
         boDashboardPage.catalogParentLink,
         boDashboardPage.attributesAndFeaturesLink,

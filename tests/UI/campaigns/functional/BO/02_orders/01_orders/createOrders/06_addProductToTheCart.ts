@@ -8,15 +8,13 @@ import {createCurrencyTest, deleteCurrencyTest} from '@commonTests/BO/internatio
 import {enableEcoTaxTest, disableEcoTaxTest} from '@commonTests/BO/international/ecoTax';
 import deleteNonOrderedShoppingCarts from '@commonTests/BO/orders/shoppingCarts';
 
-// Import BO pages
-import addProductPage from '@pages/BO/catalog/products/add';
-
 import {
   boDashboardPage,
   boLoginPage,
   boOrdersPage,
   boOrdersCreatePage,
   boProductsPage,
+  boProductsCreatePage,
   boProductsCreateTabPricingPage,
   boStockPage,
   type BrowserContext,
@@ -250,8 +248,8 @@ describe('BO - Orders - Create order : Add a product to the cart', async () => {
 
           await boProductsPage.selectProductType(page, product.type);
 
-          const pageTitle = await addProductPage.getPageTitle(page);
-          expect(pageTitle).to.contains(addProductPage.pageTitle);
+          const pageTitle = await boProductsCreatePage.getPageTitle(page);
+          expect(pageTitle).to.contains(boProductsCreatePage.pageTitle);
         });
       }
 
@@ -259,50 +257,50 @@ describe('BO - Orders - Create order : Add a product to the cart', async () => {
         await testContext.addContextItem(this, 'testIdentifier', `goToNewProductPage${index}`, baseContext);
 
         if (index !== 0) {
-          await addProductPage.clickOnNewProductButton(page);
+          await boProductsCreatePage.clickOnNewProductButton(page);
         } else {
           await boProductsPage.clickOnAddNewProduct(page);
         }
 
-        const pageTitle = await addProductPage.getPageTitle(page);
-        expect(pageTitle).to.contains(addProductPage.pageTitle);
+        const pageTitle = await boProductsCreatePage.getPageTitle(page);
+        expect(pageTitle).to.contains(boProductsCreatePage.pageTitle);
       });
 
       if (index !== 0) {
         it(`should choose '${product.type} product'`, async function () {
           await testContext.addContextItem(this, 'testIdentifier', `chooseStandardProduct${index}`, baseContext);
 
-          await addProductPage.chooseProductType(page, product.type);
+          await boProductsCreatePage.chooseProductType(page, product.type);
 
-          const pageTitle = await addProductPage.getPageTitle(page);
-          expect(pageTitle).to.contains(addProductPage.pageTitle);
+          const pageTitle = await boProductsCreatePage.getPageTitle(page);
+          expect(pageTitle).to.contains(boProductsCreatePage.pageTitle);
         });
       }
 
       it(`create product '${product.name}'`, async function () {
         await testContext.addContextItem(this, 'testIdentifier', `createProduct${index}`, baseContext);
 
-        createProductMessage = await addProductPage.setProduct(page, product);
-        expect(createProductMessage).to.equal(addProductPage.successfulUpdateMessage);
+        createProductMessage = await boProductsCreatePage.setProduct(page, product);
+        expect(createProductMessage).to.equal(boProductsCreatePage.successfulUpdateMessage);
 
         // Add specific price
         if (product === productWithSpecificPrice) {
-          await addProductPage.goToTab(page, 'pricing');
+          await boProductsCreatePage.goToTab(page, 'pricing');
           await boProductsCreateTabPricingPage.clickOnAddSpecificPriceButton(page);
 
           createProductMessage = await boProductsCreateTabPricingPage.setSpecificPrice(
             page,
             productWithSpecificPrice.specificPrice,
           );
-          expect(createProductMessage).to.equal(addProductPage.successfulCreationMessage);
+          expect(createProductMessage).to.equal(boProductsCreatePage.successfulCreationMessage);
         }
         // Add eco tax
         if (product === productWithEcoTax) {
-          await addProductPage.goToTab(page, 'pricing');
+          await boProductsCreatePage.goToTab(page, 'pricing');
           await boProductsCreateTabPricingPage.addEcoTax(page, productWithEcoTax.ecoTax);
 
-          updateProductMessage = await addProductPage.saveProduct(page);
-          expect(updateProductMessage).to.equal(addProductPage.successfulUpdateMessage);
+          updateProductMessage = await boProductsCreatePage.saveProduct(page);
+          expect(updateProductMessage).to.equal(boProductsCreatePage.successfulUpdateMessage);
         }
       });
     });

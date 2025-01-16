@@ -6,7 +6,6 @@ import {bulkDeleteProductsTest} from '@commonTests/BO/catalog/product';
 
 // Import pages
 // Import BO pages
-import addProductPage from '@pages/BO/catalog/products/add';
 import taxesPage from '@pages/BO/international/taxes';
 import addTaxRulesPage from '@pages/BO/international/taxes/taxRules/add';
 import taxRulesPage from '@pages/BO/international/taxes/taxRules';
@@ -18,6 +17,7 @@ import {
   boOrdersPage,
   boOrdersViewBlockTabListPage,
   boProductsPage,
+  boProductsCreatePage,
   type BrowserContext,
   dataCustomers,
   dataOrderStatuses,
@@ -208,8 +208,8 @@ describe('BO - Orders - Invoices : Enable/Disable tax breakdown', async () => {
 
         await boProductsPage.selectProductType(page, productData.type);
 
-        const pageTitle = await addProductPage.getPageTitle(page);
-        expect(pageTitle).to.contains(addProductPage.pageTitle);
+        const pageTitle = await boProductsCreatePage.getPageTitle(page);
+        expect(pageTitle).to.contains(boProductsCreatePage.pageTitle);
       });
 
       it('should go to new product page', async function () {
@@ -217,17 +217,17 @@ describe('BO - Orders - Invoices : Enable/Disable tax breakdown', async () => {
 
         await boProductsPage.clickOnAddNewProduct(page);
 
-        const pageTitle = await addProductPage.getPageTitle(page);
-        expect(pageTitle).to.contains(addProductPage.pageTitle);
+        const pageTitle = await boProductsCreatePage.getPageTitle(page);
+        expect(pageTitle).to.contains(boProductsCreatePage.pageTitle);
       });
 
       it('should create standard product', async function () {
         await testContext.addContextItem(this, 'testIdentifier', 'createStandardProduct', baseContext);
 
-        await addProductPage.closeSfToolBar(page);
+        await boProductsCreatePage.closeSfToolBar(page);
 
-        const createProductMessage = await addProductPage.setProduct(page, productData);
-        expect(createProductMessage).to.equal(addProductPage.successfulUpdateMessage);
+        const createProductMessage = await boProductsCreatePage.setProduct(page, productData);
+        expect(createProductMessage).to.equal(boProductsCreatePage.successfulUpdateMessage);
       });
     });
 
@@ -236,7 +236,7 @@ describe('BO - Orders - Invoices : Enable/Disable tax breakdown', async () => {
         await testContext.addContextItem(this, 'testIdentifier', 'previewProduct', baseContext);
 
         // Click on preview button
-        page = await addProductPage.previewProduct(page);
+        page = await boProductsCreatePage.previewProduct(page);
         await foClassicProductPage.changeLanguage(page, 'en');
 
         const pageTitle = await foClassicProductPage.getPageTitle(page);
@@ -297,8 +297,8 @@ describe('BO - Orders - Invoices : Enable/Disable tax breakdown', async () => {
         // Close tab and init other page objects with new current tab
         page = await foClassicCheckoutOrderConfirmationPage.closePage(browserContext, page, 0);
 
-        const pageTitle = await addProductPage.getPageTitle(page);
-        expect(pageTitle).to.contains(addProductPage.pageTitle);
+        const pageTitle = await boProductsCreatePage.getPageTitle(page);
+        expect(pageTitle).to.contains(boProductsCreatePage.pageTitle);
       });
     });
 

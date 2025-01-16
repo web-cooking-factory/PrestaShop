@@ -1,30 +1,21 @@
-// Import utils
 import testContext from '@utils/testContext';
-
-// Import webservices
 import productXml from '@webservices/product/productXml';
 import ProductWS from '@webservices/product/productWs';
-
-// Import commonTests
 import {addWebserviceKey, removeWebserviceKey, setWebserviceStatus} from '@commonTests/BO/advancedParameters/ws';
 import {enableEcoTaxTest, disableEcoTaxTest} from '@commonTests/BO/international/ecoTax';
-
-// Import BO pages
 import webservicePage from '@pages/BO/advancedParameters/webservice';
-import createProductsPage from '@pages/BO/catalog/products/add';
 import optionsTab from '@pages/BO/catalog/products/add/optionsTab';
 import seoTab from '@pages/BO/catalog/products/add/seoTab';
-
-// Import data
 import getProductXml from '@data/xml/product';
-
 import {expect} from 'chai';
+
 import {
   type APIRequestContext,
   type APIResponse,
   boDashboardPage,
   boLoginPage,
   boProductsPage,
+  boProductsCreatePage,
   boProductsCreateTabDescriptionPage,
   boProductsCreateTabDetailsPage,
   boProductsCreateTabPricingPage,
@@ -505,8 +496,8 @@ describe('WS - Products : CRUD', async () => {
 
             await boProductsPage.goToProductPage(page, 1);
 
-            const pageTitle: string = await createProductsPage.getPageTitle(page);
-            expect(pageTitle).to.contains(createProductsPage.pageTitle);
+            const pageTitle: string = await boProductsCreatePage.getPageTitle(page);
+            expect(pageTitle).to.contains(boProductsCreatePage.pageTitle);
           });
         });
 
@@ -515,7 +506,7 @@ describe('WS - Products : CRUD', async () => {
             await testContext.addContextItem(this, 'testIdentifier', 'postCheckProductActive', baseContext);
 
             const xmlValue = productXml.getAttributeValue(xmlCreate, 'active');
-            const value = (await createProductsPage.getProductStatus(page)) ? '1' : '0';
+            const value = (await boProductsCreatePage.getProductStatus(page)) ? '1' : '0';
             expect(value).to.eq(xmlValue);
           });
 
@@ -523,7 +514,7 @@ describe('WS - Products : CRUD', async () => {
             await testContext.addContextItem(this, 'testIdentifier', 'postCheckProductType', baseContext);
 
             const xmlValue = productXml.getAttributeValue(xmlCreate, 'product_type');
-            const value = (await createProductsPage.getProductType(page));
+            const value = (await boProductsCreatePage.getProductType(page));
             expect(value).to.eq(xmlValue);
           });
 
@@ -531,11 +522,11 @@ describe('WS - Products : CRUD', async () => {
             await testContext.addContextItem(this, 'testIdentifier', 'postCheckName', baseContext);
 
             const xmlValueEn = productXml.getAttributeLangValue(xmlCreate, 'name', '1');
-            const valueEn = (await createProductsPage.getProductName(page, 'en'));
+            const valueEn = (await boProductsCreatePage.getProductName(page, 'en'));
             expect(valueEn).to.eq(xmlValueEn);
 
             const xmlValueFr = productXml.getAttributeLangValue(xmlCreate, 'name', '2');
-            const valueFr = (await createProductsPage.getProductName(page, 'fr'));
+            const valueFr = (await boProductsCreatePage.getProductName(page, 'fr'));
             expect(valueFr).to.eq(xmlValueFr);
           });
         });
@@ -586,9 +577,9 @@ describe('WS - Products : CRUD', async () => {
           it('should go to details tab', async function () {
             await testContext.addContextItem(this, 'testIdentifier', 'postGoToDetailsTab', baseContext);
 
-            await createProductsPage.goToTab(page, 'details');
+            await boProductsCreatePage.goToTab(page, 'details');
 
-            const isTabActive = await createProductsPage.isTabActive(page, 'details');
+            const isTabActive = await boProductsCreatePage.isTabActive(page, 'details');
             expect(isTabActive).to.eq(true);
           });
 
@@ -653,9 +644,9 @@ describe('WS - Products : CRUD', async () => {
           it('should go to Stocks tab', async function () {
             await testContext.addContextItem(this, 'testIdentifier', 'postGoToStocksTab', baseContext);
 
-            await createProductsPage.goToTab(page, 'stock');
+            await boProductsCreatePage.goToTab(page, 'stock');
 
-            const isTabActive = await createProductsPage.isTabActive(page, 'stock');
+            const isTabActive = await boProductsCreatePage.isTabActive(page, 'stock');
             expect(isTabActive).to.eq(true);
           });
 
@@ -723,9 +714,9 @@ describe('WS - Products : CRUD', async () => {
           it('should go to Shipping tab', async function () {
             await testContext.addContextItem(this, 'testIdentifier', 'postGoToShippingTab', baseContext);
 
-            await createProductsPage.goToTab(page, 'shipping');
+            await boProductsCreatePage.goToTab(page, 'shipping');
 
-            const isTabActive = await createProductsPage.isTabActive(page, 'shipping');
+            const isTabActive = await boProductsCreatePage.isTabActive(page, 'shipping');
             expect(isTabActive).to.eq(true);
           });
 
@@ -810,9 +801,9 @@ describe('WS - Products : CRUD', async () => {
           it('should go to Pricing tab', async function () {
             await testContext.addContextItem(this, 'testIdentifier', 'postGoToPricingTab', baseContext);
 
-            await createProductsPage.goToTab(page, 'pricing');
+            await boProductsCreatePage.goToTab(page, 'pricing');
 
-            const isTabActive = await createProductsPage.isTabActive(page, 'pricing');
+            const isTabActive = await boProductsCreatePage.isTabActive(page, 'pricing');
             expect(isTabActive).to.eq(true);
           });
 
@@ -877,9 +868,9 @@ describe('WS - Products : CRUD', async () => {
           it('should go to SEO tab', async function () {
             await testContext.addContextItem(this, 'testIdentifier', 'postGoToSEOTab', baseContext);
 
-            await createProductsPage.goToTab(page, 'seo');
+            await boProductsCreatePage.goToTab(page, 'seo');
 
-            const isTabActive = await createProductsPage.isTabActive(page, 'seo');
+            const isTabActive = await boProductsCreatePage.isTabActive(page, 'seo');
             expect(isTabActive).to.eq(true);
           });
 
@@ -940,9 +931,9 @@ describe('WS - Products : CRUD', async () => {
           it('should go to Options tab', async function () {
             await testContext.addContextItem(this, 'testIdentifier', 'postGoToOptionsTab', baseContext);
 
-            await createProductsPage.goToTab(page, 'options');
+            await boProductsCreatePage.goToTab(page, 'options');
 
-            const isTabActive = await createProductsPage.isTabActive(page, 'options');
+            const isTabActive = await boProductsCreatePage.isTabActive(page, 'options');
             expect(isTabActive).to.eq(true);
           });
 
@@ -1178,8 +1169,8 @@ describe('WS - Products : CRUD', async () => {
 
             await boProductsPage.goToProductPage(page, 1);
 
-            const pageTitle: string = await createProductsPage.getPageTitle(page);
-            expect(pageTitle).to.contains(createProductsPage.pageTitle);
+            const pageTitle: string = await boProductsCreatePage.getPageTitle(page);
+            expect(pageTitle).to.contains(boProductsCreatePage.pageTitle);
           });
         });
 
@@ -1188,7 +1179,7 @@ describe('WS - Products : CRUD', async () => {
             await testContext.addContextItem(this, 'testIdentifier', 'putCheckProductActive', baseContext);
 
             const xmlValue = productXml.getAttributeValue(xmlUpdate, 'active');
-            const value = (await createProductsPage.getProductStatus(page)) ? '1' : '0';
+            const value = (await boProductsCreatePage.getProductStatus(page)) ? '1' : '0';
             expect(value).to.eq(xmlValue);
           });
 
@@ -1196,7 +1187,7 @@ describe('WS - Products : CRUD', async () => {
             await testContext.addContextItem(this, 'testIdentifier', 'putCheckProductType', baseContext);
 
             const xmlValue = productXml.getAttributeValue(xmlUpdate, 'product_type');
-            const value = (await createProductsPage.getProductType(page));
+            const value = (await boProductsCreatePage.getProductType(page));
             expect(value).to.eq(xmlValue);
           });
 
@@ -1204,11 +1195,11 @@ describe('WS - Products : CRUD', async () => {
             await testContext.addContextItem(this, 'testIdentifier', 'putCheckName', baseContext);
 
             const xmlValueEn = productXml.getAttributeLangValue(xmlUpdate, 'name', '1');
-            const valueEn = (await createProductsPage.getProductName(page, 'en'));
+            const valueEn = (await boProductsCreatePage.getProductName(page, 'en'));
             expect(valueEn).to.eq(xmlValueEn);
 
             const xmlValueFr = productXml.getAttributeLangValue(xmlUpdate, 'name', '2');
-            const valueFr = (await createProductsPage.getProductName(page, 'fr'));
+            const valueFr = (await boProductsCreatePage.getProductName(page, 'fr'));
             expect(valueFr).to.eq(xmlValueFr);
           });
         });
@@ -1259,9 +1250,9 @@ describe('WS - Products : CRUD', async () => {
           it('should go to details tab', async function () {
             await testContext.addContextItem(this, 'testIdentifier', 'putGoToDetailsTab', baseContext);
 
-            await createProductsPage.goToTab(page, 'details');
+            await boProductsCreatePage.goToTab(page, 'details');
 
-            const isTabActive = await createProductsPage.isTabActive(page, 'details');
+            const isTabActive = await boProductsCreatePage.isTabActive(page, 'details');
             expect(isTabActive).to.eq(true);
           });
 
@@ -1326,9 +1317,9 @@ describe('WS - Products : CRUD', async () => {
           it('should go to Stocks tab', async function () {
             await testContext.addContextItem(this, 'testIdentifier', 'putGoToStocksTab', baseContext);
 
-            await createProductsPage.goToTab(page, 'stock');
+            await boProductsCreatePage.goToTab(page, 'stock');
 
-            const isTabActive = await createProductsPage.isTabActive(page, 'stock');
+            const isTabActive = await boProductsCreatePage.isTabActive(page, 'stock');
             expect(isTabActive).to.eq(true);
           });
 
@@ -1396,9 +1387,9 @@ describe('WS - Products : CRUD', async () => {
           it('should go to Shipping tab', async function () {
             await testContext.addContextItem(this, 'testIdentifier', 'putGoToShippingTab', baseContext);
 
-            await createProductsPage.goToTab(page, 'shipping');
+            await boProductsCreatePage.goToTab(page, 'shipping');
 
-            const isTabActive = await createProductsPage.isTabActive(page, 'shipping');
+            const isTabActive = await boProductsCreatePage.isTabActive(page, 'shipping');
             expect(isTabActive).to.eq(true);
           });
 
@@ -1483,9 +1474,9 @@ describe('WS - Products : CRUD', async () => {
           it('should go to Pricing tab', async function () {
             await testContext.addContextItem(this, 'testIdentifier', 'putGoToPricingTab', baseContext);
 
-            await createProductsPage.goToTab(page, 'pricing');
+            await boProductsCreatePage.goToTab(page, 'pricing');
 
-            const isTabActive = await createProductsPage.isTabActive(page, 'pricing');
+            const isTabActive = await boProductsCreatePage.isTabActive(page, 'pricing');
             expect(isTabActive).to.eq(true);
           });
 
@@ -1550,9 +1541,9 @@ describe('WS - Products : CRUD', async () => {
           it('should go to SEO tab', async function () {
             await testContext.addContextItem(this, 'testIdentifier', 'putGoToSEOTab', baseContext);
 
-            await createProductsPage.goToTab(page, 'seo');
+            await boProductsCreatePage.goToTab(page, 'seo');
 
-            const isTabActive = await createProductsPage.isTabActive(page, 'seo');
+            const isTabActive = await boProductsCreatePage.isTabActive(page, 'seo');
             expect(isTabActive).to.eq(true);
           });
 
@@ -1613,9 +1604,9 @@ describe('WS - Products : CRUD', async () => {
           it('should go to Options tab', async function () {
             await testContext.addContextItem(this, 'testIdentifier', 'putGoToOptionsTab', baseContext);
 
-            await createProductsPage.goToTab(page, 'options');
+            await boProductsCreatePage.goToTab(page, 'options');
 
-            const isTabActive = await createProductsPage.isTabActive(page, 'options');
+            const isTabActive = await boProductsCreatePage.isTabActive(page, 'options');
             expect(isTabActive).to.eq(true);
           });
 

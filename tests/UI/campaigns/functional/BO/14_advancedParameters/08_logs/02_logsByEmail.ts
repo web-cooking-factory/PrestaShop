@@ -1,20 +1,15 @@
-// Import utils
 import testContext from '@utils/testContext';
-
-// Import common
 import {resetSmtpConfigTest, setupSmtpConfigTest} from '@commonTests/BO/advancedParameters/smtp';
 import {createProductTest} from '@commonTests/BO/catalog/product';
-
-// Import pages
-import createProductsPage from '@pages/BO/catalog/products/add';
-
 import {expect} from 'chai';
 import {faker} from '@faker-js/faker';
+
 import {
   boDashboardPage,
   boLoginPage,
   boLogsPage,
   boProductsPage,
+  boProductsCreatePage,
   type BrowserContext,
   dataEmployees,
   FakerProduct,
@@ -129,17 +124,17 @@ describe('BO - Advanced Parameters - Logs : Logs by email', async () => {
 
       await boProductsPage.goToProductPage(page, 1);
 
-      const pageTitle = await createProductsPage.getPageTitle(page);
-      expect(pageTitle).to.contains(createProductsPage.pageTitle);
+      const pageTitle = await boProductsCreatePage.getPageTitle(page);
+      expect(pageTitle).to.contains(boProductsCreatePage.pageTitle);
     });
 
     it('should edit the product name', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'editProductNameEn', baseContext);
 
-      await createProductsPage.setProductName(page, faker.commerce.productName(), 'en');
+      await boProductsCreatePage.setProductName(page, faker.commerce.productName(), 'en');
 
-      const message = await createProductsPage.saveProduct(page);
-      expect(message).to.eq(createProductsPage.successfulUpdateMessage);
+      const message = await boProductsCreatePage.saveProduct(page);
+      expect(message).to.eq(boProductsCreatePage.successfulUpdateMessage);
     });
 
     it('should check the confirmation email', async function () {
@@ -155,7 +150,7 @@ describe('BO - Advanced Parameters - Logs : Logs by email', async () => {
     it('should delete product', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'deleteProduct', baseContext);
 
-      const createProductMessage = await createProductsPage.deleteProduct(page);
+      const createProductMessage = await boProductsCreatePage.deleteProduct(page);
       expect(createProductMessage).to.equal(boProductsPage.successfulDeleteMessage);
     });
   });

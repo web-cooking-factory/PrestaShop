@@ -1,20 +1,16 @@
 import testContext from '@utils/testContext';
-
-// Import common tests
 import setMultiStoreStatus from '@commonTests/BO/advancedParameters/multistore';
-
-// Import BO pages
 import multiStorePage from '@pages/BO/advancedParameters/multistore';
 import addShopPage from '@pages/BO/advancedParameters/multistore/shop/add';
 import shopPage from '@pages/BO/advancedParameters/multistore/shop';
 import addShopUrlPage from '@pages/BO/advancedParameters/multistore/url/addURL';
-import createProductPage from '@pages/BO/catalog/products/add';
-
 import {expect} from 'chai';
+
 import {
   boDashboardPage,
   boLoginPage,
   boProductsPage,
+  boProductsCreatePage,
   type BrowserContext,
   FakerProduct,
   FakerShop,
@@ -179,21 +175,21 @@ describe('BO - Catalog - Products : Multistore', async () => {
       await boProductsPage.selectProductType(page, newProductData.type);
       await boProductsPage.clickOnAddNewProduct(page);
 
-      const pageTitle = await createProductPage.getPageTitle(page);
-      expect(pageTitle).to.contains(createProductPage.pageTitle);
+      const pageTitle = await boProductsCreatePage.getPageTitle(page);
+      expect(pageTitle).to.contains(boProductsCreatePage.pageTitle);
     });
 
     it('should create standard product', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'createStandardProduct', baseContext);
 
-      const createProductMessage = await createProductPage.setProduct(page, newProductData);
-      expect(createProductMessage).to.equal(createProductPage.successfulUpdateMessage);
+      const createProductMessage = await boProductsCreatePage.setProduct(page, newProductData);
+      expect(createProductMessage).to.equal(boProductsCreatePage.successfulUpdateMessage);
     });
 
     it('should go back to catalog page', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'goBackToCatalogPage', baseContext);
 
-      await createProductPage.goToCatalogPage(page);
+      await boProductsCreatePage.goToCatalogPage(page);
 
       const pageTitle = await boProductsPage.getPageTitle(page);
       expect(pageTitle).to.contains(boProductsPage.pageTitle);
@@ -240,30 +236,30 @@ describe('BO - Catalog - Products : Multistore', async () => {
 
       await boProductsPage.goToProductPage(page, 1);
 
-      const pageTitle = await createProductPage.getPageTitle(page);
-      expect(pageTitle).to.contains(createProductPage.pageTitle);
+      const pageTitle = await boProductsCreatePage.getPageTitle(page);
+      expect(pageTitle).to.contains(boProductsCreatePage.pageTitle);
     });
 
     it('should click on \'Select stores\' button and select the default store', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'clickOnSelectStoresButton', baseContext);
 
-      await createProductPage.selectStores(page, 1);
+      await boProductsCreatePage.selectStores(page, 1);
     });
 
     it('should update product name and click on apply changes to all stores', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'applyChangesToAllStores', baseContext);
 
-      await createProductPage.setProductName(page, editProductData.name);
-      await createProductPage.applyChangesToAllStores(page, editProductData.applyChangesToAllStores);
+      await boProductsCreatePage.setProductName(page, editProductData.name);
+      await boProductsCreatePage.applyChangesToAllStores(page, editProductData.applyChangesToAllStores);
 
-      const message = await createProductPage.saveProduct(page);
-      expect(message).to.eq(createProductPage.successfulUpdateMessage);
+      const message = await boProductsCreatePage.saveProduct(page);
+      expect(message).to.eq(boProductsCreatePage.successfulUpdateMessage);
     });
 
     it('should go to catalog page', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'goToCatalogPage', baseContext);
 
-      await createProductPage.goToCatalogPage(page);
+      await boProductsCreatePage.goToCatalogPage(page);
 
       const productName = await boProductsPage.getTextColumn(page, 'product_name', 1);
       expect(productName).to.eq(editProductData.name);

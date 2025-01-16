@@ -1,14 +1,11 @@
-// Import utils
 import testContext from '@utils/testContext';
-
-// Import pages
-import createProductsPage from '@pages/BO/catalog/products/add';
-
 import {expect} from 'chai';
+
 import {
   boDashboardPage,
   boLoginPage,
   boProductsPage,
+  boProductsCreatePage,
   boProductsCreateTabPackPage,
   boProductsCreateTabPricingPage,
   type BrowserContext,
@@ -139,8 +136,8 @@ describe('BO - Catalog - Products : CRUD pack of products', async () => {
 
         await boProductsPage.selectProductType(page, newProductData.type);
 
-        const pageTitle = await createProductsPage.getPageTitle(page);
-        expect(pageTitle).to.contains(createProductsPage.pageTitle);
+        const pageTitle = await boProductsCreatePage.getPageTitle(page);
+        expect(pageTitle).to.contains(boProductsCreatePage.pageTitle);
       });
 
       it('should select the pack of products and check the description', async function () {
@@ -157,8 +154,8 @@ describe('BO - Catalog - Products : CRUD pack of products', async () => {
 
         await boProductsPage.clickOnAddNewProduct(page);
 
-        const pageTitle = await createProductsPage.getPageTitle(page);
-        expect(pageTitle).to.contains(createProductsPage.pageTitle);
+        const pageTitle = await boProductsCreatePage.getPageTitle(page);
+        expect(pageTitle).to.contains(boProductsCreatePage.pageTitle);
       });
     });
 
@@ -166,10 +163,10 @@ describe('BO - Catalog - Products : CRUD pack of products', async () => {
       it('should add a sample product to the pack', async function () {
         await testContext.addContextItem(this, 'testIdentifier', 'createPackOfProducts', baseContext);
 
-        await createProductsPage.closeSfToolBar(page);
+        await boProductsCreatePage.closeSfToolBar(page);
 
-        const createProductMessage = await createProductsPage.setProduct(page, newProductData);
-        expect(createProductMessage).to.equal(createProductsPage.successfulUpdateMessage);
+        const createProductMessage = await boProductsCreatePage.setProduct(page, newProductData);
+        expect(createProductMessage).to.equal(boProductsCreatePage.successfulUpdateMessage);
       });
 
       it('should search for the same product and check that no results found', async function () {
@@ -305,8 +302,8 @@ describe('BO - Catalog - Products : CRUD pack of products', async () => {
 
       await boProductsCreateTabPackPage.setProductQuantity(page, 0, 15);
 
-      const updateProductMessage = await createProductsPage.saveProduct(page);
-      expect(updateProductMessage).to.equal(createProductsPage.successfulUpdateMessage);
+      const updateProductMessage = await boProductsCreatePage.saveProduct(page);
+      expect(updateProductMessage).to.equal(boProductsCreatePage.successfulUpdateMessage);
     });
 
     it('should try delete the customized product then cancel', async function () {
@@ -320,7 +317,7 @@ describe('BO - Catalog - Products : CRUD pack of products', async () => {
       await testContext.addContextItem(this, 'testIdentifier', 'deleteCustomizedProduct', baseContext);
 
       const firstProductInList = await boProductsCreateTabPackPage.deleteProduct(page, 1, true);
-      expect(firstProductInList).to.equal(createProductsPage.successfulUpdateMessage);
+      expect(firstProductInList).to.equal(boProductsCreatePage.successfulUpdateMessage);
     });
 
     it('should edit the quantity and the minimum quantity of the pack then save', async function () {
@@ -328,8 +325,8 @@ describe('BO - Catalog - Products : CRUD pack of products', async () => {
 
       await boProductsCreateTabPackPage.editPackOfProducts(page, editPackData);
 
-      const updateProductMessage = await createProductsPage.saveProduct(page);
-      expect(updateProductMessage).to.equal(createProductsPage.successfulUpdateMessage);
+      const updateProductMessage = await boProductsCreatePage.saveProduct(page);
+      expect(updateProductMessage).to.equal(boProductsCreatePage.successfulUpdateMessage);
     });
 
     it('should check the recent stock movement', async function () {
@@ -348,10 +345,10 @@ describe('BO - Catalog - Products : CRUD pack of products', async () => {
 
       await boProductsCreateTabPricingPage.setProductPricing(page, pricingData);
 
-      await createProductsPage.setProductStatus(page, true);
+      await boProductsCreatePage.setProductStatus(page, true);
 
-      const updateProductMessage = await createProductsPage.saveProduct(page);
-      expect(updateProductMessage).to.equal(createProductsPage.successfulUpdateMessage);
+      const updateProductMessage = await boProductsCreatePage.saveProduct(page);
+      expect(updateProductMessage).to.equal(boProductsCreatePage.successfulUpdateMessage);
     });
 
     it('should check the product header details', async function () {
@@ -359,7 +356,7 @@ describe('BO - Catalog - Products : CRUD pack of products', async () => {
 
       const taxValue = await utilsCore.percentage(pricingData.priceTaxExcluded, 20);
 
-      const productHeaderSummary = await createProductsPage.getProductHeaderSummary(page);
+      const productHeaderSummary = await boProductsCreatePage.getProductHeaderSummary(page);
       await Promise.all([
         expect(productHeaderSummary.priceTaxExc).to.equal(`€${(pricingData.priceTaxExcluded.toFixed(2))} tax excl.`),
         expect(productHeaderSummary.priceTaxIncl).to.equal(
@@ -376,7 +373,7 @@ describe('BO - Catalog - Products : CRUD pack of products', async () => {
       await testContext.addContextItem(this, 'testIdentifier', 'previewProduct1', baseContext);
 
       // Click on preview button
-      page = await createProductsPage.previewProduct(page);
+      page = await boProductsCreatePage.previewProduct(page);
 
       await foClassicProductPage.changeLanguage(page, 'en');
 
@@ -426,15 +423,15 @@ describe('BO - Catalog - Products : CRUD pack of products', async () => {
       // Go back to BO
       page = await foClassicProductPage.closePage(browserContext, page, 0);
 
-      const pageTitle = await createProductsPage.getPageTitle(page);
-      expect(pageTitle).to.contains(createProductsPage.pageTitle);
+      const pageTitle = await boProductsCreatePage.getPageTitle(page);
+      expect(pageTitle).to.contains(boProductsCreatePage.pageTitle);
     });
 
     it('should edit the created product', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'editProduct', baseContext);
 
-      const createProductMessage = await createProductsPage.setProduct(page, editProductData);
-      expect(createProductMessage).to.equal(createProductsPage.successfulUpdateMessage);
+      const createProductMessage = await boProductsCreatePage.setProduct(page, editProductData);
+      expect(createProductMessage).to.equal(boProductsCreatePage.successfulUpdateMessage);
     });
   });
 
@@ -444,7 +441,7 @@ describe('BO - Catalog - Products : CRUD pack of products', async () => {
       await testContext.addContextItem(this, 'testIdentifier', 'previewProduct2', baseContext);
 
       // Click on preview button
-      page = await createProductsPage.previewProduct(page);
+      page = await boProductsCreatePage.previewProduct(page);
 
       await foClassicProductPage.changeLanguage(page, 'en');
 
@@ -495,14 +492,14 @@ describe('BO - Catalog - Products : CRUD pack of products', async () => {
       // Go back to BO
       page = await foClassicProductPage.closePage(browserContext, page, 0);
 
-      const pageTitle = await createProductsPage.getPageTitle(page);
-      expect(pageTitle).to.contains(createProductsPage.pageTitle);
+      const pageTitle = await boProductsCreatePage.getPageTitle(page);
+      expect(pageTitle).to.contains(boProductsCreatePage.pageTitle);
     });
 
     it('should delete product', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'deleteProduct', baseContext);
 
-      const createProductMessage = await createProductsPage.deleteProduct(page);
+      const createProductMessage = await boProductsCreatePage.deleteProduct(page);
       expect(createProductMessage).to.equal(boProductsPage.successfulDeleteMessage);
     });
   });

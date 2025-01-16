@@ -6,7 +6,6 @@ import importFileTest from '@commonTests/BO/advancedParameters/importFile';
 import bulkDeleteProductsTest from '@commonTests/BO/catalog/monitoring';
 
 // Import pages
-import addProductPage from '@pages/BO/catalog/products/add';
 import monitoringPage from '@pages/BO/catalog/monitoring';
 
 // Import data
@@ -16,6 +15,7 @@ import {expect} from 'chai';
 import {
   boDashboardPage,
   boLoginPage,
+  boProductsCreatePage,
   type BrowserContext,
   type Page,
   utilsCore,
@@ -75,7 +75,7 @@ describe('BO - Catalog - Monitoring : Sort and pagination list of products witho
     it('should go to \'catalog > monitoring\' page', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'goToMonitoringPage', baseContext);
 
-      await addProductPage.goToSubMenu(
+      await boProductsCreatePage.goToSubMenu(
         page,
         boDashboardPage.catalogParentLink,
         boDashboardPage.monitoringLink,
