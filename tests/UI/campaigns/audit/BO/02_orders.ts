@@ -1,11 +1,11 @@
 import {expect} from 'chai';
-import deliverySlipsPage from '@pages/BO/orders/deliverySlips';
 import invoicesPage from '@pages/BO/orders/invoices';
 import testContext from '@utils/testContext';
 
 import {
   boCreditSlipsPage,
   boDashboardPage,
+  boDeliverySlipsPage,
   boLoginPage,
   boOrdersPage,
   boOrdersCreatePage,
@@ -116,10 +116,10 @@ describe('BO - Orders', async () => {
       boOrdersViewBlockTabListPage.ordersParentLink,
       boOrdersViewBlockTabListPage.deliverySlipslink,
     );
-    await deliverySlipsPage.closeSfToolBar(page);
+    await boDeliverySlipsPage.closeSfToolBar(page);
 
-    const pageTitle = await deliverySlipsPage.getPageTitle(page);
-    expect(pageTitle).to.contains(deliverySlipsPage.pageTitle);
+    const pageTitle = await boDeliverySlipsPage.getPageTitle(page);
+    expect(pageTitle).to.contains(boDeliverySlipsPage.pageTitle);
 
     const jsErrors = utilsPlaywright.getJsErrors();
     expect(jsErrors.length).to.equals(0);
