@@ -1,16 +1,14 @@
-// Import utils
 import testContext from '@utils/testContext';
-
-// Import common tests
+import {expect} from 'chai';
 import {createOrderByCustomerTest} from '@commonTests/FO/classic/order';
 
 // Import pages
 import {orderHistoryPage} from '@pages/FO/classic/myAccount/orderHistory';
-import invoicesPage from '@pages/BO/orders/invoices';
 import {orderDetailsPage} from '@pages/FO/classic/myAccount/orderDetails';
 
 import {
   boDashboardPage,
+  boInvoicesPage,
   boLoginPage,
   boOrdersPage,
   boOrdersViewBlockTabListPage,
@@ -28,7 +26,6 @@ import {
   utilsPlaywright,
 } from '@prestashop-core/ui-testing';
 
-import {expect} from 'chai';
 
 // context
 const baseContext: string = 'functional_FO_classic_userAccount_orderHistory_orderDetails_downloadInvoice';
@@ -87,10 +84,10 @@ describe('FO - Account - Order details : Download invoice', async () => {
     it('should go to \'Orders > Orders\' page', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'goToOrdersPageForUpdatedPrefix', baseContext);
 
-      await invoicesPage.goToSubMenu(
+      await boInvoicesPage.goToSubMenu(
         page,
-        invoicesPage.ordersParentLink,
-        invoicesPage.ordersLink,
+        boInvoicesPage.ordersParentLink,
+        boInvoicesPage.ordersLink,
       );
 
       const pageTitle: string = await boOrdersPage.getPageTitle(page);

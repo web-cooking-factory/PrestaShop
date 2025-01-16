@@ -1,7 +1,5 @@
-// Import utils
 import testContext from '@utils/testContext';
-
-// Import common tests
+import {expect} from 'chai';
 import {createOrderByCustomerTest} from '@commonTests/FO/classic/order';
 import {
   enableMerchandiseReturns,
@@ -10,12 +8,12 @@ import {
 
 // Import pages
 import {orderHistoryPage} from '@pages/FO/classic/myAccount/orderHistory';
-import invoicesPage from '@pages/BO/orders/invoices';
 import {orderDetailsPage} from '@pages/FO/classic/myAccount/orderDetails';
 import {merchandiseReturnsPage as foMerchandiseReturnsPage} from '@pages/FO/classic/myAccount/merchandiseReturns';
 
 import {
   boDashboardPage,
+  boInvoicesPage,
   boLoginPage,
   boOrdersPage,
   boOrdersViewBlockTabListPage,
@@ -33,7 +31,6 @@ import {
   utilsPlaywright,
 } from '@prestashop-core/ui-testing';
 
-import {expect} from 'chai';
 
 // context
 const baseContext: string = 'functional_FO_classic_userAccount_orderHistory_orderDetails_requestMerchandiseReturn';
@@ -97,10 +94,10 @@ describe('FO - Account - Order details : Request merchandise return', async () =
     it('should go to \'Orders > Orders\' page', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'goToOrdersPageForUpdatedPrefix', baseContext);
 
-      await invoicesPage.goToSubMenu(
+      await boInvoicesPage.goToSubMenu(
         page,
-        invoicesPage.ordersParentLink,
-        invoicesPage.ordersLink,
+        boInvoicesPage.ordersParentLink,
+        boInvoicesPage.ordersLink,
       );
 
       const pageTitle = await boOrdersPage.getPageTitle(page);

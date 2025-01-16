@@ -10,10 +10,10 @@ import addProductPage from '@pages/BO/catalog/products/add';
 import taxesPage from '@pages/BO/international/taxes';
 import addTaxRulesPage from '@pages/BO/international/taxes/taxRules/add';
 import taxRulesPage from '@pages/BO/international/taxes/taxRules';
-import invoicesPage from '@pages/BO/orders/invoices';
 
 import {
   boDashboardPage,
+  boInvoicesPage,
   boLoginPage,
   boOrdersPage,
   boOrdersViewBlockTabListPage,
@@ -103,19 +103,19 @@ describe('BO - Orders - Invoices : Enable/Disable tax breakdown', async () => {
           boDashboardPage.ordersParentLink,
           boDashboardPage.invoicesLink,
         );
-        await invoicesPage.closeSfToolBar(page);
+        await boInvoicesPage.closeSfToolBar(page);
 
-        const pageTitle = await invoicesPage.getPageTitle(page);
-        expect(pageTitle).to.contains(invoicesPage.pageTitle);
+        const pageTitle = await boInvoicesPage.getPageTitle(page);
+        expect(pageTitle).to.contains(boInvoicesPage.pageTitle);
       });
 
       it('should enable tax breakdown', async function () {
         await testContext.addContextItem(this, 'testIdentifier', 'enableTaxBreakDown', baseContext);
 
-        await invoicesPage.enableTaxBreakdown(page, true);
+        await boInvoicesPage.enableTaxBreakdown(page, true);
 
-        const textMessage = await invoicesPage.saveInvoiceOptions(page);
-        expect(textMessage).to.contains(invoicesPage.successfulUpdateMessage);
+        const textMessage = await boInvoicesPage.saveInvoiceOptions(page);
+        expect(textMessage).to.contains(boInvoicesPage.successfulUpdateMessage);
       });
     });
 
@@ -123,10 +123,10 @@ describe('BO - Orders - Invoices : Enable/Disable tax breakdown', async () => {
       it('should go to \'International > Taxes\' page', async function () {
         await testContext.addContextItem(this, 'testIdentifier', 'goToTaxesPage', baseContext);
 
-        await invoicesPage.goToSubMenu(
+        await boInvoicesPage.goToSubMenu(
           page,
-          invoicesPage.internationalParentLink,
-          invoicesPage.taxesLink,
+          boInvoicesPage.internationalParentLink,
+          boInvoicesPage.taxesLink,
         );
 
         const pageTitle = await taxesPage.getPageTitle(page);
@@ -369,17 +369,17 @@ describe('BO - Orders - Invoices : Enable/Disable tax breakdown', async () => {
           boOrdersViewBlockTabListPage.invoicesLink,
         );
 
-        const pageTitle = await invoicesPage.getPageTitle(page);
-        expect(pageTitle).to.contains(invoicesPage.pageTitle);
+        const pageTitle = await boInvoicesPage.getPageTitle(page);
+        expect(pageTitle).to.contains(boInvoicesPage.pageTitle);
       });
 
       it('should disable tax breakdown', async function () {
         await testContext.addContextItem(this, 'testIdentifier', 'disableTaxBreakdown', baseContext);
 
-        await invoicesPage.enableTaxBreakdown(page, false);
+        await boInvoicesPage.enableTaxBreakdown(page, false);
 
-        const textMessage = await invoicesPage.saveInvoiceOptions(page);
-        expect(textMessage).to.contains(invoicesPage.successfulUpdateMessage);
+        const textMessage = await boInvoicesPage.saveInvoiceOptions(page);
+        expect(textMessage).to.contains(boInvoicesPage.successfulUpdateMessage);
       });
     });
 
@@ -387,10 +387,10 @@ describe('BO - Orders - Invoices : Enable/Disable tax breakdown', async () => {
       it('should go to \'Orders > Orders\' page', async function () {
         await testContext.addContextItem(this, 'testIdentifier', 'goToOrdersPageNoTaxBreakdown', baseContext);
 
-        await invoicesPage.goToSubMenu(
+        await boInvoicesPage.goToSubMenu(
           page,
-          invoicesPage.ordersParentLink,
-          invoicesPage.ordersLink,
+          boInvoicesPage.ordersParentLink,
+          boInvoicesPage.ordersLink,
         );
 
         const pageTitle = await boOrdersPage.getPageTitle(page);
@@ -438,10 +438,10 @@ describe('BO - Orders - Invoices : Enable/Disable tax breakdown', async () => {
     it('should go to \'International > Taxes\' page', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'goToTaxesPage1', baseContext);
 
-      await invoicesPage.goToSubMenu(
+      await boInvoicesPage.goToSubMenu(
         page,
-        invoicesPage.internationalParentLink,
-        invoicesPage.taxesLink,
+        boInvoicesPage.internationalParentLink,
+        boInvoicesPage.taxesLink,
       );
 
       const pageTitle = await taxesPage.getPageTitle(page);

@@ -1,18 +1,14 @@
-// Import utils
 import testContext from '@utils/testContext';
-
-// Import common tests
 import {createOrderByCustomerTest} from '@commonTests/FO/hummingbird/order';
 import {enableHummingbird, disableHummingbird} from '@commonTests/BO/design/hummingbird';
-
-// Import BO pages
-import invoicesPage from '@pages/BO/orders/invoices';
+import {expect} from 'chai';
 
 // Import FO pages
 import orderHistoryPage from '@pages/FO/hummingbird/myAccount/orderHistory';
 
 import {
   boDashboardPage,
+  boInvoicesPage,
   boLoginPage,
   boOrdersPage,
   boOrdersViewBlockTabListPage,
@@ -29,8 +25,6 @@ import {
   utilsFile,
   utilsPlaywright,
 } from '@prestashop-core/ui-testing';
-
-import {expect} from 'chai';
 
 // context
 const baseContext: string = 'functional_FO_hummingbird_userAccount_orderHistory_downloadInvoice';
@@ -95,10 +89,10 @@ describe('FO - Account - Order history : download invoice', async () => {
     it('should go to \'Orders > Orders\' page', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'goToOrdersPageForUpdatedPrefix', baseContext);
 
-      await invoicesPage.goToSubMenu(
+      await boInvoicesPage.goToSubMenu(
         page,
-        invoicesPage.ordersParentLink,
-        invoicesPage.ordersLink,
+        boInvoicesPage.ordersParentLink,
+        boInvoicesPage.ordersLink,
       );
 
       const pageTitle: string = await boOrdersPage.getPageTitle(page);

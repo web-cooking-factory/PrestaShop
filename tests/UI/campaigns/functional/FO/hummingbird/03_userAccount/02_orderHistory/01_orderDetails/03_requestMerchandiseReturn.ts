@@ -1,7 +1,5 @@
-// Import utils
 import testContext from '@utils/testContext';
-
-// Import common tests
+import {expect} from 'chai';
 import {createOrderByCustomerTest} from '@commonTests/FO/hummingbird/order';
 import {
   enableMerchandiseReturns,
@@ -14,11 +12,10 @@ import {enableHummingbird, disableHummingbird} from '@commonTests/BO/design/humm
 import {merchandiseReturnsPage as foMerchandiseReturnsPage} from '@pages/FO/classic/myAccount/merchandiseReturns';
 import {orderDetailsPage} from '@pages/FO/classic/myAccount/orderDetails';
 import orderHistoryPage from '@pages/FO/hummingbird/myAccount/orderHistory';
-// Import BO pages
-import invoicesPage from '@pages/BO/orders/invoices';
 
 import {
   boDashboardPage,
+  boInvoicesPage,
   boLoginPage,
   boOrdersPage,
   boOrdersViewBlockTabListPage,
@@ -36,7 +33,6 @@ import {
   utilsPlaywright,
 } from '@prestashop-core/ui-testing';
 
-import {expect} from 'chai';
 
 // context
 const baseContext: string = 'functional_FO_hummingbird_userAccount_orderHistory_orderDetails_requestMerchandiseReturn';
@@ -103,10 +99,10 @@ describe('FO - Account - Order details : Request merchandise return', async () =
     it('should go to \'Orders > Orders\' page', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'goToOrdersPageForUpdatedPrefix', baseContext);
 
-      await invoicesPage.goToSubMenu(
+      await boInvoicesPage.goToSubMenu(
         page,
-        invoicesPage.ordersParentLink,
-        invoicesPage.ordersLink,
+        boInvoicesPage.ordersParentLink,
+        boInvoicesPage.ordersLink,
       );
 
       const pageTitle = await boOrdersPage.getPageTitle(page);

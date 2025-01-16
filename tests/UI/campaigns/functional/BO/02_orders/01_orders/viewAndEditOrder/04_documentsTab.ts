@@ -1,15 +1,13 @@
-// Import utils
 import testContext from '@utils/testContext';
-
-// Import common tests
 import {createOrderByCustomerTest} from '@commonTests/FO/classic/order';
+import {expect} from 'chai';
 
 // Import BO pages
-import invoicesPage from '@pages/BO/orders/invoices';
 import orderPagePaymentBlock from '@pages/BO/orders/view/paymentBlock';
 
 import {
   boDashboardPage,
+  boInvoicesPage,
   boLoginPage,
   boOrdersPage,
   boOrdersViewBlockProductsPage,
@@ -25,7 +23,6 @@ import {
   utilsPlaywright,
 } from '@prestashop-core/ui-testing';
 
-import {expect} from 'chai';
 
 const baseContext: string = 'functional_BO_orders_orders_viewAndEditOrder_documentsTab';
 
@@ -89,19 +86,19 @@ describe('BO - Orders - View and edit order : Check order documents tab', async 
         boDashboardPage.ordersParentLink,
         boDashboardPage.invoicesLink,
       );
-      await invoicesPage.closeSfToolBar(page);
+      await boInvoicesPage.closeSfToolBar(page);
 
-      const pageTitle = await invoicesPage.getPageTitle(page);
-      expect(pageTitle).to.contains(invoicesPage.pageTitle);
+      const pageTitle = await boInvoicesPage.getPageTitle(page);
+      expect(pageTitle).to.contains(boInvoicesPage.pageTitle);
     });
 
     it('should disable invoices', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'disableInvoices', baseContext);
 
-      await invoicesPage.enableInvoices(page, false);
+      await boInvoicesPage.enableInvoices(page, false);
 
-      const textMessage = await invoicesPage.saveInvoiceOptions(page);
-      expect(textMessage).to.contains(invoicesPage.successfulUpdateMessage);
+      const textMessage = await boInvoicesPage.saveInvoiceOptions(page);
+      expect(textMessage).to.contains(boInvoicesPage.successfulUpdateMessage);
     });
   });
 
@@ -174,19 +171,19 @@ describe('BO - Orders - View and edit order : Check order documents tab', async 
         boDashboardPage.ordersParentLink,
         boDashboardPage.invoicesLink,
       );
-      await invoicesPage.closeSfToolBar(page);
+      await boInvoicesPage.closeSfToolBar(page);
 
-      const pageTitle = await invoicesPage.getPageTitle(page);
-      expect(pageTitle).to.contains(invoicesPage.pageTitle);
+      const pageTitle = await boInvoicesPage.getPageTitle(page);
+      expect(pageTitle).to.contains(boInvoicesPage.pageTitle);
     });
 
     it('should enable invoices', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'enableInvoices', baseContext);
 
-      await invoicesPage.enableInvoices(page, true);
+      await boInvoicesPage.enableInvoices(page, true);
 
-      const textMessage = await invoicesPage.saveInvoiceOptions(page);
-      expect(textMessage).to.contains(invoicesPage.successfulUpdateMessage);
+      const textMessage = await boInvoicesPage.saveInvoiceOptions(page);
+      expect(textMessage).to.contains(boInvoicesPage.successfulUpdateMessage);
     });
   });
 
