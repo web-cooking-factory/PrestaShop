@@ -7,12 +7,12 @@ import {createCartRuleTest, bulkDeleteCartRuleTest} from '@commonTests/BO/catalo
 // Import BO pages
 import cartRulesPage from '@pages/BO/catalog/discounts';
 import addCartRulePage from '@pages/BO/catalog/discounts/add';
-import addOrderPage from '@pages/BO/orders/add';
 
 import {
   boDashboardPage,
   boLoginPage,
   boOrdersPage,
+  boOrdersCreatePage,
   type BrowserContext,
   dataCarriers,
   dataCustomers,
@@ -137,16 +137,16 @@ describe('BO - Orders - Create order : Search, add and remove voucher', async ()
 
       await boOrdersPage.goToCreateOrderPage(page);
 
-      const pageTitle = await addOrderPage.getPageTitle(page);
-      expect(pageTitle).to.contains(addOrderPage.pageTitle);
+      const pageTitle = await boOrdersCreatePage.getPageTitle(page);
+      expect(pageTitle).to.contains(boOrdersCreatePage.pageTitle);
     });
 
     it(`should choose customer ${dataCustomers.johnDoe.firstName} ${dataCustomers.johnDoe.lastName}`, async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'chooseDefaultCustomer', baseContext);
 
-      await addOrderPage.searchCustomer(page, dataCustomers.johnDoe.email);
+      await boOrdersCreatePage.searchCustomer(page, dataCustomers.johnDoe.email);
 
-      const isCartsTableVisible = await addOrderPage.chooseCustomer(page);
+      const isCartsTableVisible = await boOrdersCreatePage.chooseCustomer(page);
       expect(isCartsTableVisible, 'History block is not visible!').to.eq(true);
     });
   });
@@ -157,9 +157,9 @@ describe('BO - Orders - Create order : Search, add and remove voucher', async ()
       await testContext.addContextItem(this, 'testIdentifier', 'addProductToCart1', baseContext);
 
       const productToSelect = `${dataProducts.demo_12.name} - €${dataProducts.demo_12.priceTaxExcluded.toFixed(2)}`;
-      await addOrderPage.addProductToCart(page, dataProducts.demo_12, productToSelect);
+      await boOrdersCreatePage.addProductToCart(page, dataProducts.demo_12, productToSelect);
 
-      const result = await addOrderPage.getProductDetailsFromTable(page);
+      const result = await boOrdersCreatePage.getProductDetailsFromTable(page);
       await Promise.all([
         expect(result.image).to.contains(dataProducts.demo_12.thumbImage),
         expect(result.description).to.equal(dataProducts.demo_12.name),
@@ -172,7 +172,7 @@ describe('BO - Orders - Create order : Search, add and remove voucher', async ()
     it('should check the voucher details', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'checkVouchersBlock1', baseContext);
 
-      const result = await addOrderPage.getVoucherDetailsFromTable(page);
+      const result = await boOrdersCreatePage.getVoucherDetailsFromTable(page);
       await Promise.all([
         expect(result.name).to.contains(cartRuleWithoutCodeData.name),
         expect(result.description).to.equal(cartRuleWithoutCodeData.description),
@@ -190,7 +190,7 @@ describe('BO - Orders - Create order : Search, add and remove voucher', async ()
       const totalTaxExcluded = dataProducts.demo_12.priceTaxExcluded - cartRuleWithoutCodeData.discountAmount!.value;
       const totalTaxIncluded = totalTaxes + totalTaxExcluded;
 
-      const result = await addOrderPage.getSummaryDetails(page);
+      const result = await boOrdersCreatePage.getSummaryDetails(page);
       await Promise.all([
         expect(result.totalProducts).to.equal(`€${dataProducts.demo_12.priceTaxExcluded.toFixed(2)}`),
         expect(result.totalVouchers).to.equal(`-€${cartRuleWithoutCodeData.discountAmount!.value.toFixed(2)}`),
@@ -204,9 +204,9 @@ describe('BO - Orders - Create order : Search, add and remove voucher', async ()
     it('should try to remove voucher and check that the voucher is not removed', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'removeVoucher1', baseContext);
 
-      await addOrderPage.removeVoucher(page, 1);
+      await boOrdersCreatePage.removeVoucher(page, 1);
 
-      const result = await addOrderPage.getVoucherDetailsFromTable(page);
+      const result = await boOrdersCreatePage.getVoucherDetailsFromTable(page);
       expect(result.name).to.contains(cartRuleWithoutCodeData.name);
     });
   });
@@ -269,16 +269,16 @@ describe('BO - Orders - Create order : Search, add and remove voucher', async ()
 
       await boOrdersPage.goToCreateOrderPage(page);
 
-      const pageTitle = await addOrderPage.getPageTitle(page);
-      expect(pageTitle).to.contains(addOrderPage.pageTitle);
+      const pageTitle = await boOrdersCreatePage.getPageTitle(page);
+      expect(pageTitle).to.contains(boOrdersCreatePage.pageTitle);
     });
 
     it(`should choose customer ${dataCustomers.johnDoe.firstName} ${dataCustomers.johnDoe.lastName}`, async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'chooseDefaultCustomer1', baseContext);
 
-      await addOrderPage.searchCustomer(page, dataCustomers.johnDoe.email);
+      await boOrdersCreatePage.searchCustomer(page, dataCustomers.johnDoe.email);
 
-      const isCartsTableVisible = await addOrderPage.chooseCustomer(page);
+      const isCartsTableVisible = await boOrdersCreatePage.chooseCustomer(page);
       expect(isCartsTableVisible, 'History block is not visible!').to.eq(true);
     });
 
@@ -286,9 +286,9 @@ describe('BO - Orders - Create order : Search, add and remove voucher', async ()
       await testContext.addContextItem(this, 'testIdentifier', 'addProductToCart2', baseContext);
 
       const productToSelect = `${dataProducts.demo_12.name} - €${dataProducts.demo_12.priceTaxExcluded.toFixed(2)}`;
-      await addOrderPage.addProductToCart(page, dataProducts.demo_12, productToSelect);
+      await boOrdersCreatePage.addProductToCart(page, dataProducts.demo_12, productToSelect);
 
-      const result = await addOrderPage.getProductDetailsFromTable(page);
+      const result = await boOrdersCreatePage.getProductDetailsFromTable(page);
       await Promise.all([
         expect(result.image).to.contains(dataProducts.demo_12.thumbImage),
         expect(result.description).to.equal(dataProducts.demo_12.name),
@@ -301,17 +301,17 @@ describe('BO - Orders - Create order : Search, add and remove voucher', async ()
     it('should check that the vouchers table is not visible', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'checkThatVouchersBlockIsNotVisible', baseContext);
 
-      const isVoucherTableNotVisible = await addOrderPage.isVouchersTableNotVisible(page);
+      const isVoucherTableNotVisible = await boOrdersCreatePage.isVouchersTableNotVisible(page);
       expect(isVoucherTableNotVisible, 'Vouchers table is visible!').to.eq(true);
     });
 
     it('should search for the created voucher with code and check details', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'searchVoucher1', baseContext);
 
-      const voucherToSelect = await addOrderPage.searchVoucher(page, cartRuleWithCodeData.name);
+      const voucherToSelect = await boOrdersCreatePage.searchVoucher(page, cartRuleWithCodeData.name);
       expect(voucherToSelect).to.equal(`${cartRuleWithCodeData.name} - ${cartRuleWithCodeData.code}`);
 
-      const result = await addOrderPage.getVoucherDetailsFromTable(page);
+      const result = await boOrdersCreatePage.getVoucherDetailsFromTable(page);
       await Promise.all([
         expect(result.name).to.contains(cartRuleWithCodeData.name),
         expect(result.description).to.equal(cartRuleWithCodeData.description),
@@ -329,7 +329,7 @@ describe('BO - Orders - Create order : Search, add and remove voucher', async ()
       const totalTaxExcluded = dataProducts.demo_12.priceTaxExcluded - cartRuleWithCodeData.discountAmount!.value;
       const totalTaxIncluded = totalTaxes + totalTaxExcluded;
 
-      const result = await addOrderPage.getSummaryDetails(page);
+      const result = await boOrdersCreatePage.getSummaryDetails(page);
       await Promise.all([
         expect(result.totalProducts).to.equal(`€${dataProducts.demo_12.priceTaxExcluded.toFixed(2)}`),
         expect(result.totalVouchers).to.equal(`-€${cartRuleWithCodeData.discountAmount!.value.toFixed(2)}`),
@@ -343,18 +343,18 @@ describe('BO - Orders - Create order : Search, add and remove voucher', async ()
     it('should search for the same created voucher and check the error message', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'searchExistingVoucher', baseContext);
 
-      await addOrderPage.searchVoucher(page, cartRuleWithCodeData.name);
+      await boOrdersCreatePage.searchVoucher(page, cartRuleWithCodeData.name);
 
-      const voucherErrorText = await addOrderPage.getCartRuleErrorText(page);
-      expect(voucherErrorText).to.equal(addOrderPage.cartRuleAlreadyExistErrorText);
+      const voucherErrorText = await boOrdersCreatePage.getCartRuleErrorText(page);
+      expect(voucherErrorText).to.equal(boOrdersCreatePage.cartRuleAlreadyExistErrorText);
     });
 
     it('should remove voucher and check that vouchers table is not visible', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'removeVoucher2', baseContext);
 
-      await addOrderPage.removeVoucher(page, 1);
+      await boOrdersCreatePage.removeVoucher(page, 1);
 
-      const isVoucherTableNotVisible = await addOrderPage.isVouchersTableNotVisible(page);
+      const isVoucherTableNotVisible = await boOrdersCreatePage.isVouchersTableNotVisible(page);
       expect(isVoucherTableNotVisible, 'Vouchers table is visible!').to.eq(true);
     });
 
@@ -363,7 +363,7 @@ describe('BO - Orders - Create order : Search, add and remove voucher', async ()
 
       const totalTaxes = dataProducts.demo_12.price - dataProducts.demo_12.priceTaxExcluded;
 
-      const result = await addOrderPage.getSummaryDetails(page);
+      const result = await boOrdersCreatePage.getSummaryDetails(page);
       await Promise.all([
         expect(result.totalProducts).to.equal(`€${dataProducts.demo_12.priceTaxExcluded.toFixed(2)}`),
         expect(result.totalVouchers).to.equal('€0.00'),
@@ -380,8 +380,8 @@ describe('BO - Orders - Create order : Search, add and remove voucher', async ()
     it('should search for an invalid voucher and check the error message', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'searchInvalidVoucher', baseContext);
 
-      const searchResult = await addOrderPage.searchVoucher(page, 'testVoucher');
-      expect(searchResult).to.equal(addOrderPage.noVoucherFoudErrorMessage);
+      const searchResult = await boOrdersCreatePage.searchVoucher(page, 'testVoucher');
+      expect(searchResult).to.equal(boOrdersCreatePage.noVoucherFoudErrorMessage);
     });
   });
 
@@ -390,10 +390,10 @@ describe('BO - Orders - Create order : Search, add and remove voucher', async ()
     it('should click on add voucher button and check if the iframe is visible', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'addVoucherAndGetIframe', baseContext);
 
-      const isIframeVisible = await addOrderPage.clickOnAddVoucherButton(page);
+      const isIframeVisible = await boOrdersCreatePage.clickOnAddVoucherButton(page);
       expect(isIframeVisible, 'Add cart rule frame is not visible!').to.eq(true);
 
-      addVoucherPage = addOrderPage.getCreateVoucherIframe(page);
+      addVoucherPage = boOrdersCreatePage.getCreateVoucherIframe(page);
       expect(addVoucherPage).to.not.eq(null);
     });
 
@@ -402,10 +402,10 @@ describe('BO - Orders - Create order : Search, add and remove voucher', async ()
 
       await addCartRulePage.createEditCartRules(addVoucherPage!, disabledCartRuleData, false);
 
-      await addOrderPage.searchVoucher(page, disabledCartRuleData.name);
+      await boOrdersCreatePage.searchVoucher(page, disabledCartRuleData.name);
 
-      const voucherErrorText = await addOrderPage.getCartRuleErrorText(page);
-      expect(voucherErrorText).to.equal(addOrderPage.voucherDisabledErrorMessage);
+      const voucherErrorText = await boOrdersCreatePage.getCartRuleErrorText(page);
+      expect(voucherErrorText).to.equal(boOrdersCreatePage.voucherDisabledErrorMessage);
     });
   });
 
@@ -414,14 +414,14 @@ describe('BO - Orders - Create order : Search, add and remove voucher', async ()
     it('should click on add voucher button and check if the iframe is visible', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'AddVoucherAndCheckIframe', baseContext);
 
-      const isIframeVisible = await addOrderPage.clickOnAddVoucherButton(page);
+      const isIframeVisible = await boOrdersCreatePage.clickOnAddVoucherButton(page);
       expect(isIframeVisible, 'Add cart rule frame is not visible!').to.eq(true);
     });
 
     it('should create the cart rule', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'CreateCArtRuleWithGift', baseContext);
 
-      addVoucherPage = addOrderPage.getCreateVoucherIframe(page);
+      addVoucherPage = boOrdersCreatePage.getCreateVoucherIframe(page);
       expect(addVoucherPage).to.not.eq(null);
 
       await addCartRulePage.createEditCartRules(addVoucherPage!, cartRuleWithGiftData, false);
@@ -430,10 +430,10 @@ describe('BO - Orders - Create order : Search, add and remove voucher', async ()
     it('should search for the created voucher and check details', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'searchVoucherWithGift', baseContext);
 
-      const voucherToSelect = await addOrderPage.searchVoucher(page, cartRuleWithGiftData.name);
+      const voucherToSelect = await boOrdersCreatePage.searchVoucher(page, cartRuleWithGiftData.name);
       expect(voucherToSelect).to.equal(`${cartRuleWithGiftData.name} - ${cartRuleWithGiftData.code}`);
 
-      const result = await addOrderPage.getVoucherDetailsFromTable(page, 1);
+      const result = await boOrdersCreatePage.getVoucherDetailsFromTable(page, 1);
       await Promise.all([
         expect(result.name).to.contains(cartRuleWithGiftData.name),
         expect(result.description).to.equal(cartRuleWithGiftData.description),
@@ -444,7 +444,7 @@ describe('BO - Orders - Create order : Search, add and remove voucher', async ()
     it('should check that the gift product is added successfully', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'checkGiftProduct', baseContext);
 
-      const result = await addOrderPage.getProductGiftDetailsFromTable(page, 2);
+      const result = await boOrdersCreatePage.getProductGiftDetailsFromTable(page, 2);
       await Promise.all([
         expect(result.image).to.contains(dataProducts.demo_13.coverImage),
         expect(result.description).to.equal(dataProducts.demo_13.name),
@@ -460,7 +460,7 @@ describe('BO - Orders - Create order : Search, add and remove voucher', async ()
 
       const totalTaxes = dataProducts.demo_12.price - dataProducts.demo_12.priceTaxExcluded;
 
-      const result = await addOrderPage.getSummaryDetails(page);
+      const result = await boOrdersCreatePage.getSummaryDetails(page);
       await Promise.all([
         expect(result.totalProducts).to.equal(`€${dataProducts.demo_12.priceTaxExcluded.toFixed(2)}`),
         expect(result.totalVouchers).to.equal('€0.00'),
@@ -474,16 +474,16 @@ describe('BO - Orders - Create order : Search, add and remove voucher', async ()
     it('should remove voucher and check that the voucher is deleted successfully from the table', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'removeVoucherWithGift', baseContext);
 
-      await addOrderPage.removeVoucher(page, 1);
+      await boOrdersCreatePage.removeVoucher(page, 1);
 
-      const isVoucherTableNotVisible = await addOrderPage.isVouchersTableNotVisible(page);
+      const isVoucherTableNotVisible = await boOrdersCreatePage.isVouchersTableNotVisible(page);
       expect(isVoucherTableNotVisible, 'Vouchers table is visible!').to.eq(true);
     });
 
     it('should check that the gift product is deleted', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'CheckGiftDeleted', baseContext);
 
-      const isRowNotVisible = await addOrderPage.isProductTableRowNotVisible(page, 2);
+      const isRowNotVisible = await boOrdersCreatePage.isProductTableRowNotVisible(page, 2);
       expect(isRowNotVisible, 'Gift product still visible on products table!').to.eq(true);
     });
 
@@ -492,7 +492,7 @@ describe('BO - Orders - Create order : Search, add and remove voucher', async ()
 
       const totalTaxes = dataProducts.demo_12.price - dataProducts.demo_12.priceTaxExcluded;
 
-      const result = await addOrderPage.getSummaryDetails(page);
+      const result = await boOrdersCreatePage.getSummaryDetails(page);
       await Promise.all([
         expect(result.totalProducts).to.equal(`€${dataProducts.demo_12.priceTaxExcluded.toFixed(2)}`),
         expect(result.totalVouchers).to.equal('€0.00'),
@@ -509,14 +509,14 @@ describe('BO - Orders - Create order : Search, add and remove voucher', async ()
     it('should click on add voucher button and check if the iframe is visible', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'clickToAddFreeShippingVoucher', baseContext);
 
-      const isIframeVisible = await addOrderPage.clickOnAddVoucherButton(page);
+      const isIframeVisible = await boOrdersCreatePage.clickOnAddVoucherButton(page);
       expect(isIframeVisible, 'Add cart rule frame is not visible!').to.eq(true);
     });
 
     it('should create the cart rule', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'addFreeShippingVoucher', baseContext);
 
-      addVoucherPage = addOrderPage.getCreateVoucherIframe(page);
+      addVoucherPage = boOrdersCreatePage.getCreateVoucherIframe(page);
       expect(addVoucherPage).to.not.eq(null);
 
       await addCartRulePage.createEditCartRules(addVoucherPage!, cartRuleFreeShippingData, false);
@@ -525,10 +525,10 @@ describe('BO - Orders - Create order : Search, add and remove voucher', async ()
     it('should search for the created voucher and check details', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'searchFreeShippingVoucher', baseContext);
 
-      const voucherToSelect = await addOrderPage.searchVoucher(page, cartRuleFreeShippingData.name);
+      const voucherToSelect = await boOrdersCreatePage.searchVoucher(page, cartRuleFreeShippingData.name);
       expect(voucherToSelect).to.equal(`${cartRuleFreeShippingData.name} - ${cartRuleFreeShippingData.code}`);
 
-      const result = await addOrderPage.getVoucherDetailsFromTable(page);
+      const result = await boOrdersCreatePage.getVoucherDetailsFromTable(page);
       await Promise.all([
         expect(result.name).to.contains(cartRuleFreeShippingData.name),
         expect(result.description).to.equal(cartRuleFreeShippingData.description),
@@ -539,7 +539,7 @@ describe('BO - Orders - Create order : Search, add and remove voucher', async ()
     it('should select the carrier myCarrier', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'selectMyCarrier', baseContext);
 
-      const shippingPriceTTC = await addOrderPage.setDeliveryOption(
+      const shippingPriceTTC = await boOrdersCreatePage.setDeliveryOption(
         page, `${dataCarriers.myCarrier.name} - Delivery next day!`,
       );
       expect(shippingPriceTTC).to.equal(`€${dataCarriers.myCarrier.priceTTC.toFixed(2)}`);
@@ -548,7 +548,7 @@ describe('BO - Orders - Create order : Search, add and remove voucher', async ()
     it('should re-check voucher details', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'checkVoucherDetails', baseContext);
 
-      const result = await addOrderPage.getVoucherDetailsFromTable(page);
+      const result = await boOrdersCreatePage.getVoucherDetailsFromTable(page);
       await Promise.all([
         expect(result.name).to.contains(cartRuleFreeShippingData.name),
         expect(result.description).to.equal(cartRuleFreeShippingData.description),
@@ -561,7 +561,7 @@ describe('BO - Orders - Create order : Search, add and remove voucher', async ()
 
       const totalTaxes = dataProducts.demo_12.price - dataProducts.demo_12.priceTaxExcluded;
 
-      const result = await addOrderPage.getSummaryDetails(page);
+      const result = await boOrdersCreatePage.getSummaryDetails(page);
       await Promise.all([
         expect(result.totalProducts).to.equal(`€${dataProducts.demo_12.priceTaxExcluded.toFixed(2)}`),
         expect(result.totalVouchers).to.equal('-€7.00'),
