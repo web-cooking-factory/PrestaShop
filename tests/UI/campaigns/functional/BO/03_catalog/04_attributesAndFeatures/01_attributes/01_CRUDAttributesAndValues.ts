@@ -2,13 +2,13 @@
 import testContext from '@utils/testContext';
 
 // Import pages
-import addAttributePage from '@pages/BO/catalog/attributes/addAttribute';
 import addValuePage from '@pages/BO/catalog/attributes/addValue';
 import viewAttributePage from '@pages/BO/catalog/attributes/view';
 
 import {expect} from 'chai';
 import {
   boAttributesPage,
+  boAttributesCreatePage,
   boDashboardPage,
   boLoginPage,
   type BrowserContext,
@@ -106,14 +106,14 @@ describe('BO - Catalog - Attributes & Features : CRUD attribute and values', asy
 
       await boAttributesPage.goToAddAttributePage(page);
 
-      const pageTitle = await addAttributePage.getPageTitle(page);
-      expect(pageTitle).to.equal(addAttributePage.createPageTitle);
+      const pageTitle = await boAttributesCreatePage.getPageTitle(page);
+      expect(pageTitle).to.equal(boAttributesCreatePage.createPageTitle);
     });
 
     it('should create new attribute', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'createNewAttribute', baseContext);
 
-      const textResult = await addAttributePage.addEditAttribute(page, createAttributeData);
+      const textResult = await boAttributesCreatePage.addEditAttribute(page, createAttributeData);
       expect(textResult).to.contains(boAttributesPage.successfulCreationMessage);
 
       const numberOfAttributesAfterCreation = await boAttributesPage.getNumberOfElementInGrid(page);
@@ -190,14 +190,14 @@ describe('BO - Catalog - Attributes & Features : CRUD attribute and values', asy
 
       await boAttributesPage.goToEditAttributePage(page, 1);
 
-      const pageTitle = await addAttributePage.getPageTitle(page);
-      expect(pageTitle).to.equal(addAttributePage.editPageTitle(createAttributeData.name));
+      const pageTitle = await boAttributesCreatePage.getPageTitle(page);
+      expect(pageTitle).to.equal(boAttributesCreatePage.editPageTitle(createAttributeData.name));
     });
 
     it('should update attribute', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'updateAttribute', baseContext);
 
-      const textResult = await addAttributePage.addEditAttribute(page, updateAttributeData);
+      const textResult = await boAttributesCreatePage.addEditAttribute(page, updateAttributeData);
       expect(textResult).to.contains(boAttributesPage.successfulUpdateMessage);
     });
   });

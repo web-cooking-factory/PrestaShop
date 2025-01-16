@@ -7,7 +7,6 @@ import {deleteProductTest} from '@commonTests/BO/catalog/product';
 import boBrandsCreatePage from '@pages/BO/catalog/brands/add';
 import boCategoriesPage from '@pages/BO/catalog/categories';
 import boCategoriesCreatePage from '@pages/BO/catalog/categories/add';
-import boAttributesCreatePage from '@pages/BO/catalog/attributes/addAttribute';
 import boAttributesViewPage from '@pages/BO/catalog/attributes/view';
 import boAttributeValuesCreatePage from '@pages/BO/catalog/attributes/addValue';
 import boFeaturesPage from '@pages/BO/catalog/features';
@@ -19,6 +18,7 @@ import testContext from '@utils/testContext';
 
 import {
   boAttributesPage,
+  boAttributesCreatePage,
   boBrandsPage,
   boDashboardPage,
   boLoginPage,

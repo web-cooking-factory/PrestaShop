@@ -5,7 +5,6 @@ import testContext from '@utils/testContext';
 import {deleteProductTest} from '@commonTests/BO/catalog/product';
 
 // Import BO pages
-import addAttributePage from '@pages/BO/catalog/attributes/addAttribute';
 import viewAttributePage from '@pages/BO/catalog/attributes/view';
 import addValuePage from '@pages/BO/catalog/attributes/addValue';
 import createProductsPage from '@pages/BO/catalog/products/add';
@@ -14,6 +13,7 @@ import combinationsTab from '@pages/BO/catalog/products/add/combinationsTab';
 import {expect} from 'chai';
 import {
   boAttributesPage,
+  boAttributesCreatePage,
   boDashboardPage,
   boLoginPage,
   boProductsPage,
@@ -124,14 +124,14 @@ describe('FO - Product page - Product page : Change combination', async () => {
 
       await boAttributesPage.goToAddAttributePage(page);
 
-      const pageTitle = await addAttributePage.getPageTitle(page);
-      expect(pageTitle).to.equal(addAttributePage.createPageTitle);
+      const pageTitle = await boAttributesCreatePage.getPageTitle(page);
+      expect(pageTitle).to.equal(boAttributesCreatePage.createPageTitle);
     });
 
     it('should create new attribute', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'createNewAttribute', baseContext);
 
-      const textResult = await addAttributePage.addEditAttribute(page, createAttributeData);
+      const textResult = await boAttributesCreatePage.addEditAttribute(page, createAttributeData);
       expect(textResult).to.contains(boAttributesPage.successfulCreationMessage);
 
       const numberOfAttributesAfterCreation = await boAttributesPage.getNumberOfElementInGrid(page);

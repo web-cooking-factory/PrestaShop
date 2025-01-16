@@ -1,5 +1,4 @@
 import {expect} from 'chai';
-import addAttributePage from '@pages/BO/catalog/attributes/addAttribute';
 import addValuePage from '@pages/BO/catalog/attributes/addValue';
 import viewAttributePage from '@pages/BO/catalog/attributes/view';
 import addBrandPage from '@pages/BO/catalog/brands/add';
@@ -26,6 +25,7 @@ import testContext from '@utils/testContext';
 
 import {
   boAttributesPage,
+  boAttributesCreatePage,
   boBrandsPage,
   boDashboardPage,
   boLoginPage,
@@ -226,8 +226,8 @@ describe('BO - Catalog', async () => {
 
     await boAttributesPage.goToAddAttributePage(page);
 
-    const pageTitle = await addAttributePage.getPageTitle(page);
-    expect(pageTitle).to.contains(addAttributePage.createPageTitle);
+    const pageTitle = await boAttributesCreatePage.getPageTitle(page);
+    expect(pageTitle).to.contains(boAttributesCreatePage.createPageTitle);
 
     const jsErrors = utilsPlaywright.getJsErrors();
     expect(jsErrors.length).to.equals(0);
