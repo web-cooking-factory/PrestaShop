@@ -7,13 +7,13 @@ import {deleteProductTest} from '@commonTests/BO/catalog/product';
 // Import pages
 // Import BO pages
 import createProductsPage from '@pages/BO/catalog/products/add';
-import packTab from '@pages/BO/catalog/products/add/packTab';
 
 import {
   boDashboardPage,
   boLoginPage,
   boOrdersPage,
   boProductsPage,
+  boProductsCreateTabPackPage,
   boProductsCreateTabPricingPage,
   type BrowserContext,
   dataCustomers,
@@ -173,15 +173,15 @@ describe('BO - Catalog - Products : Pack Tab', async () => {
     it('should add a product by product name to the pack', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'addProductByNameToPack', baseContext);
 
-      await packTab.addProductToPack(page, 'shirt', 1);
+      await boProductsCreateTabPackPage.addProductToPack(page, 'shirt', 1);
 
       const updateProductMessage = await createProductsPage.saveProduct(page);
       expect(updateProductMessage).to.equal(createProductsPage.successfulUpdateMessage);
 
-      const numberOfProducts = await packTab.getNumberOfProductsInPack(page);
+      const numberOfProducts = await boProductsCreateTabPackPage.getNumberOfProductsInPack(page);
       expect(numberOfProducts).to.equal(1);
 
-      const result = await packTab.getProductInPackInformation(page, 1);
+      const result = await boProductsCreateTabPackPage.getProductInPackInformation(page, 1);
       await Promise.all([
         expect(result.name).to.equal(
           `${dataProducts.demo_1.name}: `
@@ -196,15 +196,15 @@ describe('BO - Catalog - Products : Pack Tab', async () => {
     it('should add a product by reference to the pack', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'addProductByRefToPack', baseContext);
 
-      await packTab.addProductToPack(page, dataProducts.demo_14.reference, 1);
+      await boProductsCreateTabPackPage.addProductToPack(page, dataProducts.demo_14.reference, 1);
 
       const updateProductMessage = await createProductsPage.saveProduct(page);
       expect(updateProductMessage).to.equal(createProductsPage.successfulUpdateMessage);
 
-      const numberOfProducts = await packTab.getNumberOfProductsInPack(page);
+      const numberOfProducts = await boProductsCreateTabPackPage.getNumberOfProductsInPack(page);
       expect(numberOfProducts).to.equal(2);
 
-      const result = await packTab.getProductInPackInformation(page, 2);
+      const result = await boProductsCreateTabPackPage.getProductInPackInformation(page, 2);
       await Promise.all([
         expect(result.name).to.equal(dataProducts.demo_14.name),
         expect(result.reference).to.equal(`Ref: ${dataProducts.demo_14.reference}`),
@@ -215,15 +215,15 @@ describe('BO - Catalog - Products : Pack Tab', async () => {
     it('should add set quantity for the first product in pack', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'setQuantityInPack', baseContext);
 
-      await packTab.setProductQuantity(page, 0, productQuantity);
+      await boProductsCreateTabPackPage.setProductQuantity(page, 0, productQuantity);
 
       const updateProductMessage = await createProductsPage.saveProduct(page);
       expect(updateProductMessage).to.equal(createProductsPage.successfulUpdateMessage);
 
-      const numberOfProducts = await packTab.getNumberOfProductsInPack(page);
+      const numberOfProducts = await boProductsCreateTabPackPage.getNumberOfProductsInPack(page);
       expect(numberOfProducts).to.equal(2);
 
-      const result = await packTab.getProductInPackInformation(page, 1);
+      const result = await boProductsCreateTabPackPage.getProductInPackInformation(page, 1);
       await Promise.all([
         expect(result.name).to.equal(
           `${dataProducts.demo_1.name}: `
@@ -238,27 +238,27 @@ describe('BO - Catalog - Products : Pack Tab', async () => {
     it('should delete the second product in pack', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'deleteProductInPack', baseContext);
 
-      await packTab.deleteProduct(page, 2, true);
+      await boProductsCreateTabPackPage.deleteProduct(page, 2, true);
 
       const updateProductMessage = await createProductsPage.saveProduct(page);
       expect(updateProductMessage).to.equal(createProductsPage.successfulUpdateMessage);
 
-      const numberOfProducts = await packTab.getNumberOfProductsInPack(page);
+      const numberOfProducts = await boProductsCreateTabPackPage.getNumberOfProductsInPack(page);
       expect(numberOfProducts).to.equal(1);
     });
 
     it('should add a product by reference to the pack', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'addProductByRefToPack2', baseContext);
 
-      await packTab.addProductToPack(page, dataProducts.demo_9.reference, 1);
+      await boProductsCreateTabPackPage.addProductToPack(page, dataProducts.demo_9.reference, 1);
 
       const updateProductMessage = await createProductsPage.saveProduct(page);
       expect(updateProductMessage).to.equal(createProductsPage.successfulUpdateMessage);
 
-      const numberOfProducts = await packTab.getNumberOfProductsInPack(page);
+      const numberOfProducts = await boProductsCreateTabPackPage.getNumberOfProductsInPack(page);
       expect(numberOfProducts).to.equal(2);
 
-      const result = await packTab.getProductInPackInformation(page, 2);
+      const result = await boProductsCreateTabPackPage.getProductInPackInformation(page, 2);
       await Promise.all([
         expect(result.name).to.equal(
           `${dataProducts.demo_9.name}: `
@@ -272,7 +272,7 @@ describe('BO - Catalog - Products : Pack Tab', async () => {
     it('should edit quantity to the pack', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'editQuantityPack', baseContext);
 
-      await packTab.editQuantity(page, productStock);
+      await boProductsCreateTabPackPage.editQuantity(page, productStock);
 
       const updateProductMessage = await createProductsPage.saveProduct(page);
       expect(updateProductMessage).to.equal(createProductsPage.successfulUpdateMessage);
@@ -406,7 +406,7 @@ describe('BO - Catalog - Products : Pack Tab', async () => {
     it('should check the stock', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'checkStock', baseContext);
 
-      const stockValue = await packTab.getStockValue(page);
+      const stockValue = await boProductsCreateTabPackPage.getStockValue(page);
       expect(stockValue).to.be.equals(productStock - 1);
     });
   });
@@ -468,7 +468,7 @@ describe('BO - Catalog - Products : Pack Tab', async () => {
     it('should check the recent stock movement', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'checkRecentStockMovement', baseContext);
 
-      const result = await packTab.getStockMovement(page, 1);
+      const result = await boProductsCreateTabPackPage.getStockMovement(page, 1);
       await Promise.all([
         expect(result.dateTime).to.contains('Shipped products'),
         expect(result.employee).to.equal(''),
@@ -481,7 +481,7 @@ describe('BO - Catalog - Products : Pack Tab', async () => {
     it('should edit Pack Quantities "Decrement products in pack only"', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'editPackQuantities', baseContext);
 
-      await packTab.editPackStockType(page, 'Use quantity of products in the pack');
+      await boProductsCreateTabPackPage.editPackStockType(page, 'Use quantity of products in the pack');
 
       const updateProductMessage = await createProductsPage.saveProduct(page);
       expect(updateProductMessage).to.equal(createProductsPage.successfulUpdateMessage);

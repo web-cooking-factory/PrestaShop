@@ -3,13 +3,13 @@ import testContext from '@utils/testContext';
 
 // Import pages
 import createProductsPage from '@pages/BO/catalog/products/add';
-import packTab from '@pages/BO/catalog/products/add/packTab';
 
 import {expect} from 'chai';
 import {
   boDashboardPage,
   boLoginPage,
   boProductsPage,
+  boProductsCreateTabPackPage,
   boProductsCreateTabPricingPage,
   type BrowserContext,
   dataEmployees,
@@ -175,14 +175,14 @@ describe('BO - Catalog - Products : CRUD pack of products', async () => {
       it('should search for the same product and check that no results found', async function () {
         await testContext.addContextItem(this, 'testIdentifier', 'searchSameProduct', baseContext);
 
-        const searchResult = await packTab.searchProduct(page, 'demo_11');
+        const searchResult = await boProductsCreateTabPackPage.searchProduct(page, 'demo_11');
         expect(searchResult).to.equal('No results found for "demo_11"');
       });
 
       it('should search for a non existent product', async function () {
         await testContext.addContextItem(this, 'testIdentifier', 'searchNonExistentProduct', baseContext);
 
-        const searchResult = await packTab.searchProduct(page, 'Pack mug');
+        const searchResult = await boProductsCreateTabPackPage.searchProduct(page, 'Pack mug');
         expect(searchResult).to.equal('No results found for "Pack mug"');
       });
       const tests = [
@@ -231,14 +231,14 @@ describe('BO - Catalog - Products : CRUD pack of products', async () => {
         it(`should search for a '${test.args.productType}'`, async function () {
           await testContext.addContextItem(this, 'testIdentifier', `searchProductToPack${index}`, baseContext);
 
-          const searchResult = await packTab.searchProduct(page, test.args.product.name);
+          const searchResult = await boProductsCreateTabPackPage.searchProduct(page, test.args.product.name);
           expect(searchResult).to.equal(test.args.resultOfSearch);
         });
 
         it('should check the number of product in list', async function () {
           await testContext.addContextItem(this, 'testIdentifier', `checkNumberOfProductsInList${index}`, baseContext);
 
-          const numberOfProducts = await packTab.getNumberOfSearchedProduct(page);
+          const numberOfProducts = await boProductsCreateTabPackPage.getNumberOfSearchedProduct(page);
           expect(numberOfProducts).to.equal(test.args.numberOfProducts);
         });
 
@@ -246,14 +246,14 @@ describe('BO - Catalog - Products : CRUD pack of products', async () => {
           it('should choose the third combination', async function () {
             await testContext.addContextItem(this, 'testIdentifier', 'chooseThirdCombination', baseContext);
 
-            const isListOfProductVisible = await packTab.selectProductFromList(page, 3);
+            const isListOfProductVisible = await boProductsCreateTabPackPage.selectProductFromList(page, 3);
             expect(isListOfProductVisible).to.eq(true);
           });
         } else {
           it('should choose the searched product', async function () {
             await testContext.addContextItem(this, 'testIdentifier', `chooseProduct${index}`, baseContext);
 
-            const isListOfProductVisible = await packTab.selectProductFromList(page, 1);
+            const isListOfProductVisible = await boProductsCreateTabPackPage.selectProductFromList(page, 1);
             expect(isListOfProductVisible).to.eq(true);
           });
         }
@@ -261,14 +261,14 @@ describe('BO - Catalog - Products : CRUD pack of products', async () => {
         it('should check the number of products in the pack', async function () {
           await testContext.addContextItem(this, 'testIdentifier', `checkNumberOfProductsInPack${index}`, baseContext);
 
-          const numberOfProducts = await packTab.getNumberOfProductsInPack(page);
+          const numberOfProducts = await boProductsCreateTabPackPage.getNumberOfProductsInPack(page);
           expect(numberOfProducts).to.equal(index + 2);
         });
 
         it('should check the selected product information', async function () {
           await testContext.addContextItem(this, 'testIdentifier', `checkProductInformationBO${index}`, baseContext);
 
-          const result = await packTab.getProductInPackInformation(page, index + 2);
+          const result = await boProductsCreateTabPackPage.getProductInPackInformation(page, index + 2);
           await Promise.all([
             expect(result.image).to.contains(test.args.product.defaultImage),
             expect(result.name).to.equal(test.args.productToChooseName),
@@ -285,25 +285,25 @@ describe('BO - Catalog - Products : CRUD pack of products', async () => {
     it('should try to edit the quantity of the customized product by a negative value', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'tryToEditByNegativeValue', baseContext);
 
-      await packTab.setProductQuantity(page, 0, -1);
+      await boProductsCreateTabPackPage.setProductQuantity(page, 0, -1);
 
-      const errorMessage = await packTab.saveAndGetProductInPackErrorMessage(page, 1);
+      const errorMessage = await boProductsCreateTabPackPage.saveAndGetProductInPackErrorMessage(page, 1);
       expect(errorMessage).to.equal('This value should be greater than or equal to 1.');
     });
 
     it('should try to edit the quantity of the customized product by a text', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'tryToEditByText', baseContext);
 
-      await packTab.setProductQuantity(page, 0, 'test');
+      await boProductsCreateTabPackPage.setProductQuantity(page, 0, 'test');
 
-      const errorMessage = await packTab.saveAndGetProductInPackErrorMessage(page, 1);
+      const errorMessage = await boProductsCreateTabPackPage.saveAndGetProductInPackErrorMessage(page, 1);
       expect(errorMessage).to.equal('This value should be of type numeric.');
     });
 
     it('should set a valid quantity then save the product', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'setValidQuantity', baseContext);
 
-      await packTab.setProductQuantity(page, 0, 15);
+      await boProductsCreateTabPackPage.setProductQuantity(page, 0, 15);
 
       const updateProductMessage = await createProductsPage.saveProduct(page);
       expect(updateProductMessage).to.equal(createProductsPage.successfulUpdateMessage);
@@ -312,21 +312,21 @@ describe('BO - Catalog - Products : CRUD pack of products', async () => {
     it('should try delete the customized product then cancel', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'cancelDeleteProduct', baseContext);
 
-      const isModalVisible = await packTab.deleteProduct(page, 1, false);
+      const isModalVisible = await boProductsCreateTabPackPage.deleteProduct(page, 1, false);
       expect(isModalVisible).to.eq(false);
     });
 
     it('should delete the customized product', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'deleteCustomizedProduct', baseContext);
 
-      const firstProductInList = await packTab.deleteProduct(page, 1, true);
+      const firstProductInList = await boProductsCreateTabPackPage.deleteProduct(page, 1, true);
       expect(firstProductInList).to.equal(createProductsPage.successfulUpdateMessage);
     });
 
     it('should edit the quantity and the minimum quantity of the pack then save', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'editMinimumQuantity', baseContext);
 
-      await packTab.editPackOfProducts(page, editPackData);
+      await boProductsCreateTabPackPage.editPackOfProducts(page, editPackData);
 
       const updateProductMessage = await createProductsPage.saveProduct(page);
       expect(updateProductMessage).to.equal(createProductsPage.successfulUpdateMessage);
@@ -335,7 +335,7 @@ describe('BO - Catalog - Products : CRUD pack of products', async () => {
     it('should check the recent stock movement', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'checkStockMovement', baseContext);
 
-      const result = await packTab.getStockMovement(page, 1);
+      const result = await boProductsCreateTabPackPage.getStockMovement(page, 1);
       await Promise.all([
         expect(result.dateTime).to.contains(todayDate),
         expect(result.employee).to.equal(`${dataEmployees.defaultEmployee.firstName} ${dataEmployees.defaultEmployee.lastName}`),

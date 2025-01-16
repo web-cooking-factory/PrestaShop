@@ -1,9 +1,9 @@
 import BOBasePage from '@pages/BO/BObasePage';
-import packTab from '@pages/BO/catalog/products/add/packTab';
 
 import {
   boProductsCreateTabDescriptionPage,
   boProductsCreateTabDetailsPage,
+  boProductsCreateTabPackPage,
   boProductsCreateTabPricingPage,
   boProductsCreateTabShippingPage,
   boProductsCreateTabStocksPage,
@@ -367,7 +367,7 @@ class CreateProduct extends BOBasePage {
     }
 
     if (productData.type === 'pack') {
-      await packTab.setPackOfProducts(page, productData.pack);
+      await boProductsCreateTabPackPage.setPackOfProducts(page, productData.pack);
     }
     if (productData.type !== 'virtual') {
       await boProductsCreateTabShippingPage.setPackageDimension(page, productData);
