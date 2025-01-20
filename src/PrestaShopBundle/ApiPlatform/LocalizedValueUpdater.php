@@ -28,7 +28,6 @@ namespace PrestaShopBundle\ApiPlatform;
 
 use PrestaShopBundle\ApiPlatform\Exception\LocaleNotFoundException;
 use PrestaShopBundle\ApiPlatform\Metadata\LocalizedValue;
-use PrestaShopBundle\ApiPlatform\Serializer\DomainSerializer;
 use PrestaShopBundle\Entity\Repository\LangRepository;
 use Symfony\Component\Serializer\Mapping\AttributeMetadataInterface;
 use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactoryInterface;
@@ -89,8 +88,8 @@ class LocalizedValueUpdater
 
         if (!empty($localizedAttributesContext)) {
             $normalizationMapping = [];
-            if (!empty($context[DomainSerializer::NORMALIZATION_MAPPING])) {
-                $normalizationMapping = $context[DomainSerializer::NORMALIZATION_MAPPING];
+            if (!empty($context[NormalizationMapper::NORMALIZATION_MAPPING])) {
+                $normalizationMapping = $context[NormalizationMapper::NORMALIZATION_MAPPING];
             } elseif (!empty($context['operation']) && !empty($context['operation']->getExtraProperties()['CQRSCommandMapping'])) {
                 $normalizationMapping = $context['operation']->getExtraProperties()['CQRSCommandMapping'];
             }
