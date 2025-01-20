@@ -122,24 +122,29 @@ class CQRSApiSerializerTest extends KernelTestCase
         // Test that CQRSApiSerializer correctly decorates the API Platform serializer
         $apiPlatformSerializer = self::getContainer()->get('api_platform.serializer');
         $this->assertTrue(is_a($apiPlatformSerializer, CQRSApiSerializer::class));
+
+        // But we don't want to impact the global serializer
+        $globalSerializer = self::getContainer()->get('serializer');
+        $this->assertFalse(is_a($globalSerializer, CQRSApiSerializer::class));
     }
 
-    /**
-     * @dataProvider getExpectedDenormalizedData
-     */
-    public function testDenormalize($dataToDenormalize, $denormalizedObject, $normalizationMapping = [], $type = null, array $extraContext = []): void
+    public function testDenormalize(): void
     {
         $serializer = self::getContainer()->get(CQRSApiSerializer::class);
-        $context = [NormalizationMapper::NORMALIZATION_MAPPING => $normalizationMapping];
-        $type = $type ?: get_class($denormalizedObject);
-        if (!empty($extraContext)) {
-            $context = array_merge($context, $extraContext);
-        }
 
-        self::assertEquals($denormalizedObject, $serializer->denormalize($dataToDenormalize, $type, null, $context));
+        foreach ($this->getExpectedDenormalizedData() as $useCase => $denormalizationData) {
+            list($dataToDenormalize, $denormalizedObject, $normalizationMapping, $type, $extraContext) = array_pad($denormalizationData, 5, null);
+            $context = [NormalizationMapper::NORMALIZATION_MAPPING => $normalizationMapping ?? []];
+            $type = $type ?: get_class($denormalizedObject);
+            if (!empty($extraContext)) {
+                $context = array_merge($context, $extraContext);
+            }
+
+            self::assertEquals($denormalizedObject, $serializer->denormalize($dataToDenormalize, $type, null, $context), $useCase);
+        }
     }
 
-    public static function getExpectedDenormalizedData(): iterable
+    public function getExpectedDenormalizedData(): iterable
     {
         $localizedResource = new LocalizedResource([
             'en-US' => 'english link',
@@ -427,15 +432,15 @@ class CQRSApiSerializerTest extends KernelTestCase
         ];
     }
 
-    /**
-     * @dataProvider getNormalizationData
-     */
-    public function testNormalize(mixed $dataToNormalize, array $expectedNormalizedData, array $normalizationMapping = [], array $extraContext = []): void
+    public function testNormalize(): void
     {
         $serializer = self::getContainer()->get(CQRSApiSerializer::class);
-        $context = [NormalizationMapper::NORMALIZATION_MAPPING => $normalizationMapping] + $extraContext;
+        foreach ($this->getNormalizationData() as $useCase => $normalizationData) {
+            list($dataToNormalize, $expectedNormalizedData, $normalizationMapping, $extraContext) = array_pad($normalizationData, 4, null);
+            $context = [NormalizationMapper::NORMALIZATION_MAPPING => ($normalizationMapping ?? [])] + ($extraContext ?? []);
 
-        self::assertEquals($expectedNormalizedData, $serializer->normalize($dataToNormalize, null, $context));
+            self::assertEquals($expectedNormalizedData, $serializer->normalize($dataToNormalize, null, $context), $useCase);
+        }
     }
 
     public static function getNormalizationData(): iterable
