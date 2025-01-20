@@ -58,6 +58,7 @@ use Symfony\Component\HttpFoundation\File\File;
 use Tests\Integration\Utility\LanguageTrait;
 use Tests\Resources\ApiPlatform\Resources\LocalizedResource;
 use Tests\Resources\Resetter\LanguageResetter;
+use Tests\Resources\ResourceResetter;
 
 class CQRSApiSerializerTest extends KernelTestCase
 {
@@ -66,6 +67,19 @@ class CQRSApiSerializerTest extends KernelTestCase
     protected const EN_LANG_ID = 1;
 
     protected static ?int $frenchLangId = null;
+
+    public static function setUpBeforeClass(): void
+    {
+        parent::setUpBeforeClass();
+        // BAckup modules because language installation modifies them
+        (new ResourceResetter())->backupTestModules();
+
+        // Reset languages and reinstall the french one to make sure we have the correct data in DB
+        // The self::$frenchLangId was initialized early with the data providers but in the meantime the DB may have been cleaned
+        // by other tests, we reset it and create new fr language, since the DB increment value is reset the ID should be 2
+        LanguageResetter::resetLanguages();
+        self::$frenchLangId = self::addLanguageByLocale('fr-FR');
+    }
 
     public static function tearDownAfterClass(): void
     {
