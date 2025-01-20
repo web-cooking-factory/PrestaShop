@@ -45,6 +45,12 @@ services:
   PrestaShopBundle\ApiPlatform\LocalizedValueUpdater:
     autowire: true
 
+  # This is a custom validator for CQRS commands
+  PrestaShopBundle\ApiPlatform\Validator\CQRSApiValidator:
+    autowire: true
+    arguments:
+      $validatorMetadataFactory: '@validator.mapping.class_metadata_factory'
+
   # Customer provider for CQRS queries
   PrestaShopBundle\ApiPlatform\Provider\QueryProvider:
     tags: [ 'api_platform.state_provider' ]
