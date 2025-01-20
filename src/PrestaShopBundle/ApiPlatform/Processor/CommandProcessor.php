@@ -37,8 +37,9 @@ use PrestaShop\PrestaShop\Core\Context\LanguageContext;
 use PrestaShop\PrestaShop\Core\Context\ShopContext;
 use PrestaShopBundle\ApiPlatform\ContextParametersTrait;
 use PrestaShopBundle\ApiPlatform\Exception\CQRSCommandNotFoundException;
+use PrestaShopBundle\ApiPlatform\NormalizationMapper;
 use PrestaShopBundle\ApiPlatform\QueryResultSerializerTrait;
-use PrestaShopBundle\ApiPlatform\Serializer\DomainSerializer;
+use PrestaShopBundle\ApiPlatform\Serializer\CQRSApiSerializer;
 use ReflectionException;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 
@@ -49,7 +50,7 @@ class CommandProcessor implements ProcessorInterface
 
     public function __construct(
         protected readonly CommandBusInterface $commandBus,
-        protected readonly DomainSerializer $domainSerializer,
+        protected readonly CQRSApiSerializer $domainSerializer,
         protected readonly ShopContext $shopContext,
         protected readonly LanguageContext $languageContext,
         protected readonly CurrencyContext $currencyContext,
@@ -76,12 +77,16 @@ class CommandProcessor implements ProcessorInterface
             throw new CQRSCommandNotFoundException(sprintf('Resource %s has no CQRS command defined.', $operation->getClass()));
         }
 
-        // Start by normalizing the data which should be an ApiPlatform DTO, and merge the URI variables in it as well since the query may contain some extra parameters (like the resource ID)
-        $normalizedApiResourceDTO = $this->domainSerializer->normalize($data, null, [DomainSerializer::NORMALIZATION_MAPPING => $this->getApiResourceMapping($operation)]);
-        $commandParameters = array_merge($normalizedApiResourceDTO, $uriVariables, $this->getContextParameters());
+        if ($data instanceof $CQRSCommandClass) {
+            $command = $data;
+        } else {
+            // Start by normalizing the data which should be an ApiPlatform DTO, and merge the URI variables in it as well since the query may contain some extra parameters (like the resource ID)
+            $normalizedApiResourceDTO = $this->domainSerializer->normalize($data, null, [NormalizationMapper::NORMALIZATION_MAPPING => $this->getApiResourceMapping($operation)]);
+            $commandParameters = array_merge($normalizedApiResourceDTO, $uriVariables, $this->getContextParameters());
 
-        // Denormalize the command and let the bus handle it
-        $command = $this->domainSerializer->denormalize($commandParameters, $CQRSCommandClass, null, [DomainSerializer::NORMALIZATION_MAPPING => $this->getCQRSCommandMapping($operation)]);
+            // Denormalize the command and let the bus handle it
+            $command = $this->domainSerializer->denormalize($commandParameters, $CQRSCommandClass, null, [NormalizationMapper::NORMALIZATION_MAPPING => $this->getCQRSCommandMapping($operation)]);
+        }
         $commandResult = $this->commandBus->handle($command);
 
         // If no result is returned and no query is configured the API returns nothing
@@ -105,7 +110,7 @@ class CommandProcessor implements ProcessorInterface
     protected function denormalizeCommandResult(mixed $commandResult, Operation $operation, array $uriVariables): mixed
     {
         if (!empty($commandResult)) {
-            $normalizedCommandResult = $this->domainSerializer->normalize($commandResult, null, [DomainSerializer::NORMALIZATION_MAPPING => $this->getCQRSCommandMapping($operation)]);
+            $normalizedCommandResult = $this->domainSerializer->normalize($commandResult, null, [NormalizationMapper::NORMALIZATION_MAPPING => $this->getCQRSCommandMapping($operation)]);
         } else {
             // Use URI variables as fallback when the command returned no result as it probably contains the ID that will be needed to create the CQRS query
             $normalizedCommandResult = $uriVariables;
@@ -131,7 +136,7 @@ class CommandProcessor implements ProcessorInterface
      */
     protected function denormalizeApiPlatformDTO(array $normalizedCommandResult, Operation $operation): mixed
     {
-        return $this->domainSerializer->denormalize($normalizedCommandResult, $operation->getClass(), null, [DomainSerializer::NORMALIZATION_MAPPING => $this->getApiResourceMapping($operation)]);
+        return $this->domainSerializer->denormalize($normalizedCommandResult, $operation->getClass(), null, [NormalizationMapper::NORMALIZATION_MAPPING => $this->getApiResourceMapping($operation)]);
     }
 
     /**
@@ -146,7 +151,7 @@ class CommandProcessor implements ProcessorInterface
      */
     protected function handleCQRSQueryAndReturnResult(string $CQRSQueryClass, array $normalizedCommandResult, Operation $operation): mixed
     {
-        $CQRSQuery = $this->domainSerializer->denormalize($normalizedCommandResult, $CQRSQueryClass, null, [DomainSerializer::NORMALIZATION_MAPPING => $this->getCQRSQueryMapping($operation)]);
+        $CQRSQuery = $this->domainSerializer->denormalize($normalizedCommandResult, $CQRSQueryClass, null, [NormalizationMapper::NORMALIZATION_MAPPING => $this->getCQRSQueryMapping($operation)]);
         $CQRSQueryResult = $this->commandBus->handle($CQRSQuery);
 
         return $this->denormalizeQueryResult($CQRSQueryResult, $operation);
