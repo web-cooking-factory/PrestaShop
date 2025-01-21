@@ -31,15 +31,11 @@ namespace PrestaShopBundle\ApiPlatform\Provider;
 use ApiPlatform\Metadata\CollectionOperationInterface;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;
-use PrestaShop\PrestaShop\Core\Context\ApiClientContext;
-use PrestaShop\PrestaShop\Core\Context\CurrencyContext;
-use PrestaShop\PrestaShop\Core\Context\LanguageContext;
 use PrestaShop\PrestaShop\Core\Context\ShopContext;
 use PrestaShop\PrestaShop\Core\Exception\TypeException;
 use PrestaShop\PrestaShop\Core\Grid\Data\Factory\GridDataFactoryInterface;
 use PrestaShop\PrestaShop\Core\Search\Builder\FiltersBuilderInterface;
 use PrestaShop\PrestaShop\Core\Search\Filters;
-use PrestaShopBundle\ApiPlatform\ContextParametersTrait;
 use PrestaShopBundle\ApiPlatform\Exception\GridDataFactoryNotFoundException;
 use PrestaShopBundle\ApiPlatform\NormalizationMapper;
 use PrestaShopBundle\ApiPlatform\Normalizer\CQRSApiNormalizer;
@@ -54,7 +50,6 @@ use Symfony\Component\Serializer\Exception\ExceptionInterface;
 class QueryListProvider implements ProviderInterface
 {
     use QueryResultSerializerTrait;
-    use ContextParametersTrait;
 
     public const DEFAULT_PAGINATED_ITEM_LIMIT = 50;
 
@@ -63,9 +58,6 @@ class QueryListProvider implements ProviderInterface
         protected readonly CQRSApiSerializer $domainSerializer,
         protected readonly ContainerInterface $container,
         protected readonly ShopContext $shopContext,
-        protected readonly LanguageContext $languageContext,
-        protected readonly CurrencyContext $currencyContext,
-        protected readonly ApiClientContext $apiClientContext,
         protected readonly FiltersBuilderInterface $filtersBuilder
     ) {
     }

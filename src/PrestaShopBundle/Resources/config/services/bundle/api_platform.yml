@@ -42,6 +42,8 @@ services:
     arguments:
       $decorated: '@.inner'
 
+  PrestaShopBundle\ApiPlatform\ContextParametersProvider:
+    autowire: true
   PrestaShopBundle\ApiPlatform\LocalizedValueUpdater:
     autowire: true
 

@@ -26,17 +26,11 @@
 
 namespace PrestaShopBundle\ApiPlatform\Serializer;
 
-use PrestaShop\PrestaShop\Core\Context\ApiClientContext;
-use PrestaShop\PrestaShop\Core\Context\CurrencyContext;
-use PrestaShop\PrestaShop\Core\Context\LanguageContext;
-use PrestaShop\PrestaShop\Core\Context\ShopContext;
-use PrestaShopBundle\ApiPlatform\ContextParametersTrait;
+use PrestaShopBundle\ApiPlatform\ContextParametersProvider;
 use PrestaShopBundle\ApiPlatform\LocalizedValueUpdater;
 use PrestaShopBundle\ApiPlatform\Metadata\LocalizedValue;
 use PrestaShopBundle\ApiPlatform\NormalizationMapper;
 use ReflectionNamedType;
-use Symfony\Component\PropertyAccess\PropertyAccess;
-use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Component\Serializer\Encoder\ContextAwareDecoderInterface;
 use Symfony\Component\Serializer\Encoder\ContextAwareEncoderInterface;
 use Symfony\Component\Serializer\Exception\UnsupportedFormatException;
@@ -47,30 +41,19 @@ use Symfony\Component\Serializer\Normalizer\ContextAwareNormalizerInterface;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
 
+/**
+ * This serializer decorates the API Platform one, it handles PrestaShop custom modifications like updating the localized values indexes,
+ * or apply the mapping between CQRS object and API resources.
+ */
 class CQRSApiSerializer implements SerializerInterface, ContextAwareNormalizerInterface, ContextAwareDenormalizerInterface, ContextAwareEncoderInterface, ContextAwareDecoderInterface
 {
-    use ContextParametersTrait;
-
-    protected PropertyAccessorInterface $propertyAccessor;
-
     public function __construct(
         protected readonly Serializer $decorated,
-        protected readonly ShopContext $shopContext,
-        protected readonly LanguageContext $languageContext,
-        protected readonly CurrencyContext $currencyContext,
-        protected readonly ApiClientContext $apiClientContext,
-        protected readonly array $commandsAndQueries,
+        protected readonly ContextParametersProvider $contextParametersProvider,
         protected readonly ClassMetadataFactoryInterface $classMetadataFactory,
         protected readonly LocalizedValueUpdater $localizedValueUpdater,
         protected readonly NormalizationMapper $normalizationMapper,
     ) {
-        // Invalid (or absent) indexes or properties in array/objects are invalid, therefore ignored when checking isReadable
-        // which is important for the normalization mapping process
-        $this->propertyAccessor = PropertyAccess::createPropertyAccessorBuilder()
-            ->enableExceptionOnInvalidIndex()
-            ->enableExceptionOnInvalidPropertyPath()
-            ->getPropertyAccessor()
-        ;
     }
 
     public function supportsDecoding(string $format, array $context = []): bool
@@ -101,7 +84,7 @@ class CQRSApiSerializer implements SerializerInterface, ContextAwareNormalizerIn
     public function denormalize(mixed $data, string $type, ?string $format = null, array $context = [])
     {
         // Add context parameters and URI variables into the data
-        $data = array_merge($data, $this->getContextParameters());
+        $data = array_merge($data, $this->contextParametersProvider->getContextParameters());
         if (!empty($context['uri_variables'])) {
             $data = array_merge($data, $context['uri_variables']);
         }
@@ -113,7 +96,7 @@ class CQRSApiSerializer implements SerializerInterface, ContextAwareNormalizerIn
         // This is important for list results mainly where boolean are returned as tiny int (0, 1)
         $this->addBooleanCastCallbacks($type, $context);
 
-        // If the domain serializer is not used we need to handle localized value transformation
+        // Update localized value to be adapted for denormalization
         if (is_array($data)) {
             $data = $this->updateLocalizedValues($data, $type, true, $context);
         }
@@ -158,6 +141,9 @@ class CQRSApiSerializer implements SerializerInterface, ContextAwareNormalizerIn
         return $this->denormalize($data, $type, $format, $context);
     }
 
+    /**
+     * Adapt data for localized values so that the indexes match the expected value (ID or locale)
+     */
     protected function updateLocalizedValues(array $data, string $type, bool $denormalize, array $context = []): array
     {
         $localizedAttributesContext = $this->localizedValueUpdater->getLocalizedAttributesContext($type);

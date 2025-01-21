@@ -31,11 +31,7 @@ namespace PrestaShopBundle\ApiPlatform\Processor;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 use PrestaShop\PrestaShop\Core\CommandBus\CommandBusInterface;
-use PrestaShop\PrestaShop\Core\Context\ApiClientContext;
-use PrestaShop\PrestaShop\Core\Context\CurrencyContext;
-use PrestaShop\PrestaShop\Core\Context\LanguageContext;
-use PrestaShop\PrestaShop\Core\Context\ShopContext;
-use PrestaShopBundle\ApiPlatform\ContextParametersTrait;
+use PrestaShopBundle\ApiPlatform\ContextParametersProvider;
 use PrestaShopBundle\ApiPlatform\Exception\CQRSCommandNotFoundException;
 use PrestaShopBundle\ApiPlatform\NormalizationMapper;
 use PrestaShopBundle\ApiPlatform\QueryResultSerializerTrait;
@@ -46,15 +42,11 @@ use Symfony\Component\Serializer\Exception\ExceptionInterface;
 class CommandProcessor implements ProcessorInterface
 {
     use QueryResultSerializerTrait;
-    use ContextParametersTrait;
 
     public function __construct(
         protected readonly CommandBusInterface $commandBus,
         protected readonly CQRSApiSerializer $domainSerializer,
-        protected readonly ShopContext $shopContext,
-        protected readonly LanguageContext $languageContext,
-        protected readonly CurrencyContext $currencyContext,
-        protected readonly ApiClientContext $apiClientContext,
+        protected readonly ContextParametersProvider $contextParametersProvider,
     ) {
     }
 
@@ -82,7 +74,7 @@ class CommandProcessor implements ProcessorInterface
         } else {
             // Start by normalizing the data which should be an ApiPlatform DTO, and merge the URI variables in it as well since the query may contain some extra parameters (like the resource ID)
             $normalizedApiResourceDTO = $this->domainSerializer->normalize($data, null, [NormalizationMapper::NORMALIZATION_MAPPING => $this->getApiResourceMapping($operation)]);
-            $commandParameters = array_merge($normalizedApiResourceDTO, $uriVariables, $this->getContextParameters());
+            $commandParameters = array_merge($normalizedApiResourceDTO, $uriVariables, $this->contextParametersProvider->getContextParameters());
 
             // Denormalize the command and let the bus handle it
             $command = $this->domainSerializer->denormalize($commandParameters, $CQRSCommandClass, null, [NormalizationMapper::NORMALIZATION_MAPPING => $this->getCQRSCommandMapping($operation)]);
@@ -115,7 +107,7 @@ class CommandProcessor implements ProcessorInterface
             // Use URI variables as fallback when the command returned no result as it probably contains the ID that will be needed to create the CQRS query
             $normalizedCommandResult = $uriVariables;
         }
-        $normalizedCommandResult = array_merge($normalizedCommandResult, $this->getContextParameters());
+        $normalizedCommandResult = array_merge($normalizedCommandResult, $this->contextParametersProvider->getContextParameters());
 
         $queryClass = $this->getCQRSQueryClass($operation);
         if (!$queryClass) {
