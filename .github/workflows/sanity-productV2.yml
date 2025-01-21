@@ -15,7 +15,7 @@ jobs:
   sanity:
     permissions:
       contents: read   #   to fetch code (actions/checkout)
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     name: Sanity Product V2
     strategy:
       matrix:
