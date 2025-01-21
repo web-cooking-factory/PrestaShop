@@ -1,5 +1,4 @@
 import testContext from '@utils/testContext';
-import optionsTab from '@pages/BO/catalog/products/add/optionsTab';
 import {expect} from 'chai';
 
 import {
@@ -8,6 +7,7 @@ import {
   boProductsPage,
   boProductsCreatePage,
   boProductsCreateTabDescriptionPage,
+  boProductsCreateTabOptionsPage,
   type BrowserContext,
   FakerProduct,
   foClassicHomePage,
@@ -20,7 +20,7 @@ import {
   utilsPlaywright,
 } from '@prestashop-core/ui-testing';
 
-const baseContext: string = 'functional_BO_catalog_products_optionsTab';
+const baseContext: string = 'functional_BO_catalog_products_boProductsCreateTabOptionsPage';
 
 describe('BO - Catalog - Products : Options tab', async () => {
   let browserContext: BrowserContext;
@@ -131,7 +131,7 @@ describe('BO - Catalog - Products : Options tab', async () => {
       await testContext.addContextItem(this, 'testIdentifier', 'checkCategoryOnly', baseContext);
 
       await boProductsCreatePage.goToTab(page, 'options');
-      await optionsTab.setVisibility(page, 'catalog_only');
+      await boProductsCreateTabOptionsPage.setVisibility(page, 'catalog_only');
 
       const message = await boProductsCreatePage.saveProduct(page);
       expect(message).to.eq(boProductsCreatePage.successfulUpdateMessage);
@@ -182,7 +182,7 @@ describe('BO - Catalog - Products : Options tab', async () => {
     it('should check the visibility to search only in options tab', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'checkSearchOnly', baseContext);
 
-      await optionsTab.setVisibility(page, 'search_only');
+      await boProductsCreateTabOptionsPage.setVisibility(page, 'search_only');
 
       const message = await boProductsCreatePage.saveProduct(page);
       expect(message).to.eq(boProductsCreatePage.successfulUpdateMessage);
@@ -237,7 +237,7 @@ describe('BO - Catalog - Products : Options tab', async () => {
     it('should check the visibility to nowhere in options tab', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'checkNowhere', baseContext);
 
-      await optionsTab.setVisibility(page, 'nowhere');
+      await boProductsCreateTabOptionsPage.setVisibility(page, 'nowhere');
 
       const message = await boProductsCreatePage.saveProduct(page);
       expect(message).to.eq(boProductsCreatePage.successfulUpdateMessage);
@@ -294,8 +294,8 @@ describe('BO - Catalog - Products : Options tab', async () => {
     it('should check the visibility to everywhere in options tab and disable Available for order', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'checkEverywhere', baseContext);
 
-      await optionsTab.setVisibility(page, 'everywhere');
-      await optionsTab.setAvailableForOrder(page, false);
+      await boProductsCreateTabOptionsPage.setVisibility(page, 'everywhere');
+      await boProductsCreateTabOptionsPage.setAvailableForOrder(page, false);
 
       const message = await boProductsCreatePage.saveProduct(page);
       expect(message).to.eq(boProductsCreatePage.successfulUpdateMessage);
@@ -331,7 +331,7 @@ describe('BO - Catalog - Products : Options tab', async () => {
     it('should disable the option show price', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'disableShowPrice', baseContext);
 
-      await optionsTab.setShowPrice(page, false);
+      await boProductsCreateTabOptionsPage.setShowPrice(page, false);
 
       const message = await boProductsCreatePage.saveProduct(page);
       expect(message).to.eq(boProductsCreatePage.successfulUpdateMessage);
@@ -367,8 +367,8 @@ describe('BO - Catalog - Products : Options tab', async () => {
     it('should enable the option show price and the option web only', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'enableShowPrice', baseContext);
 
-      await optionsTab.setShowPrice(page, true);
-      await optionsTab.setWebOnly(page, true);
+      await boProductsCreateTabOptionsPage.setShowPrice(page, true);
+      await boProductsCreateTabOptionsPage.setWebOnly(page, true);
 
       const message = await boProductsCreatePage.saveProduct(page);
       expect(message).to.eq(boProductsCreatePage.successfulUpdateMessage);
@@ -404,7 +404,7 @@ describe('BO - Catalog - Products : Options tab', async () => {
     it('should choose the supplier associated with the product', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'chooseSupplierAssociated', baseContext);
 
-      await optionsTab.chooseSupplier(page, 1);
+      await boProductsCreateTabOptionsPage.chooseSupplier(page, 1);
 
       const message = await boProductsCreatePage.saveProduct(page);
       expect(message).to.eq(boProductsCreatePage.successfulUpdateMessage);
@@ -413,10 +413,10 @@ describe('BO - Catalog - Products : Options tab', async () => {
     it('should check the 2 blocks \'Default supplier\' & \'Supplier references\'', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'checkNewBlocks', baseContext);
 
-      let isVisible = await optionsTab.isDefaultSupplierSectionVisible(page);
+      let isVisible = await boProductsCreateTabOptionsPage.isDefaultSupplierSectionVisible(page);
       expect(isVisible, 'Default supplier block is not visible!').to.eq(true);
 
-      isVisible = await optionsTab.isSupplierReferencesSectionVisible(page);
+      isVisible = await boProductsCreateTabOptionsPage.isSupplierReferencesSectionVisible(page);
       expect(isVisible, 'Supplier references block is not visible!').to.eq(true);
     });
   });

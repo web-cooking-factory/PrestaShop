@@ -4,7 +4,6 @@ import ProductWS from '@webservices/product/productWs';
 import {addWebserviceKey, removeWebserviceKey, setWebserviceStatus} from '@commonTests/BO/advancedParameters/ws';
 import {enableEcoTaxTest, disableEcoTaxTest} from '@commonTests/BO/international/ecoTax';
 import webservicePage from '@pages/BO/advancedParameters/webservice';
-import optionsTab from '@pages/BO/catalog/products/add/optionsTab';
 import getProductXml from '@data/xml/product';
 import {expect} from 'chai';
 
@@ -17,6 +16,7 @@ import {
   boProductsCreatePage,
   boProductsCreateTabDescriptionPage,
   boProductsCreateTabDetailsPage,
+  boProductsCreateTabOptionsPage,
   boProductsCreateTabPricingPage,
   boProductsCreateTabSEOPage,
   boProductsCreateTabShippingPage,
@@ -941,7 +941,7 @@ describe('WS - Products : CRUD', async () => {
             await testContext.addContextItem(this, 'testIdentifier', 'postCheckVisibility', baseContext);
 
             const xmlValue = productXml.getAttributeValue(xmlCreate, 'visibility');
-            const value = (await optionsTab.getValue(page, 'visibility'));
+            const value = (await boProductsCreateTabOptionsPage.getValue(page, 'visibility'));
             expect(value).to.eq(xmlValue);
           });
 
@@ -949,7 +949,7 @@ describe('WS - Products : CRUD', async () => {
             await testContext.addContextItem(this, 'testIdentifier', 'postCheckAvailableForOrder', baseContext);
 
             const xmlValue = productXml.getAttributeValue(xmlCreate, 'available_for_order');
-            const value = (await optionsTab.getValue(page, 'available_for_order'));
+            const value = (await boProductsCreateTabOptionsPage.getValue(page, 'available_for_order'));
             expect(value).to.eq(xmlValue);
           });
 
@@ -957,7 +957,7 @@ describe('WS - Products : CRUD', async () => {
             await testContext.addContextItem(this, 'testIdentifier', 'postCheckShowPrice', baseContext);
 
             const xmlValue = productXml.getAttributeValue(xmlCreate, 'show_price');
-            const value = (await optionsTab.getValue(page, 'show_price'));
+            const value = (await boProductsCreateTabOptionsPage.getValue(page, 'show_price'));
             expect(value).to.eq(xmlValue);
           });
 
@@ -965,7 +965,7 @@ describe('WS - Products : CRUD', async () => {
             await testContext.addContextItem(this, 'testIdentifier', 'postCheckOnlineOnly', baseContext);
 
             const xmlValue = productXml.getAttributeValue(xmlCreate, 'online_only');
-            const value = (await optionsTab.getValue(page, 'online_only'));
+            const value = (await boProductsCreateTabOptionsPage.getValue(page, 'online_only'));
             expect(value).to.eq(xmlValue);
           });
         });
@@ -1614,7 +1614,7 @@ describe('WS - Products : CRUD', async () => {
             await testContext.addContextItem(this, 'testIdentifier', 'putCheckVisibility', baseContext);
 
             const xmlValue = productXml.getAttributeValue(xmlUpdate, 'visibility');
-            const value = (await optionsTab.getValue(page, 'visibility'));
+            const value = (await boProductsCreateTabOptionsPage.getValue(page, 'visibility'));
             expect(value).to.eq(xmlValue);
           });
 
@@ -1622,7 +1622,7 @@ describe('WS - Products : CRUD', async () => {
             await testContext.addContextItem(this, 'testIdentifier', 'putCheckAvailableForOrder', baseContext);
 
             const xmlValue = productXml.getAttributeValue(xmlUpdate, 'available_for_order');
-            const value = (await optionsTab.getValue(page, 'available_for_order'));
+            const value = (await boProductsCreateTabOptionsPage.getValue(page, 'available_for_order'));
             expect(value).to.eq(xmlValue);
           });
 
@@ -1630,7 +1630,7 @@ describe('WS - Products : CRUD', async () => {
             await testContext.addContextItem(this, 'testIdentifier', 'putCheckShowPrice', baseContext);
 
             const xmlValue = productXml.getAttributeValue(xmlUpdate, 'show_price');
-            const value = (await optionsTab.getValue(page, 'show_price'));
+            const value = (await boProductsCreateTabOptionsPage.getValue(page, 'show_price'));
             expect(value).to.eq(xmlValue);
           });
 
@@ -1638,7 +1638,7 @@ describe('WS - Products : CRUD', async () => {
             await testContext.addContextItem(this, 'testIdentifier', 'putCheckOnlineOnly', baseContext);
 
             const xmlValue = productXml.getAttributeValue(xmlUpdate, 'online_only');
-            const value = (await optionsTab.getValue(page, 'online_only'));
+            const value = (await boProductsCreateTabOptionsPage.getValue(page, 'online_only'));
             expect(value).to.eq(xmlValue);
           });
         });

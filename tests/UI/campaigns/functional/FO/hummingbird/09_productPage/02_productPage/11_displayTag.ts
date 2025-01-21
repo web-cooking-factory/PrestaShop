@@ -1,7 +1,6 @@
 import testContext from '@utils/testContext';
 import {deleteProductTest} from '@commonTests/BO/catalog/product';
 import {enableHummingbird, disableHummingbird} from '@commonTests/BO/design/hummingbird';
-import optionsTab from '@pages/BO/catalog/products/add/optionsTab';
 import {expect} from 'chai';
 
 import {
@@ -9,6 +8,7 @@ import {
   boLoginPage,
   boProductsPage,
   boProductsCreatePage,
+  boProductsCreateTabOptionsPage,
   type BrowserContext,
   FakerProduct,
   foHummingbirdCategoryPage,
@@ -134,7 +134,7 @@ describe('FO - Product page - Product page : Display tag products', async () => 
       await testContext.addContextItem(this, 'testIdentifier', 'setWebOnly', baseContext);
 
       await boProductsCreatePage.goToTab(page, 'options');
-      await optionsTab.setWebOnly(page, true);
+      await boProductsCreateTabOptionsPage.setWebOnly(page, true);
 
       const message = await boProductsCreatePage.saveProduct(page);
       expect(message).to.equal(boProductsCreatePage.successfulUpdateMessage);
