@@ -28,7 +28,6 @@ import {
   utilsPlaywright,
 } from '@prestashop-core/ui-testing';
 
-
 const baseContext: string = 'functional_BO_catalog_products_virtualTab';
 
 describe('BO - Catalog - Products : Virtual tab', async () => {

@@ -18,7 +18,6 @@ import {
   utilsPlaywright,
 } from '@prestashop-core/ui-testing';
 
-
 const baseContext: string = 'functional_BO_orders_invoices_invoiceOptions_enableDisableInvoices';
 
 /*

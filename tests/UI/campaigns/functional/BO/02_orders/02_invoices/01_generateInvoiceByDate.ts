@@ -15,7 +15,6 @@ import {
   utilsPlaywright,
 } from '@prestashop-core/ui-testing';
 
-
 const baseContext: string = 'functional_BO_orders_invoices_generateInvoiceByDate';
 
 // Generate PDF file by date

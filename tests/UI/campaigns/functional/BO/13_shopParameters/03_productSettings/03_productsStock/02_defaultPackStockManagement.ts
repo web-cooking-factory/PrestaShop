@@ -22,7 +22,6 @@ import {
   utilsPlaywright,
 } from '@prestashop-core/ui-testing';
 
-
 const baseContext: string = 'functional_BO_shopParameters_productSettings_productsStock_defaultPackStockManagement';
 
 describe('BO - Shop Parameters - Product Settings : Default pack stock management', async () => {

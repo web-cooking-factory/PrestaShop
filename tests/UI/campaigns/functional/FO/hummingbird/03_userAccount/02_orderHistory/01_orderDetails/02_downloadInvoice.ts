@@ -27,7 +27,6 @@ import {
   utilsPlaywright,
 } from '@prestashop-core/ui-testing';
 
-
 // context
 const baseContext: string = 'functional_FO_hummingbird_userAccount_orderHistory_orderDetails_downloadInvoice';
 
