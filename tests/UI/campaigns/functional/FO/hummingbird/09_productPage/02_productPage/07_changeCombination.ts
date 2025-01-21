@@ -3,7 +3,6 @@ import {deleteProductTest} from '@commonTests/BO/catalog/product';
 import {enableHummingbird, disableHummingbird} from '@commonTests/BO/design/hummingbird';
 import viewAttributePage from '@pages/BO/catalog/attributes/view';
 import addValuePage from '@pages/BO/catalog/attributes/addValue';
-import combinationsTab from '@pages/BO/catalog/products/add/combinationsTab';
 import {expect} from 'chai';
 
 import {
@@ -13,6 +12,7 @@ import {
   boLoginPage,
   boProductsPage,
   boProductsCreatePage,
+  boProductsCreateTabCombinationsPage,
   type BrowserContext,
   FakerAttribute,
   FakerAttributeValue,
@@ -231,18 +231,18 @@ describe('FO - Product page - Product page : Change combination', async () => {
     it('should create combinations and check generate combinations button', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'createCombinations', baseContext);
 
-      const generateCombinationsButton = await combinationsTab.setProductAttributes(
+      const generateCombinationsButton = await boProductsCreateTabCombinationsPage.setProductAttributes(
         page,
         newProductData.attributes,
       );
-      expect(generateCombinationsButton).to.equal(combinationsTab.generateCombinationsMessage(8));
+      expect(generateCombinationsButton).to.equal(boProductsCreateTabCombinationsPage.generateCombinationsMessage(8));
     });
 
     it('should click on generate combinations button', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'generateCombinations', baseContext);
 
-      const successMessage = await combinationsTab.generateCombinations(page);
-      expect(successMessage).to.equal(combinationsTab.successfulGenerateCombinationsMessage(8));
+      const successMessage = await boProductsCreateTabCombinationsPage.generateCombinations(page);
+      expect(successMessage).to.equal(boProductsCreateTabCombinationsPage.successfulGenerateCombinationsMessage(8));
     });
   });
 

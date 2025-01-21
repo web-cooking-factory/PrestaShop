@@ -1,5 +1,4 @@
 import testContext from '@utils/testContext';
-import combinationsTab from '@pages/BO/catalog/products/add/combinationsTab';
 import {expect} from 'chai';
 
 import {
@@ -7,6 +6,7 @@ import {
   boLoginPage,
   boProductsPage,
   boProductsCreatePage,
+  boProductsCreateTabCombinationsPage,
   type BrowserContext,
   FakerProduct,
   foClassicProductPage,
@@ -129,7 +129,7 @@ describe('BO - Catalog - Products : CRUD product with combinations', async () =>
     it('should create combinations and check generate combinations button', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'createCombinations', baseContext);
 
-      const generateCombinationsButton = await combinationsTab.setProductAttributes(
+      const generateCombinationsButton = await boProductsCreateTabCombinationsPage.setProductAttributes(
         page,
         newProductData.attributes,
       );
@@ -139,14 +139,14 @@ describe('BO - Catalog - Products : CRUD product with combinations', async () =>
     it('should click on generate combinations button', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'generateCombinations', baseContext);
 
-      const successMessage = await combinationsTab.generateCombinations(page);
+      const successMessage = await boProductsCreateTabCombinationsPage.generateCombinations(page);
       expect(successMessage).to.equal('Successfully generated 4 combinations.');
     });
 
     it('should check that combinations generation modal is closed', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'generateCombinationsModalIsClosed', baseContext);
 
-      const isModalClosed = await combinationsTab.generateCombinationModalIsClosed(page);
+      const isModalClosed = await boProductsCreateTabCombinationsPage.generateCombinationModalIsClosed(page);
       expect(isModalClosed).to.eq(true);
     });
 
@@ -211,7 +211,7 @@ describe('BO - Catalog - Products : CRUD product with combinations', async () =>
     it('should add combinations and check generate combinations button', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'addCombinations', baseContext);
 
-      const generateCombinationsButton = await combinationsTab.setProductAttributes(
+      const generateCombinationsButton = await boProductsCreateTabCombinationsPage.setProductAttributes(
         page,
         editProductData.attributes,
       );
@@ -221,14 +221,14 @@ describe('BO - Catalog - Products : CRUD product with combinations', async () =>
     it('should click on generate combinations button', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'generateCombinations2', baseContext);
 
-      const successMessage = await combinationsTab.generateCombinations(page);
+      const successMessage = await boProductsCreateTabCombinationsPage.generateCombinations(page);
       expect(successMessage).to.equal('Successfully generated 6 combinations.');
     });
 
     it('should check that combinations generation modal is closed', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'generateCombinationsModalIsClosed2', baseContext);
 
-      const isModalClosed = await combinationsTab.generateCombinationModalIsClosed(page);
+      const isModalClosed = await boProductsCreateTabCombinationsPage.generateCombinationModalIsClosed(page);
       expect(isModalClosed).to.eq(true);
     });
 

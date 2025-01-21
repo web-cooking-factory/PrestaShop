@@ -1,8 +1,4 @@
 import testContext from '@utils/testContext';
-
-// Import pages
-// Import BO pages
-import combinationsTab from '@pages/BO/catalog/products/add/combinationsTab';
 import {expect} from 'chai';
 
 import {
@@ -10,6 +6,7 @@ import {
   boLoginPage,
   boProductsPage,
   boProductsCreatePage,
+  boProductsCreateTabCombinationsPage,
   boProductsCreateTabPricingPage,
   boProductSettingsPage,
   type BrowserContext,
@@ -167,21 +164,21 @@ describe('BO - Shop Parameters - Product Settings : Choose quantity discount bas
     it('should create combinations', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'createCombination', baseContext);
 
-      const createProductMessage = await combinationsTab.setProductAttributes(page, productWithCombinations.attributes);
-      expect(createProductMessage).to.equal(combinationsTab.generateCombinationsMessage(2));
+      const createProductMessage = await boProductsCreateTabCombinationsPage.setProductAttributes(page, productWithCombinations.attributes);
+      expect(createProductMessage).to.equal(boProductsCreateTabCombinationsPage.generateCombinationsMessage(2));
 
-      const successMessage = await combinationsTab.generateCombinations(page);
-      expect(successMessage).to.equal(combinationsTab.successfulGenerateCombinationsMessage(2));
+      const successMessage = await boProductsCreateTabCombinationsPage.generateCombinations(page);
+      expect(successMessage).to.equal(boProductsCreateTabCombinationsPage.successfulGenerateCombinationsMessage(2));
     });
 
     it('should edit the quantity', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'editQuantity', baseContext);
 
-      await combinationsTab.editCombinationRowQuantity(page, 1, 5);
-      await combinationsTab.editCombinationRowQuantity(page, 2, 5);
+      await boProductsCreateTabCombinationsPage.editCombinationRowQuantity(page, 1, 5);
+      await boProductsCreateTabCombinationsPage.editCombinationRowQuantity(page, 2, 5);
 
-      const successMessage = await combinationsTab.saveCombinationsForm(page);
-      expect(successMessage).to.equal(combinationsTab.successfulUpdateMessage);
+      const successMessage = await boProductsCreateTabCombinationsPage.saveCombinationsForm(page);
+      expect(successMessage).to.equal(boProductsCreateTabCombinationsPage.successfulUpdateMessage);
     });
 
     it('should add specific price', async function () {

@@ -7,7 +7,6 @@ import cleanTableStockMovements from '@commonTests/BO/catalog/stock';
 
 // Import pages
 // Import BO pages
-import combinationsTab from '@pages/BO/catalog/products/add/combinationsTab';
 import movementsPage from '@pages/BO/catalog/stocks/movements';
 
 import {
@@ -17,6 +16,7 @@ import {
   boOrdersViewBlockProductsPage,
   boProductsPage,
   boProductsCreatePage,
+  boProductsCreateTabCombinationsPage,
   boStockPage,
   type BrowserContext,
   dataCategories,
@@ -408,14 +408,14 @@ describe('BO - Stocks - Movements : Filter by category, movement type, employee 
       it(`should add ${editCombinationsData.stocks.quantity} to 4 combinations`, async function () {
         await testContext.addContextItem(this, 'testIdentifier', 'addQuantityToAllCombinations', baseContext);
 
-        const isBulkActionsButtonVisible = await combinationsTab.selectAllCombinations(page);
+        const isBulkActionsButtonVisible = await boProductsCreateTabCombinationsPage.selectAllCombinations(page);
         expect(isBulkActionsButtonVisible).to.be.eq(true);
 
-        const modalTitle = await combinationsTab.clickOnEditCombinationsByBulkActions(page);
-        expect(modalTitle).to.equal(combinationsTab.editCombinationsModalTitle(4));
+        const modalTitle = await boProductsCreateTabCombinationsPage.clickOnEditCombinationsByBulkActions(page);
+        expect(modalTitle).to.equal(boProductsCreateTabCombinationsPage.editCombinationsModalTitle(4));
 
-        const successMessage = await combinationsTab.editCombinationsByBulkActions(page, editCombinationsData);
-        expect(successMessage).to.equal(combinationsTab.editCombinationsModalMessage(4));
+        const successMessage = await boProductsCreateTabCombinationsPage.editCombinationsByBulkActions(page, editCombinationsData);
+        expect(successMessage).to.equal(boProductsCreateTabCombinationsPage.editCombinationsModalMessage(4));
       });
 
       it(`should logout from the employee "${employeeData.email}"`, async function () {

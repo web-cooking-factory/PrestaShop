@@ -1,9 +1,4 @@
-// Import utils
 import testContext from '@utils/testContext';
-
-// Import pages
-// Import BO pages
-import combinationsTab from '@pages/BO/catalog/products/add/combinationsTab';
 import {expect} from 'chai';
 
 import {
@@ -11,6 +6,7 @@ import {
   boLoginPage,
   boProductsPage,
   boProductsCreatePage,
+  boProductsCreateTabCombinationsPage,
   boProductSettingsPage,
   type BrowserContext,
   FakerProduct,
@@ -115,16 +111,16 @@ describe('BO - Shop Parameters - Product Settings : Display unavailable product 
     it('should create combinations and click on generate combinations button', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'createCombinations', baseContext);
 
-      await combinationsTab.setProductAttributes(page, productData.attributes);
+      await boProductsCreateTabCombinationsPage.setProductAttributes(page, productData.attributes);
 
-      const successMessage = await combinationsTab.generateCombinations(page);
-      expect(successMessage).to.equal(combinationsTab.successfulGenerateCombinationsMessage(1));
+      const successMessage = await boProductsCreateTabCombinationsPage.generateCombinations(page);
+      expect(successMessage).to.equal(boProductsCreateTabCombinationsPage.successfulGenerateCombinationsMessage(1));
     });
 
     it('should close combinations generation modal', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'generateCombinationsModalIsClosed2', baseContext);
 
-      const isModalClosed = await combinationsTab.generateCombinationModalIsClosed(page);
+      const isModalClosed = await boProductsCreateTabCombinationsPage.generateCombinationModalIsClosed(page);
       expect(isModalClosed).to.be.equal(true);
     });
 

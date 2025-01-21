@@ -11,7 +11,6 @@ import {createOrderByGuestTest} from '@commonTests/FO/classic/order';
 // Import BO pages
 import cartRulesPage from '@pages/BO/catalog/discounts';
 import addCartRulePage from '@pages/BO/catalog/discounts/add';
-import combinationsTab from '@pages/BO/catalog/products/add/combinationsTab';
 
 import {
   boDashboardPage,
@@ -20,6 +19,7 @@ import {
   boOrdersViewBlockProductsPage,
   boProductsPage,
   boProductsCreatePage,
+  boProductsCreateTabCombinationsPage,
   boProductsCreateTabPricingPage,
   type BrowserContext,
   dataPaymentMethods,
@@ -336,30 +336,30 @@ describe('BO - Orders - View and edit order : Check product block in view order 
           it('should create combinations and check generate combinations button', async function () {
             await testContext.addContextItem(this, 'testIdentifier', 'createCombinations', baseContext);
 
-            const generateCombinationsButton = await combinationsTab.setProductAttributes(
+            const generateCombinationsButton = await boProductsCreateTabCombinationsPage.setProductAttributes(
               page,
               product.attributes,
             );
-            expect(generateCombinationsButton).to.equal(combinationsTab.generateCombinationsMessage(4));
+            expect(generateCombinationsButton).to.equal(boProductsCreateTabCombinationsPage.generateCombinationsMessage(4));
           });
 
           it('should click on generate combinations button', async function () {
             await testContext.addContextItem(this, 'testIdentifier', 'generateCombinations', baseContext);
 
-            const successMessage = await combinationsTab.generateCombinations(page);
-            expect(successMessage).to.equal(combinationsTab.successfulGenerateCombinationsMessage(4));
+            const successMessage = await boProductsCreateTabCombinationsPage.generateCombinations(page);
+            expect(successMessage).to.equal(boProductsCreateTabCombinationsPage.successfulGenerateCombinationsMessage(4));
           });
 
           it('should close combinations generation modal', async function () {
             await testContext.addContextItem(this, 'testIdentifier', 'generateCombinationsModalIsClosed2', baseContext);
 
-            const isModalClosed = await combinationsTab.generateCombinationModalIsClosed(page);
+            const isModalClosed = await boProductsCreateTabCombinationsPage.generateCombinationModalIsClosed(page);
             expect(isModalClosed).to.be.eq(true);
 
-            await combinationsTab.editCombinationRowQuantity(page, 1, combinationProduct.quantity);
+            await boProductsCreateTabCombinationsPage.editCombinationRowQuantity(page, 1, combinationProduct.quantity);
 
-            const successMessage = await combinationsTab.saveCombinationsForm(page);
-            expect(successMessage).to.equal(combinationsTab.successfulUpdateMessage);
+            const successMessage = await boProductsCreateTabCombinationsPage.saveCombinationsForm(page);
+            expect(successMessage).to.equal(boProductsCreateTabCombinationsPage.successfulUpdateMessage);
 
             updateProductMessage = await boProductsCreatePage.saveProduct(page);
             expect(updateProductMessage).to.equal(boProductsCreatePage.successfulUpdateMessage);
