@@ -38,7 +38,6 @@ use PrestaShop\PrestaShop\Core\Search\Builder\FiltersBuilderInterface;
 use PrestaShop\PrestaShop\Core\Search\Filters;
 use PrestaShopBundle\ApiPlatform\Exception\GridDataFactoryNotFoundException;
 use PrestaShopBundle\ApiPlatform\NormalizationMapper;
-use PrestaShopBundle\ApiPlatform\Normalizer\CQRSApiNormalizer;
 use PrestaShopBundle\ApiPlatform\Pagination\PaginationElements;
 use PrestaShopBundle\ApiPlatform\QueryResultSerializerTrait;
 use PrestaShopBundle\ApiPlatform\Serializer\CQRSApiSerializer;
@@ -110,7 +109,7 @@ class QueryListProvider implements ProviderInterface
                 [
                     NormalizationMapper::NORMALIZATION_MAPPING => $this->getApiResourceMapping($operation),
                     // Query list builders return boolean value as tiny int, so we must cast them
-                    CQRSApiNormalizer::CAST_BOOL => true,
+                    CQRSApiSerializer::CAST_BOOL => true,
                 ]
             );
         }

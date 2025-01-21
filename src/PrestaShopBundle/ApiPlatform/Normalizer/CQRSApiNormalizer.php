@@ -50,20 +50,21 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 /**
  * This normalizer is based on the Symfony ObjectNormalizer, but it handles some specific normalization for
  * our CQRS <-> ApiPlatform conversion:
+ *  - detects if a type is a domain class (either because it is detected as a CQRS command or query) or if it is part of the
+ *    PrestaShop\PrestaShop\Core\Domain namespace
+ *  - handle CQRS constructor proper types because the constructor types sometimes don't match their properties, since they are
+ *    transformed into Value Objects, so the regular ObjectNormalizer triggers a type exception
  *  - handle getters that match the property without starting by get, has, is
  *  - set appropriate context for the ValueObjectNormalizer for when we don't want a ValueObject but the scalar value to be used
- *  - converts localized values keys in the arrays on properties that have been flagged as LocalizedValue:
- *    - the input is indexed by locale ['fr-FR' => 'Nom de la valeur', 'en-US' => 'Value name']
- *    - the data is normalized and indexed by locale ID [1 => 'Nom de la valeur', 2 => 'Value name']
- *    - reversely localized data indexed by IDs are converted into an array localized by locale during denormalization
+ *  - if an API resource is denormalized but has an input class from the domain this serializer detects it and automatically deserialize
+ *    the data into the CQRS object, this saves one deserialization process as the command can be passed to the processor directly
+ *  - when CQRS input class switching is detected the normalizer performs a validation of the input,then it build a new context for
+ *    the next serialization so that mapping and localized values are correctly handled
  *  - handle setter methods that use multiple parameters
- *  - handle casting of boolean values
  */
 #[AutoconfigureTag('prestashop.api.normalizers')]
 class CQRSApiNormalizer extends ObjectNormalizer
 {
-    public const CAST_BOOL = 'cast_bool';
-
     public function __construct(
         protected readonly array $commandsAndQueries,
         protected readonly LocalizedValueUpdater $localizedValueUpdater,
@@ -170,7 +171,6 @@ class CQRSApiNormalizer extends ObjectNormalizer
      */
     protected function instantiateObject(array &$data, string $class, array &$context, ReflectionClass $reflectionClass, bool|array $allowedAttributes, ?string $format = null)
     {
-        $this->castBooleanAttributes($data, $context, $reflectionClass);
         $object = parent::instantiateObject($data, $class, $context, $reflectionClass, $allowedAttributes, $format);
         $methodsWithMultipleArguments = $this->findMethodsWithMultipleArguments($reflectionClass, $data);
         $this->executeMethodsWithMultipleArguments($data, $object, $methodsWithMultipleArguments, $context, $format);
@@ -296,31 +296,6 @@ class CQRSApiNormalizer extends ObjectNormalizer
 
             $reflectionMethod->invoke($object, ...$methodParameters);
             unset($data[$attributeName]);
-        }
-    }
-
-    /**
-     * Force casting boolean properties si that values like (1, 0, true, on, false, ...) are valid, this is useful for
-     * data coming from DB where boolean are returned as tiny integers. Requires CAST_BOOL context option to be true.
-     *
-     * Note: in Symfony 7.1 a new option AbstractNormalizer::FILTER_BOOL has been introduced, when we upgrade our
-     * Symfony dependencies our custom CAST_BOOL option (inspired by the Symfony one) can be removed.
-     *
-     * https://symfony.com/doc/7.1/serializer.html#handling-boolean-values
-     */
-    protected function castBooleanAttributes(array &$data, array $context, ReflectionClass $reflectionClass): void
-    {
-        if (!($context[self::CAST_BOOL] ?? false)) {
-            return;
-        }
-
-        foreach ($data as $attributeName => $value) {
-            if ($reflectionClass->hasProperty($attributeName)) {
-                $attributeType = $reflectionClass->getProperty($attributeName)->getType();
-                if ($attributeType instanceof ReflectionNamedType && $attributeType->isBuiltin() && $attributeType->getName() === 'bool') {
-                    $data[$attributeName] = filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
-                }
-            }
         }
     }
 

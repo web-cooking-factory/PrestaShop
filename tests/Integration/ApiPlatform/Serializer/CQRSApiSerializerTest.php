@@ -423,6 +423,12 @@ class CQRSApiSerializerTest extends KernelTestCase
                 'lifetime' => 3600,
             ],
             $apiClientListItem,
+            [],
+            null,
+            [
+                // Required context option to enable the boolean casting
+                CQRSApiSerializer::CAST_BOOL => true,
+            ],
         ];
 
         $uploadModuleCommand = new UploadModuleCommand(__DIR__ . '/../../../Resources/assets/new_logo.jpg');

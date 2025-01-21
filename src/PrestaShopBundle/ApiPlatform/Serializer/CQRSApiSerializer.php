@@ -47,6 +47,8 @@ use Symfony\Component\Serializer\SerializerInterface;
  */
 class CQRSApiSerializer implements SerializerInterface, ContextAwareNormalizerInterface, ContextAwareDenormalizerInterface, ContextAwareEncoderInterface, ContextAwareDecoderInterface
 {
+    public const CAST_BOOL = 'cast_bool';
+
     public function __construct(
         protected readonly Serializer $decorated,
         protected readonly ContextParametersProvider $contextParametersProvider,
@@ -171,11 +173,21 @@ class CQRSApiSerializer implements SerializerInterface, ContextAwareNormalizerIn
     }
 
     /**
-     * Custom workaround because the AbstractNormalizer::FILTER_BOOL option is not available until
-     * the version 7.1 of the serializer.
+     * Force casting boolean properties so that values like (1, 0, true, on, false, ...) are valid, this is useful for
+     * data coming from DB where boolean are returned as tiny integers. To enable this casting the CQRSApiSerializer::CAST_BOOL
+     * context option must be true.
+     *
+     * Note: in Symfony 7.1 a new option AbstractNormalizer::FILTER_BOOL has been introduced, when we upgrade our
+     * Symfony dependencies our custom casting (inspired by the Symfony one) can be removed.
+     *
+     * https://symfony.com/doc/7.1/serializer.html#handling-boolean-values
      */
     protected function addBooleanCastCallbacks(string $type, array &$context): void
     {
+        if (empty($context[self::CAST_BOOL])) {
+            return;
+        }
+
         if (!$this->classMetadataFactory->hasMetadataFor($type)) {
             return;
         }
