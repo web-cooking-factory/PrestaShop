@@ -71,6 +71,19 @@ class LocalizedValueUpdater
         return $this->updateLocalizedValue($localizedValue, $propertyName, $context, false);
     }
 
+    /**
+     * Analyze a class type and extract attributes to check for localized values based on the context associated to
+     * each property (combining properties attributes and context parameter). The array returned contains the list of
+     * localized value properties, their name is used as the index the value contains the independent context of each
+     * property.
+     *
+     * The returned array can be used for future updates by specifying it in the $context[LocalizedValue::LOCALIZED_VALUE_PARAMETERS]
+     *
+     * @param string $type Class FQCN
+     * @param array $context Serialization context
+     *
+     * @return array
+     */
     public function getLocalizedAttributesContext(string $type, array $context = []): array
     {
         if (!$this->classMetadataFactory->hasMetadataFor($type)) {

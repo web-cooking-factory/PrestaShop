@@ -28,6 +28,7 @@ declare(strict_types=1);
 
 namespace Tests\Integration\ApiPlatform\Serializer;
 
+use ApiPlatform\Metadata\HttpOperation;
 use DateTimeImmutable;
 use PrestaShop\Decimal\DecimalNumber;
 use PrestaShop\Module\APIResources\ApiPlatform\Resources\ApiClient\ApiClientList;
@@ -377,7 +378,14 @@ class CQRSApiSerializerTest extends KernelTestCase
                 self::getFrenchId() => 'nom français',
             ]
         );
-        yield 'denormalize input with API resource type initially but input set to CQRS command' => [
+        $operation = new HttpOperation(extraProperties: [
+            'CQRSCommandMapping' => [
+                '[_context][shopId]' => '[shopId]',
+                '[type]' => '[productType]',
+                '[names]' => '[localizedNames]',
+            ]]
+        );
+        yield 'denormalize input with API resource type initially but input set to CQRS command, mapping in operation' => [
             [
                 'names' => [
                     'en-US' => 'english name',
@@ -386,16 +394,13 @@ class CQRSApiSerializerTest extends KernelTestCase
                 'type' => 'standard',
             ],
             $command,
-            [
-                '[_context][shopId]' => '[shopId]',
-                '[type]' => '[productType]',
-                '[names]' => '[localizedNames]',
-            ],
+            [],
             Product::class,
             [
                 'input' => [
                     'class' => AddProductCommand::class,
                 ],
+                'operation' => $operation,
             ],
         ];
 

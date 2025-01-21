@@ -74,6 +74,6 @@ class NormalizationMapper
         }
 
         // Mapping is only done once, so we unset it for next recursive calls
-        // unset($context[self::NORMALIZATION_MAPPING]);
+        unset($context[self::NORMALIZATION_MAPPING]);
     }
 }
