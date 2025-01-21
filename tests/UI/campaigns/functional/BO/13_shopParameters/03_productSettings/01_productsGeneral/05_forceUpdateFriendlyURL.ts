@@ -1,15 +1,12 @@
-// Import utils
 import testContext from '@utils/testContext';
-
-// Import pages
-import seoTab from '@pages/BO/catalog/products/add/seoTab';
-
 import {expect} from 'chai';
+
 import {
   boDashboardPage,
   boLoginPage,
   boProductsPage,
   boProductsCreatePage,
+  boProductsCreateTabSEOPage,
   boProductSettingsPage,
   type BrowserContext,
   FakerProduct,
@@ -173,7 +170,7 @@ describe('BO - Shop Parameters - Product Settings : Enable/Disable force update 
         const validationMessage = await boProductsCreatePage.setProduct(page, test.args.editProduct);
         expect(validationMessage).to.equal(boProductsCreatePage.successfulUpdateMessage);
 
-        const friendlyURL = await seoTab.getValue(page, 'link_rewrite', '1');
+        const friendlyURL = await boProductsCreateTabSEOPage.getValue(page, 'link_rewrite', '1');
         expect(friendlyURL).to.equal(test.args.friendlyURL.toLowerCase());
       });
     });

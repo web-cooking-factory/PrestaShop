@@ -1,5 +1,4 @@
 import testContext from '@utils/testContext';
-import seoTab from '@pages/BO/catalog/products/add/seoTab';
 import {expect} from 'chai';
 
 import {
@@ -7,6 +6,7 @@ import {
   boLoginPage,
   boProductsPage,
   boProductsCreatePage,
+  boProductsCreateTabSEOPage,
   type BrowserContext,
   dataProducts,
   FakerProduct,
@@ -17,7 +17,7 @@ import {
   utilsPlaywright,
 } from '@prestashop-core/ui-testing';
 
-const baseContext: string = 'functional_BO_catalog_products_seoTab';
+const baseContext: string = 'functional_BO_catalog_products_boProductsCreateTabSEOPage';
 
 describe('BO - Catalog - Products : Seo tab', async () => {
   let browserContext: BrowserContext;
@@ -105,19 +105,19 @@ describe('BO - Catalog - Products : Seo tab', async () => {
       await testContext.addContextItem(this, 'testIdentifier', 'checkErrorMessage', baseContext);
 
       await boProductsCreatePage.goToTab(page, 'seo');
-      await seoTab.setMetaTitle(page, editProductData.metaTitle!);
-      await seoTab.setMetaDescription(page, editProductData.metaDescription!);
-      await seoTab.setFriendlyUrl(page, editProductData.friendlyUrl!);
+      await boProductsCreateTabSEOPage.setMetaTitle(page, editProductData.metaTitle!);
+      await boProductsCreateTabSEOPage.setMetaDescription(page, editProductData.metaDescription!);
+      await boProductsCreateTabSEOPage.setFriendlyUrl(page, editProductData.friendlyUrl!);
       await boProductsCreatePage.clickOnSaveProductButton(page);
 
-      const errorMessage = await seoTab.getErrorMessageOfFriendlyUrl(page);
+      const errorMessage = await boProductsCreateTabSEOPage.getErrorMessageOfFriendlyUrl(page);
       expect(errorMessage).to.eq('"lorem ipsum" is invalid - Language: English (English)');
     });
 
     it('should edit friendly URL', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'editFriendlyURL', baseContext);
 
-      await seoTab.setFriendlyUrl(page, 'lorem-ipsum');
+      await boProductsCreateTabSEOPage.setFriendlyUrl(page, 'lorem-ipsum');
 
       const message = await boProductsCreatePage.saveProduct(page);
       expect(message).to.eq(boProductsCreatePage.successfulUpdateMessage);
@@ -126,12 +126,12 @@ describe('BO - Catalog - Products : Seo tab', async () => {
     it('should reset URL', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'resetURL', baseContext);
 
-      await seoTab.clickOnGenerateUrlFromNameButton(page);
+      await boProductsCreateTabSEOPage.clickOnGenerateUrlFromNameButton(page);
 
       const message = await boProductsCreatePage.saveProduct(page);
       expect(message).to.eq(boProductsCreatePage.successfulUpdateMessage);
 
-      const friendlyUrl = await seoTab.getValue(page, 'link_rewrite', '1');
+      const friendlyUrl = await boProductsCreateTabSEOPage.getValue(page, 'link_rewrite', '1');
       expect(friendlyUrl).to.eq('oriental-fresh-chair');
     });
 
@@ -147,8 +147,8 @@ describe('BO - Catalog - Products : Seo tab', async () => {
     it(`'should choose redirectionPage 'Products : ${dataProducts.demo_1.name}'`, async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'chooseRedirectionPage2', baseContext);
 
-      await seoTab.selectRedirectionPage(page, 'Permanent redirection to a product (301)');
-      await seoTab.searchOptionTarget(page, dataProducts.demo_1.name);
+      await boProductsCreateTabSEOPage.selectRedirectionPage(page, 'Permanent redirection to a product (301)');
+      await boProductsCreateTabSEOPage.searchOptionTarget(page, dataProducts.demo_1.name);
 
       const message = await boProductsCreatePage.saveProduct(page);
       expect(message).to.eq(boProductsCreatePage.successfulUpdateMessage);
@@ -178,8 +178,8 @@ describe('BO - Catalog - Products : Seo tab', async () => {
     it('should choose redirectionPage \'Category : Home accessories\'', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'chooseRedirectionPage', baseContext);
 
-      await seoTab.selectRedirectionPage(page, 'Permanent redirection to a category (301)');
-      await seoTab.searchOptionTarget(page, 'Home accessories');
+      await boProductsCreateTabSEOPage.selectRedirectionPage(page, 'Permanent redirection to a category (301)');
+      await boProductsCreateTabSEOPage.searchOptionTarget(page, 'Home accessories');
 
       const message = await boProductsCreatePage.saveProduct(page);
       expect(message).to.eq(boProductsCreatePage.successfulUpdateMessage);
@@ -212,7 +212,7 @@ describe('BO - Catalog - Products : Seo tab', async () => {
     it('should add tag', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'addTag', baseContext);
 
-      await seoTab.setTag(page, 'welcome');
+      await boProductsCreateTabSEOPage.setTag(page, 'welcome');
 
       const message = await boProductsCreatePage.saveProduct(page);
       expect(message).to.eq(boProductsCreatePage.successfulUpdateMessage);

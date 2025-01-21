@@ -1,6 +1,5 @@
 import testContext from '@utils/testContext';
 import seoAndUrlsPage from '@pages/BO/shopParameters/trafficAndSeo/seoAndUrls';
-import seoTab from '@pages/BO/catalog/products/add/seoTab';
 import {expect} from 'chai';
 
 import {
@@ -8,6 +7,7 @@ import {
   boLoginPage,
   boProductsPage,
   boProductsCreatePage,
+  boProductsCreateTabSEOPage,
   type BrowserContext,
   FakerProduct,
   foClassicHomePage,
@@ -161,7 +161,7 @@ describe('BO - Shop Parameters - Traffic & SEO : Enable/Disable accented URL', a
         expect(pageTitle).to.contains(boProductsCreatePage.pageTitle);
 
         await boProductsCreatePage.goToTab(page, 'seo');
-        await seoTab.clickOnGenerateUrlFromNameButton(page);
+        await boProductsCreateTabSEOPage.clickOnGenerateUrlFromNameButton(page);
 
         const updateProductMessage = await boProductsCreatePage.saveProduct(page);
         expect(updateProductMessage).to.equal(boProductsCreatePage.successfulUpdateMessage);

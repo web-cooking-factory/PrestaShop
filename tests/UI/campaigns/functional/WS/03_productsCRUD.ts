@@ -5,7 +5,6 @@ import {addWebserviceKey, removeWebserviceKey, setWebserviceStatus} from '@commo
 import {enableEcoTaxTest, disableEcoTaxTest} from '@commonTests/BO/international/ecoTax';
 import webservicePage from '@pages/BO/advancedParameters/webservice';
 import optionsTab from '@pages/BO/catalog/products/add/optionsTab';
-import seoTab from '@pages/BO/catalog/products/add/seoTab';
 import getProductXml from '@data/xml/product';
 import {expect} from 'chai';
 
@@ -19,6 +18,7 @@ import {
   boProductsCreateTabDescriptionPage,
   boProductsCreateTabDetailsPage,
   boProductsCreateTabPricingPage,
+  boProductsCreateTabSEOPage,
   boProductsCreateTabShippingPage,
   boProductsCreateTabStocksPage,
   type BrowserContext,
@@ -878,11 +878,11 @@ describe('WS - Products : CRUD', async () => {
             await testContext.addContextItem(this, 'testIdentifier', 'postCheckMetaTitle', baseContext);
 
             const xmlValueEn = productXml.getAttributeLangValue(xmlCreate, 'meta_title', '1');
-            const valueEn = (await seoTab.getValue(page, 'meta_title', '1'));
+            const valueEn = (await boProductsCreateTabSEOPage.getValue(page, 'meta_title', '1'));
             expect(valueEn).to.eq(xmlValueEn);
 
             const xmlValueFr = productXml.getAttributeLangValue(xmlCreate, 'meta_title', '2');
-            const valueFr = (await seoTab.getValue(page, 'meta_title', '2'));
+            const valueFr = (await boProductsCreateTabSEOPage.getValue(page, 'meta_title', '2'));
             expect(valueFr).to.eq(xmlValueFr);
           });
 
@@ -890,11 +890,11 @@ describe('WS - Products : CRUD', async () => {
             await testContext.addContextItem(this, 'testIdentifier', 'postCheckMetaDescription', baseContext);
 
             const xmlValueEn = productXml.getAttributeLangValue(xmlCreate, 'meta_description', '1');
-            const valueEn = (await seoTab.getValue(page, 'meta_description', '1'));
+            const valueEn = (await boProductsCreateTabSEOPage.getValue(page, 'meta_description', '1'));
             expect(valueEn).to.eq(xmlValueEn);
 
             const xmlValueFr = productXml.getAttributeLangValue(xmlCreate, 'meta_description', '2');
-            const valueFr = (await seoTab.getValue(page, 'meta_description', '2'));
+            const valueFr = (await boProductsCreateTabSEOPage.getValue(page, 'meta_description', '2'));
             expect(valueFr).to.eq(xmlValueFr);
           });
 
@@ -902,11 +902,11 @@ describe('WS - Products : CRUD', async () => {
             await testContext.addContextItem(this, 'testIdentifier', 'postCheckLinkRewrite', baseContext);
 
             const xmlValueEn = productXml.getAttributeLangValue(xmlCreate, 'link_rewrite', '1');
-            const valueEn = (await seoTab.getValue(page, 'link_rewrite', '1'));
+            const valueEn = (await boProductsCreateTabSEOPage.getValue(page, 'link_rewrite', '1'));
             expect(valueEn).to.eq(xmlValueEn);
 
             const xmlValueFr = productXml.getAttributeLangValue(xmlCreate, 'link_rewrite', '2');
-            const valueFr = (await seoTab.getValue(page, 'link_rewrite', '2'));
+            const valueFr = (await boProductsCreateTabSEOPage.getValue(page, 'link_rewrite', '2'));
             expect(valueFr).to.eq(xmlValueFr);
           });
 
@@ -914,7 +914,7 @@ describe('WS - Products : CRUD', async () => {
             await testContext.addContextItem(this, 'testIdentifier', 'postCheckRedirectType', baseContext);
 
             const xmlValue = productXml.getAttributeValue(xmlCreate, 'redirect_type');
-            const value = (await seoTab.getValue(page, 'redirect_type', '1'));
+            const value = (await boProductsCreateTabSEOPage.getValue(page, 'redirect_type', '1'));
             expect(value).to.eq(xmlValue);
           });
 
@@ -922,7 +922,7 @@ describe('WS - Products : CRUD', async () => {
             await testContext.addContextItem(this, 'testIdentifier', 'postCheckIdTypeRedirected', baseContext);
 
             const xmlValue = productXml.getAttributeValue(xmlCreate, 'id_type_redirected');
-            const value = (await seoTab.getValue(page, 'id_type_redirected', '1'));
+            const value = (await boProductsCreateTabSEOPage.getValue(page, 'id_type_redirected', '1'));
             expect(value).to.eq(xmlValue);
           });
         });
@@ -1551,11 +1551,11 @@ describe('WS - Products : CRUD', async () => {
             await testContext.addContextItem(this, 'testIdentifier', 'putCheckMetaTitle', baseContext);
 
             const xmlValueEn = productXml.getAttributeLangValue(xmlUpdate, 'meta_title', '1');
-            const valueEn = (await seoTab.getValue(page, 'meta_title', '1'));
+            const valueEn = (await boProductsCreateTabSEOPage.getValue(page, 'meta_title', '1'));
             expect(valueEn).to.eq(xmlValueEn);
 
             const xmlValueFr = productXml.getAttributeLangValue(xmlUpdate, 'meta_title', '2');
-            const valueFr = (await seoTab.getValue(page, 'meta_title', '2'));
+            const valueFr = (await boProductsCreateTabSEOPage.getValue(page, 'meta_title', '2'));
             expect(valueFr).to.eq(xmlValueFr);
           });
 
@@ -1563,11 +1563,11 @@ describe('WS - Products : CRUD', async () => {
             await testContext.addContextItem(this, 'testIdentifier', 'putCheckMetaDescription', baseContext);
 
             const xmlValueEn = productXml.getAttributeLangValue(xmlUpdate, 'meta_description', '1');
-            const valueEn = (await seoTab.getValue(page, 'meta_description', '1'));
+            const valueEn = (await boProductsCreateTabSEOPage.getValue(page, 'meta_description', '1'));
             expect(valueEn).to.eq(xmlValueEn);
 
             const xmlValueFr = productXml.getAttributeLangValue(xmlUpdate, 'meta_description', '2');
-            const valueFr = (await seoTab.getValue(page, 'meta_description', '2'));
+            const valueFr = (await boProductsCreateTabSEOPage.getValue(page, 'meta_description', '2'));
             expect(valueFr).to.eq(xmlValueFr);
           });
 
@@ -1575,11 +1575,11 @@ describe('WS - Products : CRUD', async () => {
             await testContext.addContextItem(this, 'testIdentifier', 'putCheckLinkRewrite', baseContext);
 
             const xmlValueEn = productXml.getAttributeLangValue(xmlUpdate, 'link_rewrite', '1');
-            const valueEn = (await seoTab.getValue(page, 'link_rewrite', '1'));
+            const valueEn = (await boProductsCreateTabSEOPage.getValue(page, 'link_rewrite', '1'));
             expect(valueEn).to.eq(xmlValueEn);
 
             const xmlValueFr = productXml.getAttributeLangValue(xmlUpdate, 'link_rewrite', '2');
-            const valueFr = (await seoTab.getValue(page, 'link_rewrite', '2'));
+            const valueFr = (await boProductsCreateTabSEOPage.getValue(page, 'link_rewrite', '2'));
             expect(valueFr).to.eq(xmlValueFr);
           });
 
@@ -1587,7 +1587,7 @@ describe('WS - Products : CRUD', async () => {
             await testContext.addContextItem(this, 'testIdentifier', 'putCheckRedirectType', baseContext);
 
             const xmlValue = productXml.getAttributeValue(xmlUpdate, 'redirect_type');
-            const value = (await seoTab.getValue(page, 'redirect_type', '1'));
+            const value = (await boProductsCreateTabSEOPage.getValue(page, 'redirect_type', '1'));
             expect(value).to.eq(xmlValue);
           });
 
@@ -1595,7 +1595,7 @@ describe('WS - Products : CRUD', async () => {
             await testContext.addContextItem(this, 'testIdentifier', 'putCheckIdTypeRedirected', baseContext);
 
             const xmlValue = productXml.getAttributeValue(xmlUpdate, 'id_type_redirected');
-            const value = (await seoTab.getValue(page, 'id_type_redirected', '1'));
+            const value = (await boProductsCreateTabSEOPage.getValue(page, 'id_type_redirected', '1'));
             expect(value).to.eq(xmlValue);
           });
         });
