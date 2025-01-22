@@ -7,12 +7,12 @@ import {createCustomerTest, deleteCustomerTest} from '@commonTests/BO/customers/
 import createShoppingCart from '@commonTests/FO/classic/shoppingCart';
 
 // Import BO pages
-import addOrderPage from '@pages/BO/orders/add';
 import shoppingCartViewPage from '@pages/BO/orders/shoppingCarts/view';
 
 import {
   boDashboardPage,
   boLoginPage,
+  boOrdersCreatePage,
   boOrdersViewBlockProductsPage,
   boShoppingCartsPage,
   type BrowserContext,
@@ -201,19 +201,19 @@ describe('BO - Orders - Shopping carts : View carts', async () => {
 
       await shoppingCartViewPage.createOrderFromThisCart(page);
 
-      const pageTitle = await addOrderPage.getPageTitle(page);
-      expect(pageTitle).to.contains(addOrderPage.pageTitle);
+      const pageTitle = await boOrdersCreatePage.getPageTitle(page);
+      expect(pageTitle).to.contains(boOrdersCreatePage.pageTitle);
     });
 
     it('should fill the order and create it', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'fillAndCreateOrder', baseContext);
 
       // Choose payment method
-      await addOrderPage.setPaymentMethod(page, dataPaymentMethods.checkPayment.moduleName);
+      await boOrdersCreatePage.setPaymentMethod(page, dataPaymentMethods.checkPayment.moduleName);
       // Set order status
-      await addOrderPage.setOrderStatus(page, dataOrderStatuses.paymentAccepted);
+      await boOrdersCreatePage.setOrderStatus(page, dataOrderStatuses.paymentAccepted);
       // Create the order
-      await addOrderPage.clickOnCreateOrderButton(page);
+      await boOrdersCreatePage.clickOnCreateOrderButton(page);
 
       const pageTitle = await boOrdersViewBlockProductsPage.getPageTitle(page);
       expect(pageTitle).to.contain(boOrdersViewBlockProductsPage.pageTitle);

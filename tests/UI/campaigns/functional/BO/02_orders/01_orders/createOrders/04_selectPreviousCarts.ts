@@ -1,14 +1,13 @@
-// Import utils
 import testContext from '@utils/testContext';
 
 // Import BO pages
-import addOrderPage from '@pages/BO/orders/add';
 import viewShoppingCartPage from '@pages/BO/orders/shoppingCarts/view';
 
 import {
   boDashboardPage,
   boLoginPage,
   boOrdersPage,
+  boOrdersCreatePage,
   boOrdersViewBlockProductsPage,
   boShoppingCartsPage,
   boStockPage,
@@ -171,23 +170,23 @@ describe('BO - Orders - Create Order : Select Previous Carts', async () => {
 
       await boOrdersPage.goToCreateOrderPage(page);
 
-      const pageTitle = await addOrderPage.getPageTitle(page);
-      expect(pageTitle).to.contains(addOrderPage.pageTitle);
+      const pageTitle = await boOrdersCreatePage.getPageTitle(page);
+      expect(pageTitle).to.contains(boOrdersCreatePage.pageTitle);
     });
 
     it('should search for default customer', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'checkExistentCustomerCard1', baseContext);
 
-      await addOrderPage.searchCustomer(page, dataCustomers.johnDoe.email);
+      await boOrdersCreatePage.searchCustomer(page, dataCustomers.johnDoe.email);
 
-      const customerName = await addOrderPage.getCustomerNameFromResult(page, 1);
+      const customerName = await boOrdersCreatePage.getCustomerNameFromResult(page, 1);
       expect(customerName).to.contains(`${dataCustomers.johnDoe.firstName} ${dataCustomers.johnDoe.lastName}`);
     });
 
     it('should click on the choose button of the default customer', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'clickOnChooseButton1', baseContext);
 
-      const isBlockHistoryVisible = await addOrderPage.chooseCustomer(page);
+      const isBlockHistoryVisible = await boOrdersCreatePage.chooseCustomer(page);
       expect(isBlockHistoryVisible).to.eq(true);
     });
   });
@@ -197,7 +196,7 @@ describe('BO - Orders - Create Order : Select Previous Carts', async () => {
     it('should check that no records found in the carts section', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'checkThatNoRecordFoundForCarts', baseContext);
 
-      const noRecordsFoundText = await addOrderPage.getTextWhenCartsTableIsEmpty(page);
+      const noRecordsFoundText = await boOrdersCreatePage.getTextWhenCartsTableIsEmpty(page);
       expect(noRecordsFoundText).to.contains('No records found');
     });
   });
@@ -207,7 +206,7 @@ describe('BO - Orders - Create Order : Select Previous Carts', async () => {
     it('should click on view my shop', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'clickOnViewMyShop', baseContext);
 
-      page = await addOrderPage.viewMyShop(page);
+      page = await boOrdersCreatePage.viewMyShop(page);
       await foClassicHomePage.changeLanguage(page, 'en');
 
       const isHomePage = await foClassicHomePage.isHomePage(page);
@@ -272,8 +271,8 @@ describe('BO - Orders - Create Order : Select Previous Carts', async () => {
 
       page = await foClassicCheckoutPage.closePage(browserContext, page, 0);
 
-      const pageTitle = await addOrderPage.getPageTitle(page);
-      expect(pageTitle).to.contains(addOrderPage.pageTitle);
+      const pageTitle = await boOrdersCreatePage.getPageTitle(page);
+      expect(pageTitle).to.contains(boOrdersCreatePage.pageTitle);
     });
 
     it('should go to \'Orders > Shopping carts\' page', async function () {
@@ -344,30 +343,30 @@ describe('BO - Orders - Create Order : Select Previous Carts', async () => {
 
       await boOrdersPage.goToCreateOrderPage(page);
 
-      const pageTitle = await addOrderPage.getPageTitle(page);
-      expect(pageTitle).to.contains(addOrderPage.pageTitle);
+      const pageTitle = await boOrdersCreatePage.getPageTitle(page);
+      expect(pageTitle).to.contains(boOrdersCreatePage.pageTitle);
     });
 
     it('should search for default customer', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'checkExistentCustomerCard2', baseContext);
 
-      await addOrderPage.searchCustomer(page, dataCustomers.johnDoe.email);
+      await boOrdersCreatePage.searchCustomer(page, dataCustomers.johnDoe.email);
 
-      const customerName = await addOrderPage.getCustomerNameFromResult(page, 1);
+      const customerName = await boOrdersCreatePage.getCustomerNameFromResult(page, 1);
       expect(customerName).to.contains(`${dataCustomers.johnDoe.firstName} ${dataCustomers.johnDoe.lastName}`);
     });
 
     it('should click on the choose button of the default customer', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'clickOnChooseButton2', baseContext);
 
-      const isBlockHistoryVisible = await addOrderPage.chooseCustomer(page);
+      const isBlockHistoryVisible = await boOrdersCreatePage.chooseCustomer(page);
       expect(isBlockHistoryVisible).to.eq(true);
     });
 
     it('should check the shopping cart ID', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'checkShoppingCartId', baseContext);
 
-      const cartId = await addOrderPage.getTextColumnFromCartsTable(page, 'id');
+      const cartId = await boOrdersCreatePage.getTextColumnFromCartsTable(page, 'id');
       expect(parseInt(cartId, 10)).to.be.equal(lastShoppingCartId);
     });
     [
@@ -378,7 +377,7 @@ describe('BO - Orders - Create Order : Select Previous Carts', async () => {
         await testContext
           .addContextItem(this, 'testIdentifier', `checkShoppingCart${test.args.columnName}`, baseContext);
 
-        const cartColumn = await addOrderPage.getTextColumnFromCartsTable(page, test.args.columnName);
+        const cartColumn = await boOrdersCreatePage.getTextColumnFromCartsTable(page, test.args.columnName);
 
         if (test.args.columnName === 'date') {
           expect(cartColumn).to.contains(test.args.result);
@@ -394,14 +393,14 @@ describe('BO - Orders - Create Order : Select Previous Carts', async () => {
     it('should click on details button and check the Cart Iframe is well displayed', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'clickOnDetailsButton', baseContext);
 
-      const isIframeVisible = await addOrderPage.clickOnCartDetailsButton(page, 1);
+      const isIframeVisible = await boOrdersCreatePage.clickOnCartDetailsButton(page, 1);
       expect(isIframeVisible).to.eq(true);
     });
 
     it('should check the cart Id', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'checkCardId', baseContext);
 
-      shoppingCartPage = addOrderPage.getShoppingCartIframe(page, lastShoppingCartId);
+      shoppingCartPage = boOrdersCreatePage.getShoppingCartIframe(page, lastShoppingCartId);
       expect(shoppingCartPage).to.not.eq(null);
 
       const cartId = await viewShoppingCartPage.getCartId(shoppingCartPage!);
@@ -474,42 +473,42 @@ describe('BO - Orders - Create Order : Select Previous Carts', async () => {
     it('should close the Shopping cart Iframe', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'closeIframe', baseContext);
 
-      const isIframeNotVisible = await addOrderPage.closeIframe(page);
+      const isIframeNotVisible = await boOrdersCreatePage.closeIframe(page);
       expect(isIframeNotVisible, 'iframe shopping cart is still visible').to.eq(true);
     });
 
     it('should click on \'Use\' button and check that product table is visible on \'Cart\' block', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'clickOnUseButton', baseContext);
 
-      const isProductTableVisible = await addOrderPage.clickOnCartUseButton(page);
+      const isProductTableVisible = await boOrdersCreatePage.clickOnCartUseButton(page);
       expect(isProductTableVisible, 'Product table is not visible!').to.eq(true);
     });
 
     it('should check the delivery option selected', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'checkDeliverySelected', baseContext);
 
-      const deliveryOption = await addOrderPage.getDeliveryOption(page);
+      const deliveryOption = await boOrdersCreatePage.getDeliveryOption(page);
       expect(deliveryOption).to.contains(dataCarriers.myCarrier.name);
     });
 
     it('should check the shipping cost', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'checkShippingCost', baseContext);
 
-      const shippingCost = await addOrderPage.getShippingCost(page);
+      const shippingCost = await boOrdersCreatePage.getShippingCost(page);
       expect(shippingCost).to.be.equal(`€${myCarrierCost.toFixed(2)}`);
     });
 
     it('should check the total', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'checkTotal', baseContext);
 
-      const totalOrder = await addOrderPage.getTotal(page);
+      const totalOrder = await boOrdersCreatePage.getTotal(page);
       expect(totalOrder).to.be.equal(`€${(dataProducts.demo_1.finalPrice + myCarrierCost).toFixed(2)}`);
     });
 
     it('should complete the order', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'completeOrder', baseContext);
 
-      await addOrderPage.setSummaryAndCreateOrder(
+      await boOrdersCreatePage.setSummaryAndCreateOrder(
         page,
         dataPaymentMethods.checkPayment.moduleName,
         dataOrderStatuses.paymentAccepted,

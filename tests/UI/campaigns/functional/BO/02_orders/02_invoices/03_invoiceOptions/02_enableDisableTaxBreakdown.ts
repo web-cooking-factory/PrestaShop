@@ -6,18 +6,18 @@ import {bulkDeleteProductsTest} from '@commonTests/BO/catalog/product';
 
 // Import pages
 // Import BO pages
-import addProductPage from '@pages/BO/catalog/products/add';
 import taxesPage from '@pages/BO/international/taxes';
 import addTaxRulesPage from '@pages/BO/international/taxes/taxRules/add';
 import taxRulesPage from '@pages/BO/international/taxes/taxRules';
-import invoicesPage from '@pages/BO/orders/invoices';
 
 import {
   boDashboardPage,
+  boInvoicesPage,
   boLoginPage,
   boOrdersPage,
   boOrdersViewBlockTabListPage,
   boProductsPage,
+  boProductsCreatePage,
   type BrowserContext,
   dataCustomers,
   dataOrderStatuses,
@@ -103,19 +103,19 @@ describe('BO - Orders - Invoices : Enable/Disable tax breakdown', async () => {
           boDashboardPage.ordersParentLink,
           boDashboardPage.invoicesLink,
         );
-        await invoicesPage.closeSfToolBar(page);
+        await boInvoicesPage.closeSfToolBar(page);
 
-        const pageTitle = await invoicesPage.getPageTitle(page);
-        expect(pageTitle).to.contains(invoicesPage.pageTitle);
+        const pageTitle = await boInvoicesPage.getPageTitle(page);
+        expect(pageTitle).to.contains(boInvoicesPage.pageTitle);
       });
 
       it('should enable tax breakdown', async function () {
         await testContext.addContextItem(this, 'testIdentifier', 'enableTaxBreakDown', baseContext);
 
-        await invoicesPage.enableTaxBreakdown(page, true);
+        await boInvoicesPage.enableTaxBreakdown(page, true);
 
-        const textMessage = await invoicesPage.saveInvoiceOptions(page);
-        expect(textMessage).to.contains(invoicesPage.successfulUpdateMessage);
+        const textMessage = await boInvoicesPage.saveInvoiceOptions(page);
+        expect(textMessage).to.contains(boInvoicesPage.successfulUpdateMessage);
       });
     });
 
@@ -123,10 +123,10 @@ describe('BO - Orders - Invoices : Enable/Disable tax breakdown', async () => {
       it('should go to \'International > Taxes\' page', async function () {
         await testContext.addContextItem(this, 'testIdentifier', 'goToTaxesPage', baseContext);
 
-        await invoicesPage.goToSubMenu(
+        await boInvoicesPage.goToSubMenu(
           page,
-          invoicesPage.internationalParentLink,
-          invoicesPage.taxesLink,
+          boInvoicesPage.internationalParentLink,
+          boInvoicesPage.taxesLink,
         );
 
         const pageTitle = await taxesPage.getPageTitle(page);
@@ -208,8 +208,8 @@ describe('BO - Orders - Invoices : Enable/Disable tax breakdown', async () => {
 
         await boProductsPage.selectProductType(page, productData.type);
 
-        const pageTitle = await addProductPage.getPageTitle(page);
-        expect(pageTitle).to.contains(addProductPage.pageTitle);
+        const pageTitle = await boProductsCreatePage.getPageTitle(page);
+        expect(pageTitle).to.contains(boProductsCreatePage.pageTitle);
       });
 
       it('should go to new product page', async function () {
@@ -217,17 +217,17 @@ describe('BO - Orders - Invoices : Enable/Disable tax breakdown', async () => {
 
         await boProductsPage.clickOnAddNewProduct(page);
 
-        const pageTitle = await addProductPage.getPageTitle(page);
-        expect(pageTitle).to.contains(addProductPage.pageTitle);
+        const pageTitle = await boProductsCreatePage.getPageTitle(page);
+        expect(pageTitle).to.contains(boProductsCreatePage.pageTitle);
       });
 
       it('should create standard product', async function () {
         await testContext.addContextItem(this, 'testIdentifier', 'createStandardProduct', baseContext);
 
-        await addProductPage.closeSfToolBar(page);
+        await boProductsCreatePage.closeSfToolBar(page);
 
-        const createProductMessage = await addProductPage.setProduct(page, productData);
-        expect(createProductMessage).to.equal(addProductPage.successfulUpdateMessage);
+        const createProductMessage = await boProductsCreatePage.setProduct(page, productData);
+        expect(createProductMessage).to.equal(boProductsCreatePage.successfulUpdateMessage);
       });
     });
 
@@ -236,7 +236,7 @@ describe('BO - Orders - Invoices : Enable/Disable tax breakdown', async () => {
         await testContext.addContextItem(this, 'testIdentifier', 'previewProduct', baseContext);
 
         // Click on preview button
-        page = await addProductPage.previewProduct(page);
+        page = await boProductsCreatePage.previewProduct(page);
         await foClassicProductPage.changeLanguage(page, 'en');
 
         const pageTitle = await foClassicProductPage.getPageTitle(page);
@@ -297,8 +297,8 @@ describe('BO - Orders - Invoices : Enable/Disable tax breakdown', async () => {
         // Close tab and init other page objects with new current tab
         page = await foClassicCheckoutOrderConfirmationPage.closePage(browserContext, page, 0);
 
-        const pageTitle = await addProductPage.getPageTitle(page);
-        expect(pageTitle).to.contains(addProductPage.pageTitle);
+        const pageTitle = await boProductsCreatePage.getPageTitle(page);
+        expect(pageTitle).to.contains(boProductsCreatePage.pageTitle);
       });
     });
 
@@ -369,17 +369,17 @@ describe('BO - Orders - Invoices : Enable/Disable tax breakdown', async () => {
           boOrdersViewBlockTabListPage.invoicesLink,
         );
 
-        const pageTitle = await invoicesPage.getPageTitle(page);
-        expect(pageTitle).to.contains(invoicesPage.pageTitle);
+        const pageTitle = await boInvoicesPage.getPageTitle(page);
+        expect(pageTitle).to.contains(boInvoicesPage.pageTitle);
       });
 
       it('should disable tax breakdown', async function () {
         await testContext.addContextItem(this, 'testIdentifier', 'disableTaxBreakdown', baseContext);
 
-        await invoicesPage.enableTaxBreakdown(page, false);
+        await boInvoicesPage.enableTaxBreakdown(page, false);
 
-        const textMessage = await invoicesPage.saveInvoiceOptions(page);
-        expect(textMessage).to.contains(invoicesPage.successfulUpdateMessage);
+        const textMessage = await boInvoicesPage.saveInvoiceOptions(page);
+        expect(textMessage).to.contains(boInvoicesPage.successfulUpdateMessage);
       });
     });
 
@@ -387,10 +387,10 @@ describe('BO - Orders - Invoices : Enable/Disable tax breakdown', async () => {
       it('should go to \'Orders > Orders\' page', async function () {
         await testContext.addContextItem(this, 'testIdentifier', 'goToOrdersPageNoTaxBreakdown', baseContext);
 
-        await invoicesPage.goToSubMenu(
+        await boInvoicesPage.goToSubMenu(
           page,
-          invoicesPage.ordersParentLink,
-          invoicesPage.ordersLink,
+          boInvoicesPage.ordersParentLink,
+          boInvoicesPage.ordersLink,
         );
 
         const pageTitle = await boOrdersPage.getPageTitle(page);
@@ -438,10 +438,10 @@ describe('BO - Orders - Invoices : Enable/Disable tax breakdown', async () => {
     it('should go to \'International > Taxes\' page', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'goToTaxesPage1', baseContext);
 
-      await invoicesPage.goToSubMenu(
+      await boInvoicesPage.goToSubMenu(
         page,
-        invoicesPage.internationalParentLink,
-        invoicesPage.taxesLink,
+        boInvoicesPage.internationalParentLink,
+        boInvoicesPage.taxesLink,
       );
 
       const pageTitle = await taxesPage.getPageTitle(page);

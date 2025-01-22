@@ -1,8 +1,5 @@
-// Import utils
 import testContext from '@utils/testContext';
-
-// Import BO pages
-import createProductsPage from '@pages/BO/catalog/products/add';
+import {expect} from 'chai';
 
 // Import FO pages
 import {orderHistoryPage} from '@pages/FO/classic/myAccount/orderHistory';
@@ -12,6 +9,7 @@ import {
   boDashboardPage,
   boLoginPage,
   boProductsPage,
+  boProductsCreatePage,
   boProductSettingsPage,
   boProductsCreateTabVirtualProductPage,
   type BrowserContext,
@@ -29,8 +27,6 @@ import {
   utilsFile,
   utilsPlaywright,
 } from '@prestashop-core/ui-testing';
-
-import {expect} from 'chai';
 
 const baseContext: string = 'functional_BO_catalog_products_virtualTab';
 
@@ -108,15 +104,15 @@ describe('BO - Catalog - Products : Virtual tab', async () => {
 
       await boProductsPage.clickOnAddNewProduct(page);
 
-      const pageTitle = await createProductsPage.getPageTitle(page);
-      expect(pageTitle).to.contains(createProductsPage.pageTitle);
+      const pageTitle = await boProductsCreatePage.getPageTitle(page);
+      expect(pageTitle).to.contains(boProductsCreatePage.pageTitle);
     });
 
     it('should create virtual product', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'createVirtualProduct', baseContext);
 
-      const createProductMessage: string = await createProductsPage.setProduct(page, newProductData);
-      expect(createProductMessage).to.equal(createProductsPage.successfulUpdateMessage);
+      const createProductMessage: string|null = await boProductsCreatePage.setProduct(page, newProductData);
+      expect(createProductMessage).to.equal(boProductsCreatePage.successfulUpdateMessage);
     });
   });
 
@@ -126,7 +122,7 @@ describe('BO - Catalog - Products : Virtual tab', async () => {
       await testContext.addContextItem(this, 'testIdentifier', 'previewProduct', baseContext);
 
       // Click on preview button
-      page = await createProductsPage.previewProduct(page);
+      page = await boProductsCreatePage.previewProduct(page);
 
       await foClassicProductPage.changeLanguage(page, 'en');
 
@@ -213,8 +209,8 @@ describe('BO - Catalog - Products : Virtual tab', async () => {
       // Go back to BO
       page = await foClassicProductPage.closePage(browserContext, page, 0);
 
-      const pageTitle = await createProductsPage.getPageTitle(page);
-      expect(pageTitle).to.contains(createProductsPage.pageTitle);
+      const pageTitle = await boProductsCreatePage.getPageTitle(page);
+      expect(pageTitle).to.contains(boProductsCreatePage.pageTitle);
     });
   });
 
@@ -225,8 +221,8 @@ describe('BO - Catalog - Products : Virtual tab', async () => {
 
       await boProductsCreateTabVirtualProductPage.setProductQuantity(page, -100);
 
-      const createProductMessage = await createProductsPage.saveProduct(page);
-      expect(createProductMessage).to.equal(createProductsPage.successfulUpdateMessage);
+      const createProductMessage = await boProductsCreatePage.saveProduct(page);
+      expect(createProductMessage).to.equal(boProductsCreatePage.successfulUpdateMessage);
     });
 
     [
@@ -239,15 +235,15 @@ describe('BO - Catalog - Products : Virtual tab', async () => {
 
         await boProductsCreateTabVirtualProductPage.setOptionWhenOutOfStock(page, test.args.option);
 
-        const createProductMessage = await createProductsPage.saveProduct(page);
-        expect(createProductMessage).to.equal(createProductsPage.successfulUpdateMessage);
+        const createProductMessage = await boProductsCreatePage.saveProduct(page);
+        expect(createProductMessage).to.equal(boProductsCreatePage.successfulUpdateMessage);
       });
 
       it('should preview product', async function () {
         await testContext.addContextItem(this, 'testIdentifier', `previewProduct${index}`, baseContext);
 
         // Click on preview button
-        page = await createProductsPage.previewProduct(page);
+        page = await boProductsCreatePage.previewProduct(page);
 
         await foClassicProductPage.changeLanguage(page, 'en');
 
@@ -268,8 +264,8 @@ describe('BO - Catalog - Products : Virtual tab', async () => {
         // Go back to BO
         page = await foClassicProductPage.closePage(browserContext, page, 0);
 
-        const pageTitle = await createProductsPage.getPageTitle(page);
-        expect(pageTitle).to.contains(createProductsPage.pageTitle);
+        const pageTitle = await boProductsCreatePage.getPageTitle(page);
+        expect(pageTitle).to.contains(boProductsCreatePage.pageTitle);
       });
     });
 
@@ -287,8 +283,8 @@ describe('BO - Catalog - Products : Virtual tab', async () => {
 
       page = await boProductSettingsPage.closePage(browserContext, page, 0);
 
-      const pageTitle = await createProductsPage.getPageTitle(page);
-      expect(pageTitle).to.contains(createProductsPage.pageTitle);
+      const pageTitle = await boProductsCreatePage.getPageTitle(page);
+      expect(pageTitle).to.contains(boProductsCreatePage.pageTitle);
     });
 
     it('should set label when in stock', async function () {
@@ -297,15 +293,15 @@ describe('BO - Catalog - Products : Virtual tab', async () => {
       await boProductsCreateTabVirtualProductPage.setProductQuantity(page, 100);
       await boProductsCreateTabVirtualProductPage.setLabelWhenInStock(page, 'Product available');
 
-      const createProductMessage = await createProductsPage.saveProduct(page);
-      expect(createProductMessage).to.equal(createProductsPage.successfulUpdateMessage);
+      const createProductMessage = await boProductsCreatePage.saveProduct(page);
+      expect(createProductMessage).to.equal(boProductsCreatePage.successfulUpdateMessage);
     });
 
     it('should preview product', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'previewProduct3', baseContext);
 
       // Click on preview button
-      page = await createProductsPage.previewProduct(page);
+      page = await boProductsCreatePage.previewProduct(page);
 
       await foClassicProductPage.changeLanguage(page, 'en');
 
@@ -325,8 +321,8 @@ describe('BO - Catalog - Products : Virtual tab', async () => {
 
       page = await foClassicProductPage.closePage(browserContext, page, 0);
 
-      const pageTitle = await createProductsPage.getPageTitle(page);
-      expect(pageTitle).to.contains(createProductsPage.pageTitle);
+      const pageTitle = await boProductsCreatePage.getPageTitle(page);
+      expect(pageTitle).to.contains(boProductsCreatePage.pageTitle);
     });
 
     it('should check the allow orders option and set Label when out of stock', async function () {
@@ -336,15 +332,15 @@ describe('BO - Catalog - Products : Virtual tab', async () => {
       await boProductsCreateTabVirtualProductPage.setOptionWhenOutOfStock(page, 'Allow orders');
       await boProductsCreateTabVirtualProductPage.setLabelWhenOutOfStock(page, 'Out of stock');
 
-      const createProductMessage = await createProductsPage.saveProduct(page);
-      expect(createProductMessage).to.equal(createProductsPage.successfulUpdateMessage);
+      const createProductMessage = await boProductsCreatePage.saveProduct(page);
+      expect(createProductMessage).to.equal(boProductsCreatePage.successfulUpdateMessage);
     });
 
     it('should preview product', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'previewProduct4', baseContext);
 
       // Click on preview button
-      page = await createProductsPage.previewProduct(page);
+      page = await boProductsCreatePage.previewProduct(page);
 
       await foClassicProductPage.changeLanguage(page, 'en');
 
@@ -367,8 +363,8 @@ describe('BO - Catalog - Products : Virtual tab', async () => {
 
       page = await foClassicProductPage.closePage(browserContext, page, 0);
 
-      const pageTitle = await createProductsPage.getPageTitle(page);
-      expect(pageTitle).to.contains(createProductsPage.pageTitle);
+      const pageTitle = await boProductsCreatePage.getPageTitle(page);
+      expect(pageTitle).to.contains(boProductsCreatePage.pageTitle);
     });
   });
 
@@ -377,7 +373,7 @@ describe('BO - Catalog - Products : Virtual tab', async () => {
     it('should delete product', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'deleteProduct', baseContext);
 
-      const deleteProductMessage = await createProductsPage.deleteProduct(page);
+      const deleteProductMessage = await boProductsCreatePage.deleteProduct(page);
       expect(deleteProductMessage).to.equal(boProductsPage.successfulDeleteMessage);
     });
   });

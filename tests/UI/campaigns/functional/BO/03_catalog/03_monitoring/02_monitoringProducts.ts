@@ -2,15 +2,15 @@
 import testContext from '@utils/testContext';
 
 // Import pages
-import addProductPage from '@pages/BO/catalog/products/add';
-import combinationsTab from '@pages/BO/catalog/products/add/combinationsTab';
 import monitoringPage from '@pages/BO/catalog/monitoring';
-
 import {expect} from 'chai';
+
 import {
   boDashboardPage,
   boLoginPage,
   boProductsPage,
+  boProductsCreatePage,
+  boProductsCreateTabCombinationsPage,
   type BrowserContext,
   FakerProduct,
   type Page,
@@ -129,8 +129,8 @@ describe('BO - Catalog - Monitoring : Create different products and delete them 
 
         await boProductsPage.selectProductType(page, test.productToCreate.type);
 
-        const pageTitle = await addProductPage.getPageTitle(page);
-        expect(pageTitle).to.contains(addProductPage.pageTitle);
+        const pageTitle = await boProductsCreatePage.getPageTitle(page);
+        expect(pageTitle).to.contains(boProductsCreatePage.pageTitle);
       });
 
       it('should go to new product page', async function () {
@@ -138,24 +138,24 @@ describe('BO - Catalog - Monitoring : Create different products and delete them 
 
         await boProductsPage.clickOnAddNewProduct(page);
 
-        const pageTitle = await addProductPage.getPageTitle(page);
-        expect(pageTitle).to.contains(addProductPage.pageTitle);
+        const pageTitle = await boProductsCreatePage.getPageTitle(page);
+        expect(pageTitle).to.contains(boProductsCreatePage.pageTitle);
       });
 
       it('should create product', async function () {
         await testContext.addContextItem(this, 'testIdentifier', `${test.testIdentifier}_createNewProduct`, baseContext);
 
-        await addProductPage.closeSfToolBar(page);
+        await boProductsCreatePage.closeSfToolBar(page);
 
-        const createProductMessage = await addProductPage.setProduct(page, test.productToCreate);
-        expect(createProductMessage).to.equal(addProductPage.successfulUpdateMessage);
+        const createProductMessage = await boProductsCreatePage.setProduct(page, test.productToCreate);
+        expect(createProductMessage).to.equal(boProductsCreatePage.successfulUpdateMessage);
       });
 
       if (test.productToCreate.type === 'combinations') {
         it('should create combinations and check generate combinations button', async function () {
           await testContext.addContextItem(this, 'testIdentifier', 'createCombinations', baseContext);
 
-          const generateCombinationsButton = await combinationsTab.setProductAttributes(
+          const generateCombinationsButton = await boProductsCreateTabCombinationsPage.setProductAttributes(
             page,
             test.productToCreate.attributes,
           );
@@ -165,14 +165,14 @@ describe('BO - Catalog - Monitoring : Create different products and delete them 
         it('should click on generate combinations button', async function () {
           await testContext.addContextItem(this, 'testIdentifier', 'generateCombinations', baseContext);
 
-          const successMessage = await combinationsTab.generateCombinations(page);
+          const successMessage = await boProductsCreateTabCombinationsPage.generateCombinations(page);
           expect(successMessage).to.equal('Successfully generated 4 combinations.');
         });
 
         it('should check that combinations generation modal is closed', async function () {
           await testContext.addContextItem(this, 'testIdentifier', 'generateCombinationsModalIsClosed', baseContext);
 
-          const isModalClosed = await combinationsTab.generateCombinationModalIsClosed(page);
+          const isModalClosed = await boProductsCreateTabCombinationsPage.generateCombinationModalIsClosed(page);
           expect(isModalClosed).to.be.equal(true);
         });
       }
@@ -187,10 +187,10 @@ describe('BO - Catalog - Monitoring : Create different products and delete them 
           baseContext,
         );
 
-        await addProductPage.goToSubMenu(
+        await boProductsCreatePage.goToSubMenu(
           page,
-          addProductPage.catalogParentLink,
-          addProductPage.monitoringLink,
+          boProductsCreatePage.catalogParentLink,
+          boProductsCreatePage.monitoringLink,
         );
 
         const pageTitle = await monitoringPage.getPageTitle(page);

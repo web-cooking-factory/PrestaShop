@@ -4,9 +4,6 @@ import testContext from '@utils/testContext';
 // Import commonTests
 import {deleteCustomerTest} from '@commonTests/BO/customers/customer';
 
-// Import BO pages
-import addCustomerPage from '@pages/BO/customers/add';
-
 // Import FO pages
 import {orderHistoryPage} from '@pages/FO/classic/myAccount/orderHistory';
 import {orderDetailsPage} from '@pages/FO/classic/myAccount/orderDetails';
@@ -14,6 +11,7 @@ import {orderDetailsPage} from '@pages/FO/classic/myAccount/orderDetails';
 import {
   boAdministrationPage,
   boCustomersPage,
+  boCustomersCreatePage,
   boDashboardPage,
   boLoginPage,
   boShoppingCartsPage,
@@ -270,14 +268,14 @@ describe('BO - Advanced Parameters - Administration : Check notifications', asyn
 
       await boCustomersPage.goToAddNewCustomerPage(page);
 
-      const pageTitle = await addCustomerPage.getPageTitle(page);
-      expect(pageTitle).to.contains(addCustomerPage.pageTitleCreate);
+      const pageTitle = await boCustomersCreatePage.getPageTitle(page);
+      expect(pageTitle).to.contains(boCustomersCreatePage.pageTitleCreate);
     });
 
     it('should create customer and check result', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'createCustomer', baseContext);
 
-      const textResult = await addCustomerPage.createEditCustomer(page, createCustomerData);
+      const textResult = await boCustomersCreatePage.createEditCustomer(page, createCustomerData);
       expect(textResult).to.equal(boCustomersPage.successfulCreationMessage);
     });
 

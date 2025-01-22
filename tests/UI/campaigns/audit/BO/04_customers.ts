@@ -1,5 +1,4 @@
 import {expect} from 'chai';
-import addCustomerPage from '@pages/BO/customers/add';
 import viewCustomerPage from '@pages/BO/customers/view';
 import addressesPage from '@pages/BO/customers/addresses';
 import addAddressPage from '@pages/BO/customers/addresses/add';
@@ -7,6 +6,7 @@ import testContext from '@utils/testContext';
 
 import {
   boCustomersPage,
+  boCustomersCreatePage,
   boDashboardPage,
   boLoginPage,
   type BrowserContext,
@@ -78,8 +78,8 @@ describe('BO - Customers', async () => {
 
     await viewCustomerPage.goToEditCustomerPage(page);
 
-    const pageTitle = await addCustomerPage.getPageTitle(page);
-    expect(pageTitle).to.contains(addCustomerPage.pageTitleEdit);
+    const pageTitle = await boCustomersCreatePage.getPageTitle(page);
+    expect(pageTitle).to.contains(boCustomersCreatePage.pageTitleEdit);
 
     const jsErrors = utilsPlaywright.getJsErrors();
     expect(jsErrors.length).to.equals(0);
@@ -95,8 +95,8 @@ describe('BO - Customers', async () => {
     );
     await boCustomersPage.goToAddNewCustomerPage(page);
 
-    const pageTitle = await addCustomerPage.getPageTitle(page);
-    expect(pageTitle).to.contains(addCustomerPage.pageTitleCreate);
+    const pageTitle = await boCustomersCreatePage.getPageTitle(page);
+    expect(pageTitle).to.contains(boCustomersCreatePage.pageTitleCreate);
 
     const jsErrors = utilsPlaywright.getJsErrors();
     expect(jsErrors.length).to.equals(0);

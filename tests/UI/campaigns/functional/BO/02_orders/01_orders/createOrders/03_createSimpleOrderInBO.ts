@@ -5,13 +5,13 @@ import testContext from '@utils/testContext';
 import {deleteCartRuleTest} from '@commonTests/BO/catalog/cartRule';
 
 // Import BO pages
-import addOrderPage from '@pages/BO/orders/add';
 import orderPageCustomerBlock from '@pages/BO/orders/view/customerBlock';
 
 import {
   boDashboardPage,
   boLoginPage,
   boOrdersPage,
+  boOrdersCreatePage,
   boOrdersViewBlockProductsPage,
   type BrowserContext,
   dataAddresses,
@@ -106,15 +106,15 @@ describe('BO - Orders - Create order : Create simple order in BO', async () => {
 
     await boOrdersPage.goToCreateOrderPage(page);
 
-    const pageTitle = await addOrderPage.getPageTitle(page);
-    expect(pageTitle).to.contains(addOrderPage.pageTitle);
+    const pageTitle = await boOrdersCreatePage.getPageTitle(page);
+    expect(pageTitle).to.contains(boOrdersCreatePage.pageTitle);
   });
 
   describe('Create order and check result', async () => {
     it('should create the order', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'createOrder', baseContext);
 
-      await addOrderPage.createOrder(page, orderToMake);
+      await boOrdersCreatePage.createOrder(page, orderToMake);
 
       const pageTitle = await boOrdersViewBlockProductsPage.getPageTitle(page);
       expect(pageTitle).to.contain(boOrdersViewBlockProductsPage.pageTitle);

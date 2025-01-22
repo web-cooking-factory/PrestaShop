@@ -4,7 +4,6 @@ import testContext from '@utils/testContext';
 // Import pages
 import categoriesPage from '@pages/BO/catalog/categories';
 import addCategoryPage from '@pages/BO/catalog/categories/add';
-import createProductsPage from '@pages/BO/catalog/products/add';
 import imageSettingsPage from '@pages/BO/design/imageSettings';
 
 import {expect} from 'chai';
@@ -12,6 +11,7 @@ import {
   boDashboardPage,
   boLoginPage,
   boProductsPage,
+  boProductsCreatePage,
   type BrowserContext,
   FakerCategory,
   FakerProduct,
@@ -171,8 +171,8 @@ describe('BO - Design - Image Settings - Image Generation on creation', async ()
 
       await boProductsPage.selectProductType(page, productData.type);
 
-      const pageTitle = await createProductsPage.getPageTitle(page);
-      expect(pageTitle).to.contains(createProductsPage.pageTitle);
+      const pageTitle = await boProductsCreatePage.getPageTitle(page);
+      expect(pageTitle).to.contains(boProductsCreatePage.pageTitle);
     });
 
     it('should go to new product page', async function () {
@@ -180,17 +180,17 @@ describe('BO - Design - Image Settings - Image Generation on creation', async ()
 
       await boProductsPage.clickOnAddNewProduct(page);
 
-      const pageTitle = await createProductsPage.getPageTitle(page);
-      expect(pageTitle).to.contains(createProductsPage.pageTitle);
+      const pageTitle = await boProductsCreatePage.getPageTitle(page);
+      expect(pageTitle).to.contains(boProductsCreatePage.pageTitle);
     });
 
     it('should create standard product', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'createStandardProduct', baseContext);
 
-      await createProductsPage.closeSfToolBar(page);
+      await boProductsCreatePage.closeSfToolBar(page);
 
-      const createProductMessage = await createProductsPage.setProduct(page, productData);
-      expect(createProductMessage).to.equal(createProductsPage.successfulUpdateMessage);
+      const createProductMessage = await boProductsCreatePage.setProduct(page, productData);
+      expect(createProductMessage).to.equal(boProductsCreatePage.successfulUpdateMessage);
     });
 
     it('should check the product header details', async function () {
@@ -198,7 +198,7 @@ describe('BO - Design - Image Settings - Image Generation on creation', async ()
 
       const taxValue = await utilsCore.percentage(productData.priceTaxExcluded, productData.tax);
 
-      const productHeaderSummary = await createProductsPage.getProductHeaderSummary(page);
+      const productHeaderSummary = await boProductsCreatePage.getProductHeaderSummary(page);
       await Promise.all([
         expect(productHeaderSummary.priceTaxExc).to.equal(`€${(productData.priceTaxExcluded.toFixed(2))} tax excl.`),
         expect(productHeaderSummary.priceTaxIncl).to.equal(
@@ -211,10 +211,10 @@ describe('BO - Design - Image Settings - Image Generation on creation', async ()
     it('should check that the save button is changed to \'Save and publish\'', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'checkSaveButton', baseContext);
 
-      const saveButtonName = await createProductsPage.getSaveButtonName(page);
+      const saveButtonName = await boProductsCreatePage.getSaveButtonName(page);
       expect(saveButtonName).to.equal('Save and publish');
 
-      idProduct = await createProductsPage.getProductID(page);
+      idProduct = await boProductsCreatePage.getProductID(page);
       expect(idProduct).to.be.gt(0);
     });
 

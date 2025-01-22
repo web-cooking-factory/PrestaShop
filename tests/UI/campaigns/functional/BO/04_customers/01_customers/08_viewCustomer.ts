@@ -3,7 +3,6 @@ import testContext from '@utils/testContext';
 
 // Import pages
 // Import BO pages
-import addCustomerPage from '@pages/BO/customers/add';
 import viewCustomerPage from '@pages/BO/customers/view';
 import addAddressPage from '@pages/BO/customers/addresses/add';
 import viewCartPage from '@pages/BO/orders/shoppingCarts/view';
@@ -11,6 +10,7 @@ import orderPageCustomerBlock from '@pages/BO/orders/view/customerBlock';
 
 import {
   boCustomersPage,
+  boCustomersCreatePage,
   boDashboardPage,
   boLoginPage,
   type BrowserContext,
@@ -119,14 +119,14 @@ describe('BO - Customers - Customers : View information about customer', async (
 
       await boCustomersPage.goToAddNewCustomerPage(page);
 
-      const pageTitle = await addCustomerPage.getPageTitle(page);
-      expect(pageTitle).to.contains(addCustomerPage.pageTitleCreate);
+      const pageTitle = await boCustomersCreatePage.getPageTitle(page);
+      expect(pageTitle).to.contains(boCustomersCreatePage.pageTitleCreate);
     });
 
     it('should create customer and check result', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'createCustomer', baseContext);
 
-      const textResult = await addCustomerPage.createEditCustomer(page, createCustomerData);
+      const textResult = await boCustomersCreatePage.createEditCustomer(page, createCustomerData);
       expect(textResult).to.equal(boCustomersPage.successfulCreationMessage);
 
       const numberOfCustomersAfterCreation = await boCustomersPage.getNumberOfElementInGrid(page);
@@ -431,14 +431,14 @@ describe('BO - Customers - Customers : View information about customer', async (
 
       await viewCustomerPage.goToEditCustomerPage(page);
 
-      const pageTitle = await addCustomerPage.getPageTitle(page);
-      expect(pageTitle).to.contains(addCustomerPage.pageTitleEdit);
+      const pageTitle = await boCustomersCreatePage.getPageTitle(page);
+      expect(pageTitle).to.contains(boCustomersCreatePage.pageTitleEdit);
     });
 
     it('should edit customer information', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'updateCustomer', baseContext);
 
-      const textResult = await addCustomerPage.createEditCustomer(page, editCustomerData);
+      const textResult = await boCustomersCreatePage.createEditCustomer(page, editCustomerData);
       expect(textResult).to.equal(viewCustomerPage.successfulUpdateMessage);
     });
 
