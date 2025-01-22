@@ -414,7 +414,10 @@ describe('BO - Stocks - Movements : Filter by category, movement type, employee 
         const modalTitle = await boProductsCreateTabCombinationsPage.clickOnEditCombinationsByBulkActions(page);
         expect(modalTitle).to.equal(boProductsCreateTabCombinationsPage.editCombinationsModalTitle(4));
 
-        const successMessage = await boProductsCreateTabCombinationsPage.editCombinationsByBulkActions(page, editCombinationsData);
+        const successMessage = await boProductsCreateTabCombinationsPage.editCombinationsByBulkActions(
+          page,
+          editCombinationsData,
+        );
         expect(successMessage).to.equal(boProductsCreateTabCombinationsPage.editCombinationsModalMessage(4));
       });
 

@@ -20,7 +20,7 @@ import {
   utilsPlaywright,
 } from '@prestashop-core/ui-testing';
 
-const baseContext: string = 'functional_BO_catalog_products_boProductsCreateTabOptionsPage';
+const baseContext: string = 'functional_BO_catalog_products_optionsTab';
 
 describe('BO - Catalog - Products : Options tab', async () => {
   let browserContext: BrowserContext;

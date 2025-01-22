@@ -17,7 +17,7 @@ import {
   utilsPlaywright,
 } from '@prestashop-core/ui-testing';
 
-const baseContext: string = 'functional_BO_catalog_products_boProductsCreateTabSEOPage';
+const baseContext: string = 'functional_BO_catalog_products_seoTab';
 
 describe('BO - Catalog - Products : Seo tab', async () => {
   let browserContext: BrowserContext;

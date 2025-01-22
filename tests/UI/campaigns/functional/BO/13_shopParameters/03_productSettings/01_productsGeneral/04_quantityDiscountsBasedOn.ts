@@ -164,7 +164,10 @@ describe('BO - Shop Parameters - Product Settings : Choose quantity discount bas
     it('should create combinations', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'createCombination', baseContext);
 
-      const createProductMessage = await boProductsCreateTabCombinationsPage.setProductAttributes(page, productWithCombinations.attributes);
+      const createProductMessage = await boProductsCreateTabCombinationsPage.setProductAttributes(
+        page,
+        productWithCombinations.attributes,
+      );
       expect(createProductMessage).to.equal(boProductsCreateTabCombinationsPage.generateCombinationsMessage(2));
 
       const successMessage = await boProductsCreateTabCombinationsPage.generateCombinations(page);
