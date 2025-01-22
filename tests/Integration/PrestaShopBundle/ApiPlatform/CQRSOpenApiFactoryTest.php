@@ -27,11 +27,12 @@
 namespace Tests\Integration\PrestaShopBundle\ApiPlatform;
 
 use ApiPlatform\OpenApi\Factory\OpenApiFactoryInterface;
+use ApiPlatform\OpenApi\Model\Operation;
 use ApiPlatform\OpenApi\OpenApi;
 use ArrayObject;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class OpenApiFactoryTest extends KernelTestCase
+class CQRSOpenApiFactoryTest extends KernelTestCase
 {
     /**
      * @dataProvider provideJsonSchemaFactoryCases
@@ -114,6 +115,58 @@ class OpenApiFactoryTest extends KernelTestCase
                     ]),
                 ],
             ]),
+        ];
+    }
+
+    /**
+     * @dataProvider getExpectedTags
+     */
+    public function testPathTags(string $path, string $expectedMethod, array $expectedTags): void
+    {
+        /** @var OpenApiFactoryInterface $openApiFactory */
+        $openApiFactory = $this->getContainer()->get(OpenApiFactoryInterface::class);
+        /** @var OpenApi $openApi */
+        $openApi = $openApiFactory->__invoke();
+        $pathItem = $openApi->getPaths()->getPath($path);
+        $this->assertNotNull($pathItem);
+
+        $methodGetter = 'get' . ucfirst(strtolower($expectedMethod));
+        /** @var Operation $operation */
+        $operation = $pathItem->$methodGetter();
+        $this->assertNotNull($operation);
+        $this->assertEquals($expectedTags, $operation->getTags());
+    }
+
+    public function getExpectedTags(): iterable
+    {
+        yield 'product get endpoint keeps Product tag' => [
+            '/product/{productId}',
+            'get',
+            ['Product'],
+        ];
+
+        yield 'product patch endpoint keeps Product tag' => [
+            '/product/{productId}',
+            'patch',
+            ['Product'],
+        ];
+
+        yield 'product image get endpoint has Product tag instead of ProductImage' => [
+            '/product/image/{imageId}',
+            'get',
+            ['Product'],
+        ];
+
+        yield 'api client get endpoint keeps ApiClient tag' => [
+            '/api-client/{apiClientId}',
+            'get',
+            ['ApiClient'],
+        ];
+
+        yield 'api client list endpoint has ApiClient tag instead of ApiClientList' => [
+            '/api-clients',
+            'get',
+            ['ApiClient'],
         ];
     }
 }

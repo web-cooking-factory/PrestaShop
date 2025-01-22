@@ -30,10 +30,14 @@ use ApiPlatform\JsonSchema\DefinitionNameFactoryInterface;
 use ApiPlatform\JsonSchema\ResourceMetadataTrait;
 use ApiPlatform\JsonSchema\Schema;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\HttpOperation;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\Metadata\Resource\Factory\ResourceMetadataCollectionFactoryInterface;
 use ApiPlatform\Metadata\Resource\Factory\ResourceNameCollectionFactoryInterface;
 use ApiPlatform\OpenApi\Factory\OpenApiFactoryInterface;
+use ApiPlatform\OpenApi\Model\Operation as OpenApiOperation;
+use ApiPlatform\OpenApi\Model\PathItem;
+use ApiPlatform\OpenApi\Model\Paths;
 use ApiPlatform\OpenApi\OpenApi;
 use ArrayObject;
 use PrestaShopBundle\ApiPlatform\Metadata\LocalizedValue;
@@ -73,6 +77,7 @@ class CQRSOpenApiFactory implements OpenApiFactoryInterface
     {
         $parentOpenApi = $this->decorated->__invoke($context);
 
+        $domainsByUri = [];
         foreach ($this->resourceNameCollectionFactory->create() as $resourceClass) {
             $resourceMetadataCollection = $this->resourceMetadataFactory->create($resourceClass);
 
@@ -86,6 +91,14 @@ class CQRSOpenApiFactory implements OpenApiFactoryInterface
 
                 /** @var Operation $operation */
                 foreach ($resourceMetadata->getOperations() as $operation) {
+                    // For each URI define the expected domain (we want to avoid splitting domains because they are based on multiple API resource classes)
+                    if ($operation instanceof HttpOperation && !empty($operation->getUriTemplate())) {
+                        $operationDomain = $this->getOperationDomain($operation);
+                        if (!empty($operationDomain) && empty($domainsByUri[$operation->getUriTemplate()])) {
+                            $domainsByUri[$operation->getUriTemplate()] = $this->getOperationDomain($operation);
+                        }
+                    }
+
                     if (empty($operation->getExtraProperties()['CQRSCommand'])) {
                         continue;
                     }
@@ -96,13 +109,13 @@ class CQRSOpenApiFactory implements OpenApiFactoryInterface
                     }
 
                     // Build the operation name like SchemaFactory does so that we have the proper definition in the schema matching this operation
-                    $operationDefinitionName = $this->definitionNameFactory->create($operation->getClass(), 'json', $inputClass, $operation, []);
-                    if (!$parentOpenApi->getComponents()->getSchemas()->offsetExists($operationDefinitionName)) {
+                    $operationSchemaDefinitionName = $this->definitionNameFactory->create($operation->getClass(), 'json', $inputClass, $operation, []);
+                    if (!$parentOpenApi->getComponents()->getSchemas()->offsetExists($operationSchemaDefinitionName)) {
                         continue;
                     }
 
                     /** @var ArrayObject $definition */
-                    $definition = $parentOpenApi->getComponents()->getSchemas()->offsetGet($operationDefinitionName);
+                    $definition = $parentOpenApi->getComponents()->getSchemas()->offsetGet($operationSchemaDefinitionName);
                     if (empty($definition['properties'])) {
                         continue;
                     }
@@ -116,7 +129,83 @@ class CQRSOpenApiFactory implements OpenApiFactoryInterface
             }
         }
 
-        return $parentOpenApi;
+        $updatedPaths = new Paths();
+        /** @var PathItem $pathItem */
+        foreach ($parentOpenApi->getPaths()->getPaths() as $path => $pathItem) {
+            // Get operations that are defined (not null)
+            $operations = array_filter([
+                'withGet' => $pathItem->getGet(),
+                'withPost' => $pathItem->getPost(),
+                'withPut' => $pathItem->getPut(),
+                'withPatch' => $pathItem->getPatch(),
+                'withDelete' => $pathItem->getDelete(),
+            ], fn ($operation) => null !== $operation);
+
+            if (!empty($operations) && !empty($domainsByUri[$path])) {
+                $updatedPathItem = $pathItem;
+                /** @var OpenApiOperation $operation */
+                foreach ($operations as $setterMethod => $operation) {
+                    $taggedOperation = $operation->withTags([$domainsByUri[$path]]);
+                    $updatedPathItem = $updatedPathItem->$setterMethod($taggedOperation);
+                }
+                $updatedPaths->addPath($path, $updatedPathItem);
+            } else {
+                $updatedPaths->addPath($path, $pathItem);
+            }
+        }
+
+        $updatedOpenApi = new OpenApi(
+            $parentOpenApi->getInfo(),
+            $parentOpenApi->getServers(),
+            $updatedPaths,
+            $parentOpenApi->getComponents(),
+            $parentOpenApi->getSecurity(),
+            $parentOpenApi->getTags(),
+            $parentOpenApi->getExternalDocs(),
+            $parentOpenApi->getJsonSchemaDialect(),
+            $parentOpenApi->getWebhooks(),
+        );
+
+        return $updatedOpenApi;
+    }
+
+    /**
+     * Deduce the domain from the FQCN, for classes that are at the root of ApiPlatform\Resources the class name is used,
+     * but if the domain was placed in a subspace with multiple classes in it we use the last sub namespace.
+     *
+     * ex:
+     *      PrestaShopBundle\ApiPlatform\Resources\ApiClient => ApiClient
+     *      PrestaShop\Module\APIResources\ApiPlatform\Resources\ApiClient\ApiClient => ApiClient
+     *      PrestaShop\Module\APIResources\ApiPlatform\Resources\ApiClient\ApiClientList => ApiClient
+     *      PrestaShop\Module\APIResources\ApiPlatform\Resources\Product\Product => Product
+     *      PrestaShop\Module\APIResources\ApiPlatform\Resources\Product\ProductList => Product
+     *
+     * @param HttpOperation $operation
+     *
+     * @return string|null
+     */
+    protected function getOperationDomain(HttpOperation $operation): ?string
+    {
+        // All our domain API resources (in the core and in the module) are in a sub namespace ending with ApiPlatform\Resources
+        if (!str_contains($operation->getClass(), 'ApiPlatform\Resources\\')) {
+            return null;
+        }
+
+        // Get the last part of the FQCN after ApiPlatform\Resources
+        $domainEnd = substr($operation->getClass(), strrpos($operation->getClass(), 'ApiPlatform\Resources\\') + strlen('ApiPlatform\Resources\\'));
+        if (empty($domainEnd)) {
+            return null;
+        }
+
+        // If the remaining part is only the class name we can use it for the domain
+        if (!str_contains($domainEnd, '\\')) {
+            return $domainEnd;
+        }
+
+        // If not we use the last namespace
+        $splitDomain = explode('\\', $domainEnd);
+
+        return $splitDomain[count($splitDomain) - 2];
     }
 
     protected function adaptLocalizedValues(ApiResource $apiResource, ArrayObject $definition): void
