@@ -3,9 +3,9 @@ import testContext from '@utils/testContext';
 
 // Import pages
 import addressesPage from '@pages/BO/customers/addresses';
-import addAddressPage from '@pages/BO/customers/addresses/add';
 
 import {
+  boAddressesCreatePage,
   boDashboardPage,
   boLoginPage,
   type BrowserContext,
@@ -78,14 +78,14 @@ describe('BO - Customers - Addresses : Addresses bulk actions', async () => {
 
         await addressesPage.goToAddNewAddressPage(page);
 
-        const pageTitle = await addAddressPage.getPageTitle(page);
-        expect(pageTitle).to.contains(addAddressPage.pageTitleCreate);
+        const pageTitle = await boAddressesCreatePage.getPageTitle(page);
+        expect(pageTitle).to.contains(boAddressesCreatePage.pageTitleCreate);
       });
 
       it(`should create address n°${index + 1} and check result`, async function () {
         await testContext.addContextItem(this, 'testIdentifier', `createAddress${index + 1}`, baseContext);
 
-        const textResult = await addAddressPage.createEditAddress(page, test.args.addressToCreate);
+        const textResult = await boAddressesCreatePage.createEditAddress(page, test.args.addressToCreate);
         expect(textResult).to.equal(addressesPage.successfulCreationMessage);
 
         const numberOfAddressesAfterCreation = await addressesPage.getNumberOfElementInGrid(page);

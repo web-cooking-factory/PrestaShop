@@ -1,11 +1,9 @@
-// Import utils
 import testContext from '@utils/testContext';
-
-// Import pages
+import {expect} from 'chai';
 import addressesPage from '@pages/BO/customers/addresses';
-import addAddressPage from '@pages/BO/customers/addresses/add';
 
 import {
+  boAddressesCreatePage,
   boDashboardPage,
   boLoginPage,
   type BrowserContext,
@@ -13,8 +11,6 @@ import {
   type Page,
   utilsPlaywright,
 } from '@prestashop-core/ui-testing';
-
-import {expect} from 'chai';
 
 const baseContext: string = 'functional_BO_customers_addresses_CRUDAddressInBO';
 
@@ -75,14 +71,14 @@ describe('BO - Customers - Addresses : CRUD Address in BO', async () => {
 
       await addressesPage.goToAddNewAddressPage(page);
 
-      const pageTitle = await addAddressPage.getPageTitle(page);
-      expect(pageTitle).to.contains(addAddressPage.pageTitleCreate);
+      const pageTitle = await boAddressesCreatePage.getPageTitle(page);
+      expect(pageTitle).to.contains(boAddressesCreatePage.pageTitleCreate);
     });
 
     it('should create address and check result', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'createAddress', baseContext);
 
-      const textResult = await addAddressPage.createEditAddress(page, createAddressData);
+      const textResult = await boAddressesCreatePage.createEditAddress(page, createAddressData);
       expect(textResult).to.equal(addressesPage.successfulCreationMessage);
 
       const numberOfAddressesAfterCreation = await addressesPage.getNumberOfElementInGrid(page);
@@ -111,14 +107,14 @@ describe('BO - Customers - Addresses : CRUD Address in BO', async () => {
 
       await addressesPage.goToEditAddressPage(page, 1);
 
-      const pageTitle = await addAddressPage.getPageTitle(page);
-      expect(pageTitle).to.contains(addAddressPage.pageTitleEdit);
+      const pageTitle = await boAddressesCreatePage.getPageTitle(page);
+      expect(pageTitle).to.contains(boAddressesCreatePage.pageTitleEdit);
     });
 
     it('should update address', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'updateAddress', baseContext);
 
-      const textResult = await addAddressPage.createEditAddress(page, editAddressData);
+      const textResult = await boAddressesCreatePage.createEditAddress(page, editAddressData);
       expect(textResult).to.equal(addressesPage.successfulUpdateMessage);
 
       const numberOfAddressesAfterUpdate = await addressesPage.resetAndGetNumberOfLines(page);

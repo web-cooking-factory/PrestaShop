@@ -1,10 +1,10 @@
 import {expect} from 'chai';
 import viewCustomerPage from '@pages/BO/customers/view';
 import addressesPage from '@pages/BO/customers/addresses';
-import addAddressPage from '@pages/BO/customers/addresses/add';
 import testContext from '@utils/testContext';
 
 import {
+  boAddressesCreatePage,
   boCustomersPage,
   boCustomersCreatePage,
   boDashboardPage,
@@ -123,8 +123,8 @@ describe('BO - Customers', async () => {
 
     await addressesPage.goToEditAddressPage(page, 1);
 
-    const pageTitle = await addAddressPage.getPageTitle(page);
-    expect(pageTitle).to.contains(addAddressPage.pageTitleEdit);
+    const pageTitle = await boAddressesCreatePage.getPageTitle(page);
+    expect(pageTitle).to.contains(boAddressesCreatePage.pageTitleEdit);
 
     const jsErrors = utilsPlaywright.getJsErrors();
     expect(jsErrors.length).to.equals(0);
@@ -140,8 +140,8 @@ describe('BO - Customers', async () => {
     );
     await addressesPage.goToAddNewAddressPage(page);
 
-    const pageTitle = await addAddressPage.getPageTitle(page);
-    expect(pageTitle).to.contains(addAddressPage.pageTitleCreate);
+    const pageTitle = await boAddressesCreatePage.getPageTitle(page);
+    expect(pageTitle).to.contains(boAddressesCreatePage.pageTitleCreate);
 
     const jsErrors = utilsPlaywright.getJsErrors();
     expect(jsErrors.length).to.equals(0);

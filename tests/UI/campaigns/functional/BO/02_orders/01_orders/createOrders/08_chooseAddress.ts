@@ -4,11 +4,8 @@ import {expect} from 'chai';
 // Import commonTests
 import {createAddressTest, bulkDeleteAddressesTest} from '@commonTests/BO/customers/address';
 
-// Import pages
-// Import BO pages
-import addAddressPage from '@pages/BO/customers/addresses/add';
-
 import {
+  boAddressesCreatePage,
   boDashboardPage,
   boLoginPage,
   boOrdersPage,
@@ -247,7 +244,7 @@ describe('BO - Orders - Create order : Choose address', async () => {
         editAddressIframe = boOrdersCreatePage.getEditAddressIframe(page);
         expect(editAddressIframe).to.not.eq(null);
 
-        await addAddressPage.createEditAddress(editAddressIframe!, addressToEditData, true, false);
+        await boAddressesCreatePage.createEditAddress(editAddressIframe!, addressToEditData, true, false);
 
         const editedAddress = await boOrdersCreatePage.getDeliveryAddressDetails(page);
         expect(editedAddress).to.be.equal(`${addressToEditData.firstName} ${addressToEditData.lastName}`
@@ -460,7 +457,7 @@ describe('BO - Orders - Create order : Choose address', async () => {
         editAddressIframe = boOrdersCreatePage.getEditAddressIframe(page);
         expect(editAddressIframe).to.not.eq(null);
 
-        await addAddressPage.createEditAddress(editAddressIframe!, newAddressToCreate, true, false);
+        await boAddressesCreatePage.createEditAddress(editAddressIframe!, newAddressToCreate, true, false);
 
         const editedAddress = await boOrdersCreatePage.getInvoiceAddressDetails(page);
         expect(editedAddress).to.be.equal(`${newAddressToCreate.firstName} ${newAddressToCreate.lastName}`
@@ -486,7 +483,7 @@ describe('BO - Orders - Create order : Choose address', async () => {
       addAddressIframe = boOrdersCreatePage.getAddAddressIframe(page);
       expect(addAddressIframe).to.not.eq(null);
 
-      await addAddressPage.createEditAddress(addAddressIframe!, newAddressData, true, false);
+      await boAddressesCreatePage.createEditAddress(addAddressIframe!, newAddressData, true, false);
 
       const deliveryAddress = await boOrdersCreatePage.getDeliveryAddressList(page);
       expect(deliveryAddress).to.contains(newAddressData.alias);

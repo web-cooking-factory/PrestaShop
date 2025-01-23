@@ -1,11 +1,9 @@
-// Import utils
 import testContext from '@utils/testContext';
-
-// Import BO pages
+import {expect} from 'chai';
 import addressesPage from '@pages/BO/customers/addresses';
-import addAddressPage from '@pages/BO/customers/addresses/add';
 
 import {
+  boAddressesCreatePage,
   boDashboardPage,
   boLoginPage,
   type BrowserContext,
@@ -13,8 +11,6 @@ import {
   type Page,
   utilsPlaywright,
 } from '@prestashop-core/ui-testing';
-
-import {expect} from 'chai';
 
 let browserContext: BrowserContext;
 let page: Page;
@@ -74,14 +70,14 @@ function createAddressTest(addressData: FakerAddress, baseContext: string = 'com
 
       await addressesPage.goToAddNewAddressPage(page);
 
-      const pageTitle = await addAddressPage.getPageTitle(page);
-      expect(pageTitle).to.contains(addAddressPage.pageTitleCreate);
+      const pageTitle = await boAddressesCreatePage.getPageTitle(page);
+      expect(pageTitle).to.contains(boAddressesCreatePage.pageTitleCreate);
     });
 
     it('should create address and check result', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'createAddress', baseContext);
 
-      const textResult = await addAddressPage.createEditAddress(page, addressData);
+      const textResult = await boAddressesCreatePage.createEditAddress(page, addressData);
       expect(textResult).to.equal(addressesPage.successfulCreationMessage);
 
       const numberOfAddressesAfterCreation = await addressesPage.getNumberOfElementInGrid(page);

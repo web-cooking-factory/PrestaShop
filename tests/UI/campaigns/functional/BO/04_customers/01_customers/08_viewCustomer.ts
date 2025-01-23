@@ -1,13 +1,13 @@
-// Import utils
 import testContext from '@utils/testContext';
+import {expect} from 'chai';
 
 // Import pages
 // Import BO pages
 import viewCustomerPage from '@pages/BO/customers/view';
-import addAddressPage from '@pages/BO/customers/addresses/add';
 import viewCartPage from '@pages/BO/orders/shoppingCarts/view';
 
 import {
+  boAddressesCreatePage,
   boCustomersPage,
   boCustomersCreatePage,
   boDashboardPage,
@@ -29,8 +29,6 @@ import {
   utilsDate,
   utilsPlaywright,
 } from '@prestashop-core/ui-testing';
-
-import {expect} from 'chai';
 
 const baseContext: string = 'functional_BO_customers_customers_viewCustomer';
 
@@ -555,14 +553,14 @@ describe('BO - Customers - Customers : View information about customer', async (
 
       await viewCustomerPage.goToPage(page, 'Addresses');
 
-      const pageTitle = await addAddressPage.getPageTitle(page);
-      expect(pageTitle).to.contains(addAddressPage.pageTitleEdit);
+      const pageTitle = await boAddressesCreatePage.getPageTitle(page);
+      expect(pageTitle).to.contains(boAddressesCreatePage.pageTitleEdit);
     });
 
     it('should modify the address', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'updateAddress', baseContext);
 
-      const textResult = await addAddressPage.createEditAddress(page, createAddressData);
+      const textResult = await boAddressesCreatePage.createEditAddress(page, createAddressData);
       expect(textResult).to.equal(viewCustomerPage.updateSuccessfulMessage);
     });
 
