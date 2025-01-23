@@ -16,7 +16,6 @@ import addFeatureValuePage from '@pages/BO/catalog/features/addValue';
 import viewFeaturePage from '@pages/BO/catalog/features/view';
 import filesPage from '@pages/BO/catalog/files';
 import addFilePage from '@pages/BO/catalog/files/add';
-import monitoringPage from '@pages/BO/catalog/monitoring';
 import movementsPage from '@pages/BO/catalog/stocks/movements';
 import suppliersPage from '@pages/BO/catalog/suppliers';
 import viewSupplierPage from '@pages/BO/catalog/suppliers/view';
@@ -28,6 +27,7 @@ import {
   boBrandsPage,
   boDashboardPage,
   boLoginPage,
+  boMonitoringPage,
   boProductsPage,
   boProductsCreatePage,
   boStockPage,
@@ -168,8 +168,8 @@ describe('BO - Catalog', async () => {
       boDashboardPage.monitoringLink,
     );
 
-    const pageTitle = await monitoringPage.getPageTitle(page);
-    expect(pageTitle).to.contains(monitoringPage.pageTitle);
+    const pageTitle = await boMonitoringPage.getPageTitle(page);
+    expect(pageTitle).to.contains(boMonitoringPage.pageTitle);
 
     const jsErrors = utilsPlaywright.getJsErrors();
     expect(jsErrors.length).to.equals(0);
