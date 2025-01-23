@@ -2,7 +2,6 @@
 import testContext from '@utils/testContext';
 
 // Import pages
-import statsPage from '@pages/BO/stats';
 import newCategoryPage from '@pages/BO/catalog/categories/add';
 import newVoucherPage from '@pages/BO/catalog/discounts/add';
 import addNewQuickAccessPage from '@pages/BO/quickAccess/add';
@@ -16,6 +15,7 @@ import {
   boModuleManagerPage,
   boProductsPage,
   boQuickAccessPage,
+  boStatisticsPage,
   type BrowserContext,
   FakerQuickAccess,
   type Page,
@@ -56,7 +56,7 @@ describe('BO - Header : Quick access links', async () => {
     });
 
     [
-      {args: {pageName: 'Catalog evaluation', pageTitle: statsPage.pageTitle}},
+      {args: {pageName: 'Catalog evaluation', pageTitle: boStatisticsPage.pageTitle}},
       {args: {pageName: 'Installed modules', pageTitle: boModuleManagerPage.pageTitle}},
       {args: {pageName: 'New category', pageTitle: newCategoryPage.pageTitleCreate}},
       {args: {pageName: 'New product', pageTitle: boProductsPage.pageTitle}},

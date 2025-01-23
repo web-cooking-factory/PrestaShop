@@ -2,7 +2,6 @@
 import testContext from '@utils/testContext';
 
 // Import BO pages
-import statsPage from '@pages/BO/stats';
 import {viewOrderBasePage} from '@pages/BO/orders/view/viewOrderBasePage';
 import merchandiseReturnsPage from '@pages/BO/customerService/merchandiseReturns';
 import monitoringPage from '@pages/BO/catalog/monitoring';
@@ -28,6 +27,7 @@ import {
   boProductsPage,
   boProductsCreatePage,
   boShoppingCartsPage,
+  boStatisticsPage,
   type BrowserContext,
   dataCustomers,
   dataOrders,
@@ -636,8 +636,8 @@ describe('BO - Dashboard : Activity overview', async () => {
 
         await boDashboardPage.clickOnNewSubscriptionsLink(page);
 
-        const pageTitle = await statsPage.getPageTitle(page);
-        expect(pageTitle).to.eq(statsPage.pageTitle);
+        const pageTitle = await boStatisticsPage.getPageTitle(page);
+        expect(pageTitle).to.eq(boStatisticsPage.pageTitle);
       });
 
       it('should go back to dashboard page', async function () {
@@ -691,8 +691,8 @@ describe('BO - Dashboard : Activity overview', async () => {
 
         await boDashboardPage.clickOnVisitsLink(page);
 
-        const pageTitle = await statsPage.getPageTitle(page);
-        expect(pageTitle).to.eq(statsPage.pageTitle);
+        const pageTitle = await boStatisticsPage.getPageTitle(page);
+        expect(pageTitle).to.eq(boStatisticsPage.pageTitle);
       });
 
       it('should go back to dashboard page', async function () {
