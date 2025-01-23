@@ -3,7 +3,6 @@ import {disableHummingbird, enableHummingbird} from '@commonTests/BO/design/humm
 import foHummingbirdAddressesPage from '@pages/FO/hummingbird/myAccount/addresses';
 import foHummingbirdAddressesCreatePage from '@pages/FO/hummingbird/myAccount/addAddress';
 import foHummingbirdAccountIdentityPage from '@pages/FO/hummingbird/myAccount/identity';
-import foHummingbirdOrderDetailsPage from '@pages/FO/hummingbird/myAccount/orderDetails';
 import foHummingbirdCreditSlipsPage from '@pages/FO/hummingbird/myAccount/creditSlips';
 import foHummingbirdGdprPersonalDataPage from '@pages/FO/hummingbird/myAccount/gdprPersonalData';
 import testContext from '@utils/testContext';
@@ -14,6 +13,7 @@ import {
   foHummingbirdHomePage,
   foHummingbirdLoginPage,
   foHummingbirdMyAccountPage,
+  foHummingbirdMyOrderDetailsPage,
   foHummingbirdMyOrderHistoryPage,
   foHummingbirdMyWishlistsPage,
   foHummingbirdMyWishlistsViewPage,
@@ -145,8 +145,8 @@ describe('Check FO connected pages', async () => {
 
       await foHummingbirdMyOrderHistoryPage.goToDetailsPage(page, 1);
 
-      const pageTitle = await foHummingbirdOrderDetailsPage.getPageTitle(page);
-      expect(pageTitle).to.equal(foHummingbirdOrderDetailsPage.pageTitle);
+      const pageTitle = await foHummingbirdMyOrderDetailsPage.getPageTitle(page);
+      expect(pageTitle).to.equal(foHummingbirdMyOrderDetailsPage.pageTitle);
 
       const jsErrors = utilsPlaywright.getJsErrors();
       expect(jsErrors.length).to.equals(0);

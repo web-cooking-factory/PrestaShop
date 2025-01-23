@@ -1,9 +1,6 @@
 import testContext from '@utils/testContext';
 import {expect} from 'chai';
 
-// Import FO pages
-import {orderDetailsPage} from '@pages/FO/classic/myAccount/orderDetails';
-
 import {
   type BrowserContext,
   dataCarriers,
@@ -15,6 +12,7 @@ import {
   foClassicHomePage,
   foClassicLoginPage,
   foClassicMyAccountPage,
+  foClassicMyOrderDetailsPage,
   foClassicMyOrderHistoryPage,
   foClassicProductPage,
   type Page,
@@ -163,7 +161,7 @@ describe('FO - Checkout - Shipping methods : Add order message', async () => {
 
     await foClassicMyOrderHistoryPage.goToDetailsPage(page);
 
-    const orderMessage = await orderDetailsPage.getBoxMessages(page);
+    const orderMessage = await foClassicMyOrderDetailsPage.getBoxMessages(page);
     expect(orderMessage).to.contain(editMessage);
   });
 });

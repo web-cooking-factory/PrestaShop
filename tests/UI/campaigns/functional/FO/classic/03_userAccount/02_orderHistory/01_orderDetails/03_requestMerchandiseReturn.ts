@@ -7,7 +7,6 @@ import {
 } from '@commonTests/BO/customerService/merchandiseReturns';
 
 // Import pages
-import {orderDetailsPage} from '@pages/FO/classic/myAccount/orderDetails';
 import {merchandiseReturnsPage as foMerchandiseReturnsPage} from '@pages/FO/classic/myAccount/merchandiseReturns';
 
 import {
@@ -25,6 +24,7 @@ import {
   foClassicHomePage,
   foClassicLoginPage,
   foClassicMyAccountPage,
+  foClassicMyOrderDetailsPage,
   foClassicMyOrderHistoryPage,
   type Page,
   utilsDate,
@@ -178,21 +178,21 @@ describe('FO - Account - Order details : Request merchandise return', async () =
 
       await foClassicMyOrderHistoryPage.goToDetailsPage(page);
 
-      const pageTitle = await orderDetailsPage.getPageTitle(page);
-      expect(pageTitle).to.equal(orderDetailsPage.pageTitle);
+      const pageTitle = await foClassicMyOrderDetailsPage.getPageTitle(page);
+      expect(pageTitle).to.equal(foClassicMyOrderDetailsPage.pageTitle);
     });
 
     it('should check the existence of order return form', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'isOrderReturnFormVisible', baseContext);
 
-      const result = await orderDetailsPage.isOrderReturnFormVisible(page);
+      const result = await foClassicMyOrderDetailsPage.isOrderReturnFormVisible(page);
       expect(result).to.eq(true);
     });
 
     it('should create a merchandise return and check if merchandise return page is displayed', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'createMerchandiseReturn', baseContext);
 
-      await orderDetailsPage.requestMerchandiseReturn(page, 'Test merchandise returns');
+      await foClassicMyOrderDetailsPage.requestMerchandiseReturn(page, 'Test merchandise returns');
 
       const pageTitle = await foMerchandiseReturnsPage.getPageTitle(page);
       expect(pageTitle).to.contains(foMerchandiseReturnsPage.pageTitle);

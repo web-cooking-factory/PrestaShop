@@ -4,9 +4,6 @@ import {expect} from 'chai';
 // Import commonTests
 import {deleteCustomerTest} from '@commonTests/BO/customers/customer';
 
-// Import FO pages
-import {orderDetailsPage} from '@pages/FO/classic/myAccount/orderDetails';
-
 import {
   boAdministrationPage,
   boCustomersPage,
@@ -25,6 +22,7 @@ import {
   foClassicHomePage,
   foClassicLoginPage,
   foClassicMyAccountPage,
+  foClassicMyOrderDetailsPage,
   foClassicMyOrderHistoryPage,
   foClassicProductPage,
   type Page,
@@ -363,8 +361,8 @@ describe('BO - Advanced Parameters - Administration : Check notifications', asyn
 
       await foClassicMyOrderHistoryPage.goToDetailsPage(page);
 
-      const successMessageText = await orderDetailsPage.addAMessage(page, messageOption, messageSend);
-      expect(successMessageText).to.equal(orderDetailsPage.successMessageText);
+      const successMessageText = await foClassicMyOrderDetailsPage.addAMessage(page, messageOption, messageSend);
+      expect(successMessageText).to.equal(foClassicMyOrderDetailsPage.successMessageText);
     });
 
     it('should go back to BO', async function () {

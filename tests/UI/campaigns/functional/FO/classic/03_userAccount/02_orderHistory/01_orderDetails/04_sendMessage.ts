@@ -5,9 +5,6 @@ import {faker} from '@faker-js/faker';
 // Import commonTests
 import {resetSmtpConfigTest, setupSmtpConfigTest} from '@commonTests/BO/advancedParameters/smtp';
 
-// Import FO pages
-import {orderDetailsPage} from '@pages/FO/classic/myAccount/orderDetails';
-
 import {
   boCustomerServicePage,
   boDashboardPage,
@@ -24,6 +21,7 @@ import {
   foClassicHomePage,
   foClassicLoginPage,
   foClassicMyAccountPage,
+  foClassicMyOrderDetailsPage,
   foClassicMyOrderHistoryPage,
   foClassicProductPage,
   type MailDev,
@@ -249,8 +247,8 @@ describe('FO - Account : Send a message with an ordered product', async () => {
 
       await foClassicMyOrderHistoryPage.goToDetailsPage(page);
 
-      const successMessageText = await orderDetailsPage.addAMessage(page, messageOption, messageSend);
-      expect(successMessageText).to.equal(orderDetailsPage.successMessageText);
+      const successMessageText = await foClassicMyOrderDetailsPage.addAMessage(page, messageOption, messageSend);
+      expect(successMessageText).to.equal(foClassicMyOrderDetailsPage.successMessageText);
     });
 
     it('should check the received email', async function () {

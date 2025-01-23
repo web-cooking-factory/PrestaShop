@@ -11,7 +11,6 @@ import {viewOrderBasePage} from '@pages/BO/orders/view/viewOrderBasePage';
 import editMerchandiseReturnsPage from '@pages/BO/customerService/merchandiseReturns/edit';
 // Import FO pages
 import {merchandiseReturnsPage as foMerchandiseReturnsPage} from '@pages/FO/classic/myAccount/merchandiseReturns';
-import {orderDetailsPage} from '@pages/FO/classic/myAccount/orderDetails';
 import {returnDetailsPage} from '@pages/FO/classic/myAccount/returnDetails';
 
 import {
@@ -30,6 +29,7 @@ import {
   foClassicHomePage,
   foClassicLoginPage,
   foClassicMyAccountPage,
+  foClassicMyOrderDetailsPage,
   foClassicMyOrderHistoryPage,
   type Page,
   utilsDate,
@@ -227,14 +227,14 @@ describe('FO - Account : Check order return PDF', async () => {
 
       await foClassicMyOrderHistoryPage.goToDetailsPage(page, 1);
 
-      const result = await orderDetailsPage.isOrderReturnFormVisible(page);
+      const result = await foClassicMyOrderDetailsPage.isOrderReturnFormVisible(page);
       expect(result).to.eq(true);
     });
 
     it('should create a merchandise return', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'createMerchandiseReturn', baseContext);
 
-      await orderDetailsPage.requestMerchandiseReturn(page, 'message test');
+      await foClassicMyOrderDetailsPage.requestMerchandiseReturn(page, 'message test');
 
       const pageTitle = await foMerchandiseReturnsPage.getPageTitle(page);
       expect(pageTitle).to.contains(foMerchandiseReturnsPage.pageTitle);

@@ -4,9 +4,6 @@ import {expect} from 'chai';
 // Import commonTests
 import {enableHummingbird, disableHummingbird} from '@commonTests/BO/design/hummingbird';
 
-// Import FO pages
-import orderDetailsPage from '@pages/FO/hummingbird/myAccount/orderDetails';
-
 import {
   type BrowserContext,
   dataCarriers,
@@ -18,6 +15,7 @@ import {
   foHummingbirdHomePage,
   foHummingbirdLoginPage,
   foHummingbirdMyAccountPage,
+  foHummingbirdMyOrderDetailsPage,
   foHummingbirdMyOrderHistoryPage,
   foHummingbirdProductPage,
   type Page,
@@ -170,7 +168,7 @@ describe('FO - Checkout - Shipping methods : Add order message', async () => {
 
       await foHummingbirdMyOrderHistoryPage.goToDetailsPage(page);
 
-      const orderMessage = await orderDetailsPage.getBoxMessages(page);
+      const orderMessage = await foHummingbirdMyOrderDetailsPage.getBoxMessages(page);
       expect(orderMessage).to.contain(editMessage);
     });
   });

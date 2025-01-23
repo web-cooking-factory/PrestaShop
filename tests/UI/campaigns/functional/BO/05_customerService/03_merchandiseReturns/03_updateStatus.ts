@@ -1,5 +1,5 @@
-// Import utils
 import testContext from '@utils/testContext';
+import {expect} from 'chai';
 
 // Import commonTests
 import {disableMerchandiseReturns, enableMerchandiseReturns} from '@commonTests/BO/customerService/merchandiseReturns';
@@ -12,7 +12,6 @@ import {viewOrderBasePage} from '@pages/BO/orders/view/viewOrderBasePage';
 import editMerchandiseReturnsPage from '@pages/BO/customerService/merchandiseReturns/edit';
 // Import FO pages
 import {merchandiseReturnsPage as foMerchandiseReturnsPage} from '@pages/FO/classic/myAccount/merchandiseReturns';
-import {orderDetailsPage} from '@pages/FO/classic/myAccount/orderDetails';
 
 import {
   boDashboardPage,
@@ -30,6 +29,7 @@ import {
   foClassicHomePage,
   foClassicLoginPage,
   foClassicMyAccountPage,
+  foClassicMyOrderDetailsPage,
   foClassicMyOrderHistoryPage,
   type MailDev,
   type MailDevEmail,
@@ -39,8 +39,6 @@ import {
   utilsMail,
   utilsPlaywright,
 } from '@prestashop-core/ui-testing';
-
-import {expect} from 'chai';
 
 const baseContext: string = 'functional_BO_customerService_merchandiseReturns_updateStatus';
 
@@ -203,14 +201,14 @@ describe('BO - Customer Service - Merchandise Returns : Update status', async ()
 
       await foClassicMyOrderHistoryPage.goToDetailsPage(page, 1);
 
-      const result = await orderDetailsPage.isOrderReturnFormVisible(page);
+      const result = await foClassicMyOrderDetailsPage.isOrderReturnFormVisible(page);
       expect(result).to.eq(true);
     });
 
     it('should create a merchandise return', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'createMerchandiseReturn', baseContext);
 
-      await orderDetailsPage.requestMerchandiseReturn(page, 'test', 1, [{quantity: 1}]);
+      await foClassicMyOrderDetailsPage.requestMerchandiseReturn(page, 'test', 1, [{quantity: 1}]);
 
       const pageTitle = await foMerchandiseReturnsPage.getPageTitle(page);
       expect(pageTitle).to.contains(foMerchandiseReturnsPage.pageTitle);
@@ -219,7 +217,7 @@ describe('BO - Customer Service - Merchandise Returns : Update status', async ()
     it('should close the FO page and go back to BO', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'closeFoAndGoBackToBO', baseContext);
 
-      page = await orderDetailsPage.closePage(browserContext, page, 0);
+      page = await foClassicMyOrderDetailsPage.closePage(browserContext, page, 0);
 
       const pageTitle = await viewOrderBasePage.getPageTitle(page);
       expect(pageTitle).to.contains(viewOrderBasePage.pageTitle);

@@ -1,5 +1,5 @@
-// Import utils
 import testContext from '@utils/testContext';
+import {expect} from 'chai';
 
 // Import commonTests
 import {resetSmtpConfigTest, setupSmtpConfigTest} from '@commonTests/BO/advancedParameters/smtp';
@@ -13,7 +13,6 @@ import {createOrderByCustomerTest} from '@commonTests/FO/classic/order';
 import {viewOrderBasePage} from '@pages/BO/orders/view/viewOrderBasePage';
 // Import FO pages
 import {creditSlipPage} from '@pages/FO/classic/myAccount/creditSlips';
-import {orderDetailsPage} from '@pages/FO/classic/myAccount/orderDetails';
 
 import {
   boDashboardPage,
@@ -31,6 +30,7 @@ import {
   foClassicHomePage,
   foClassicLoginPage,
   foClassicMyAccountPage,
+  foClassicMyOrderDetailsPage,
   type MailDev,
   type MailDevEmail,
   type Page,
@@ -38,8 +38,6 @@ import {
   utilsMail,
   utilsPlaywright,
 } from '@prestashop-core/ui-testing';
-
-import {expect} from 'chai';
 
 const baseContext: string = 'functional_FO_classic_userAccount_creditSlips_consultCreditSlip';
 
@@ -356,8 +354,8 @@ describe('FO - Consult credit slip list & View PDF Credit slip & View order', as
 
         await creditSlipPage.clickOrderReference(page, 1);
 
-        const pageTitle = await orderDetailsPage.getPageTitle(page);
-        expect(pageTitle).to.equal(orderDetailsPage.pageTitle);
+        const pageTitle = await foClassicMyOrderDetailsPage.getPageTitle(page);
+        expect(pageTitle).to.equal(foClassicMyOrderDetailsPage.pageTitle);
       });
 
       it('should go to credit slips page', async function () {

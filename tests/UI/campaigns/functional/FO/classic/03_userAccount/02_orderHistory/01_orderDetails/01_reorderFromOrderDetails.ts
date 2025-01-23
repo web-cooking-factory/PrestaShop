@@ -5,9 +5,6 @@ import {expect} from 'chai';
 // Import common tests
 import {createOrderByCustomerTest} from '@commonTests/FO/classic/order';
 
-// Import FO pages
-import {orderDetailsPage} from '@pages/FO/classic/myAccount/orderDetails';
-
 import {
   type BrowserContext,
   dataCustomers,
@@ -19,6 +16,7 @@ import {
   foClassicHomePage,
   foClassicLoginPage,
   foClassicMyAccountPage,
+  foClassicMyOrderDetailsPage,
   foClassicMyOrderHistoryPage,
   type Page,
   utilsPlaywright,
@@ -118,14 +116,14 @@ describe('FO - Account - Order details : Reorder from order detail', async () =>
 
       await foClassicMyOrderHistoryPage.goToDetailsPage(page);
 
-      const pageTitle = await orderDetailsPage.getPageTitle(page);
-      expect(pageTitle).to.equal(orderDetailsPage.pageTitle);
+      const pageTitle = await foClassicMyOrderDetailsPage.getPageTitle(page);
+      expect(pageTitle).to.equal(foClassicMyOrderDetailsPage.pageTitle);
     });
 
     it('should click on reorder link', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'clickOnReorderLink', baseContext);
 
-      await orderDetailsPage.clickOnReorderLink(page);
+      await foClassicMyOrderDetailsPage.clickOnReorderLink(page);
 
       const isCheckoutPage = await foClassicCheckoutPage.isCheckoutPage(page);
       expect(isCheckoutPage, 'Browser is not in checkout Page').to.eq(true);
@@ -182,14 +180,14 @@ describe('FO - Account - Order details : Reorder from order detail', async () =>
 
       await foClassicMyOrderHistoryPage.goToDetailsPage(page);
 
-      const pageTitle = await orderDetailsPage.getPageTitle(page);
-      expect(pageTitle).to.equal(orderDetailsPage.pageTitle);
+      const pageTitle = await foClassicMyOrderDetailsPage.getPageTitle(page);
+      expect(pageTitle).to.equal(foClassicMyOrderDetailsPage.pageTitle);
     });
 
     it('should check the ordered product', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'checkTheOrderedProduct', baseContext);
 
-      const orderedProduct = await orderDetailsPage.getProductName(page);
+      const orderedProduct = await foClassicMyOrderDetailsPage.getProductName(page);
       expect(orderedProduct).to.contain(dataProducts.demo_1.name);
     });
 

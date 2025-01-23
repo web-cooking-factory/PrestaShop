@@ -4,9 +4,6 @@ import {expect} from 'chai';
 // Import common tests
 import {createOrderByCustomerTest} from '@commonTests/FO/classic/order';
 
-// Import FO pages
-import {orderDetailsPage} from '@pages/FO/classic/myAccount/orderDetails';
-
 import {
   type BrowserContext,
   dataCustomers,
@@ -18,6 +15,7 @@ import {
   foClassicHomePage,
   foClassicLoginPage,
   foClassicMyAccountPage,
+  foClassicMyOrderDetailsPage,
   foClassicMyOrderHistoryPage,
   type Page,
   utilsPlaywright,
@@ -171,14 +169,14 @@ describe('FO - Account - Order history : Reorder from order list', async () => {
 
       await foClassicMyOrderHistoryPage.goToDetailsPage(page);
 
-      const pageTitle = await orderDetailsPage.getPageTitle(page);
-      expect(pageTitle).to.equal(orderDetailsPage.pageTitle);
+      const pageTitle = await foClassicMyOrderDetailsPage.getPageTitle(page);
+      expect(pageTitle).to.equal(foClassicMyOrderDetailsPage.pageTitle);
     });
 
     it('should check the ordered product', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'checkTheOrderedProduct', baseContext);
 
-      const orderedProduct = await orderDetailsPage.getProductName(page);
+      const orderedProduct = await foClassicMyOrderDetailsPage.getProductName(page);
       expect(orderedProduct).to.contain(dataProducts.demo_1.name);
     });
 

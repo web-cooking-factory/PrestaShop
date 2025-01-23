@@ -4,9 +4,6 @@ import {expect} from 'chai';
 // Import common tests
 import {resetSmtpConfigTest, setupSmtpConfigTest} from '@commonTests/BO/advancedParameters/smtp';
 
-// Import pages
-import {orderDetailsPage} from '@pages/FO/classic/myAccount/orderDetails';
-
 import {
   boDashboardPage,
   boLoginPage,
@@ -23,6 +20,7 @@ import {
   foClassicCheckoutOrderConfirmationPage,
   foClassicHomePage,
   foClassicMyAccountPage,
+  foClassicMyOrderDetailsPage,
   foClassicMyOrderHistoryPage,
   foClassicProductPage,
   type MailDev,
@@ -328,14 +326,14 @@ describe('BO - Catalog - Products : CRUD virtual product', async () => {
 
         await foClassicMyOrderHistoryPage.goToDetailsPage(page);
 
-        const pageTitle = await orderDetailsPage.getPageTitle(page);
-        expect(pageTitle).to.equal(orderDetailsPage.pageTitle);
+        const pageTitle = await foClassicMyOrderDetailsPage.getPageTitle(page);
+        expect(pageTitle).to.equal(foClassicMyOrderDetailsPage.pageTitle);
       });
 
       it('should download the file', async function () {
         await testContext.addContextItem(this, 'testIdentifier', 'checkDownloadFile', baseContext);
 
-        await orderDetailsPage.clickOnDownloadLink(page);
+        await foClassicMyOrderDetailsPage.clickOnDownloadLink(page);
 
         const doesFileExist = await utilsFile.doesFileExist(newProductData.fileName, 5000);
         expect(doesFileExist, 'File is not downloaded!').eq(true);

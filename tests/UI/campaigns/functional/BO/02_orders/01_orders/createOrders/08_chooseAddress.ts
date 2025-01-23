@@ -8,8 +8,6 @@ import {createAddressTest, bulkDeleteAddressesTest} from '@commonTests/BO/custom
 // Import BO pages
 import addAddressPage from '@pages/BO/customers/addresses/add';
 import orderPageCustomerBlock from '@pages/BO/orders/view/customerBlock';
-// Import FO pages
-import {orderDetailsPage} from '@pages/FO/classic/myAccount/orderDetails';
 
 import {
   boDashboardPage,
@@ -25,6 +23,7 @@ import {
   foClassicHomePage,
   foClassicLoginPage,
   foClassicMyAccountPage,
+  foClassicMyOrderDetailsPage,
   foClassicMyOrderHistoryPage,
   type Frame,
   type Page,
@@ -373,7 +372,7 @@ describe('BO - Orders - Create order : Choose address', async () => {
 
         await foClassicMyOrderHistoryPage.goToOrderDetailsPage(page, orderID);
 
-        const deliveryAddress = await orderDetailsPage.getDeliveryAddress(page);
+        const deliveryAddress = await foClassicMyOrderDetailsPage.getDeliveryAddress(page);
         expect(deliveryAddress).to.contain(newAddressToCreate.firstName)
           .and.to.contain(newAddressToCreate.lastName)
           .and.to.contain(newAddressToCreate.address)
@@ -386,7 +385,7 @@ describe('BO - Orders - Create order : Choose address', async () => {
       it('should check the invoice address', async function () {
         await testContext.addContextItem(this, 'testIdentifier', 'checkInvoiceAddressFO', baseContext);
 
-        const deliveryAddress = await orderDetailsPage.getInvoiceAddress(page);
+        const deliveryAddress = await foClassicMyOrderDetailsPage.getInvoiceAddress(page);
         expect(deliveryAddress).to.contain(newAddressToCreate.firstName)
           .and.to.contain(newAddressToCreate.lastName)
           .and.to.contain(newAddressToCreate.address)
@@ -399,7 +398,7 @@ describe('BO - Orders - Create order : Choose address', async () => {
       it('should close the FO page', async function () {
         await testContext.addContextItem(this, 'testIdentifier', 'closeFo', baseContext);
 
-        page = await orderDetailsPage.closePage(browserContext, page, 0);
+        page = await foClassicMyOrderDetailsPage.closePage(browserContext, page, 0);
 
         const pageTitle = await orderPageCustomerBlock.getPageTitle(page);
         expect(pageTitle).to.contains(orderPageCustomerBlock.pageTitle);

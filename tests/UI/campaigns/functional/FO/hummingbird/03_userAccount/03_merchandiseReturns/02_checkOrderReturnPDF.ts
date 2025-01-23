@@ -1,5 +1,5 @@
-// Import utils
 import testContext from '@utils/testContext';
+import {expect} from 'chai';
 
 // Import commonTests
 import {enableMerchandiseReturns, disableMerchandiseReturns} from '@commonTests/BO/customerService/merchandiseReturns';
@@ -12,7 +12,6 @@ import {viewOrderBasePage} from '@pages/BO/orders/view/viewOrderBasePage';
 import editMerchandiseReturnsPage from '@pages/BO/customerService/merchandiseReturns/edit';
 // Import FO pages
 import foMerchandiseReturnsPage from '@pages/FO/hummingbird/myAccount/merchandiseReturns';
-import orderDetailsPage from '@pages/FO/hummingbird/myAccount/orderDetails';
 import returnDetailsPage from '@pages/FO/hummingbird/myAccount/returnDetails';
 
 import {
@@ -31,14 +30,13 @@ import {
   foHummingbirdHomePage,
   foHummingbirdLoginPage,
   foHummingbirdMyAccountPage,
+  foHummingbirdMyOrderDetailsPage,
   foHummingbirdMyOrderHistoryPage,
   type Page,
   utilsDate,
   utilsFile,
   utilsPlaywright,
 } from '@prestashop-core/ui-testing';
-
-import {expect} from 'chai';
 
 const baseContext: string = 'functional_FO_hummingbird_userAccount_merchandiseReturns_checkOrderReturnPDF';
 
@@ -235,14 +233,14 @@ describe('FO - Account : Check order return PDF', async () => {
 
       await foHummingbirdMyOrderHistoryPage.goToDetailsPage(page, 1);
 
-      const result = await orderDetailsPage.isOrderReturnFormVisible(page);
+      const result = await foHummingbirdMyOrderDetailsPage.isOrderReturnFormVisible(page);
       expect(result).to.eq(true);
     });
 
     it('should create a merchandise return', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'createMerchandiseReturn', baseContext);
 
-      await orderDetailsPage.requestMerchandiseReturn(page, 'message test');
+      await foHummingbirdMyOrderDetailsPage.requestMerchandiseReturn(page, 'message test');
 
       const pageTitle = await foMerchandiseReturnsPage.getPageTitle(page);
       expect(pageTitle).to.contains(foMerchandiseReturnsPage.pageTitle);

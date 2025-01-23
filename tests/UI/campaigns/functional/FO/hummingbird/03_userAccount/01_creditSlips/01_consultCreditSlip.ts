@@ -14,7 +14,6 @@ import {enableHummingbird, disableHummingbird} from '@commonTests/BO/design/humm
 import {viewOrderBasePage} from '@pages/BO/orders/view/viewOrderBasePage';
 // Import FO pages
 import creditSlipPage from '@pages/FO/hummingbird/myAccount/creditSlips';
-import orderDetailsPage from '@pages/FO/hummingbird/myAccount/orderDetails';
 
 import {
   boDashboardPage,
@@ -32,6 +31,7 @@ import {
   foHummingbirdHomePage,
   foHummingbirdLoginPage,
   foHummingbirdMyAccountPage,
+  foHummingbirdMyOrderDetailsPage,
   type MailDev,
   type MailDevEmail,
   type Page,
@@ -359,8 +359,8 @@ describe('FO - Consult credit slip list & View PDF Credit slip & View order', as
 
         await creditSlipPage.clickOrderReference(page, 1);
 
-        const pageTitle = await orderDetailsPage.getPageTitle(page);
-        expect(pageTitle).to.equal(orderDetailsPage.pageTitle);
+        const pageTitle = await foHummingbirdMyOrderDetailsPage.getPageTitle(page);
+        expect(pageTitle).to.equal(foHummingbirdMyOrderDetailsPage.pageTitle);
       });
 
       it('should go to credit slips page', async function () {

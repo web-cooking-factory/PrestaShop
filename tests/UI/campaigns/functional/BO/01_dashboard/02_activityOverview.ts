@@ -1,11 +1,10 @@
-// Import utils
 import testContext from '@utils/testContext';
+import {expect} from 'chai';
 
 // Import BO pages
 import {viewOrderBasePage} from '@pages/BO/orders/view/viewOrderBasePage';
 
 // Import FO pages
-import {orderDetailsPage} from '@pages/FO/classic/myAccount/orderDetails';
 import {merchandiseReturnsPage as foMerchandiseReturnsPage} from '@pages/FO/classic/myAccount/merchandiseReturns';
 
 // Import common tests
@@ -41,6 +40,7 @@ import {
   foClassicHomePage,
   foClassicLoginPage,
   foClassicMyAccountPage,
+  foClassicMyOrderDetailsPage,
   foClassicMyOrderHistoryPage,
   foClassicProductPage,
   modProductCommentsBoMain,
@@ -48,8 +48,6 @@ import {
   type Page,
   utilsPlaywright,
 } from '@prestashop-core/ui-testing';
-
-import {expect} from 'chai';
 
 const baseContext: string = 'functional_BO_dashboard_activityOverview';
 
@@ -337,14 +335,14 @@ describe('BO - Dashboard : Activity overview', async () => {
 
         await foClassicMyOrderHistoryPage.goToDetailsPage(page, 1);
 
-        const result = await orderDetailsPage.isOrderReturnFormVisible(page);
+        const result = await foClassicMyOrderDetailsPage.isOrderReturnFormVisible(page);
         expect(result).to.eq(true);
       });
 
       it('should create a merchandise return', async function () {
         await testContext.addContextItem(this, 'testIdentifier', 'createMerchandiseReturn', baseContext);
 
-        await orderDetailsPage.requestMerchandiseReturn(page, 'test', 1, [{quantity: 1}]);
+        await foClassicMyOrderDetailsPage.requestMerchandiseReturn(page, 'test', 1, [{quantity: 1}]);
 
         const pageTitle = await foMerchandiseReturnsPage.getPageTitle(page);
         expect(pageTitle).to.contains(foMerchandiseReturnsPage.pageTitle);
@@ -353,7 +351,7 @@ describe('BO - Dashboard : Activity overview', async () => {
       it('should close the FO page and go back to BO', async function () {
         await testContext.addContextItem(this, 'testIdentifier', 'closeFoAndGoBackToBO', baseContext);
 
-        page = await orderDetailsPage.closePage(browserContext, page, 0);
+        page = await foClassicMyOrderDetailsPage.closePage(browserContext, page, 0);
         await boDashboardPage.reloadPage(page);
 
         const pageTitle = await boDashboardPage.getPageTitle(page);

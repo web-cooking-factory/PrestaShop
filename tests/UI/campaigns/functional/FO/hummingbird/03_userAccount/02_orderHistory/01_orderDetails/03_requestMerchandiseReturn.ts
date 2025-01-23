@@ -10,7 +10,6 @@ import {enableHummingbird, disableHummingbird} from '@commonTests/BO/design/humm
 // Import pages
 // Import FO pages
 import {merchandiseReturnsPage as foMerchandiseReturnsPage} from '@pages/FO/classic/myAccount/merchandiseReturns';
-import {orderDetailsPage} from '@pages/FO/classic/myAccount/orderDetails';
 
 import {
   boDashboardPage,
@@ -27,6 +26,7 @@ import {
   foHummingbirdHomePage,
   foHummingbirdLoginPage,
   foHummingbirdMyAccountPage,
+  foHummingbirdMyOrderDetailsPage,
   foHummingbirdMyOrderHistoryPage,
   type Page,
   utilsDate,
@@ -183,21 +183,21 @@ describe('FO - Account - Order details : Request merchandise return', async () =
 
       await foHummingbirdMyOrderHistoryPage.goToDetailsPage(page);
 
-      const pageTitle = await orderDetailsPage.getPageTitle(page);
-      expect(pageTitle).to.equal(orderDetailsPage.pageTitle);
+      const pageTitle = await foHummingbirdMyOrderDetailsPage.getPageTitle(page);
+      expect(pageTitle).to.equal(foHummingbirdMyOrderDetailsPage.pageTitle);
     });
 
     it('should check the existence of order return form', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'isOrderReturnFormVisible', baseContext);
 
-      const result = await orderDetailsPage.isOrderReturnFormVisible(page);
+      const result = await foHummingbirdMyOrderDetailsPage.isOrderReturnFormVisible(page);
       expect(result).to.eq(true);
     });
 
     it('should create a merchandise return and check if merchandise return page is displayed', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'createMerchandiseReturn', baseContext);
 
-      await orderDetailsPage.requestMerchandiseReturn(page, 'Test merchandise returns');
+      await foHummingbirdMyOrderDetailsPage.requestMerchandiseReturn(page, 'Test merchandise returns');
 
       const pageTitle = await foMerchandiseReturnsPage.getPageTitle(page);
       expect(pageTitle).to.contains(foMerchandiseReturnsPage.pageTitle);

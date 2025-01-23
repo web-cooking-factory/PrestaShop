@@ -6,9 +6,6 @@ import {faker} from '@faker-js/faker';
 import {resetSmtpConfigTest, setupSmtpConfigTest} from '@commonTests/BO/advancedParameters/smtp';
 import {enableHummingbird, disableHummingbird} from '@commonTests/BO/design/hummingbird';
 
-// Import FO pages
-import orderDetailsPage from '@pages/FO/hummingbird/myAccount/orderDetails';
-
 import {
   boCustomerServicePage,
   boDashboardPage,
@@ -25,6 +22,7 @@ import {
   foHummingbirdHomePage,
   foHummingbirdLoginPage,
   foHummingbirdMyAccountPage,
+  foHummingbirdMyOrderDetailsPage,
   foHummingbirdMyOrderHistoryPage,
   foHummingbirdProductPage,
   type MailDev,
@@ -253,8 +251,8 @@ describe('FO - Account : Send a message with an ordered product', async () => {
 
       await foHummingbirdMyOrderHistoryPage.goToDetailsPage(page);
 
-      const successMessageText = await orderDetailsPage.addAMessage(page, messageOption, messageSend);
-      expect(successMessageText).to.equal(orderDetailsPage.successMessageText);
+      const successMessageText = await foHummingbirdMyOrderDetailsPage.addAMessage(page, messageOption, messageSend);
+      expect(successMessageText).to.equal(foHummingbirdMyOrderDetailsPage.successMessageText);
     });
 
     it('should check the received email', async function () {

@@ -1,12 +1,11 @@
-// Import utils
 import testContext from '@utils/testContext';
+import {expect} from 'chai';
 
 // Import pages
 // Import BO pages
 import {viewOrderBasePage} from '@pages/BO/orders/view/viewOrderBasePage';
 // Import FO pages
 import {merchandiseReturnsPage as foMerchandiseReturnsPage} from '@pages/FO/classic/myAccount/merchandiseReturns';
-import {orderDetailsPage} from '@pages/FO/classic/myAccount/orderDetails';
 
 import {
   boDashboardPage,
@@ -23,13 +22,12 @@ import {
   foClassicHomePage,
   foClassicLoginPage,
   foClassicMyAccountPage,
+  foClassicMyOrderDetailsPage,
   foClassicMyOrderHistoryPage,
   foClassicProductPage,
   type Page,
   utilsPlaywright,
 } from '@prestashop-core/ui-testing';
-
-import {expect} from 'chai';
 
 const baseContext: string = 'functional_BO_customerService_merchandiseReturns_merchandiseReturnOptions';
 
@@ -285,14 +283,14 @@ describe('BO - Customer Service - Merchandise Returns : Merchandise return (RMA)
 
         await foClassicMyOrderHistoryPage.goToDetailsPage(page, 1);
 
-        const result = await orderDetailsPage.isOrderReturnFormVisible(page);
+        const result = await foClassicMyOrderDetailsPage.isOrderReturnFormVisible(page);
         expect(result).to.equal(test.args.enable);
       });
       if (test.args.enable) {
         it('should create a merchandise return', async function () {
           await testContext.addContextItem(this, 'testIdentifier', 'createMerchandiseReturn', baseContext);
 
-          await orderDetailsPage.requestMerchandiseReturn(page, 'test');
+          await foClassicMyOrderDetailsPage.requestMerchandiseReturn(page, 'test');
 
           const pageTitle = await foMerchandiseReturnsPage.getPageTitle(page);
           expect(pageTitle).to.contains(foMerchandiseReturnsPage.pageTitle);
@@ -309,7 +307,7 @@ describe('BO - Customer Service - Merchandise Returns : Merchandise return (RMA)
       it('should close the FO page and go back to BO', async function () {
         await testContext.addContextItem(this, 'testIdentifier', `closeFoAndGoBackToBO${index}`, baseContext);
 
-        page = await orderDetailsPage.closePage(browserContext, page, 0);
+        page = await foClassicMyOrderDetailsPage.closePage(browserContext, page, 0);
 
         const pageTitle = await viewOrderBasePage.getPageTitle(page);
         expect(pageTitle).to.contains(viewOrderBasePage.pageTitle);

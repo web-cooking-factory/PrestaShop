@@ -6,7 +6,6 @@ import {setupSmtpConfigTest, resetSmtpConfigTest} from '@commonTests/BO/advanced
 // Import BO pages
 import viewPage from '@pages/BO/customerService/customerService/view';
 // Import FO pages
-import {orderDetailsPage} from '@pages/FO/classic/myAccount/orderDetails';
 import {blockCartModal} from '@pages/FO/classic/modal/blockCart';
 
 import {
@@ -26,6 +25,7 @@ import {
   foClassicLoginPage,
   foClassicModalQuickViewPage,
   foClassicMyAccountPage,
+  foClassicMyOrderDetailsPage,
   foClassicMyOrderHistoryPage,
   type MailDev,
   type MailDevEmail,
@@ -34,7 +34,6 @@ import {
   utilsMail,
   utilsPlaywright,
 } from '@prestashop-core/ui-testing';
-
 
 const baseContext: string = 'functional_BO_customerService_customerService_forwardMessage';
 
@@ -198,8 +197,8 @@ describe('BO - Customer Service : Forward message', async () => {
 
       await foClassicMyOrderHistoryPage.goToDetailsPage(page);
 
-      const successMessageText = await orderDetailsPage.addAMessage(page, messageOption, messageSend);
-      expect(successMessageText).to.equal(orderDetailsPage.successMessageText);
+      const successMessageText = await foClassicMyOrderDetailsPage.addAMessage(page, messageOption, messageSend);
+      expect(successMessageText).to.equal(foClassicMyOrderDetailsPage.successMessageText);
     });
 
     it('should check if the mail is in mailbox', async function () {

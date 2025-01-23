@@ -1,5 +1,5 @@
-// Import utils
 import testContext from '@utils/testContext';
+import {expect} from 'chai';
 
 // Import common tests
 import {createAddressTest} from '@commonTests/BO/customers/address';
@@ -7,9 +7,6 @@ import {deleteCustomerTest} from '@commonTests/BO/customers/customer';
 import createAccountTest from '@commonTests/FO/hummingbird/account';
 import {createOrderByCustomerTest} from '@commonTests/FO/hummingbird/order';
 import {enableHummingbird, disableHummingbird} from '@commonTests/BO/design/hummingbird';
-
-// Import FO pages
-import orderDetailsPage from '@pages/FO/hummingbird/myAccount/orderDetails';
 
 import {
   type BrowserContext,
@@ -24,13 +21,12 @@ import {
   foHummingbirdHomePage,
   foHummingbirdLoginPage,
   foHummingbirdMyAccountPage,
+  foHummingbirdMyOrderDetailsPage,
   foHummingbirdMyOrderHistoryPage,
   type Page,
   utilsDate,
   utilsPlaywright,
 } from '@prestashop-core/ui-testing';
-
-import {expect} from 'chai';
 
 const baseContext: string = 'functional_FO_hummingbird_userAccount_orderHistory_consultDetailsAndReorder';
 
@@ -176,8 +172,8 @@ describe('FO - Account - Order history : Consult details and reorder', async () 
 
       await foHummingbirdMyOrderHistoryPage.goToDetailsPage(page);
 
-      const pageTitle = await orderDetailsPage.getPageTitle(page);
-      expect(pageTitle).to.equal(orderDetailsPage.pageTitle);
+      const pageTitle = await foHummingbirdMyOrderDetailsPage.getPageTitle(page);
+      expect(pageTitle).to.equal(foHummingbirdMyOrderDetailsPage.pageTitle);
     });
 
     it('should go to order history page', async function () {

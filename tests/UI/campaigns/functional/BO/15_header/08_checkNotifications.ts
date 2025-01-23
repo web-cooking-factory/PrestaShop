@@ -7,7 +7,6 @@ import {faker} from '@faker-js/faker';
 import {createOrderByCustomerTest, createOrderByGuestTest} from '@commonTests/FO/classic/order';
 
 // Import pages
-import {orderDetailsPage} from '@pages/FO/classic/myAccount/orderDetails';
 import viewOrderMessagePage from '@pages/BO/customerService/orderMessages/add';
 import viewCustomerPage from '@pages/BO/customers/view';
 
@@ -27,6 +26,7 @@ import {
   foClassicHomePage,
   foClassicLoginPage,
   foClassicMyAccountPage,
+  foClassicMyOrderDetailsPage,
   foClassicMyOrderHistoryPage,
   type Page,
   utilsPlaywright,
@@ -175,8 +175,8 @@ describe('BO - Header : Check notifications', async () => {
 
       await foClassicMyOrderHistoryPage.goToDetailsPage(page);
 
-      const successMessageText = await orderDetailsPage.addAMessage(page, messageOption, messageSend);
-      expect(successMessageText).to.equal(orderDetailsPage.successMessageText);
+      const successMessageText = await foClassicMyOrderDetailsPage.addAMessage(page, messageOption, messageSend);
+      expect(successMessageText).to.equal(foClassicMyOrderDetailsPage.successMessageText);
     });
 
     it('should go back to BO', async function () {
