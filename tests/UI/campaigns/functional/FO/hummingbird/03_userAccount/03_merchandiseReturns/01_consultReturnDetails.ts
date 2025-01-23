@@ -9,7 +9,6 @@ import {enableHummingbird, disableHummingbird} from '@commonTests/BO/design/humm
 // Import pages
 // Import BO pages
 import editMerchandiseReturnsPage from '@pages/BO/customerService/merchandiseReturns/edit';
-import {viewOrderBasePage} from '@pages/BO/orders/view/viewOrderBasePage';
 // Import FO pages
 import returnDetailsPage from '@pages/FO/hummingbird/myAccount/returnDetails';
 
@@ -18,6 +17,7 @@ import {
   boLoginPage,
   boMerchandiseReturnsPage,
   boOrdersPage,
+  boOrdersViewBasePage,
   type BrowserContext,
   dataCustomers,
   dataOrderReturnStatuses,
@@ -150,14 +150,14 @@ describe('FO - Account : Consult return details', async () => {
         // View order
         await boOrdersPage.goToOrder(page, 1);
 
-        const pageTitle = await viewOrderBasePage.getPageTitle(page);
-        expect(pageTitle).to.contains(viewOrderBasePage.pageTitle);
+        const pageTitle = await boOrdersViewBasePage.getPageTitle(page);
+        expect(pageTitle).to.contains(boOrdersViewBasePage.pageTitle);
       });
 
       it(`should change the order status to '${dataOrderStatuses.shipped.name}' and check it`, async function () {
         await testContext.addContextItem(this, 'testIdentifier', 'updateOrderStatus', baseContext);
 
-        const result = await viewOrderBasePage.modifyOrderStatus(page, dataOrderStatuses.shipped.name);
+        const result = await boOrdersViewBasePage.modifyOrderStatus(page, dataOrderStatuses.shipped.name);
         expect(result).to.equal(dataOrderStatuses.shipped.name);
       });
 
@@ -187,7 +187,7 @@ describe('FO - Account : Consult return details', async () => {
         await testContext.addContextItem(this, 'testIdentifier', 'goToFO', baseContext);
 
         // Click on view my shop
-        page = await viewOrderBasePage.viewMyShop(page);
+        page = await boOrdersViewBasePage.viewMyShop(page);
         // Change FO language
         await foHummingbirdHomePage.changeLanguage(page, 'en');
 

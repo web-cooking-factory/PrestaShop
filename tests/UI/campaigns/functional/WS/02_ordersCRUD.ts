@@ -11,7 +11,6 @@ import createShoppingCart from '@commonTests/FO/classic/shoppingCart';
 
 // Import BO pages
 import webservicePage from '@pages/BO/advancedParameters/webservice';
-import {viewOrderBasePage} from '@pages/BO/orders/view/viewOrderBasePage';
 import orderPageCustomerBlock from '@pages/BO/orders/view/customerBlock';
 import orderPagePaymentBlock from '@pages/BO/orders/view/paymentBlock';
 
@@ -24,6 +23,7 @@ import {
   boDashboardPage,
   boLoginPage,
   boOrdersPage,
+  boOrdersViewBasePage,
   boOrdersViewBlockProductsPage,
   boOrdersViewBlockTabListPage,
   boShoppingCartsPage,
@@ -516,8 +516,8 @@ describe('WS - Orders : CRUD', async () => {
 
           await boOrdersPage.goToOrder(page, 1);
 
-          const pageTitle = await viewOrderBasePage.getPageTitle(page);
-          expect(pageTitle).to.contains(viewOrderBasePage.pageTitle);
+          const pageTitle = await boOrdersViewBasePage.getPageTitle(page);
+          expect(pageTitle).to.contains(boOrdersViewBasePage.pageTitle);
         });
 
         describe('Block : Header', () => {
@@ -525,7 +525,7 @@ describe('WS - Orders : CRUD', async () => {
             await testContext.addContextItem(this, 'testIdentifier', 'checkOrderCurrentState1', baseContext);
 
             const xmlValue = orderXml.getAttributeValue(xmlResponseCreate, 'current_state');
-            const value = await viewOrderBasePage.getOrderStatusID(page);
+            const value = await boOrdersViewBasePage.getOrderStatusID(page);
             expect(value.toString()).to.be.eq(xmlValue);
           });
 
@@ -533,7 +533,7 @@ describe('WS - Orders : CRUD', async () => {
             await testContext.addContextItem(this, 'testIdentifier', 'checkOrderReference1', baseContext);
 
             const xmlValue = orderXml.getAttributeValue(xmlResponseCreate, 'reference');
-            const value = await viewOrderBasePage.getOrderReference(page);
+            const value = await boOrdersViewBasePage.getOrderReference(page);
             expect(value).to.be.eq(xmlValue);
           });
         });
@@ -856,8 +856,8 @@ describe('WS - Orders : CRUD', async () => {
 
           await boOrdersPage.goToOrder(page, 1);
 
-          const pageTitle = await viewOrderBasePage.getPageTitle(page);
-          expect(pageTitle).to.contains(viewOrderBasePage.pageTitle);
+          const pageTitle = await boOrdersViewBasePage.getPageTitle(page);
+          expect(pageTitle).to.contains(boOrdersViewBasePage.pageTitle);
         });
 
         describe('Block : Header', () => {
@@ -865,7 +865,7 @@ describe('WS - Orders : CRUD', async () => {
             await testContext.addContextItem(this, 'testIdentifier', 'checkOrderCurrentState2', baseContext);
 
             const xmlValue = orderXml.getAttributeValue(xmlResponseUpdate, 'current_state');
-            const value = await viewOrderBasePage.getOrderStatusID(page);
+            const value = await boOrdersViewBasePage.getOrderStatusID(page);
             expect(value.toString()).to.be.eq(xmlValue);
           });
 
@@ -873,7 +873,7 @@ describe('WS - Orders : CRUD', async () => {
             await testContext.addContextItem(this, 'testIdentifier', 'checkOrderReference2', baseContext);
 
             const xmlValue = orderXml.getAttributeValue(xmlResponseUpdate, 'reference');
-            const value = await viewOrderBasePage.getOrderReference(page);
+            const value = await boOrdersViewBasePage.getOrderReference(page);
             expect(value).to.be.eq(xmlValue);
           });
         });

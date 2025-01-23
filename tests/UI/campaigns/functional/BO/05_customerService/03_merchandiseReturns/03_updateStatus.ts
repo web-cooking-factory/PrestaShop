@@ -8,7 +8,6 @@ import {createOrderByCustomerTest} from '@commonTests/FO/classic/order';
 
 // Import pages
 // Import BO pages
-import {viewOrderBasePage} from '@pages/BO/orders/view/viewOrderBasePage';
 import editMerchandiseReturnsPage from '@pages/BO/customerService/merchandiseReturns/edit';
 
 import {
@@ -16,6 +15,7 @@ import {
   boLoginPage,
   boMerchandiseReturnsPage,
   boOrdersPage,
+  boOrdersViewBasePage,
   type BrowserContext,
   dataAddresses,
   dataCustomers,
@@ -137,21 +137,21 @@ describe('BO - Customer Service - Merchandise Returns : Update status', async ()
 
       await boOrdersPage.goToOrder(page, 1);
 
-      const pageTitle = await viewOrderBasePage.getPageTitle(page);
-      expect(pageTitle).to.contains(viewOrderBasePage.pageTitle);
+      const pageTitle = await boOrdersViewBasePage.getPageTitle(page);
+      expect(pageTitle).to.contains(boOrdersViewBasePage.pageTitle);
     });
 
     it(`should change the order status to '${dataOrderStatuses.shipped.name}' and check it`, async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'updateOrderStatus', baseContext);
 
-      const result = await viewOrderBasePage.modifyOrderStatus(page, dataOrderStatuses.shipped.name);
+      const result = await boOrdersViewBasePage.modifyOrderStatus(page, dataOrderStatuses.shipped.name);
       expect(result).to.equal(dataOrderStatuses.shipped.name);
     });
 
     it('should check if the button \'Return products\' is visible', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'checkReturnProductsButton', baseContext);
 
-      const result = await viewOrderBasePage.isReturnProductsButtonVisible(page);
+      const result = await boOrdersViewBasePage.isReturnProductsButtonVisible(page);
       expect(result).to.eq(true);
     });
   });
@@ -160,7 +160,7 @@ describe('BO - Customer Service - Merchandise Returns : Update status', async ()
     it('should view my shop', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'viewMyShop', baseContext);
 
-      page = await viewOrderBasePage.viewMyShop(page);
+      page = await boOrdersViewBasePage.viewMyShop(page);
       await foClassicHomePage.changeLanguage(page, 'en');
 
       const isHomePage = await foClassicHomePage.isHomePage(page);
@@ -218,8 +218,8 @@ describe('BO - Customer Service - Merchandise Returns : Update status', async ()
 
       page = await foClassicMyOrderDetailsPage.closePage(browserContext, page, 0);
 
-      const pageTitle = await viewOrderBasePage.getPageTitle(page);
-      expect(pageTitle).to.contains(viewOrderBasePage.pageTitle);
+      const pageTitle = await boOrdersViewBasePage.getPageTitle(page);
+      expect(pageTitle).to.contains(boOrdersViewBasePage.pageTitle);
     });
   });
 

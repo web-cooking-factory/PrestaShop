@@ -1,9 +1,6 @@
 import testContext from '@utils/testContext';
 import {expect} from 'chai';
 
-// Import BO pages
-import {viewOrderBasePage} from '@pages/BO/orders/view/viewOrderBasePage';
-
 // Import common tests
 import {enableMerchandiseReturns, disableMerchandiseReturns} from '@commonTests/BO/customerService/merchandiseReturns';
 import {deleteProductTest} from '@commonTests/BO/catalog/product';
@@ -18,6 +15,7 @@ import {
   boMerchandiseReturnsPage,
   boMonitoringPage,
   boOrdersPage,
+  boOrdersViewBasePage,
   boProductsPage,
   boProductsCreatePage,
   boShoppingCartsPage,
@@ -303,7 +301,7 @@ describe('BO - Dashboard : Activity overview', async () => {
       it('should view my shop', async function () {
         await testContext.addContextItem(this, 'testIdentifier', 'viewMyShop3', baseContext);
 
-        page = await viewOrderBasePage.viewMyShop(page);
+        page = await boOrdersViewBasePage.viewMyShop(page);
         await foClassicHomePage.changeLanguage(page, 'en');
 
         const isHomePage = await foClassicHomePage.isHomePage(page);

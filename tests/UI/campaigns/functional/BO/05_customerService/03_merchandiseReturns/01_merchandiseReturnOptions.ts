@@ -1,15 +1,12 @@
 import testContext from '@utils/testContext';
 import {expect} from 'chai';
 
-// Import pages
-// Import BO pages
-import {viewOrderBasePage} from '@pages/BO/orders/view/viewOrderBasePage';
-
 import {
   boDashboardPage,
   boLoginPage,
   boMerchandiseReturnsPage,
   boOrdersPage,
+  boOrdersViewBasePage,
   type BrowserContext,
   dataCustomers,
   dataOrderStatuses,
@@ -211,21 +208,21 @@ describe('BO - Customer Service - Merchandise Returns : Merchandise return (RMA)
         // View order
         await boOrdersPage.goToOrder(page, 1);
 
-        const pageTitle = await viewOrderBasePage.getPageTitle(page);
-        expect(pageTitle).to.contains(viewOrderBasePage.pageTitle);
+        const pageTitle = await boOrdersViewBasePage.getPageTitle(page);
+        expect(pageTitle).to.contains(boOrdersViewBasePage.pageTitle);
       });
 
       it(`should change the order status to '${dataOrderStatuses.shipped.name}' and check it`, async function () {
         await testContext.addContextItem(this, 'testIdentifier', `updateOrderStatus${index}`, baseContext);
 
-        const result = await viewOrderBasePage.modifyOrderStatus(page, dataOrderStatuses.shipped.name);
+        const result = await boOrdersViewBasePage.modifyOrderStatus(page, dataOrderStatuses.shipped.name);
         expect(result).to.equal(dataOrderStatuses.shipped.name);
       });
 
       it('should check if the button \'Return products\' is visible', async function () {
         await testContext.addContextItem(this, 'testIdentifier', `checkReturnProductsButton${index}`, baseContext);
 
-        const result = await viewOrderBasePage.isReturnProductsButtonVisible(page);
+        const result = await boOrdersViewBasePage.isReturnProductsButtonVisible(page);
         expect(result).to.equal(test.args.enable);
       });
 
@@ -233,7 +230,7 @@ describe('BO - Customer Service - Merchandise Returns : Merchandise return (RMA)
         await testContext.addContextItem(this, 'testIdentifier', `goToFO${index}`, baseContext);
 
         // Click on view my shop
-        page = await viewOrderBasePage.viewMyShop(page);
+        page = await boOrdersViewBasePage.viewMyShop(page);
         // Change FO language
         await foClassicHomePage.changeLanguage(page, 'en');
 
@@ -308,8 +305,8 @@ describe('BO - Customer Service - Merchandise Returns : Merchandise return (RMA)
 
         page = await foClassicMyOrderDetailsPage.closePage(browserContext, page, 0);
 
-        const pageTitle = await viewOrderBasePage.getPageTitle(page);
-        expect(pageTitle).to.contains(viewOrderBasePage.pageTitle);
+        const pageTitle = await boOrdersViewBasePage.getPageTitle(page);
+        expect(pageTitle).to.contains(boOrdersViewBasePage.pageTitle);
       });
     });
   });
