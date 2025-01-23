@@ -2,12 +2,12 @@ import {expect} from 'chai';
 import customerServicePage from '@pages/BO/customerService/customerService';
 import orderMessagesPage from '@pages/BO/customerService/orderMessages';
 import addOrderMessagePage from '@pages/BO/customerService/orderMessages/add';
-import boMerchandiseReturnsPage from '@pages/BO/customerService/merchandiseReturns';
 import testContext from '@utils/testContext';
 
 import {
   boDashboardPage,
   boLoginPage,
+  boMerchandiseReturnsPage,
   type BrowserContext,
   type Page,
   utilsPlaywright,

@@ -8,7 +8,6 @@ import {createOrderByCustomerTest} from '@commonTests/FO/classic/order';
 
 // Import pages
 // Import BO pages
-import merchandiseReturnsPage from '@pages/BO/customerService/merchandiseReturns';
 import {viewOrderBasePage} from '@pages/BO/orders/view/viewOrderBasePage';
 import editMerchandiseReturnsPage from '@pages/BO/customerService/merchandiseReturns/edit';
 // Import FO pages
@@ -19,6 +18,7 @@ import {orderHistoryPage} from '@pages/FO/classic/myAccount/orderHistory';
 import {
   boDashboardPage,
   boLoginPage,
+  boMerchandiseReturnsPage,
   boOrdersPage,
   type BrowserContext,
   dataAddresses,
@@ -236,14 +236,14 @@ describe('BO - Customer Service - Merchandise Returns : Update status', async ()
         boDashboardPage.merchandiseReturnsLink,
       );
 
-      const pageTitle = await merchandiseReturnsPage.getPageTitle(page);
-      expect(pageTitle).to.contains(merchandiseReturnsPage.pageTitle);
+      const pageTitle = await boMerchandiseReturnsPage.getPageTitle(page);
+      expect(pageTitle).to.contains(boMerchandiseReturnsPage.pageTitle);
     });
 
     it('should get the return number', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'getReturnNumber', baseContext);
 
-      returnID = parseInt(await merchandiseReturnsPage.getTextColumnFromMerchandiseReturnsTable(page, 'id_order_return'), 10);
+      returnID = parseInt(await boMerchandiseReturnsPage.getTextColumnFromMerchandiseReturnsTable(page, 'id_order_return'), 10);
       expect(returnID).to.not.equal(0);
     });
 
@@ -258,7 +258,7 @@ describe('BO - Customer Service - Merchandise Returns : Update status', async ()
         it('should go to edit merchandise returns page', async function () {
           await testContext.addContextItem(this, 'testIdentifier', `goToEditReturnsPage${index}`, baseContext);
 
-          await merchandiseReturnsPage.goToMerchandiseReturnPage(page);
+          await boMerchandiseReturnsPage.goToMerchandiseReturnPage(page);
 
           const pageTitle = await editMerchandiseReturnsPage.getPageTitle(page);
           expect(pageTitle).to.contains(editMerchandiseReturnsPage.pageTitle);
@@ -372,14 +372,14 @@ describe('BO - Customer Service - Merchandise Returns : Update status', async ()
 
           await editMerchandiseReturnsPage.clickOnCancelButton(page);
 
-          const pageTitle = await merchandiseReturnsPage.getPageTitle(page);
-          expect(pageTitle).to.contains(merchandiseReturnsPage.pageTitle);
+          const pageTitle = await boMerchandiseReturnsPage.getPageTitle(page);
+          expect(pageTitle).to.contains(boMerchandiseReturnsPage.pageTitle);
         });
 
         it('should check the updated status in the merchandise returns table', async function () {
           await testContext.addContextItem(this, 'testIdentifier', `checkStatus${index}`, baseContext);
 
-          const status = await merchandiseReturnsPage.getTextColumnFromMerchandiseReturnsTable(page, 'name');
+          const status = await boMerchandiseReturnsPage.getTextColumnFromMerchandiseReturnsTable(page, 'name');
           expect(status).to.eq(test.args.status);
         });
       });

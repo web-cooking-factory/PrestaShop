@@ -8,7 +8,6 @@ import {enableHummingbird, disableHummingbird} from '@commonTests/BO/design/humm
 
 // Import pages
 // Import BO pages
-import boMerchandiseReturnsPage from '@pages/BO/customerService/merchandiseReturns';
 import {viewOrderBasePage} from '@pages/BO/orders/view/viewOrderBasePage';
 import editMerchandiseReturnsPage from '@pages/BO/customerService/merchandiseReturns/edit';
 // Import FO pages
@@ -20,6 +19,7 @@ import returnDetailsPage from '@pages/FO/hummingbird/myAccount/returnDetails';
 import {
   boDashboardPage,
   boLoginPage,
+  boMerchandiseReturnsPage,
   boOrdersPage,
   type BrowserContext,
   dataAddresses,

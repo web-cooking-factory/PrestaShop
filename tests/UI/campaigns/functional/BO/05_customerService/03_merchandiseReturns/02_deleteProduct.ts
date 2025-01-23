@@ -3,7 +3,6 @@ import testContext from '@utils/testContext';
 
 // Import pages
 // Import BO pages
-import merchandiseReturnsPage from '@pages/BO/customerService/merchandiseReturns';
 import {viewOrderBasePage} from '@pages/BO/orders/view/viewOrderBasePage';
 import editMerchandiseReturnsPage from '@pages/BO/customerService/merchandiseReturns/edit';
 // Import FO pages
@@ -15,6 +14,7 @@ import {blockCartModal} from '@pages/FO/classic/modal/blockCart';
 import {
   boDashboardPage,
   boLoginPage,
+  boMerchandiseReturnsPage,
   boOrdersPage,
   type BrowserContext,
   dataCustomers,
@@ -161,17 +161,17 @@ describe('BO - Customer Service - Merchandise Returns : Delete product', async (
         boDashboardPage.customerServiceParentLink,
         boDashboardPage.merchandiseReturnsLink,
       );
-      await merchandiseReturnsPage.closeSfToolBar(page);
+      await boMerchandiseReturnsPage.closeSfToolBar(page);
 
-      const pageTitle = await merchandiseReturnsPage.getPageTitle(page);
-      expect(pageTitle).to.contains(merchandiseReturnsPage.pageTitle);
+      const pageTitle = await boMerchandiseReturnsPage.getPageTitle(page);
+      expect(pageTitle).to.contains(boMerchandiseReturnsPage.pageTitle);
     });
 
     it('should enable merchandise returns', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'enableReturns', baseContext);
 
-      const result = await merchandiseReturnsPage.setOrderReturnStatus(page, true);
-      expect(result).to.contains(merchandiseReturnsPage.successfulUpdateMessage);
+      const result = await boMerchandiseReturnsPage.setOrderReturnStatus(page, true);
+      expect(result).to.contains(boMerchandiseReturnsPage.successfulUpdateMessage);
     });
   });
 
@@ -284,14 +284,14 @@ describe('BO - Customer Service - Merchandise Returns : Delete product', async (
           boDashboardPage.merchandiseReturnsLink,
         );
 
-        const pageTitle = await merchandiseReturnsPage.getPageTitle(page);
-        expect(pageTitle).to.contains(merchandiseReturnsPage.pageTitle);
+        const pageTitle = await boMerchandiseReturnsPage.getPageTitle(page);
+        expect(pageTitle).to.contains(boMerchandiseReturnsPage.pageTitle);
       });
 
       it('should go to edit merchandise returns page', async function () {
         await testContext.addContextItem(this, 'testIdentifier', `goToEditReturnsPage${index}`, baseContext);
 
-        await merchandiseReturnsPage.goToMerchandiseReturnPage(page);
+        await boMerchandiseReturnsPage.goToMerchandiseReturnPage(page);
 
         const pageTitle = await editMerchandiseReturnsPage.getPageTitle(page);
         expect(pageTitle).to.contains(editMerchandiseReturnsPage.pageTitle);
@@ -312,7 +312,7 @@ describe('BO - Customer Service - Merchandise Returns : Delete product', async (
       await testContext.addContextItem(this, 'testIdentifier', 'deleteLastProduct', baseContext);
 
       const errorMessage = await editMerchandiseReturnsPage.clickOnDeleteLastProductButton(page);
-      expect(errorMessage).to.contains(merchandiseReturnsPage.errorDeletionMessage);
+      expect(errorMessage).to.contains(boMerchandiseReturnsPage.errorDeletionMessage);
     });
   });
 
@@ -320,8 +320,8 @@ describe('BO - Customer Service - Merchandise Returns : Delete product', async (
     it('should disable merchandise returns', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'disableReturns', baseContext);
 
-      const result = await merchandiseReturnsPage.setOrderReturnStatus(page, false);
-      expect(result).to.contains(merchandiseReturnsPage.successfulUpdateMessage);
+      const result = await boMerchandiseReturnsPage.setOrderReturnStatus(page, false);
+      expect(result).to.contains(boMerchandiseReturnsPage.successfulUpdateMessage);
     });
   });
 });

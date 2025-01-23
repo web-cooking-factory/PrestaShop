@@ -3,7 +3,6 @@ import testContext from '@utils/testContext';
 
 // Import BO pages
 import {viewOrderBasePage} from '@pages/BO/orders/view/viewOrderBasePage';
-import merchandiseReturnsPage from '@pages/BO/customerService/merchandiseReturns';
 import monitoringPage from '@pages/BO/catalog/monitoring';
 import customerServicePage from '@pages/BO/customerService/customerService';
 import productCommentsPage from '@pages/BO/modules/productComments';
@@ -23,6 +22,7 @@ import {
   boCustomersCreatePage,
   boDashboardPage,
   boLoginPage,
+  boMerchandiseReturnsPage,
   boOrdersPage,
   boProductsPage,
   boProductsCreatePage,
@@ -271,8 +271,8 @@ describe('BO - Dashboard : Activity overview', async () => {
 
         await boDashboardPage.clickOnReturnExchangeLink(page);
 
-        const pageTitle = await merchandiseReturnsPage.getPageTitle(page);
-        expect(pageTitle).to.contains(merchandiseReturnsPage.pageTitle);
+        const pageTitle = await boMerchandiseReturnsPage.getPageTitle(page);
+        expect(pageTitle).to.contains(boMerchandiseReturnsPage.pageTitle);
       });
 
       it('should go to orders page', async function () {

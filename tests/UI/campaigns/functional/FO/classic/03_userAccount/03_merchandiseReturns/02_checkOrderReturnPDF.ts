@@ -7,7 +7,6 @@ import {createOrderByCustomerTest} from '@commonTests/FO/classic/order';
 
 // Import pages
 // Import BO pages
-import boMerchandiseReturnsPage from '@pages/BO/customerService/merchandiseReturns';
 import {viewOrderBasePage} from '@pages/BO/orders/view/viewOrderBasePage';
 import editMerchandiseReturnsPage from '@pages/BO/customerService/merchandiseReturns/edit';
 // Import FO pages
@@ -19,6 +18,7 @@ import {returnDetailsPage} from '@pages/FO/classic/myAccount/returnDetails';
 import {
   boDashboardPage,
   boLoginPage,
+  boMerchandiseReturnsPage,
   boOrdersPage,
   type BrowserContext,
   dataAddresses,

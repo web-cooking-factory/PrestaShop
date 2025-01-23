@@ -3,7 +3,6 @@ import testContext from '@utils/testContext';
 
 // Import pages
 // Import BO pages
-import boMerchandiseReturnsPage from '@pages/BO/customerService/merchandiseReturns';
 import {viewOrderBasePage} from '@pages/BO/orders/view/viewOrderBasePage';
 // Import FO pages
 import {merchandiseReturnsPage as foMerchandiseReturnsPage} from '@pages/FO/classic/myAccount/merchandiseReturns';
@@ -13,6 +12,7 @@ import {orderHistoryPage} from '@pages/FO/classic/myAccount/orderHistory';
 import {
   boDashboardPage,
   boLoginPage,
+  boMerchandiseReturnsPage,
   boOrdersPage,
   type BrowserContext,
   dataCustomers,
