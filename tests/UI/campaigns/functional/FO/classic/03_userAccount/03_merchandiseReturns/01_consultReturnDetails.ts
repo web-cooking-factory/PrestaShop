@@ -1,5 +1,5 @@
-// Import utils
 import testContext from '@utils/testContext';
+import {expect} from 'chai';
 
 // Import common tests
 import {enableMerchandiseReturns, disableMerchandiseReturns} from '@commonTests/BO/customerService/merchandiseReturns';
@@ -12,7 +12,6 @@ import {viewOrderBasePage} from '@pages/BO/orders/view/viewOrderBasePage';
 // Import FO pages
 import {merchandiseReturnsPage as foMerchandiseReturnsPage} from '@pages/FO/classic/myAccount/merchandiseReturns';
 import {orderDetailsPage} from '@pages/FO/classic/myAccount/orderDetails';
-import {orderHistoryPage} from '@pages/FO/classic/myAccount/orderHistory';
 import {returnDetailsPage} from '@pages/FO/classic/myAccount/returnDetails';
 
 import {
@@ -30,11 +29,10 @@ import {
   foClassicHomePage,
   foClassicLoginPage,
   foClassicMyAccountPage,
+  foClassicMyOrderHistoryPage,
   type Page,
   utilsPlaywright,
 } from '@prestashop-core/ui-testing';
-
-import {expect} from 'chai';
 
 const baseContext: string = 'functional_FO_classic_userAccount_merchandiseReturns_consultReturnDetails';
 
@@ -215,14 +213,14 @@ describe('FO - Account : Consult return details', async () => {
 
         await foClassicMyAccountPage.goToHistoryAndDetailsPage(page);
 
-        const pageTitle = await orderHistoryPage.getPageTitle(page);
-        expect(pageTitle).to.contains(orderHistoryPage.pageTitle);
+        const pageTitle = await foClassicMyOrderHistoryPage.getPageTitle(page);
+        expect(pageTitle).to.contains(foClassicMyOrderHistoryPage.pageTitle);
       });
 
       it('should go to the first order in the list and check the existence of order return form', async function () {
         await testContext.addContextItem(this, 'testIdentifier', 'isOrderReturnFormVisible', baseContext);
 
-        await orderHistoryPage.goToDetailsPage(page, 1);
+        await foClassicMyOrderHistoryPage.goToDetailsPage(page, 1);
 
         const result = await orderDetailsPage.isOrderReturnFormVisible(page);
         expect(result).to.eq(true);

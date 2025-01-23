@@ -1,5 +1,5 @@
-// Import utils
 import testContext from '@utils/testContext';
+import {expect} from 'chai';
 
 // Import commonTests
 import {createOrderByCustomerTest} from '@commonTests/FO/classic/order';
@@ -8,8 +8,6 @@ import {createOrderByCustomerTest} from '@commonTests/FO/classic/order';
 // Import BO pages
 import orderMessagesPage from '@pages/BO/customerService/orderMessages';
 import orderPageMessagesBlock from '@pages/BO/orders/view/messagesBlock';
-// Import FO pages
-import {orderHistoryPage} from '@pages/FO/classic/myAccount/orderHistory';
 
 import {
   boDashboardPage,
@@ -25,14 +23,13 @@ import {
   foClassicHomePage,
   foClassicLoginPage,
   foClassicMyAccountPage,
+  foClassicMyOrderHistoryPage,
   type OrderHistoryMessage,
   type OrderMessage,
   type Page,
   utilsDate,
   utilsPlaywright,
 } from '@prestashop-core/ui-testing';
-
-import {expect} from 'chai';
 
 const baseContext: string = 'functional_BO_orders_orders_viewAndEditOrder_messagesBlock';
 
@@ -211,26 +208,26 @@ describe('BO - Orders - View and edit order : Check messages block', async () =>
       await foClassicHomePage.goToMyAccountPage(page);
       await foClassicMyAccountPage.goToHistoryAndDetailsPage(page);
 
-      const pageTitle = await orderHistoryPage.getPageTitle(page);
-      expect(pageTitle, 'Fail to open order history page').to.contains(orderHistoryPage.pageTitle);
+      const pageTitle = await foClassicMyOrderHistoryPage.getPageTitle(page);
+      expect(pageTitle, 'Fail to open order history page').to.contains(foClassicMyOrderHistoryPage.pageTitle);
     });
 
     it('should go to the first order in the list and check order message', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'checkOrderMessageBlock1', baseContext);
 
-      await orderHistoryPage.goToDetailsPage(page, 1);
+      await foClassicMyOrderHistoryPage.goToDetailsPage(page, 1);
 
-      const isBoxMessagesVisible = await orderHistoryPage.isBoxMessagesSectionVisible(page);
+      const isBoxMessagesVisible = await foClassicMyOrderHistoryPage.isBoxMessagesSectionVisible(page);
       expect(isBoxMessagesVisible, 'Box messages is not visible!').to.eq(true);
 
-      const isMessageRowVisible = await orderHistoryPage.isMessageRowVisible(page);
+      const isMessageRowVisible = await foClassicMyOrderHistoryPage.isMessageRowVisible(page);
       expect(isMessageRowVisible, 'Message is not visible!').to.eq(true);
     });
 
     it('should check the message text', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'checkOrderMessageBlock2', baseContext);
 
-      const message = await orderHistoryPage.getMessageRow(page);
+      const message = await foClassicMyOrderHistoryPage.getMessageRow(page);
       expect(message)
         .to.contain(today)
         .and.to.contain(`${dataEmployees.defaultEmployee.firstName} ${dataEmployees.defaultEmployee.lastName}`)
@@ -333,17 +330,17 @@ describe('BO - Orders - View and edit order : Check messages block', async () =>
       await foClassicHomePage.goToMyAccountPage(page);
       await foClassicMyAccountPage.goToHistoryAndDetailsPage(page);
 
-      const pageTitle = await orderHistoryPage.getPageTitle(page);
-      expect(pageTitle, 'Fail to open order history page').to.contains(orderHistoryPage.pageTitle);
+      const pageTitle = await foClassicMyOrderHistoryPage.getPageTitle(page);
+      expect(pageTitle, 'Fail to open order history page').to.contains(foClassicMyOrderHistoryPage.pageTitle);
     });
 
     it('should go to the first order in the list and check that new message is not visible', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'checkOrderMessageBlock3', baseContext);
 
-      await orderHistoryPage.goToDetailsPage(page, 1);
+      await foClassicMyOrderHistoryPage.goToDetailsPage(page, 1);
 
       // New message is on the first row
-      const message = await orderHistoryPage.getMessageRow(page, 1);
+      const message = await foClassicMyOrderHistoryPage.getMessageRow(page, 1);
       expect(message, 'Second message is not visible!').to.not.contain(secondMessageData.message);
     });
   });
@@ -353,15 +350,15 @@ describe('BO - Orders - View and edit order : Check messages block', async () =>
     it('should send message', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'sendMessage2', baseContext);
 
-      const alertMessage = await orderHistoryPage.sendMessage(page, messageToSendData);
-      expect(alertMessage, 'Success message is not displayed!').to.equal(orderHistoryPage.messageSuccessSent);
+      const alertMessage = await foClassicMyOrderHistoryPage.sendMessage(page, messageToSendData);
+      expect(alertMessage, 'Success message is not displayed!').to.equal(foClassicMyOrderHistoryPage.messageSuccessSent);
     });
 
     it('should go back to BO', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'goBackToBo2', baseContext);
 
       // Close page and init page objects
-      page = await orderHistoryPage.closePage(browserContext, page, 0);
+      page = await foClassicMyOrderHistoryPage.closePage(browserContext, page, 0);
 
       const pageTitle = await orderPageMessagesBlock.getPageTitle(page);
       expect(pageTitle, 'Fail to go back to BO!').to.contains(orderPageMessagesBlock.pageTitle);

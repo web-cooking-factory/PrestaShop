@@ -2,7 +2,6 @@ import {expect} from 'chai';
 import {addressesPage as foClassicAddressesPage} from '@pages/FO/classic/myAccount/addresses';
 import {addAddressPage as foClassicAddressesCreatePage} from '@pages/FO/classic/myAccount/addAddress';
 import {accountIdentityPage as foClassicAccountIdentityPage} from '@pages/FO/classic/myAccount/identity';
-import {orderHistoryPage as foClassicOrderHistoryPage} from '@pages/FO/classic/myAccount/orderHistory';
 import {orderDetailsPage as foClassicOrderDetailsPage} from '@pages/FO/classic/myAccount/orderDetails';
 import {creditSlipPage as foClassicCreditSlipsPage} from '@pages/FO/classic/myAccount/creditSlips';
 import {gdprPersonalDataPage as foClassicGdprPersonalDataPage} from '@pages/FO/classic/myAccount/gdprPersonalData';
@@ -14,6 +13,7 @@ import {
   foClassicHomePage,
   foClassicLoginPage,
   foClassicMyAccountPage,
+  foClassicMyOrderHistoryPage,
   foClassicMyWishlistsPage,
   foClassicMyWishlistsViewPage,
   type Page,
@@ -128,8 +128,8 @@ describe('Check FO connected pages', async () => {
     await foClassicAccountIdentityPage.goToMyAccountPage(page);
     await foClassicMyAccountPage.goToHistoryAndDetailsPage(page);
 
-    const pageTitle = await foClassicOrderHistoryPage.getPageTitle(page);
-    expect(pageTitle).to.contains(foClassicOrderHistoryPage.pageTitle);
+    const pageTitle = await foClassicMyOrderHistoryPage.getPageTitle(page);
+    expect(pageTitle).to.contains(foClassicMyOrderHistoryPage.pageTitle);
 
     const jsErrors = utilsPlaywright.getJsErrors();
     expect(jsErrors.length).to.equals(0);
@@ -138,7 +138,7 @@ describe('Check FO connected pages', async () => {
   it('should go to the "Order details" page', async function () {
     await testContext.addContextItem(this, 'testIdentifier', 'goToDetailsPage', baseContext);
 
-    await foClassicOrderHistoryPage.goToDetailsPage(page, 1);
+    await foClassicMyOrderHistoryPage.goToDetailsPage(page, 1);
 
     const pageTitle = await foClassicOrderDetailsPage.getPageTitle(page);
     expect(pageTitle).to.equal(foClassicOrderDetailsPage.pageTitle);

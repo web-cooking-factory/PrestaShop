@@ -6,7 +6,6 @@ import {setupSmtpConfigTest, resetSmtpConfigTest} from '@commonTests/BO/advanced
 // Import BO pages
 import viewPage from '@pages/BO/customerService/customerService/view';
 // Import FO pages
-import {orderHistoryPage} from '@pages/FO/classic/myAccount/orderHistory';
 import {orderDetailsPage} from '@pages/FO/classic/myAccount/orderDetails';
 import {blockCartModal} from '@pages/FO/classic/modal/blockCart';
 
@@ -27,6 +26,7 @@ import {
   foClassicLoginPage,
   foClassicModalQuickViewPage,
   foClassicMyAccountPage,
+  foClassicMyOrderHistoryPage,
   type MailDev,
   type MailDevEmail,
   type Page,
@@ -189,14 +189,14 @@ describe('BO - Customer Service : Forward message', async () => {
       await foClassicHomePage.goToMyAccountPage(page);
       await foClassicMyAccountPage.goToHistoryAndDetailsPage(page);
 
-      const pageHeaderTitle = await orderHistoryPage.getPageTitle(page);
-      expect(pageHeaderTitle).to.equal(orderHistoryPage.pageTitle);
+      const pageHeaderTitle = await foClassicMyOrderHistoryPage.getPageTitle(page);
+      expect(pageHeaderTitle).to.equal(foClassicMyOrderHistoryPage.pageTitle);
     });
 
     it('Go to order details ', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'goToFoToOrderDetails', baseContext);
 
-      await orderHistoryPage.goToDetailsPage(page);
+      await foClassicMyOrderHistoryPage.goToDetailsPage(page);
 
       const successMessageText = await orderDetailsPage.addAMessage(page, messageOption, messageSend);
       expect(successMessageText).to.equal(orderDetailsPage.successMessageText);

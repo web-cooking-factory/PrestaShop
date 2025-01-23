@@ -1,8 +1,7 @@
-// Import utils
 import testContext from '@utils/testContext';
+import {expect} from 'chai';
 
 // Import FO pages
-import {orderHistoryPage} from '@pages/FO/classic/myAccount/orderHistory';
 import {orderDetailsPage} from '@pages/FO/classic/myAccount/orderDetails';
 
 import {
@@ -16,12 +15,11 @@ import {
   foClassicHomePage,
   foClassicLoginPage,
   foClassicMyAccountPage,
+  foClassicMyOrderHistoryPage,
   foClassicProductPage,
   type Page,
   utilsPlaywright,
 } from '@prestashop-core/ui-testing';
-
-import {expect} from 'chai';
 
 const baseContext: string = 'functional_FO_classic_checkout_shippingMethods_addOrderMessage';
 
@@ -156,14 +154,14 @@ describe('FO - Checkout - Shipping methods : Add order message', async () => {
     await foClassicHomePage.goToMyAccountPage(page);
     await foClassicMyAccountPage.goToHistoryAndDetailsPage(page);
 
-    const pageHeaderTitle = await orderHistoryPage.getPageTitle(page);
-    expect(pageHeaderTitle).to.equal(orderHistoryPage.pageTitle);
+    const pageHeaderTitle = await foClassicMyOrderHistoryPage.getPageTitle(page);
+    expect(pageHeaderTitle).to.equal(foClassicMyOrderHistoryPage.pageTitle);
   });
 
   it('should go to order details and check the messages box', async function () {
     await testContext.addContextItem(this, 'testIdentifier', 'goToFoToOrderDetailsPage', baseContext);
 
-    await orderHistoryPage.goToDetailsPage(page);
+    await foClassicMyOrderHistoryPage.goToDetailsPage(page);
 
     const orderMessage = await orderDetailsPage.getBoxMessages(page);
     expect(orderMessage).to.contain(editMessage);

@@ -1,11 +1,10 @@
-// Import utils
 import testContext from '@utils/testContext';
+import {expect} from 'chai';
 
 // Import common tests
 import {resetSmtpConfigTest, setupSmtpConfigTest} from '@commonTests/BO/advancedParameters/smtp';
 
 // Import pages
-import {orderHistoryPage} from '@pages/FO/classic/myAccount/orderHistory';
 import {orderDetailsPage} from '@pages/FO/classic/myAccount/orderDetails';
 
 import {
@@ -24,6 +23,7 @@ import {
   foClassicCheckoutOrderConfirmationPage,
   foClassicHomePage,
   foClassicMyAccountPage,
+  foClassicMyOrderHistoryPage,
   foClassicProductPage,
   type MailDev,
   type MailDevEmail,
@@ -33,8 +33,6 @@ import {
   utilsMail,
   utilsPlaywright,
 } from '@prestashop-core/ui-testing';
-
-import {expect} from 'chai';
 
 const baseContext: string = 'functional_BO_catalog_products_CRUDVirtualProduct';
 
@@ -321,14 +319,14 @@ describe('BO - Catalog - Products : CRUD virtual product', async () => {
 
         await foClassicMyAccountPage.goToHistoryAndDetailsPage(page);
 
-        const pageHeaderTitle = await orderHistoryPage.getPageTitle(page);
-        expect(pageHeaderTitle).to.equal(orderHistoryPage.pageTitle);
+        const pageHeaderTitle = await foClassicMyOrderHistoryPage.getPageTitle(page);
+        expect(pageHeaderTitle).to.equal(foClassicMyOrderHistoryPage.pageTitle);
       });
 
       it('should go to order details page', async function () {
         await testContext.addContextItem(this, 'testIdentifier', 'goToFoToOrderDetails', baseContext);
 
-        await orderHistoryPage.goToDetailsPage(page);
+        await foClassicMyOrderHistoryPage.goToDetailsPage(page);
 
         const pageTitle = await orderDetailsPage.getPageTitle(page);
         expect(pageTitle).to.equal(orderDetailsPage.pageTitle);

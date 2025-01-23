@@ -1,5 +1,5 @@
-// Import utils
 import testContext from '@utils/testContext';
+import {expect} from 'chai';
 
 // Import commonTests
 import {createAddressTest, bulkDeleteAddressesTest} from '@commonTests/BO/customers/address';
@@ -10,7 +10,6 @@ import addAddressPage from '@pages/BO/customers/addresses/add';
 import orderPageCustomerBlock from '@pages/BO/orders/view/customerBlock';
 // Import FO pages
 import {orderDetailsPage} from '@pages/FO/classic/myAccount/orderDetails';
-import {orderHistoryPage} from '@pages/FO/classic/myAccount/orderHistory';
 
 import {
   boDashboardPage,
@@ -26,12 +25,11 @@ import {
   foClassicHomePage,
   foClassicLoginPage,
   foClassicMyAccountPage,
+  foClassicMyOrderHistoryPage,
   type Frame,
   type Page,
   utilsPlaywright,
 } from '@prestashop-core/ui-testing';
-
-import {expect} from 'chai';
 
 const baseContext: string = 'functional_BO_orders_orders_createOrders_chooseAddress';
 
@@ -366,14 +364,14 @@ describe('BO - Orders - Create order : Choose address', async () => {
 
         await foClassicMyAccountPage.goToHistoryAndDetailsPage(page);
 
-        const pageTitle = await orderHistoryPage.getPageTitle(page);
-        expect(pageTitle).to.contains(orderHistoryPage.pageTitle);
+        const pageTitle = await foClassicMyOrderHistoryPage.getPageTitle(page);
+        expect(pageTitle).to.contains(foClassicMyOrderHistoryPage.pageTitle);
       });
 
       it('should click on details link of the first created order and check the delivery address', async function () {
         await testContext.addContextItem(this, 'testIdentifier', 'checkDeliveryAddressFO', baseContext);
 
-        await orderHistoryPage.goToOrderDetailsPage(page, orderID);
+        await foClassicMyOrderHistoryPage.goToOrderDetailsPage(page, orderID);
 
         const deliveryAddress = await orderDetailsPage.getDeliveryAddress(page);
         expect(deliveryAddress).to.contain(newAddressToCreate.firstName)
