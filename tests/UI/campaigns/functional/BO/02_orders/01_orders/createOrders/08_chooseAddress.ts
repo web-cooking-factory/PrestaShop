@@ -7,13 +7,13 @@ import {createAddressTest, bulkDeleteAddressesTest} from '@commonTests/BO/custom
 // Import pages
 // Import BO pages
 import addAddressPage from '@pages/BO/customers/addresses/add';
-import orderPageCustomerBlock from '@pages/BO/orders/view/customerBlock';
 
 import {
   boDashboardPage,
   boLoginPage,
   boOrdersPage,
   boOrdersCreatePage,
+  boOrdersViewBlockCustomersPage,
   type BrowserContext,
   dataCustomers,
   dataOrderStatuses,
@@ -165,14 +165,14 @@ describe('BO - Orders - Create order : Choose address', async () => {
 
       await boOrdersCreatePage.setSummaryAndCreateOrder(page, paymentMethodModuleName, dataOrderStatuses.paymentAccepted);
 
-      const pageTitle = await orderPageCustomerBlock.getPageTitle(page);
-      expect(pageTitle).to.contains(orderPageCustomerBlock.pageTitle);
+      const pageTitle = await boOrdersViewBlockCustomersPage.getPageTitle(page);
+      expect(pageTitle).to.contains(boOrdersViewBlockCustomersPage.pageTitle);
     });
 
     it('should get the order ID', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'getOrderID', baseContext);
 
-      orderID = await orderPageCustomerBlock.getOrderID(page);
+      orderID = await boOrdersViewBlockCustomersPage.getOrderID(page);
       expect(orderID).to.be.at.least(5);
     });
   });
@@ -285,14 +285,14 @@ describe('BO - Orders - Create order : Choose address', async () => {
 
         await boOrdersPage.goToOrder(page, 1);
 
-        const pageTitle = await orderPageCustomerBlock.getPageTitle(page);
-        expect(pageTitle).to.contains(orderPageCustomerBlock.pageTitle);
+        const pageTitle = await boOrdersViewBlockCustomersPage.getPageTitle(page);
+        expect(pageTitle).to.contains(boOrdersViewBlockCustomersPage.pageTitle);
       });
 
       it('should check the shipping address', async function () {
         await testContext.addContextItem(this, 'testIdentifier', 'checkShippingAddress', baseContext);
 
-        const shippingAddress = await orderPageCustomerBlock.getShippingAddress(page);
+        const shippingAddress = await boOrdersViewBlockCustomersPage.getShippingAddress(page);
         expect(shippingAddress)
           .to.contain(newAddressToCreate.firstName)
           .and.to.contain(newAddressToCreate.lastName)
@@ -306,7 +306,7 @@ describe('BO - Orders - Create order : Choose address', async () => {
       it('should check the invoice address', async function () {
         await testContext.addContextItem(this, 'testIdentifier', 'checkInvoiceAddress', baseContext);
 
-        const shippingAddress = await orderPageCustomerBlock.getInvoiceAddress(page);
+        const shippingAddress = await boOrdersViewBlockCustomersPage.getInvoiceAddress(page);
         expect(shippingAddress)
           .to.contain(newAddressToCreate.firstName)
           .and.to.contain(newAddressToCreate.lastName)
@@ -323,7 +323,7 @@ describe('BO - Orders - Create order : Choose address', async () => {
         await testContext.addContextItem(this, 'testIdentifier', 'goToFO', baseContext);
 
         // Click on view my shop
-        page = await orderPageCustomerBlock.viewMyShop(page);
+        page = await boOrdersViewBlockCustomersPage.viewMyShop(page);
         // Change FO language
         await foClassicHomePage.changeLanguage(page, 'en');
 
@@ -400,8 +400,8 @@ describe('BO - Orders - Create order : Choose address', async () => {
 
         page = await foClassicMyOrderDetailsPage.closePage(browserContext, page, 0);
 
-        const pageTitle = await orderPageCustomerBlock.getPageTitle(page);
-        expect(pageTitle).to.contains(orderPageCustomerBlock.pageTitle);
+        const pageTitle = await boOrdersViewBlockCustomersPage.getPageTitle(page);
+        expect(pageTitle).to.contains(boOrdersViewBlockCustomersPage.pageTitle);
       });
     });
 

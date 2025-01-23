@@ -6,13 +6,13 @@ import testContext from '@utils/testContext';
 import viewCustomerPage from '@pages/BO/customers/view';
 import addAddressPage from '@pages/BO/customers/addresses/add';
 import viewCartPage from '@pages/BO/orders/shoppingCarts/view';
-import orderPageCustomerBlock from '@pages/BO/orders/view/customerBlock';
 
 import {
   boCustomersPage,
   boCustomersCreatePage,
   boDashboardPage,
   boLoginPage,
+  boOrdersViewBlockCustomersPage,
   type BrowserContext,
   dataLanguages,
   dataOrderStatuses,
@@ -479,24 +479,24 @@ describe('BO - Customers - Customers : View information about customer', async (
 
       await viewCustomerPage.goToPage(page, 'Orders');
 
-      const pageTitle = await orderPageCustomerBlock.getPageTitle(page);
-      expect(pageTitle).to.contains(orderPageCustomerBlock.pageTitle);
+      const pageTitle = await boOrdersViewBlockCustomersPage.getPageTitle(page);
+      expect(pageTitle).to.contains(boOrdersViewBlockCustomersPage.pageTitle);
     });
 
     it('should modify order status', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'modifyOrderStatus', baseContext);
 
-      const result = await orderPageCustomerBlock.modifyOrderStatus(page, dataOrderStatuses.shipped.name);
+      const result = await boOrdersViewBlockCustomersPage.modifyOrderStatus(page, dataOrderStatuses.shipped.name);
       expect(result).to.equal(dataOrderStatuses.shipped.name);
     });
 
     it('should go to \'Customers > Customers\' page', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'goToCustomersPageAfterEditOrder', baseContext);
 
-      await orderPageCustomerBlock.goToSubMenu(
+      await boOrdersViewBlockCustomersPage.goToSubMenu(
         page,
-        orderPageCustomerBlock.customersParentLink,
-        orderPageCustomerBlock.customersLink,
+        boOrdersViewBlockCustomersPage.customersParentLink,
+        boOrdersViewBlockCustomersPage.customersLink,
       );
 
       const pageTitle = await boCustomersPage.getPageTitle(page);

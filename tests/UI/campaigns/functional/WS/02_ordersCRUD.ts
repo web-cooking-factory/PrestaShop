@@ -11,7 +11,6 @@ import createShoppingCart from '@commonTests/FO/classic/shoppingCart';
 
 // Import BO pages
 import webservicePage from '@pages/BO/advancedParameters/webservice';
-import orderPageCustomerBlock from '@pages/BO/orders/view/customerBlock';
 import orderPagePaymentBlock from '@pages/BO/orders/view/paymentBlock';
 
 // Import data
@@ -24,6 +23,7 @@ import {
   boLoginPage,
   boOrdersPage,
   boOrdersViewBasePage,
+  boOrdersViewBlockCustomersPage,
   boOrdersViewBlockProductsPage,
   boOrdersViewBlockTabListPage,
   boShoppingCartsPage,
@@ -543,7 +543,7 @@ describe('WS - Orders : CRUD', async () => {
             await testContext.addContextItem(this, 'testIdentifier', 'checkOrderIdCustomer1', baseContext);
 
             const xmlValue = orderXml.getAttributeValue(xmlResponseCreate, 'id_customer');
-            const value = await orderPageCustomerBlock.getCustomerID(page);
+            const value = await boOrdersViewBlockCustomersPage.getCustomerID(page);
             expect(value.toString()).to.be.eq(xmlValue);
           });
         });
@@ -883,7 +883,7 @@ describe('WS - Orders : CRUD', async () => {
             await testContext.addContextItem(this, 'testIdentifier', 'checkOrderIdCustomer2', baseContext);
 
             const xmlValue = orderXml.getAttributeValue(xmlResponseUpdate, 'id_customer');
-            const value = await orderPageCustomerBlock.getCustomerID(page);
+            const value = await boOrdersViewBlockCustomersPage.getCustomerID(page);
             expect(value.toString()).to.be.eq(xmlValue);
           });
         });
