@@ -1,5 +1,5 @@
-// Import utils
 import testContext from '@utils/testContext';
+import {expect} from 'chai';
 
 // Import commonTests
 import {deleteCustomerTest} from '@commonTests/BO/customers/customer';
@@ -7,14 +7,13 @@ import {enableHummingbird, disableHummingbird} from '@commonTests/BO/design/humm
 
 // Import BO pages
 import viewCustomerPage from '@pages/BO/customers/view';
-import customerServicePage from '@pages/BO/customerService/customerService';
 // Import FO pages
 import createAccountPage from '@pages/FO/hummingbird/myAccount/add';
 import gdprPersonalDataPage from '@pages/FO/hummingbird/myAccount/gdprPersonalData';
 
-import {expect} from 'chai';
 import {
   boCustomersPage,
+  boCustomerServicePage,
   boDashboardPage,
   boLoginPage,
   boOrdersPage,
@@ -698,21 +697,21 @@ describe('FO - Account : Get GDPR data in PDF', async () => {
           boDashboardPage.customerServiceLink,
         );
 
-        const pageTitle = await customerServicePage.getPageTitle(page);
-        expect(pageTitle).to.contains(customerServicePage.pageTitle);
+        const pageTitle = await boCustomerServicePage.getPageTitle(page);
+        expect(pageTitle).to.contains(boCustomerServicePage.pageTitle);
       });
 
       it('should check customer name', async function () {
         await testContext.addContextItem(this, 'testIdentifier', 'checkCustomerName', baseContext);
 
-        const email = await customerServicePage.getTextColumn(page, 1, 'customer');
+        const email = await boCustomerServicePage.getTextColumn(page, 1, 'customer');
         expect(email).to.contain(`${contactUsData.firstName} ${contactUsData.lastName}`);
       });
 
       it('should get last message date', async function () {
         await testContext.addContextItem(this, 'testIdentifier', 'checkCustomerEmail', baseContext);
 
-        messageDate = await customerServicePage.getTextColumn(page, 1, 'date');
+        messageDate = await boCustomerServicePage.getTextColumn(page, 1, 'date');
         expect(messageDate).to.not.eq(null);
       });
     });

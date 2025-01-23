@@ -3,7 +3,6 @@ import testContext from '@utils/testContext';
 
 // Import BO pages
 import {viewOrderBasePage} from '@pages/BO/orders/view/viewOrderBasePage';
-import customerServicePage from '@pages/BO/customerService/customerService';
 import productCommentsPage from '@pages/BO/modules/productComments';
 
 // Import FO pages
@@ -19,6 +18,7 @@ import {deleteCustomerTest} from '@commonTests/BO/customers/customer';
 import {
   boCustomersPage,
   boCustomersCreatePage,
+  boCustomerServicePage,
   boDashboardPage,
   boLoginPage,
   boMerchandiseReturnsPage,
@@ -480,8 +480,8 @@ describe('BO - Dashboard : Activity overview', async () => {
 
         await boDashboardPage.clickOnNewMessagesLink(page);
 
-        const pageTitle = await customerServicePage.getPageTitle(page);
-        expect(pageTitle).to.contains(customerServicePage.pageTitle);
+        const pageTitle = await boCustomerServicePage.getPageTitle(page);
+        expect(pageTitle).to.contains(boCustomerServicePage.pageTitle);
       });
 
       it('should view my store', async function () {
@@ -517,8 +517,8 @@ describe('BO - Dashboard : Activity overview', async () => {
 
         page = await foClassicContactUsPage.closePage(browserContext, page, 0);
 
-        const pageTitle = await customerServicePage.getPageTitle(page);
-        expect(pageTitle).to.contains(customerServicePage.pageTitle);
+        const pageTitle = await boCustomerServicePage.getPageTitle(page);
+        expect(pageTitle).to.contains(boCustomerServicePage.pageTitle);
       });
 
       it('should go back to dashboard page', async function () {

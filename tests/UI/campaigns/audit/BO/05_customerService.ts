@@ -1,10 +1,10 @@
 import {expect} from 'chai';
-import customerServicePage from '@pages/BO/customerService/customerService';
 import orderMessagesPage from '@pages/BO/customerService/orderMessages';
 import addOrderMessagePage from '@pages/BO/customerService/orderMessages/add';
 import testContext from '@utils/testContext';
 
 import {
+  boCustomerServicePage,
   boDashboardPage,
   boLoginPage,
   boMerchandiseReturnsPage,
@@ -52,8 +52,8 @@ describe('BO - Customer Service', async () => {
       boDashboardPage.customerServiceLink,
     );
 
-    const pageTitle = await customerServicePage.getPageTitle(page);
-    expect(pageTitle).to.contains(customerServicePage.pageTitle);
+    const pageTitle = await boCustomerServicePage.getPageTitle(page);
+    expect(pageTitle).to.contains(boCustomerServicePage.pageTitle);
 
     const jsErrors = utilsPlaywright.getJsErrors();
     expect(jsErrors.length).to.equals(0);

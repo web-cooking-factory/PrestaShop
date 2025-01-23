@@ -1,5 +1,7 @@
 // Import utils
 import testContext from '@utils/testContext';
+import {expect} from 'chai';
+import {faker} from '@faker-js/faker';
 
 // import common tests
 import {createOrderByCustomerTest, createOrderByGuestTest} from '@commonTests/FO/classic/order';
@@ -7,11 +9,11 @@ import {createOrderByCustomerTest, createOrderByGuestTest} from '@commonTests/FO
 // Import pages
 import {orderHistoryPage} from '@pages/FO/classic/myAccount/orderHistory';
 import {orderDetailsPage} from '@pages/FO/classic/myAccount/orderDetails';
-import customerServicePage from '@pages/BO/customerService/customerService';
 import viewOrderMessagePage from '@pages/BO/customerService/orderMessages/add';
 import viewCustomerPage from '@pages/BO/customers/view';
 
 import {
+  boCustomerServicePage,
   boDashboardPage,
   boLoginPage,
   boOrdersPage,
@@ -30,8 +32,6 @@ import {
   utilsPlaywright,
 } from '@prestashop-core/ui-testing';
 
-import {expect} from 'chai';
-import {faker} from '@faker-js/faker';
 
 const baseContext: string = 'functional_BO_header_checkNotifications';
 
@@ -220,8 +220,8 @@ describe('BO - Header : Check notifications', async () => {
 
       await boDashboardPage.clickOnNotification(page, 'messages');
 
-      const pageTitle = await customerServicePage.getPageTitle(page);
-      expect(pageTitle).to.contains(customerServicePage.pageTitle);
+      const pageTitle = await boCustomerServicePage.getPageTitle(page);
+      expect(pageTitle).to.contains(boCustomerServicePage.pageTitle);
     });
   });
 

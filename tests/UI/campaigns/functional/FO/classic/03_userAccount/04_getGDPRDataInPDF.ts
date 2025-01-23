@@ -1,18 +1,16 @@
-// Import utils
 import testContext from '@utils/testContext';
-
-// Import commonTests
+import {expect} from 'chai';
 import {deleteCustomerTest} from '@commonTests/BO/customers/customer';
 
 // Import BO pages
 import viewCustomerPage from '@pages/BO/customers/view';
-import customerServicePage from '@pages/BO/customerService/customerService';
 // Import FO pages
 import {createAccountPage} from '@pages/FO/classic/myAccount/add';
 import {gdprPersonalDataPage} from '@pages/FO/classic/myAccount/gdprPersonalData';
 
 import {
   boCustomersPage,
+  boCustomerServicePage,
   boDashboardPage,
   boLoginPage,
   boOrdersPage,
@@ -37,8 +35,6 @@ import {
   utilsFile,
   utilsPlaywright,
 } from '@prestashop-core/ui-testing';
-
-import {expect} from 'chai';
 
 const baseContext: string = 'functional_FO_classic_userAccount_getGDPRDataInPDF';
 
@@ -692,21 +688,21 @@ describe('FO - Account : Get GDPR data in PDF', async () => {
           boDashboardPage.customerServiceLink,
         );
 
-        const pageTitle = await customerServicePage.getPageTitle(page);
-        expect(pageTitle).to.contains(customerServicePage.pageTitle);
+        const pageTitle = await boCustomerServicePage.getPageTitle(page);
+        expect(pageTitle).to.contains(boCustomerServicePage.pageTitle);
       });
 
       it('should check customer name', async function () {
         await testContext.addContextItem(this, 'testIdentifier', 'checkCustomerName', baseContext);
 
-        const email = await customerServicePage.getTextColumn(page, 1, 'customer');
+        const email = await boCustomerServicePage.getTextColumn(page, 1, 'customer');
         expect(email).to.contain(`${contactUsData.firstName} ${contactUsData.lastName}`);
       });
 
       it('should get last message date', async function () {
         await testContext.addContextItem(this, 'testIdentifier', 'checkCustomerEmail', baseContext);
 
-        messageDate = await customerServicePage.getTextColumn(page, 1, 'date');
+        messageDate = await boCustomerServicePage.getTextColumn(page, 1, 'date');
         expect(messageDate).to.not.eq(null);
       });
     });
