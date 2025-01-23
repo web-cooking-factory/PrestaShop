@@ -7,14 +7,12 @@ import {bulkDeleteProductsTest} from '@commonTests/BO/catalog/product';
 import {enableEcoTaxTest, disableEcoTaxTest} from '@commonTests/BO/international/ecoTax';
 import {createOrderByCustomerTest, createOrderSpecificProductTest} from '@commonTests/FO/classic/order';
 
-// Import BO pages
-import orderPagePaymentBlock from '@pages/BO/orders/view/paymentBlock';
-
 import {
   boDashboardPage,
   boLoginPage,
   boOrdersPage,
   boOrdersViewBlockCustomersPage,
+  boOrdersViewBlockPaymentsPage,
   boOrdersViewBlockProductsPage,
   boOrdersViewBlockTabListPage,
   boProductsPage,
@@ -1535,11 +1533,11 @@ describe('BO - Orders - View and edit order: Check invoice', async () => {
         it('should add payment', async function () {
           await testContext.addContextItem(this, 'testIdentifier', 'addPayment', baseContext);
 
-          const validationMessage = await orderPagePaymentBlock.addPayment(page, paymentData);
+          const validationMessage = await boOrdersViewBlockPaymentsPage.addPayment(page, paymentData);
           expect(
             validationMessage,
             'Successful message is not correct!',
-          ).to.equal(orderPagePaymentBlock.successfulUpdateMessage);
+          ).to.equal(boOrdersViewBlockPaymentsPage.successfulUpdateMessage);
         });
 
         it('should click on \'View invoice\' button and check that the file is downloaded', async function () {

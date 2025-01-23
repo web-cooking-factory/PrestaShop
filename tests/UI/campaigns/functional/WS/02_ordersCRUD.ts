@@ -11,7 +11,6 @@ import createShoppingCart from '@commonTests/FO/classic/shoppingCart';
 
 // Import BO pages
 import webservicePage from '@pages/BO/advancedParameters/webservice';
-import orderPagePaymentBlock from '@pages/BO/orders/view/paymentBlock';
 
 // Import data
 import getOrderXml from '@data/xml/order';
@@ -24,6 +23,7 @@ import {
   boOrdersPage,
   boOrdersViewBasePage,
   boOrdersViewBlockCustomersPage,
+  boOrdersViewBlockPaymentsPage,
   boOrdersViewBlockProductsPage,
   boOrdersViewBlockTabListPage,
   boShoppingCartsPage,
@@ -692,7 +692,7 @@ describe('WS - Orders : CRUD', async () => {
             await testContext.addContextItem(this, 'testIdentifier', 'checkOrderPayment1', baseContext);
 
             const xmlValue = orderXml.getAttributeValue(xmlResponseCreate, 'payment');
-            const value = await orderPagePaymentBlock.getPaymentsDetails(page, 1);
+            const value = await boOrdersViewBlockPaymentsPage.getPaymentsDetails(page, 1);
             expect(value.paymentMethod).to.be.eq(xmlValue);
           });
         });
@@ -1035,7 +1035,7 @@ describe('WS - Orders : CRUD', async () => {
             this.skip();
 
             const xmlValue = orderXml.getAttributeValue(xmlResponseUpdate, 'payment');
-            const value = await orderPagePaymentBlock.getPaymentsDetails(page, 1);
+            const value = await boOrdersViewBlockPaymentsPage.getPaymentsDetails(page, 1);
             expect(value.paymentMethod).to.be.eq(xmlValue);
           });
         });
