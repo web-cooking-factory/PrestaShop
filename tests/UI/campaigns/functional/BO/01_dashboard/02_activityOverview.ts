@@ -3,7 +3,6 @@ import testContext from '@utils/testContext';
 
 // Import BO pages
 import {viewOrderBasePage} from '@pages/BO/orders/view/viewOrderBasePage';
-import productCommentsPage from '@pages/BO/modules/productComments';
 
 // Import FO pages
 import {orderHistoryPage} from '@pages/FO/classic/myAccount/orderHistory';
@@ -44,6 +43,7 @@ import {
   foClassicLoginPage,
   foClassicMyAccountPage,
   foClassicProductPage,
+  modProductCommentsBoMain,
   modPsEmailSubscriptionBoMain,
   type Page,
   utilsPlaywright,
@@ -551,8 +551,8 @@ describe('BO - Dashboard : Activity overview', async () => {
 
         await boDashboardPage.clickOnProductReviewsLink(page);
 
-        const pageTitle = await productCommentsPage.getPageSubTitle(page);
-        expect(pageTitle).to.eq(productCommentsPage.pageTitle);
+        const pageTitle = await modProductCommentsBoMain.getPageSubTitle(page);
+        expect(pageTitle).to.eq(modProductCommentsBoMain.pageTitle);
       });
     });
   });
