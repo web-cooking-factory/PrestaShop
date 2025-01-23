@@ -21,7 +21,6 @@ import {
   utilsPlaywright,
 } from '@prestashop-core/ui-testing';
 
-
 const baseContext: string = 'functional_FO_classic_userAccount_contactUsOnGDPRPage';
 
 describe('FO - Account : Contact us on GDPR page', async () => {

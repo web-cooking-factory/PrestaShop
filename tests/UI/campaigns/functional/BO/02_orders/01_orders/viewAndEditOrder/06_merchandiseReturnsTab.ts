@@ -7,8 +7,6 @@ import {createOrderByCustomerTest} from '@commonTests/FO/classic/order';
 
 // Import BO pages
 import editMerchandiseReturnsPage from '@pages/BO/customerService/merchandiseReturns/edit';
-// Import FO pages
-import {merchandiseReturnsPage as foMerchandiseReturnsPage} from '@pages/FO/classic/myAccount/merchandiseReturns';
 
 import {
   boDashboardPage,
@@ -26,6 +24,7 @@ import {
   foClassicHomePage,
   foClassicLoginPage,
   foClassicMyAccountPage,
+  foClassicMyMerchandiseReturnsPage,
   foClassicMyOrderDetailsPage,
   foClassicMyOrderHistoryPage,
   type Page,
@@ -217,8 +216,8 @@ describe('BO - Orders - View and edit order : Check merchandise returns tab', as
 
       await foClassicMyOrderDetailsPage.requestMerchandiseReturn(page, 'Test merchandise returns');
 
-      const pageTitle = await foMerchandiseReturnsPage.getPageTitle(page);
-      expect(pageTitle).to.contains(foMerchandiseReturnsPage.pageTitle);
+      const pageTitle = await foClassicMyMerchandiseReturnsPage.getPageTitle(page);
+      expect(pageTitle).to.contains(foClassicMyMerchandiseReturnsPage.pageTitle);
     });
 
     it('should close the FO page and go back to BO', async function () {
@@ -451,14 +450,14 @@ describe('BO - Orders - View and edit order : Check merchandise returns tab', as
 
         await foClassicMyAccountPage.goToMerchandiseReturnsPage(page);
 
-        const pageTitle = await foMerchandiseReturnsPage.getPageTitle(page);
-        expect(pageTitle).to.contains(foMerchandiseReturnsPage.pageTitle);
+        const pageTitle = await foClassicMyMerchandiseReturnsPage.getPageTitle(page);
+        expect(pageTitle).to.contains(foClassicMyMerchandiseReturnsPage.pageTitle);
       });
 
       it('should verify order return status', async function () {
         await testContext.addContextItem(this, 'testIdentifier', `checkOrderReturnStatus${index}`, baseContext);
 
-        const fileName = await foMerchandiseReturnsPage.getTextColumn(page, 'status');
+        const fileName = await foClassicMyMerchandiseReturnsPage.getTextColumn(page, 'status');
         expect(fileName).to.be.equal(test.args.status);
       });
 

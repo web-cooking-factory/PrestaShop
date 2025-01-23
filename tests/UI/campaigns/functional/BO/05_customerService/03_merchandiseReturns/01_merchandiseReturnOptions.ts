@@ -4,8 +4,6 @@ import {expect} from 'chai';
 // Import pages
 // Import BO pages
 import {viewOrderBasePage} from '@pages/BO/orders/view/viewOrderBasePage';
-// Import FO pages
-import {merchandiseReturnsPage as foMerchandiseReturnsPage} from '@pages/FO/classic/myAccount/merchandiseReturns';
 
 import {
   boDashboardPage,
@@ -22,6 +20,7 @@ import {
   foClassicHomePage,
   foClassicLoginPage,
   foClassicMyAccountPage,
+  foClassicMyMerchandiseReturnsPage,
   foClassicMyOrderDetailsPage,
   foClassicMyOrderHistoryPage,
   foClassicProductPage,
@@ -292,14 +291,14 @@ describe('BO - Customer Service - Merchandise Returns : Merchandise return (RMA)
 
           await foClassicMyOrderDetailsPage.requestMerchandiseReturn(page, 'test');
 
-          const pageTitle = await foMerchandiseReturnsPage.getPageTitle(page);
-          expect(pageTitle).to.contains(foMerchandiseReturnsPage.pageTitle);
+          const pageTitle = await foClassicMyMerchandiseReturnsPage.getPageTitle(page);
+          expect(pageTitle).to.contains(foClassicMyMerchandiseReturnsPage.pageTitle);
         });
 
         it('should verify order return prefix', async function () {
           await testContext.addContextItem(this, 'testIdentifier', 'checkOrderReturnPrefix', baseContext);
 
-          const fileName = await foMerchandiseReturnsPage.getTextColumn(page, 'fileName');
+          const fileName = await foClassicMyMerchandiseReturnsPage.getTextColumn(page, 'fileName');
           expect(fileName).to.contains(test.args.prefix);
         });
       }

@@ -6,7 +6,6 @@ import {expect} from 'chai';
 import {viewOrderBasePage} from '@pages/BO/orders/view/viewOrderBasePage';
 import editMerchandiseReturnsPage from '@pages/BO/customerService/merchandiseReturns/edit';
 // Import FO pages
-import {merchandiseReturnsPage as foMerchandiseReturnsPage} from '@pages/FO/classic/myAccount/merchandiseReturns';
 import {blockCartModal} from '@pages/FO/classic/modal/blockCart';
 
 import {
@@ -25,6 +24,7 @@ import {
   foClassicLoginPage,
   foClassicModalQuickViewPage,
   foClassicMyAccountPage,
+  foClassicMyMerchandiseReturnsPage,
   foClassicMyOrderDetailsPage,
   foClassicMyOrderHistoryPage,
   type Page,
@@ -257,8 +257,8 @@ describe('BO - Customer Service - Merchandise Returns : Delete product', async (
         3,
         [{quantity: 1}, {quantity: 1}, {quantity: 2}]);
 
-      const pageTitle = await foMerchandiseReturnsPage.getPageTitle(page);
-      expect(pageTitle).to.contains(foMerchandiseReturnsPage.pageTitle);
+      const pageTitle = await foClassicMyMerchandiseReturnsPage.getPageTitle(page);
+      expect(pageTitle).to.contains(foClassicMyMerchandiseReturnsPage.pageTitle);
     });
 
     it('should close the FO page and go back to BO', async function () {

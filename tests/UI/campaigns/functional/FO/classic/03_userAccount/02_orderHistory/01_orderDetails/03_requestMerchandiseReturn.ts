@@ -6,9 +6,6 @@ import {
   disableMerchandiseReturns,
 } from '@commonTests/BO/customerService/merchandiseReturns';
 
-// Import pages
-import {merchandiseReturnsPage as foMerchandiseReturnsPage} from '@pages/FO/classic/myAccount/merchandiseReturns';
-
 import {
   boDashboardPage,
   boInvoicesPage,
@@ -24,6 +21,7 @@ import {
   foClassicHomePage,
   foClassicLoginPage,
   foClassicMyAccountPage,
+  foClassicMyMerchandiseReturnsPage,
   foClassicMyOrderDetailsPage,
   foClassicMyOrderHistoryPage,
   type Page,
@@ -194,14 +192,14 @@ describe('FO - Account - Order details : Request merchandise return', async () =
 
       await foClassicMyOrderDetailsPage.requestMerchandiseReturn(page, 'Test merchandise returns');
 
-      const pageTitle = await foMerchandiseReturnsPage.getPageTitle(page);
-      expect(pageTitle).to.contains(foMerchandiseReturnsPage.pageTitle);
+      const pageTitle = await foClassicMyMerchandiseReturnsPage.getPageTitle(page);
+      expect(pageTitle).to.contains(foClassicMyMerchandiseReturnsPage.pageTitle);
     });
 
     it('should check the merchandise returns table', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'checkMerchandiseReturnsTable', baseContext);
 
-      const result = await foMerchandiseReturnsPage.getMerchandiseReturnsDetails(page);
+      const result = await foClassicMyMerchandiseReturnsPage.getMerchandiseReturnsDetails(page);
       await Promise.all([
         expect(result.orderReference).to.equal(orderReference),
         expect(result.fileName).to.contains('#RE'),

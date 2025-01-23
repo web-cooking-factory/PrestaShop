@@ -7,10 +7,6 @@ import {
 } from '@commonTests/BO/customerService/merchandiseReturns';
 import {enableHummingbird, disableHummingbird} from '@commonTests/BO/design/hummingbird';
 
-// Import pages
-// Import FO pages
-import {merchandiseReturnsPage as foMerchandiseReturnsPage} from '@pages/FO/classic/myAccount/merchandiseReturns';
-
 import {
   boDashboardPage,
   boInvoicesPage,
@@ -26,6 +22,7 @@ import {
   foHummingbirdHomePage,
   foHummingbirdLoginPage,
   foHummingbirdMyAccountPage,
+  foHummingbirdMyMerchandiseReturnsPage,
   foHummingbirdMyOrderDetailsPage,
   foHummingbirdMyOrderHistoryPage,
   type Page,
@@ -199,14 +196,14 @@ describe('FO - Account - Order details : Request merchandise return', async () =
 
       await foHummingbirdMyOrderDetailsPage.requestMerchandiseReturn(page, 'Test merchandise returns');
 
-      const pageTitle = await foMerchandiseReturnsPage.getPageTitle(page);
-      expect(pageTitle).to.contains(foMerchandiseReturnsPage.pageTitle);
+      const pageTitle = await foHummingbirdMyMerchandiseReturnsPage.getPageTitle(page);
+      expect(pageTitle).to.contains(foHummingbirdMyMerchandiseReturnsPage.pageTitle);
     });
 
     it('should check the merchandise returns table', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'checkMerchandiseReturnsTable', baseContext);
 
-      const result = await foMerchandiseReturnsPage.getMerchandiseReturnsDetails(page);
+      const result = await foHummingbirdMyMerchandiseReturnsPage.getMerchandiseReturnsDetails(page);
       await Promise.all([
         expect(result.orderReference).to.equal(orderReference),
         expect(result.fileName).to.contains('#RE'),
