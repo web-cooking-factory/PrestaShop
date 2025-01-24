@@ -1,10 +1,6 @@
 import testContext from '@utils/testContext';
 import {expect} from 'chai';
 
-// Import pages
-// Import BO pages
-import viewCartPage from '@pages/BO/orders/shoppingCarts/view';
-
 import {
   boAddressesCreatePage,
   boCustomersPage,
@@ -13,6 +9,7 @@ import {
   boDashboardPage,
   boLoginPage,
   boOrdersViewBlockCustomersPage,
+  boShoppingCartsViewPage,
   type BrowserContext,
   dataLanguages,
   dataOrderStatuses,
@@ -585,8 +582,8 @@ describe('BO - Customers - Customers : View information about customer', async (
 
       await boCustomersViewPage.goToPage(page, 'Carts');
 
-      const pageTitle = await viewCartPage.getPageTitle(page);
-      expect(pageTitle).to.contains(viewCartPage.pageTitle(idCart));
+      const pageTitle = await boShoppingCartsViewPage.getPageTitle(page);
+      expect(pageTitle).to.contains(boShoppingCartsViewPage.pageTitle(idCart));
     });
   });
 
@@ -595,10 +592,10 @@ describe('BO - Customers - Customers : View information about customer', async (
     it('should go to \'Customers > Customers\' page', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'goToCustomersPageToDelete', baseContext);
 
-      await viewCartPage.goToSubMenu(
+      await boShoppingCartsViewPage.goToSubMenu(
         page,
-        viewCartPage.customersParentLink,
-        viewCartPage.customersLink,
+        boShoppingCartsViewPage.customersParentLink,
+        boShoppingCartsViewPage.customersLink,
       );
 
       const pageTitle = await boCustomersPage.getPageTitle(page);
