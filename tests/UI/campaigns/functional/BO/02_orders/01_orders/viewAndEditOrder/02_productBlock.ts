@@ -9,10 +9,10 @@ import {enableEcoTaxTest, disableEcoTaxTest} from '@commonTests/BO/international
 import {createOrderByGuestTest} from '@commonTests/FO/classic/order';
 
 // Import BO pages
-import cartRulesPage from '@pages/BO/catalog/discounts';
 import addCartRulePage from '@pages/BO/catalog/discounts/add';
 
 import {
+  boCartRulesPage,
   boDashboardPage,
   boLoginPage,
   boOrdersPage,
@@ -378,14 +378,14 @@ describe('BO - Orders - View and edit order : Check product block in view order 
           boDashboardPage.discountsLink,
         );
 
-        const pageTitle = await cartRulesPage.getPageTitle(page);
-        expect(pageTitle).to.contains(cartRulesPage.pageTitle);
+        const pageTitle = await boCartRulesPage.getPageTitle(page);
+        expect(pageTitle).to.contains(boCartRulesPage.pageTitle);
       });
 
       it('should go to new cart rule page', async function () {
         await testContext.addContextItem(this, 'testIdentifier', 'goToNewCartRulePage', baseContext);
 
-        await cartRulesPage.goToAddNewCartRulesPage(page);
+        await boCartRulesPage.goToAddNewCartRulesPage(page);
 
         const pageTitle = await addCartRulePage.getPageTitle(page);
         expect(pageTitle).to.contains(addCartRulePage.pageTitle);

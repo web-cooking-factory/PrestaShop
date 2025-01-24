@@ -5,7 +5,6 @@ import testContext from '@utils/testContext';
 import {deleteCartRuleTest} from '@commonTests/BO/catalog/cartRule';
 
 // Import BO pages
-import cartRulesPage from '@pages/BO/catalog/discounts';
 import addCartRulePage from '@pages/BO/catalog/discounts/add';
 
 // Import FO pages
@@ -13,6 +12,7 @@ import {vouchersPage as foVouchersPage} from '@pages/FO/classic/myAccount/vouche
 import {blockCartModal} from '@pages/FO/classic/modal/blockCart';
 
 import {
+  boCartRulesPage,
   boDashboardPage,
   boLoginPage,
   type BrowserContext,
@@ -90,14 +90,14 @@ describe('BO - Catalog - Cart rules : Limit to single customer', async () => {
         boDashboardPage.discountsLink,
       );
 
-      const pageTitle = await cartRulesPage.getPageTitle(page);
-      expect(pageTitle).to.contains(cartRulesPage.pageTitle);
+      const pageTitle = await boCartRulesPage.getPageTitle(page);
+      expect(pageTitle).to.contains(boCartRulesPage.pageTitle);
     });
 
     it('should go to new cart rule page', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'goToNewCartRulePage', baseContext);
 
-      await cartRulesPage.goToAddNewCartRulesPage(page);
+      await boCartRulesPage.goToAddNewCartRulesPage(page);
 
       const pageTitle = await addCartRulePage.getPageTitle(page);
       expect(pageTitle).to.contains(addCartRulePage.pageTitle);

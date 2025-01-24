@@ -3,11 +3,11 @@ import testContext from '@utils/testContext';
 
 // Import pages
 // Import BO pages
-import cartRulesPage from '@pages/BO/catalog/discounts';
 import addCartRulePage from '@pages/BO/catalog/discounts/add';
 
 import {expect} from 'chai';
 import {
+  boCartRulesPage,
   boDashboardPage,
   boLoginPage,
   type BrowserContext,
@@ -78,8 +78,8 @@ describe('BO - Catalog - Cart rules : CRUD cart rule with/without code', async (
       boDashboardPage.discountsLink,
     );
 
-    const pageTitle = await cartRulesPage.getPageTitle(page);
-    expect(pageTitle).to.contains(cartRulesPage.pageTitle);
+    const pageTitle = await boCartRulesPage.getPageTitle(page);
+    expect(pageTitle).to.contains(boCartRulesPage.pageTitle);
   });
 
   describe('case 1 : Create cart rule without code then check it on FO', async () => {
@@ -87,7 +87,7 @@ describe('BO - Catalog - Cart rules : CRUD cart rule with/without code', async (
       it('should go to new cart rule page', async function () {
         await testContext.addContextItem(this, 'testIdentifier', 'goToNewCartRulePage', baseContext);
 
-        await cartRulesPage.goToAddNewCartRulesPage(page);
+        await boCartRulesPage.goToAddNewCartRulesPage(page);
 
         const pageTitle = await addCartRulePage.getPageTitle(page);
         expect(pageTitle).to.contains(addCartRulePage.pageTitle);
@@ -167,14 +167,14 @@ describe('BO - Catalog - Cart rules : CRUD cart rule with/without code', async (
         // Close tab and init other page objects with new current tab
         page = await foClassicHomePage.closePage(browserContext, page, 0);
 
-        const pageTitle = await cartRulesPage.getPageTitle(page);
-        expect(pageTitle).to.contains(cartRulesPage.pageTitle);
+        const pageTitle = await boCartRulesPage.getPageTitle(page);
+        expect(pageTitle).to.contains(boCartRulesPage.pageTitle);
       });
 
       it('should go to edit cart rule page', async function () {
         await testContext.addContextItem(this, 'testIdentifier', 'goToEditCartRulePage', baseContext);
 
-        await cartRulesPage.goToEditCartRulePage(page, 1);
+        await boCartRulesPage.goToEditCartRulePage(page, 1);
 
         const pageTitle = await addCartRulePage.getPageTitle(page);
         expect(pageTitle).to.contains(addCartRulePage.editPageTitle);
@@ -268,14 +268,14 @@ describe('BO - Catalog - Cart rules : CRUD cart rule with/without code', async (
         // Close tab and init other page objects with new current tab
         page = await foClassicHomePage.closePage(browserContext, page, 0);
 
-        const pageTitle = await cartRulesPage.getPageTitle(page);
-        expect(pageTitle).to.contains(cartRulesPage.pageTitle);
+        const pageTitle = await boCartRulesPage.getPageTitle(page);
+        expect(pageTitle).to.contains(boCartRulesPage.pageTitle);
       });
 
       it('should go to edit cart rule page', async function () {
         await testContext.addContextItem(this, 'testIdentifier', 'goToEditCartRulePage2', baseContext);
 
-        await cartRulesPage.goToEditCartRulePage(page, 1);
+        await boCartRulesPage.goToEditCartRulePage(page, 1);
 
         const pageTitle = await addCartRulePage.getPageTitle(page);
         expect(pageTitle).to.contains(addCartRulePage.editPageTitle);
@@ -374,15 +374,15 @@ describe('BO - Catalog - Cart rules : CRUD cart rule with/without code', async (
       // Close tab and init other page objects with new current tab
       page = await foClassicHomePage.closePage(browserContext, page, 0);
 
-      const pageTitle = await cartRulesPage.getPageTitle(page);
-      expect(pageTitle).to.contains(cartRulesPage.pageTitle);
+      const pageTitle = await boCartRulesPage.getPageTitle(page);
+      expect(pageTitle).to.contains(boCartRulesPage.pageTitle);
     });
 
     it('should delete cart rule', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'deleteCartRule', baseContext);
 
-      const validationMessage = await cartRulesPage.deleteCartRule(page);
-      expect(validationMessage).to.contains(cartRulesPage.successfulDeleteMessage);
+      const validationMessage = await boCartRulesPage.deleteCartRule(page);
+      expect(validationMessage).to.contains(boCartRulesPage.successfulDeleteMessage);
     });
   });
 });

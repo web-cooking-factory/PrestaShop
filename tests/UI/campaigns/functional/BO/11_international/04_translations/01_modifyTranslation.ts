@@ -6,7 +6,6 @@ import {enableHummingbird, disableHummingbird} from '@commonTests/BO/design/humm
 import {setupSmtpConfigTest, resetSmtpConfigTest} from '@commonTests/BO/advancedParameters/smtp';
 
 // Import BO pages
-import cartRulesPage from '@pages/BO/catalog/discounts';
 import addCartRulePage from '@pages/BO/catalog/discounts/add';
 import storesPage from '@pages/BO/shopParameters/stores';
 
@@ -14,6 +13,7 @@ import storesPage from '@pages/BO/shopParameters/stores';
 import {createAccountPage as foCreateAccountPage} from '@pages/FO/classic/myAccount/add';
 
 import {
+  boCartRulesPage,
   boDashboardPage,
   boLoginPage,
   boModuleManagerPage,
@@ -122,14 +122,14 @@ describe('BO - International - Translation : Modify translation', async () => {
         boDashboardPage.discountsLink,
       );
 
-      const pageTitle = await cartRulesPage.getPageTitle(page);
-      expect(pageTitle).to.contains(cartRulesPage.pageTitle);
+      const pageTitle = await boCartRulesPage.getPageTitle(page);
+      expect(pageTitle).to.contains(boCartRulesPage.pageTitle);
     });
 
     it('should go to new cart rule page', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'goToNewCartRulePage', baseContext);
 
-      await cartRulesPage.goToAddNewCartRulesPage(page);
+      await boCartRulesPage.goToAddNewCartRulesPage(page);
 
       const pageTitle = await addCartRulePage.getPageTitle(page);
       expect(pageTitle).to.contains(addCartRulePage.pageTitle);
@@ -503,14 +503,14 @@ describe('BO - International - Translation : Modify translation', async () => {
 
       await boDashboardPage.goToSubMenu(page, boDashboardPage.catalogParentLink, boDashboardPage.discountsLink);
 
-      const pageTitle = await cartRulesPage.getPageTitle(page);
-      expect(pageTitle).to.contains(cartRulesPage.pageTitle);
+      const pageTitle = await boCartRulesPage.getPageTitle(page);
+      expect(pageTitle).to.contains(boCartRulesPage.pageTitle);
     });
 
     it('should go to new cart rule page', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'goToNewCartRulePage2', baseContext);
 
-      await cartRulesPage.goToAddNewCartRulesPage(page);
+      await boCartRulesPage.goToAddNewCartRulesPage(page);
 
       const pageTitle = await addCartRulePage.getPageTitle(page);
       expect(pageTitle).to.contains(addCartRulePage.pageTitle);

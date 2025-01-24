@@ -3,10 +3,10 @@ import testContext from '@utils/testContext';
 
 // Import pages
 // Import BO pages
-import cartRulesPage from '@pages/BO/catalog/discounts';
 import addCartRulePage from '@pages/BO/catalog/discounts/add';
 
 import {
+  boCartRulesPage,
   boCurrenciesPage,
   boCurrenciesCreatePage,
   boDashboardPage,
@@ -123,15 +123,15 @@ describe(
           boCurrenciesCreatePage.discountsLink,
         );
 
-        const pageTitle = await cartRulesPage.getPageTitle(page);
-        expect(pageTitle).to.contains(cartRulesPage.pageTitle);
+        const pageTitle = await boCartRulesPage.getPageTitle(page);
+        expect(pageTitle).to.contains(boCartRulesPage.pageTitle);
       });
 
       describe('Create a percentage cart rule', async () => {
         it('should go to new cart rule page', async function () {
           await testContext.addContextItem(this, 'testIdentifier', 'goToNewCartRulePage1', baseContext);
 
-          await cartRulesPage.goToAddNewCartRulesPage(page);
+          await boCartRulesPage.goToAddNewCartRulesPage(page);
 
           const pageTitle = await addCartRulePage.getPageTitle(page);
           expect(pageTitle).to.contains(addCartRulePage.pageTitle);
@@ -149,7 +149,7 @@ describe(
         it('should go to new cart rule page', async function () {
           await testContext.addContextItem(this, 'testIdentifier', 'goToNewCartRulePage2', baseContext);
 
-          await cartRulesPage.goToAddNewCartRulesPage(page);
+          await boCartRulesPage.goToAddNewCartRulesPage(page);
 
           const pageTitle = await addCartRulePage.getPageTitle(page);
           expect(pageTitle).to.contains(addCartRulePage.pageTitle);
@@ -221,7 +221,7 @@ describe(
       it('should go to FO page', async function () {
         await testContext.addContextItem(this, 'testIdentifier', 'viewMyShop', baseContext);
 
-        page = await cartRulesPage.viewMyShop(page);
+        page = await boCartRulesPage.viewMyShop(page);
         await foClassicHomePage.changeLanguage(page, 'en');
 
         const isHomePage = await foClassicHomePage.isHomePage(page);
@@ -327,10 +327,10 @@ describe(
       it('should go to orders page', async function () {
         await testContext.addContextItem(this, 'testIdentifier', 'goToOrdersPage', baseContext);
 
-        await cartRulesPage.goToSubMenu(
+        await boCartRulesPage.goToSubMenu(
           page,
-          cartRulesPage.ordersParentLink,
-          cartRulesPage.ordersLink,
+          boCartRulesPage.ordersParentLink,
+          boCartRulesPage.ordersLink,
         );
 
         const pageTitle = await boOrdersPage.getPageTitle(page);
@@ -490,15 +490,15 @@ describe(
             boCurrenciesPage.discountsLink,
           );
 
-          const pageTitle = await cartRulesPage.getPageTitle(page);
-          expect(pageTitle).to.contains(cartRulesPage.pageTitle);
+          const pageTitle = await boCartRulesPage.getPageTitle(page);
+          expect(pageTitle).to.contains(boCartRulesPage.pageTitle);
         });
 
         it('should bulk delete cart rules', async function () {
           await testContext.addContextItem(this, 'testIdentifier', 'deleteCartRules', baseContext);
 
-          const deleteTextResult = await cartRulesPage.bulkDeleteCartRules(page);
-          expect(deleteTextResult).to.be.contains(cartRulesPage.successfulMultiDeleteMessage);
+          const deleteTextResult = await boCartRulesPage.bulkDeleteCartRules(page);
+          expect(deleteTextResult).to.be.contains(boCartRulesPage.successfulMultiDeleteMessage);
         });
       });
 
@@ -506,10 +506,10 @@ describe(
         it('should go to \'SQL Manager\' page', async function () {
           await testContext.addContextItem(this, 'testIdentifier', 'goToSqlManagerPageToDelete', baseContext);
 
-          await cartRulesPage.goToSubMenu(
+          await boCartRulesPage.goToSubMenu(
             page,
-            cartRulesPage.advancedParametersLink,
-            cartRulesPage.databaseLink,
+            boCartRulesPage.advancedParametersLink,
+            boCartRulesPage.databaseLink,
           );
 
           const pageTitle = await boSqlManagerPage.getPageTitle(page);

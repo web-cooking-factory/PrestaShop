@@ -5,10 +5,10 @@ import testContext from '@utils/testContext';
 import {createCartRuleTest, bulkDeleteCartRuleTest} from '@commonTests/BO/catalog/cartRule';
 
 // Import BO pages
-import cartRulesPage from '@pages/BO/catalog/discounts';
 import addCartRulePage from '@pages/BO/catalog/discounts/add';
 
 import {
+  boCartRulesPage,
   boDashboardPage,
   boLoginPage,
   boOrdersPage,
@@ -222,28 +222,28 @@ describe('BO - Orders - Create order : Search, add and remove voucher', async ()
         boDashboardPage.discountsLink,
       );
 
-      const pageTitle = await cartRulesPage.getPageTitle(page);
-      expect(pageTitle).to.contains(cartRulesPage.pageTitle);
+      const pageTitle = await boCartRulesPage.getPageTitle(page);
+      expect(pageTitle).to.contains(boCartRulesPage.pageTitle);
     });
 
     it('should reset and get number of cart rules', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'resetFilter', baseContext);
 
-      numberOfCartRules = await cartRulesPage.resetAndGetNumberOfLines(page);
+      numberOfCartRules = await boCartRulesPage.resetAndGetNumberOfLines(page);
       expect(numberOfCartRules).to.be.at.least(0);
     });
 
     it('should delete cart rule', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'deleteCartRule', baseContext);
 
-      const validationMessage = await cartRulesPage.deleteCartRule(page, 1, cartRuleWithoutCodeData.name);
-      expect(validationMessage).to.contains(cartRulesPage.successfulDeleteMessage);
+      const validationMessage = await boCartRulesPage.deleteCartRule(page, 1, cartRuleWithoutCodeData.name);
+      expect(validationMessage).to.contains(boCartRulesPage.successfulDeleteMessage);
     });
 
     it('should reset all filters', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'resetAfterBulkDelete', baseContext);
 
-      const numberOfCartRulesAfterDelete = await cartRulesPage.resetAndGetNumberOfLines(page);
+      const numberOfCartRulesAfterDelete = await boCartRulesPage.resetAndGetNumberOfLines(page);
       expect(numberOfCartRulesAfterDelete).to.equal(numberOfCartRules - 1);
     });
   });

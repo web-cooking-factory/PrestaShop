@@ -6,7 +6,6 @@ import addBrandAddressPage from '@pages/BO/catalog/brands/addAddress';
 import viewBrandPage from '@pages/BO/catalog/brands/view';
 import categoriesPage from '@pages/BO/catalog/categories';
 import addCategoryPage from '@pages/BO/catalog/categories/add';
-import cartRulesPage from '@pages/BO/catalog/discounts';
 import addCartRulePage from '@pages/BO/catalog/discounts/add';
 import catalogPriceRulesPage from '@pages/BO/catalog/discounts/catalogPriceRules';
 import addCatalogPriceRulePage from '@pages/BO/catalog/discounts/catalogPriceRules/add';
@@ -25,6 +24,7 @@ import {
   boAttributesPage,
   boAttributesCreatePage,
   boBrandsPage,
+  boCartRulesPage,
   boDashboardPage,
   boLoginPage,
   boMonitoringPage,
@@ -474,8 +474,8 @@ describe('BO - Catalog', async () => {
       boDashboardPage.discountsLink,
     );
 
-    const pageTitle = await cartRulesPage.getPageTitle(page);
-    expect(pageTitle).to.contains(cartRulesPage.pageTitle);
+    const pageTitle = await boCartRulesPage.getPageTitle(page);
+    expect(pageTitle).to.contains(boCartRulesPage.pageTitle);
 
     const jsErrors = utilsPlaywright.getJsErrors();
     expect(jsErrors.length).to.equals(0);
@@ -484,7 +484,7 @@ describe('BO - Catalog', async () => {
   it('should go to \'Catalog > Discounts > Cart Rules > Add new cart rule\' page', async function () {
     await testContext.addContextItem(this, 'testIdentifier', 'goToAddNewCartRulePage', baseContext);
 
-    await cartRulesPage.goToAddNewCartRulesPage(page);
+    await boCartRulesPage.goToAddNewCartRulesPage(page);
 
     const pageTitle = await addCartRulePage.getPageTitle(page);
     expect(pageTitle).to.contains(addCartRulePage.pageTitle);
@@ -501,7 +501,7 @@ describe('BO - Catalog', async () => {
       boDashboardPage.catalogParentLink,
       boDashboardPage.discountsLink,
     );
-    await cartRulesPage.goToCatalogPriceRulesTab(page);
+    await boCartRulesPage.goToCatalogPriceRulesTab(page);
 
     const pageTitle = await catalogPriceRulesPage.getPageTitle(page);
     expect(pageTitle).to.contains(catalogPriceRulesPage.pageTitle);

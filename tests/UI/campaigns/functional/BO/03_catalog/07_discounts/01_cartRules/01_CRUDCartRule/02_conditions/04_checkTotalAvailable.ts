@@ -6,10 +6,10 @@ import {deleteCartRuleTest} from '@commonTests/BO/catalog/cartRule';
 
 // Import pages
 // Import BO pages
-import cartRulesPage from '@pages/BO/catalog/discounts';
 import addCartRulePage from '@pages/BO/catalog/discounts/add';
 
 import {
+  boCartRulesPage,
   boDashboardPage,
   boLoginPage,
   type BrowserContext,
@@ -83,14 +83,14 @@ describe('BO - Catalog - Cart rules : Check Total available', async () => {
         boDashboardPage.discountsLink,
       );
 
-      const pageTitle = await cartRulesPage.getPageTitle(page);
-      expect(pageTitle).to.contains(cartRulesPage.pageTitle);
+      const pageTitle = await boCartRulesPage.getPageTitle(page);
+      expect(pageTitle).to.contains(boCartRulesPage.pageTitle);
     });
 
     it('should go to new cart rule page', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'goToNewCartRulePage', baseContext);
 
-      await cartRulesPage.goToAddNewCartRulesPage(page);
+      await boCartRulesPage.goToAddNewCartRulesPage(page);
 
       const pageTitle = await addCartRulePage.getPageTitle(page);
       expect(pageTitle).to.contains(addCartRulePage.pageTitle);
