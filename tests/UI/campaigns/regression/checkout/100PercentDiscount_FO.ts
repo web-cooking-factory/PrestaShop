@@ -1,13 +1,13 @@
 // Import utils
 import testContext from '@utils/testContext';
+import {expect} from 'chai';
 
-// Import BO pages
-import addCartRulePage from '@pages/BO/catalog/discounts/add';
 // Import FO pages
 import {blockCartModal} from '@pages/FO/classic/modal/blockCart';
 
 import {
   boCartRulesPage,
+  boCartRulesCreatePage,
   boDashboardPage,
   boLoginPage,
   boOrderSettingsPage,
@@ -24,8 +24,6 @@ import {
   type Page,
   utilsPlaywright,
 } from '@prestashop-core/ui-testing';
-
-import {expect} from 'chai';
 
 const baseContext: string = 'regression_checkout_100PercentDiscount_FO';
 
@@ -97,15 +95,15 @@ describe('Regression - Checkout: Create 100% discount with free shipping discoun
 
         await boCartRulesPage.goToAddNewCartRulesPage(page);
 
-        const pageTitle = await addCartRulePage.getPageTitle(page);
-        expect(pageTitle).to.contains(addCartRulePage.pageTitle);
+        const pageTitle = await boCartRulesCreatePage.getPageTitle(page);
+        expect(pageTitle).to.contains(boCartRulesCreatePage.pageTitle);
       });
 
       it('should create new cart rule', async function () {
         await testContext.addContextItem(this, 'testIdentifier', 'createPercentCartRule', baseContext);
 
-        const validationMessage = await addCartRulePage.createEditCartRules(page, percentCartRule);
-        expect(validationMessage).to.contains(addCartRulePage.successfulCreationMessage);
+        const validationMessage = await boCartRulesCreatePage.createEditCartRules(page, percentCartRule);
+        expect(validationMessage).to.contains(boCartRulesCreatePage.successfulCreationMessage);
       });
     });
 

@@ -1,14 +1,12 @@
-// Import utils
 import testContext from '@utils/testContext';
+import {expect} from 'chai';
 
 // Import common tests
 import {createCartRuleTest, bulkDeleteCartRuleTest} from '@commonTests/BO/catalog/cartRule';
 
-// Import BO pages
-import addCartRulePage from '@pages/BO/catalog/discounts/add';
-
 import {
   boCartRulesPage,
+  boCartRulesCreatePage,
   boDashboardPage,
   boLoginPage,
   boOrdersPage,
@@ -24,8 +22,6 @@ import {
   utilsDate,
   utilsPlaywright,
 } from '@prestashop-core/ui-testing';
-
-import {expect} from 'chai';
 
 const baseContext: string = 'functional_BO_orders_orders_createOrders_searchAddRemoveVoucher';
 
@@ -400,7 +396,7 @@ describe('BO - Orders - Create order : Search, add and remove voucher', async ()
     it('should create then search for the disabled voucher and check the error message', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'searchDisabledVoucher', baseContext);
 
-      await addCartRulePage.createEditCartRules(addVoucherPage!, disabledCartRuleData, false);
+      await boCartRulesCreatePage.createEditCartRules(addVoucherPage!, disabledCartRuleData, false);
 
       await boOrdersCreatePage.searchVoucher(page, disabledCartRuleData.name);
 
@@ -424,7 +420,7 @@ describe('BO - Orders - Create order : Search, add and remove voucher', async ()
       addVoucherPage = boOrdersCreatePage.getCreateVoucherIframe(page);
       expect(addVoucherPage).to.not.eq(null);
 
-      await addCartRulePage.createEditCartRules(addVoucherPage!, cartRuleWithGiftData, false);
+      await boCartRulesCreatePage.createEditCartRules(addVoucherPage!, cartRuleWithGiftData, false);
     });
 
     it('should search for the created voucher and check details', async function () {
@@ -519,7 +515,7 @@ describe('BO - Orders - Create order : Search, add and remove voucher', async ()
       addVoucherPage = boOrdersCreatePage.getCreateVoucherIframe(page);
       expect(addVoucherPage).to.not.eq(null);
 
-      await addCartRulePage.createEditCartRules(addVoucherPage!, cartRuleFreeShippingData, false);
+      await boCartRulesCreatePage.createEditCartRules(addVoucherPage!, cartRuleFreeShippingData, false);
     });
 
     it('should search for the created voucher and check details', async function () {

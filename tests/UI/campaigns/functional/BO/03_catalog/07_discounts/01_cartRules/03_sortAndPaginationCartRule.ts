@@ -1,12 +1,9 @@
-// Import utils
 import testContext from '@utils/testContext';
-
-// Import pages
-import addCartRulePage from '@pages/BO/catalog/discounts/add';
-
 import {expect} from 'chai';
+
 import {
   boCartRulesPage,
+  boCartRulesCreatePage,
   boDashboardPage,
   boLoginPage,
   type BrowserContext,
@@ -84,15 +81,15 @@ describe('BO - Catalog - Discounts : Sort and pagination cart rules', async () =
 
         await boCartRulesPage.goToAddNewCartRulesPage(page);
 
-        const pageTitle = await addCartRulePage.getPageTitle(page);
-        expect(pageTitle).to.contains(addCartRulePage.pageTitle);
+        const pageTitle = await boCartRulesCreatePage.getPageTitle(page);
+        expect(pageTitle).to.contains(boCartRulesCreatePage.pageTitle);
       });
 
       it(`should create cart rule n°${index + 1}`, async function () {
         await testContext.addContextItem(this, 'testIdentifier', `createCartRule${index}`, baseContext);
 
-        const validationMessage = await addCartRulePage.createEditCartRules(page, cartRuleData);
-        expect(validationMessage).to.contains(addCartRulePage.successfulCreationMessage);
+        const validationMessage = await boCartRulesCreatePage.createEditCartRules(page, cartRuleData);
+        expect(validationMessage).to.contains(boCartRulesCreatePage.successfulCreationMessage);
 
         const numberOfCartRulesAfterCreation = await boCartRulesPage.getNumberOfElementInGrid(page);
         expect(numberOfCartRulesAfterCreation).to.be.equal(numberOfCartRules + 1 + index);

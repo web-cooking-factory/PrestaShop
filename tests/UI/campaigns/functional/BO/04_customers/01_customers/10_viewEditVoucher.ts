@@ -1,13 +1,11 @@
-// Import utils
 import testContext from '@utils/testContext';
+import {expect} from 'chai';
 
 // Import commonTests
 import {createCartRuleTest} from '@commonTests/BO/catalog/cartRule';
 
-// Import pages
-import editRulesPage from '@pages/BO/catalog/discounts/add';
-
 import {
+  boCartRulesCreatePage,
   boCustomersPage,
   boCustomersViewPage,
   boDashboardPage,
@@ -18,8 +16,6 @@ import {
   type Page,
   utilsPlaywright,
 } from '@prestashop-core/ui-testing';
-
-import {expect} from 'chai';
 
 const baseContext: string = 'functional_BO_customers_customers_viewEditVoucher';
 
@@ -128,16 +124,16 @@ describe('BO - Customers - Customers : View/edit voucher', async () => {
 
       await boCustomersViewPage.goToPage(page, 'Vouchers');
 
-      const pageTitle = await editRulesPage.getPageTitle(page);
-      expect(pageTitle).to.contains(editRulesPage.editPageTitle);
+      const pageTitle = await boCartRulesCreatePage.getPageTitle(page);
+      expect(pageTitle).to.contains(boCartRulesCreatePage.editPageTitle);
     });
 
     it('should update the created cart rule', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'updateCartRule', baseContext);
 
-      await editRulesPage.fillInformationForm(page, editCartRuleData);
+      await boCartRulesCreatePage.fillInformationForm(page, editCartRuleData);
 
-      const validationMessage = await editRulesPage.saveCartRule(page);
+      const validationMessage = await boCartRulesCreatePage.saveCartRule(page);
       expect(validationMessage).to.contains(boCustomersViewPage.updateSuccessfulMessage);
     });
 

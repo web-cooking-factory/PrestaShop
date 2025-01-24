@@ -1,12 +1,13 @@
 // Import utils
 import testContext from '@utils/testContext';
+import {expect} from 'chai';
 
 // Import pages
-import addCartRulePage from '@pages/BO/catalog/discounts/add';
 import {vouchersPage as foVouchersPage} from '@pages/FO/classic/myAccount/vouchers';
 
 import {
   boCartRulesPage,
+  boCartRulesCreatePage,
   boDashboardPage,
   boLoginPage,
   type BrowserContext,
@@ -24,8 +25,6 @@ import {
   utilsDate,
   utilsPlaywright,
 } from '@prestashop-core/ui-testing';
-
-import {expect} from 'chai';
 
 const baseContext: string = 'functional_BO_catalog_discounts_cartRules_CRUDCartRule_information_enableDisablePartialUse';
 
@@ -99,15 +98,15 @@ describe('BO - Catalog - Cart rules : CRUD cart rule with enabled/disabled parti
 
         await boCartRulesPage.goToAddNewCartRulesPage(page);
 
-        const pageTitle = await addCartRulePage.getPageTitle(page);
-        expect(pageTitle).to.contains(addCartRulePage.pageTitle);
+        const pageTitle = await boCartRulesCreatePage.getPageTitle(page);
+        expect(pageTitle).to.contains(boCartRulesCreatePage.pageTitle);
       });
 
       it('should create cart rule', async function () {
         await testContext.addContextItem(this, 'testIdentifier', 'createCartRule2', baseContext);
 
-        const validationMessage = await addCartRulePage.createEditCartRules(page, cartRuleEnabledPartialUse);
-        expect(validationMessage).to.contains(addCartRulePage.successfulCreationMessage);
+        const validationMessage = await boCartRulesCreatePage.createEditCartRules(page, cartRuleEnabledPartialUse);
+        expect(validationMessage).to.contains(boCartRulesCreatePage.successfulCreationMessage);
       });
     });
 
@@ -116,7 +115,7 @@ describe('BO - Catalog - Cart rules : CRUD cart rule with enabled/disabled parti
         await testContext.addContextItem(this, 'testIdentifier', 'viewMyShop1', baseContext);
 
         // View my shop and init pages
-        page = await addCartRulePage.viewMyShop(page);
+        page = await boCartRulesCreatePage.viewMyShop(page);
         await foClassicHomePage.changeLanguage(page, 'en');
 
         const isHomePage = await foClassicHomePage.isHomePage(page);
@@ -261,14 +260,14 @@ describe('BO - Catalog - Cart rules : CRUD cart rule with enabled/disabled parti
 
         await boCartRulesPage.goToEditCartRulePage(page, 1);
 
-        const pageTitle = await addCartRulePage.getPageTitle(page);
-        expect(pageTitle).to.contains(addCartRulePage.editPageTitle);
+        const pageTitle = await boCartRulesCreatePage.getPageTitle(page);
+        expect(pageTitle).to.contains(boCartRulesCreatePage.editPageTitle);
       });
 
       it('should check the cart rule limit customer', async function () {
         await testContext.addContextItem(this, 'testIdentifier', 'checkCartRuleCustomer', baseContext);
 
-        const customer = await addCartRulePage.getLimitSingleCustomer(page);
+        const customer = await boCartRulesCreatePage.getLimitSingleCustomer(page);
         expect(customer).to.equal(
           `${dataCustomers.johnDoe.firstName} ${dataCustomers.johnDoe.lastName} (${dataCustomers.johnDoe.email})`);
       });
@@ -276,7 +275,7 @@ describe('BO - Catalog - Cart rules : CRUD cart rule with enabled/disabled parti
       it('should check the cart rule amount value', async function () {
         await testContext.addContextItem(this, 'testIdentifier', 'checkCartRuleAmountValue', baseContext);
 
-        const amount = await addCartRulePage.getAmountValue(page);
+        const amount = await boCartRulesCreatePage.getAmountValue(page);
         expect(amount).to.equal(amountValue.toString());
       });
     });
@@ -285,7 +284,7 @@ describe('BO - Catalog - Cart rules : CRUD cart rule with enabled/disabled parti
       it('should click on cancel button', async function () {
         await testContext.addContextItem(this, 'testIdentifier', 'clickOnCancelButton', baseContext);
 
-        await addCartRulePage.clickOnCancelButton(page);
+        await boCartRulesCreatePage.clickOnCancelButton(page);
 
         const pageTitle = await boCartRulesPage.getPageTitle(page);
         expect(pageTitle).to.contains(boCartRulesPage.pageTitle);
@@ -307,15 +306,15 @@ describe('BO - Catalog - Cart rules : CRUD cart rule with enabled/disabled parti
 
         await boCartRulesPage.goToAddNewCartRulesPage(page);
 
-        const pageTitle = await addCartRulePage.getPageTitle(page);
-        expect(pageTitle).to.contains(addCartRulePage.pageTitle);
+        const pageTitle = await boCartRulesCreatePage.getPageTitle(page);
+        expect(pageTitle).to.contains(boCartRulesCreatePage.pageTitle);
       });
 
       it('should create cart rule', async function () {
         await testContext.addContextItem(this, 'testIdentifier', 'createCartRule1', baseContext);
 
-        const validationMessage = await addCartRulePage.createEditCartRules(page, cartRuleDisabledPartialUse);
-        expect(validationMessage).to.contains(addCartRulePage.successfulCreationMessage);
+        const validationMessage = await boCartRulesCreatePage.createEditCartRules(page, cartRuleDisabledPartialUse);
+        expect(validationMessage).to.contains(boCartRulesCreatePage.successfulCreationMessage);
       });
     });
 
@@ -324,7 +323,7 @@ describe('BO - Catalog - Cart rules : CRUD cart rule with enabled/disabled parti
         await testContext.addContextItem(this, 'testIdentifier', 'viewMyShop2', baseContext);
 
         // View my shop and init pages
-        page = await addCartRulePage.viewMyShop(page);
+        page = await boCartRulesCreatePage.viewMyShop(page);
         await foClassicHomePage.changeLanguage(page, 'en');
 
         const isHomePage = await foClassicHomePage.isHomePage(page);

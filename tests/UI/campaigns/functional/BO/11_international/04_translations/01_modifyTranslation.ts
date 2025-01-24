@@ -1,12 +1,11 @@
-// Import utils
 import testContext from '@utils/testContext';
+import {expect} from 'chai';
 
 // Import commonTests
 import {enableHummingbird, disableHummingbird} from '@commonTests/BO/design/hummingbird';
 import {setupSmtpConfigTest, resetSmtpConfigTest} from '@commonTests/BO/advancedParameters/smtp';
 
 // Import BO pages
-import addCartRulePage from '@pages/BO/catalog/discounts/add';
 import storesPage from '@pages/BO/shopParameters/stores';
 
 // Import FO pages classic theme
@@ -14,6 +13,7 @@ import {createAccountPage as foCreateAccountPage} from '@pages/FO/classic/myAcco
 
 import {
   boCartRulesPage,
+  boCartRulesCreatePage,
   boDashboardPage,
   boLoginPage,
   boModuleManagerPage,
@@ -34,8 +34,6 @@ import {
   utilsMail,
   utilsPlaywright,
 } from '@prestashop-core/ui-testing';
-
-import {expect} from 'chai';
 
 const baseContext: string = 'functional_BO_international_translations_modifyTranslation';
 
@@ -131,14 +129,14 @@ describe('BO - International - Translation : Modify translation', async () => {
 
       await boCartRulesPage.goToAddNewCartRulesPage(page);
 
-      const pageTitle = await addCartRulePage.getPageTitle(page);
-      expect(pageTitle).to.contains(addCartRulePage.pageTitle);
+      const pageTitle = await boCartRulesCreatePage.getPageTitle(page);
+      expect(pageTitle).to.contains(boCartRulesCreatePage.pageTitle);
     });
 
     it('should check that the button name is equal to \'Generate code\'', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'checkButtonName', baseContext);
 
-      const buttonName = await addCartRulePage.getGenerateButtonName(page);
+      const buttonName = await boCartRulesCreatePage.getGenerateButtonName(page);
       expect(buttonName).to.equal('Generate code');
     });
   });
@@ -512,14 +510,14 @@ describe('BO - International - Translation : Modify translation', async () => {
 
       await boCartRulesPage.goToAddNewCartRulesPage(page);
 
-      const pageTitle = await addCartRulePage.getPageTitle(page);
-      expect(pageTitle).to.contains(addCartRulePage.pageTitle);
+      const pageTitle = await boCartRulesCreatePage.getPageTitle(page);
+      expect(pageTitle).to.contains(boCartRulesCreatePage.pageTitle);
     });
 
     it('should go to ACTIONS tab and verify the translation of the title', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'verifyTranslation', baseContext);
 
-      const title = await addCartRulePage.getTitleOfExcludeDiscountedProduct(page);
+      const title = await boCartRulesCreatePage.getTitleOfExcludeDiscountedProduct(page);
       expect(title).to.eq('The voucher is available only for new products');
     });
   });

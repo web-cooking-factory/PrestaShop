@@ -1,13 +1,9 @@
-// Import utils
 import testContext from '@utils/testContext';
-
-// Import pages
-// Import BO pages
-import addCartRulePage from '@pages/BO/catalog/discounts/add';
-
 import {expect} from 'chai';
+
 import {
   boCartRulesPage,
+  boCartRulesCreatePage,
   boDashboardPage,
   boLoginPage,
   type BrowserContext,
@@ -89,15 +85,15 @@ describe('BO - Catalog - Cart rules : CRUD cart rule with/without code', async (
 
         await boCartRulesPage.goToAddNewCartRulesPage(page);
 
-        const pageTitle = await addCartRulePage.getPageTitle(page);
-        expect(pageTitle).to.contains(addCartRulePage.pageTitle);
+        const pageTitle = await boCartRulesCreatePage.getPageTitle(page);
+        expect(pageTitle).to.contains(boCartRulesCreatePage.pageTitle);
       });
 
       it('should create cart rule', async function () {
         await testContext.addContextItem(this, 'testIdentifier', 'createCartRule', baseContext);
 
-        const validationMessage = await addCartRulePage.createEditCartRules(page, cartRuleWithoutCode);
-        expect(validationMessage).to.contains(addCartRulePage.successfulCreationMessage);
+        const validationMessage = await boCartRulesCreatePage.createEditCartRules(page, cartRuleWithoutCode);
+        expect(validationMessage).to.contains(boCartRulesCreatePage.successfulCreationMessage);
       });
     });
 
@@ -106,7 +102,7 @@ describe('BO - Catalog - Cart rules : CRUD cart rule with/without code', async (
         await testContext.addContextItem(this, 'testIdentifier', 'viewMyShop1', baseContext);
 
         // View my shop and init pages
-        page = await addCartRulePage.viewMyShop(page);
+        page = await boCartRulesCreatePage.viewMyShop(page);
         await foClassicHomePage.changeLanguage(page, 'en');
 
         const isHomePage = await foClassicHomePage.isHomePage(page);
@@ -176,15 +172,15 @@ describe('BO - Catalog - Cart rules : CRUD cart rule with/without code', async (
 
         await boCartRulesPage.goToEditCartRulePage(page, 1);
 
-        const pageTitle = await addCartRulePage.getPageTitle(page);
-        expect(pageTitle).to.contains(addCartRulePage.editPageTitle);
+        const pageTitle = await boCartRulesCreatePage.getPageTitle(page);
+        expect(pageTitle).to.contains(boCartRulesCreatePage.editPageTitle);
       });
 
       it('should update cart rule', async function () {
         await testContext.addContextItem(this, 'testIdentifier', 'updateCartRule', baseContext);
 
-        const validationMessage = await addCartRulePage.createEditCartRules(page, cartRuleWithCode);
-        expect(validationMessage).to.contains(addCartRulePage.successfulUpdateMessage);
+        const validationMessage = await boCartRulesCreatePage.createEditCartRules(page, cartRuleWithCode);
+        expect(validationMessage).to.contains(boCartRulesCreatePage.successfulUpdateMessage);
       });
     });
 
@@ -193,7 +189,7 @@ describe('BO - Catalog - Cart rules : CRUD cart rule with/without code', async (
         await testContext.addContextItem(this, 'testIdentifier', 'viewMyShop2', baseContext);
 
         // View my shop and init pages
-        page = await addCartRulePage.viewMyShop(page);
+        page = await boCartRulesCreatePage.viewMyShop(page);
         await foClassicHomePage.changeLanguage(page, 'en');
 
         const isHomePage = await foClassicHomePage.isHomePage(page);
@@ -277,15 +273,15 @@ describe('BO - Catalog - Cart rules : CRUD cart rule with/without code', async (
 
         await boCartRulesPage.goToEditCartRulePage(page, 1);
 
-        const pageTitle = await addCartRulePage.getPageTitle(page);
-        expect(pageTitle).to.contains(addCartRulePage.editPageTitle);
+        const pageTitle = await boCartRulesCreatePage.getPageTitle(page);
+        expect(pageTitle).to.contains(boCartRulesCreatePage.editPageTitle);
       });
 
       it('should update cart rule', async function () {
         await testContext.addContextItem(this, 'testIdentifier', 'updateCartRule2', baseContext);
 
-        const validationMessage = await addCartRulePage.createEditCartRules(page, secondCartRuleWithCode);
-        expect(validationMessage).to.contains(addCartRulePage.successfulUpdateMessage);
+        const validationMessage = await boCartRulesCreatePage.createEditCartRules(page, secondCartRuleWithCode);
+        expect(validationMessage).to.contains(boCartRulesCreatePage.successfulUpdateMessage);
       });
     });
 
@@ -294,7 +290,7 @@ describe('BO - Catalog - Cart rules : CRUD cart rule with/without code', async (
         await testContext.addContextItem(this, 'testIdentifier', 'viewMyShop3', baseContext);
 
         // View my shop and init pages
-        page = await addCartRulePage.viewMyShop(page);
+        page = await boCartRulesCreatePage.viewMyShop(page);
         await foClassicHomePage.changeLanguage(page, 'en');
 
         const isHomePage = await foClassicHomePage.isHomePage(page);
