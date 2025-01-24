@@ -4,15 +4,12 @@ import {expect} from 'chai';
 // Import commonTests
 import {createOrderByCustomerTest} from '@commonTests/FO/classic/order';
 
-// Import pages
-// Import BO pages
-import orderMessagesPage from '@pages/BO/customerService/orderMessages';
-
 import {
   boDashboardPage,
   boLoginPage,
   boOrdersPage,
   boOrdersViewBlockMessagesPage,
+  boOrderMessagesPage,
   type BrowserContext,
   dataCustomers,
   dataEmployees,
@@ -397,8 +394,8 @@ describe('BO - Orders - View and edit order : Check messages block', async () =>
 
       await boOrdersViewBlockMessagesPage.clickOnConfigureMessageLink(page);
 
-      const pageTitle = await orderMessagesPage.getPageTitle(page);
-      expect(pageTitle, 'Order messages page is not opened!').to.contains(orderMessagesPage.pageTitle);
+      const pageTitle = await boOrderMessagesPage.getPageTitle(page);
+      expect(pageTitle, 'Order messages page is not opened!').to.contains(boOrderMessagesPage.pageTitle);
     });
   });
 });
