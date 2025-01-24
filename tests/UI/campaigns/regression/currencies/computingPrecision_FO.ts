@@ -32,7 +32,6 @@ import {
   utilsPlaywright,
 } from '@prestashop-core/ui-testing';
 
-
 const baseContext: string = 'regression_currencies_computingPrecision_FO';
 
 // Browser and tab;
