@@ -8,10 +8,10 @@ import {createOrderByCustomerTest, createOrderByGuestTest} from '@commonTests/FO
 
 // Import pages
 import viewOrderMessagePage from '@pages/BO/customerService/orderMessages/add';
-import viewCustomerPage from '@pages/BO/customers/view';
 
 import {
   boCustomerServicePage,
+  boCustomersViewPage,
   boDashboardPage,
   boLoginPage,
   boOrdersPage,
@@ -271,8 +271,8 @@ describe('BO - Header : Check notifications', async () => {
 
       const customerName: string = `${customerData.firstName[0]}. ${customerData.lastName}`;
 
-      const pageTitle = await viewCustomerPage.getPageTitle(page);
-      expect(pageTitle).to.contains(viewCustomerPage.pageTitle(customerName));
+      const pageTitle = await boCustomersViewPage.getPageTitle(page);
+      expect(pageTitle).to.contains(boCustomersViewPage.pageTitle(customerName));
     });
   });
 });

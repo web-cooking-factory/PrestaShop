@@ -1,5 +1,4 @@
 import {expect} from 'chai';
-import viewCustomerPage from '@pages/BO/customers/view';
 import addressesPage from '@pages/BO/customers/addresses';
 import testContext from '@utils/testContext';
 
@@ -7,6 +6,7 @@ import {
   boAddressesCreatePage,
   boCustomersPage,
   boCustomersCreatePage,
+  boCustomersViewPage,
   boDashboardPage,
   boLoginPage,
   type BrowserContext,
@@ -66,8 +66,8 @@ describe('BO - Customers', async () => {
 
     await boCustomersPage.goToViewCustomerPage(page, 1);
 
-    const pageTitle = await viewCustomerPage.getPageTitle(page);
-    expect(pageTitle).to.contains(viewCustomerPage.pageTitle('J. DOE'));
+    const pageTitle = await boCustomersViewPage.getPageTitle(page);
+    expect(pageTitle).to.contains(boCustomersViewPage.pageTitle('J. DOE'));
 
     const jsErrors = utilsPlaywright.getJsErrors();
     expect(jsErrors.length).to.equals(0);
@@ -76,7 +76,7 @@ describe('BO - Customers', async () => {
   it('should go to \'Customers > Customers > Edit Customer\' page', async function () {
     await testContext.addContextItem(this, 'testIdentifier', 'goToCustomerEditPage', baseContext);
 
-    await viewCustomerPage.goToEditCustomerPage(page);
+    await boCustomersViewPage.goToEditCustomerPage(page);
 
     const pageTitle = await boCustomersCreatePage.getPageTitle(page);
     expect(pageTitle).to.contains(boCustomersCreatePage.pageTitleEdit);

@@ -5,14 +5,13 @@ import {expect} from 'chai';
 import {deleteCustomerTest} from '@commonTests/BO/customers/customer';
 import {enableHummingbird, disableHummingbird} from '@commonTests/BO/design/hummingbird';
 
-// Import BO pages
-import viewCustomerPage from '@pages/BO/customers/view';
 // Import FO pages
 import createAccountPage from '@pages/FO/hummingbird/myAccount/add';
 import gdprPersonalDataPage from '@pages/FO/hummingbird/myAccount/gdprPersonalData';
 
 import {
   boCustomersPage,
+  boCustomersViewPage,
   boCustomerServicePage,
   boDashboardPage,
   boLoginPage,
@@ -227,14 +226,14 @@ describe('FO - Account : Get GDPR data in CSV', async () => {
 
         await boCustomersPage.goToViewCustomerPage(page, 1);
 
-        const pageTitle = await viewCustomerPage.getPageTitle(page);
-        expect(pageTitle).to.contains(viewCustomerPage.pageTitle(createCustomerName));
+        const pageTitle = await boCustomersViewPage.getPageTitle(page);
+        expect(pageTitle).to.contains(boCustomersViewPage.pageTitle(createCustomerName));
       });
 
       it('should get last connections ip address', async function () {
         await testContext.addContextItem(this, 'testIdentifier', 'checkLAstConnections', baseContext);
 
-        ipAddress = await viewCustomerPage.getTextColumnFromTableLastConnections(page, 'ip-address');
+        ipAddress = await boCustomersViewPage.getTextColumnFromTableLastConnections(page, 'ip-address');
         expect(ipAddress).to.not.eq(null);
       });
     });
@@ -924,14 +923,14 @@ describe('FO - Account : Get GDPR data in CSV', async () => {
 
         await boCustomersPage.goToViewCustomerPage(page, 1);
 
-        const pageTitle = await viewCustomerPage.getPageTitle(page);
-        expect(pageTitle).to.contains(viewCustomerPage.pageTitle(createCustomerName));
+        const pageTitle = await boCustomersViewPage.getPageTitle(page);
+        expect(pageTitle).to.contains(boCustomersViewPage.pageTitle(createCustomerName));
       });
 
       it('should get last connections origin', async function () {
         await testContext.addContextItem(this, 'testIdentifier', 'getLastConnectionsOrigin', baseContext);
 
-        connectionOrigin = await viewCustomerPage.getTextColumnFromTableLastConnections(page, 'origin', 1);
+        connectionOrigin = await boCustomersViewPage.getTextColumnFromTableLastConnections(page, 'origin', 1);
         if (connectionOrigin === 'Direct link') {
           connectionOrigin = '';
         } else if (connectionOrigin === 'localhost') {

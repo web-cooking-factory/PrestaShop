@@ -8,10 +8,10 @@ import {createOrderByCustomerTest} from '@commonTests/FO/classic/order';
 
 // Import BO pages
 import addressesPage from '@pages/BO/customers/addresses';
-import viewCustomerPage from '@pages/BO/customers/view';
 
 import {
   boCustomersPage,
+  boCustomersViewPage,
   boDashboardPage,
   boLoginPage,
   boOrdersPage,
@@ -273,7 +273,7 @@ describe('BO - Orders - View and edit order : Check and edit customer block', as
 
       await boOrdersViewBlockCustomersPage.goToViewFullDetails(page);
 
-      const pageTitle = await viewCustomerPage.getPageTitle(page);
+      const pageTitle = await boCustomersViewPage.getPageTitle(page);
       expect(pageTitle).to.contains(customerData.lastName);
     });
 

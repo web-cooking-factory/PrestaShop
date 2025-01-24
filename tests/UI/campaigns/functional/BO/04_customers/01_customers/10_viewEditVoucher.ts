@@ -5,11 +5,11 @@ import testContext from '@utils/testContext';
 import {createCartRuleTest} from '@commonTests/BO/catalog/cartRule';
 
 // Import pages
-import viewCustomerPage from '@pages/BO/customers/view';
 import editRulesPage from '@pages/BO/catalog/discounts/add';
 
 import {
   boCustomersPage,
+  boCustomersViewPage,
   boDashboardPage,
   boLoginPage,
   type BrowserContext,
@@ -103,21 +103,21 @@ describe('BO - Customers - Customers : View/edit voucher', async () => {
 
       await boCustomersPage.goToViewCustomerPage(page, 1);
 
-      const pageTitle = await viewCustomerPage.getPageTitle(page);
-      expect(pageTitle).to.contains(viewCustomerPage.pageTitle('J. DOE'));
+      const pageTitle = await boCustomersViewPage.getPageTitle(page);
+      expect(pageTitle).to.contains(boCustomersViewPage.pageTitle('J. DOE'));
     });
 
     it('should check vouchers number', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'checkVouchersNumber', baseContext);
 
-      const cardHeaderText = await viewCustomerPage.getNumberOfElementFromTitle(page, 'Vouchers');
+      const cardHeaderText = await boCustomersViewPage.getNumberOfElementFromTitle(page, 'Vouchers');
       expect(cardHeaderText).to.eq('1');
     });
 
     it('should check vouchers table', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'checkVouchersTable', baseContext);
 
-      const vouchers = await viewCustomerPage.getTextFromElement(page, 'Vouchers');
+      const vouchers = await boCustomersViewPage.getTextFromElement(page, 'Vouchers');
       expect(vouchers).to.contains(`${newCartRuleData.name} check 1`);
     });
   });
@@ -126,7 +126,7 @@ describe('BO - Customers - Customers : View/edit voucher', async () => {
     it('should click on edit voucher button', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'clickOnEditVoucherButton', baseContext);
 
-      await viewCustomerPage.goToPage(page, 'Vouchers');
+      await boCustomersViewPage.goToPage(page, 'Vouchers');
 
       const pageTitle = await editRulesPage.getPageTitle(page);
       expect(pageTitle).to.contains(editRulesPage.editPageTitle);
@@ -138,14 +138,14 @@ describe('BO - Customers - Customers : View/edit voucher', async () => {
       await editRulesPage.fillInformationForm(page, editCartRuleData);
 
       const validationMessage = await editRulesPage.saveCartRule(page);
-      expect(validationMessage).to.contains(viewCustomerPage.updateSuccessfulMessage);
+      expect(validationMessage).to.contains(boCustomersViewPage.updateSuccessfulMessage);
     });
 
     it('should delete the created voucher', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'deleteVoucher', baseContext);
 
-      const successMessage = await viewCustomerPage.deleteVoucher(page, 1);
-      expect(successMessage).to.contains(viewCustomerPage.successfulDeleteMessage);
+      const successMessage = await boCustomersViewPage.deleteVoucher(page, 1);
+      expect(successMessage).to.contains(boCustomersViewPage.successfulDeleteMessage);
     });
 
     it('should go to Customers page', async function () {
