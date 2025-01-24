@@ -2,8 +2,6 @@ import testContext from '@utils/testContext';
 import {expect} from 'chai';
 
 // Import pages
-// Import BO pages
-import editMerchandiseReturnsPage from '@pages/BO/customerService/merchandiseReturns/edit';
 // Import FO pages
 import {blockCartModal} from '@pages/FO/classic/modal/blockCart';
 
@@ -11,6 +9,7 @@ import {
   boDashboardPage,
   boLoginPage,
   boMerchandiseReturnsPage,
+  boMerchandiseReturnsEditPage,
   boOrdersPage,
   boOrdersViewBasePage,
   type BrowserContext,
@@ -291,25 +290,25 @@ describe('BO - Customer Service - Merchandise Returns : Delete product', async (
 
         await boMerchandiseReturnsPage.goToMerchandiseReturnPage(page);
 
-        const pageTitle = await editMerchandiseReturnsPage.getPageTitle(page);
-        expect(pageTitle).to.contains(editMerchandiseReturnsPage.pageTitle);
+        const pageTitle = await boMerchandiseReturnsEditPage.getPageTitle(page);
+        expect(pageTitle).to.contains(boMerchandiseReturnsEditPage.pageTitle);
       });
 
       it('should delete the first returned product', async function () {
         await testContext.addContextItem(this, 'testIdentifier', `deleteFirstProduct${index}`, baseContext);
 
-        const successMessage = await editMerchandiseReturnsPage.deleteProduct(page, 1);
-        expect(successMessage).to.contains(editMerchandiseReturnsPage.successfulUpdateMessage);
+        const successMessage = await boMerchandiseReturnsEditPage.deleteProduct(page, 1);
+        expect(successMessage).to.contains(boMerchandiseReturnsEditPage.successfulUpdateMessage);
 
-        const pageTitle = await editMerchandiseReturnsPage.getPageTitle(page);
-        expect(pageTitle).to.contains(editMerchandiseReturnsPage.pageTitle);
+        const pageTitle = await boMerchandiseReturnsEditPage.getPageTitle(page);
+        expect(pageTitle).to.contains(boMerchandiseReturnsEditPage.pageTitle);
       });
     });
 
     it('should try to delete the last returned product and check the error message', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'deleteLastProduct', baseContext);
 
-      const errorMessage = await editMerchandiseReturnsPage.clickOnDeleteLastProductButton(page);
+      const errorMessage = await boMerchandiseReturnsEditPage.clickOnDeleteLastProductButton(page);
       expect(errorMessage).to.contains(boMerchandiseReturnsPage.errorDeletionMessage);
     });
   });

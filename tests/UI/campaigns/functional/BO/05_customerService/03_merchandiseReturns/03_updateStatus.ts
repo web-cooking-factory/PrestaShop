@@ -6,14 +6,11 @@ import {disableMerchandiseReturns, enableMerchandiseReturns} from '@commonTests/
 import {resetSmtpConfigTest, setupSmtpConfigTest} from '@commonTests/BO/advancedParameters/smtp';
 import {createOrderByCustomerTest} from '@commonTests/FO/classic/order';
 
-// Import pages
-// Import BO pages
-import editMerchandiseReturnsPage from '@pages/BO/customerService/merchandiseReturns/edit';
-
 import {
   boDashboardPage,
   boLoginPage,
   boMerchandiseReturnsPage,
+  boMerchandiseReturnsEditPage,
   boOrdersPage,
   boOrdersViewBasePage,
   type BrowserContext,
@@ -257,15 +254,15 @@ describe('BO - Customer Service - Merchandise Returns : Update status', async ()
 
           await boMerchandiseReturnsPage.goToMerchandiseReturnPage(page);
 
-          const pageTitle = await editMerchandiseReturnsPage.getPageTitle(page);
-          expect(pageTitle).to.contains(editMerchandiseReturnsPage.pageTitle);
+          const pageTitle = await boMerchandiseReturnsEditPage.getPageTitle(page);
+          expect(pageTitle).to.contains(boMerchandiseReturnsEditPage.pageTitle);
         });
 
         it('should update the status', async function () {
           await testContext.addContextItem(this, 'testIdentifier', `editStatus${index}`, baseContext);
 
-          const textResult = await editMerchandiseReturnsPage.setStatus(page, test.args.status, true);
-          expect(textResult).to.contains(editMerchandiseReturnsPage.successfulUpdateMessage);
+          const textResult = await boMerchandiseReturnsEditPage.setStatus(page, test.args.status, true);
+          expect(textResult).to.contains(boMerchandiseReturnsEditPage.successfulUpdateMessage);
         });
 
         it('should check the confirmation email subject', async function () {
@@ -289,7 +286,7 @@ describe('BO - Customer Service - Merchandise Returns : Update status', async ()
           it('should download and check the existence of the PDF print out file', async function () {
             await testContext.addContextItem(this, 'testIdentifier', 'checkPDF', baseContext);
 
-            filePath = await editMerchandiseReturnsPage.downloadPDF(page);
+            filePath = await boMerchandiseReturnsEditPage.downloadPDF(page);
 
             const exist = await utilsFile.doesFileExist(filePath);
             expect(exist, 'File does not exist').to.eq(true);
@@ -298,7 +295,7 @@ describe('BO - Customer Service - Merchandise Returns : Update status', async ()
           it('should check the file name', async function () {
             await testContext.addContextItem(this, 'testIdentifier', 'checkFileName', baseContext);
 
-            const fileName = await editMerchandiseReturnsPage.getFileName(page);
+            const fileName = await boMerchandiseReturnsEditPage.getFileName(page);
             expect(fileName).to.eq('Print out');
           });
 
@@ -360,14 +357,14 @@ describe('BO - Customer Service - Merchandise Returns : Update status', async ()
           it('should check that the file is not existing', async function () {
             await testContext.addContextItem(this, 'testIdentifier', `checkFileNotExisting${index}`, baseContext);
 
-            const fileName = await editMerchandiseReturnsPage.getFileName(page);
+            const fileName = await boMerchandiseReturnsEditPage.getFileName(page);
             expect(fileName).to.eq('--');
           });
         }
         it('should click on cancel button', async function () {
           await testContext.addContextItem(this, 'testIdentifier', `clickOnCancelButton${index}`, baseContext);
 
-          await editMerchandiseReturnsPage.clickOnCancelButton(page);
+          await boMerchandiseReturnsEditPage.clickOnCancelButton(page);
 
           const pageTitle = await boMerchandiseReturnsPage.getPageTitle(page);
           expect(pageTitle).to.contains(boMerchandiseReturnsPage.pageTitle);

@@ -7,8 +7,6 @@ import {createOrderByCustomerTest} from '@commonTests/FO/hummingbird/order';
 import {enableHummingbird, disableHummingbird} from '@commonTests/BO/design/hummingbird';
 
 // Import pages
-// Import BO pages
-import editMerchandiseReturnsPage from '@pages/BO/customerService/merchandiseReturns/edit';
 // Import FO pages
 import returnDetailsPage from '@pages/FO/hummingbird/myAccount/returnDetails';
 
@@ -16,6 +14,7 @@ import {
   boDashboardPage,
   boLoginPage,
   boMerchandiseReturnsPage,
+  boMerchandiseReturnsEditPage,
   boOrdersPage,
   boOrdersViewBasePage,
   type BrowserContext,
@@ -361,15 +360,15 @@ describe('FO - Account : Consult return details', async () => {
 
           await boMerchandiseReturnsPage.goToMerchandiseReturnPage(page);
 
-          const pageTitle = await editMerchandiseReturnsPage.getPageTitle(page);
-          expect(pageTitle).to.contains(editMerchandiseReturnsPage.pageTitle);
+          const pageTitle = await boMerchandiseReturnsEditPage.getPageTitle(page);
+          expect(pageTitle).to.contains(boMerchandiseReturnsEditPage.pageTitle);
         });
 
         it('should edit merchandise returns status', async function () {
           await testContext.addContextItem(this, 'testIdentifier', `editReturnStatus${index}`, baseContext);
 
-          const textResult = await editMerchandiseReturnsPage.setStatus(page, test.args.status);
-          expect(textResult).to.contains(editMerchandiseReturnsPage.successfulUpdateMessage);
+          const textResult = await boMerchandiseReturnsEditPage.setStatus(page, test.args.status);
+          expect(textResult).to.contains(boMerchandiseReturnsEditPage.successfulUpdateMessage);
         });
       });
 
@@ -378,7 +377,7 @@ describe('FO - Account : Consult return details', async () => {
           await testContext.addContextItem(this, 'testIdentifier', `goToFO${index}`, baseContext);
 
           // Click on view my shop
-          page = await editMerchandiseReturnsPage.viewMyShop(page);
+          page = await boMerchandiseReturnsEditPage.viewMyShop(page);
           // Change FO language
           await foHummingbirdHomePage.changeLanguage(page, 'en');
 

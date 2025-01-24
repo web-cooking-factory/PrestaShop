@@ -5,13 +5,11 @@ import testContext from '@utils/testContext';
 import {enableMerchandiseReturns, disableMerchandiseReturns} from '@commonTests/BO/customerService/merchandiseReturns';
 import {createOrderByCustomerTest} from '@commonTests/FO/classic/order';
 
-// Import BO pages
-import editMerchandiseReturnsPage from '@pages/BO/customerService/merchandiseReturns/edit';
-
 import {
   boDashboardPage,
   boLoginPage,
   boMerchandiseReturnsPage,
+  boMerchandiseReturnsEditPage,
   boOrdersPage,
   boOrdersViewBlockTabListPage,
   type BrowserContext,
@@ -356,15 +354,15 @@ describe('BO - Orders - View and edit order : Check merchandise returns tab', as
 
         await boMerchandiseReturnsPage.goToMerchandiseReturnPage(page);
 
-        const pageTitle = await editMerchandiseReturnsPage.getPageTitle(page);
-        expect(pageTitle).to.contains(editMerchandiseReturnsPage.pageTitle);
+        const pageTitle = await boMerchandiseReturnsEditPage.getPageTitle(page);
+        expect(pageTitle).to.contains(boMerchandiseReturnsEditPage.pageTitle);
       });
 
       it('should edit merchandise returns status', async function () {
         await testContext.addContextItem(this, 'testIdentifier', `editReturnStatus${index}`, baseContext);
 
-        const textResult = await editMerchandiseReturnsPage.setStatus(page, test.args.status);
-        expect(textResult).to.contains(editMerchandiseReturnsPage.successfulUpdateMessage);
+        const textResult = await boMerchandiseReturnsEditPage.setStatus(page, test.args.status);
+        expect(textResult).to.contains(boMerchandiseReturnsEditPage.successfulUpdateMessage);
       });
     });
 
