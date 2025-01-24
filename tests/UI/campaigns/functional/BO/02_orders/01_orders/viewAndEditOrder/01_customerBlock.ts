@@ -6,10 +6,8 @@ import {deleteCustomerTest} from '@commonTests/BO/customers/customer';
 import {createAccountTest, createAddressTest} from '@commonTests/FO/classic/account';
 import {createOrderByCustomerTest} from '@commonTests/FO/classic/order';
 
-// Import BO pages
-import addressesPage from '@pages/BO/customers/addresses';
-
 import {
+  boAddressesPage,
   boCustomersPage,
   boCustomersViewPage,
   boDashboardPage,
@@ -148,19 +146,19 @@ describe('BO - Orders - View and edit order : Check and edit customer block', as
         boDashboardPage.addressesLink,
       );
 
-      const pageTitle = await addressesPage.getPageTitle(page);
-      expect(pageTitle).to.contains(addressesPage.pageTitle);
+      const pageTitle = await boAddressesPage.getPageTitle(page);
+      expect(pageTitle).to.contains(boAddressesPage.pageTitle);
     });
 
     it('should get the customer address ID', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'getCustomerAddressID', baseContext);
 
-      await addressesPage.filterAddresses(page, 'input', 'firstname', secondAddressData.firstName);
+      await boAddressesPage.filterAddresses(page, 'input', 'firstname', secondAddressData.firstName);
 
-      const numberOfAddressesAfterFilter = await addressesPage.getNumberOfElementInGrid(page);
+      const numberOfAddressesAfterFilter = await boAddressesPage.getNumberOfElementInGrid(page);
       expect(numberOfAddressesAfterFilter).to.be.at.most(1);
 
-      addressID = await addressesPage.getTextColumnFromTableAddresses(page, 1, 'id_address');
+      addressID = await boAddressesPage.getTextColumnFromTableAddresses(page, 1, 'id_address');
     });
   });
 

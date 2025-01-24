@@ -1,8 +1,8 @@
 import testContext from '@utils/testContext';
 import {expect} from 'chai';
-import addressesPage from '@pages/BO/customers/addresses';
 
 import {
+  boAddressesPage,
   boAddressesCreatePage,
   boDashboardPage,
   boLocalizationPage,
@@ -82,14 +82,14 @@ describe('BO - International - Localization : Update default country', async () 
           boLocalizationPage.addressesLink,
         );
 
-        const pageTitle = await addressesPage.getPageTitle(page);
-        expect(pageTitle).to.contains(addressesPage.pageTitle);
+        const pageTitle = await boAddressesPage.getPageTitle(page);
+        expect(pageTitle).to.contains(boAddressesPage.pageTitle);
       });
 
       it('should go to add new address page', async function () {
         await testContext.addContextItem(this, 'testIdentifier', `goToAddNewAddressPage${index}`, baseContext);
 
-        await addressesPage.goToAddNewAddressPage(page);
+        await boAddressesPage.goToAddNewAddressPage(page);
 
         const pageTitle = await boAddressesCreatePage.getPageTitle(page);
         expect(pageTitle).to.contains(boAddressesCreatePage.pageTitleCreate);

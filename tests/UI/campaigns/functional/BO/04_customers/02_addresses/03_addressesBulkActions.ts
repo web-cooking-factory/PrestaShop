@@ -1,10 +1,8 @@
-// Import utils
 import testContext from '@utils/testContext';
-
-// Import pages
-import addressesPage from '@pages/BO/customers/addresses';
+import {expect} from 'chai';
 
 import {
+  boAddressesPage,
   boAddressesCreatePage,
   boDashboardPage,
   boLoginPage,
@@ -13,8 +11,6 @@ import {
   type Page,
   utilsPlaywright,
 } from '@prestashop-core/ui-testing';
-
-import {expect} from 'chai';
 
 const baseContext: string = 'functional_BO_customers_addresses_addressesBulkActions';
 
@@ -54,16 +50,16 @@ describe('BO - Customers - Addresses : Addresses bulk actions', async () => {
       boDashboardPage.customersParentLink,
       boDashboardPage.addressesLink,
     );
-    await addressesPage.closeSfToolBar(page);
+    await boAddressesPage.closeSfToolBar(page);
 
-    const pageTitle = await addressesPage.getPageTitle(page);
-    expect(pageTitle).to.contains(addressesPage.pageTitle);
+    const pageTitle = await boAddressesPage.getPageTitle(page);
+    expect(pageTitle).to.contains(boAddressesPage.pageTitle);
   });
 
   it('should reset all filters', async function () {
     await testContext.addContextItem(this, 'testIdentifier', 'resetFirst', baseContext);
 
-    numberOfAddresses = await addressesPage.resetAndGetNumberOfLines(page);
+    numberOfAddresses = await boAddressesPage.resetAndGetNumberOfLines(page);
     expect(numberOfAddresses).to.be.above(0);
   });
 
@@ -76,7 +72,7 @@ describe('BO - Customers - Addresses : Addresses bulk actions', async () => {
       it('should go to add new address page', async function () {
         await testContext.addContextItem(this, 'testIdentifier', `goToAddAddressPage${index + 1}`, baseContext);
 
-        await addressesPage.goToAddNewAddressPage(page);
+        await boAddressesPage.goToAddNewAddressPage(page);
 
         const pageTitle = await boAddressesCreatePage.getPageTitle(page);
         expect(pageTitle).to.contains(boAddressesCreatePage.pageTitleCreate);
@@ -86,9 +82,9 @@ describe('BO - Customers - Addresses : Addresses bulk actions', async () => {
         await testContext.addContextItem(this, 'testIdentifier', `createAddress${index + 1}`, baseContext);
 
         const textResult = await boAddressesCreatePage.createEditAddress(page, test.args.addressToCreate);
-        expect(textResult).to.equal(addressesPage.successfulCreationMessage);
+        expect(textResult).to.equal(boAddressesPage.successfulCreationMessage);
 
-        const numberOfAddressesAfterCreation = await addressesPage.getNumberOfElementInGrid(page);
+        const numberOfAddressesAfterCreation = await boAddressesPage.getNumberOfElementInGrid(page);
         expect(numberOfAddressesAfterCreation).to.be.equal(numberOfAddresses + index + 1);
       });
     });
@@ -99,24 +95,24 @@ describe('BO - Customers - Addresses : Addresses bulk actions', async () => {
     it(`should filter list by address ${addressData.address}`, async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'filterToBulkDelete', baseContext);
 
-      await addressesPage.resetFilter(page);
-      await addressesPage.filterAddresses(page, 'input', 'address1', addressData.address);
+      await boAddressesPage.resetFilter(page);
+      await boAddressesPage.filterAddresses(page, 'input', 'address1', addressData.address);
 
-      const address = await addressesPage.getTextColumnFromTableAddresses(page, 1, 'address1');
+      const address = await boAddressesPage.getTextColumnFromTableAddresses(page, 1, 'address1');
       expect(address).to.contains(addressData.address);
     });
 
     it('should delete addresses with Bulk Actions and check addresses Page', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'bulkDeleteAddresses', baseContext);
 
-      const deleteTextResult = await addressesPage.deleteAddressesBulkActions(page);
-      expect(deleteTextResult).to.be.equal(addressesPage.successfulDeleteMessage);
+      const deleteTextResult = await boAddressesPage.deleteAddressesBulkActions(page);
+      expect(deleteTextResult).to.be.equal(boAddressesPage.successfulDeleteMessage);
     });
 
     it('should reset all filters', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'resetAfterBulkDelete', baseContext);
 
-      const numberOfAddressesAfterReset = await addressesPage.resetAndGetNumberOfLines(page);
+      const numberOfAddressesAfterReset = await boAddressesPage.resetAndGetNumberOfLines(page);
       expect(numberOfAddressesAfterReset).to.be.equal(numberOfAddresses);
     });
   });

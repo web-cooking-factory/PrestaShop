@@ -1,8 +1,8 @@
 import {expect} from 'chai';
-import addressesPage from '@pages/BO/customers/addresses';
 import testContext from '@utils/testContext';
 
 import {
+  boAddressesPage,
   boAddressesCreatePage,
   boCustomersPage,
   boCustomersCreatePage,
@@ -111,8 +111,8 @@ describe('BO - Customers', async () => {
       boDashboardPage.addressesLink,
     );
 
-    const pageTitle = await addressesPage.getPageTitle(page);
-    expect(pageTitle).to.contains(addressesPage.pageTitle);
+    const pageTitle = await boAddressesPage.getPageTitle(page);
+    expect(pageTitle).to.contains(boAddressesPage.pageTitle);
 
     const jsErrors = utilsPlaywright.getJsErrors();
     expect(jsErrors.length).to.equals(0);
@@ -121,7 +121,7 @@ describe('BO - Customers', async () => {
   it('should go to \'Customers > Addresses > Edit Address\' page', async function () {
     await testContext.addContextItem(this, 'testIdentifier', 'goToAddressEditPage', baseContext);
 
-    await addressesPage.goToEditAddressPage(page, 1);
+    await boAddressesPage.goToEditAddressPage(page, 1);
 
     const pageTitle = await boAddressesCreatePage.getPageTitle(page);
     expect(pageTitle).to.contains(boAddressesCreatePage.pageTitleEdit);
@@ -138,7 +138,7 @@ describe('BO - Customers', async () => {
       boDashboardPage.customersParentLink,
       boDashboardPage.addressesLink,
     );
-    await addressesPage.goToAddNewAddressPage(page);
+    await boAddressesPage.goToAddNewAddressPage(page);
 
     const pageTitle = await boAddressesCreatePage.getPageTitle(page);
     expect(pageTitle).to.contains(boAddressesCreatePage.pageTitleCreate);
