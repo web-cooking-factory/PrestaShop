@@ -1129,13 +1129,7 @@ class HookCore extends ObjectModel
             $serviceContainer = ContainerBuilder::getContainer('front', _PS_MODE_DEV_);
         }
 
-        try {
-            $hookModuleFilter = $serviceContainer->get(HookModuleFilter::class);
-        } catch (Exception $e) {
-            return null;
-        }
-
-        return $hookModuleFilter;
+        return $serviceContainer->get(HookModuleFilter::class);
     }
 
     /**
