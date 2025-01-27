@@ -3,12 +3,12 @@ import {expect} from 'chai';
 
 // Import pages
 import taxRulesPage from '@pages/BO/international/taxes/taxRules';
-import addTaxRulesPage from '@pages/BO/international/taxes/taxRules/add';
 
 import {
   boDashboardPage,
   boLoginPage,
   boTaxesPage,
+  boTaxRulesCreatePage,
   dataTaxRules,
   type BrowserContext,
   FakerTaxRulesGroup,
@@ -218,15 +218,15 @@ describe('BO - International - Tax rules : Filter, sort and pagination', async (
 
         await taxRulesPage.goToAddNewTaxRulesGroupPage(page);
 
-        const pageTitle = await addTaxRulesPage.getPageTitle(page);
-        expect(pageTitle).to.contains(addTaxRulesPage.pageTitleCreate);
+        const pageTitle = await boTaxRulesCreatePage.getPageTitle(page);
+        expect(pageTitle).to.contains(boTaxRulesCreatePage.pageTitleCreate);
       });
 
       it('should create tax rule group and check result', async function () {
         await testContext.addContextItem(this, 'testIdentifier', `createTaxRule${index}`, baseContext);
 
-        const textResult = await addTaxRulesPage.createEditTaxRulesGroup(page, taxRuleData);
-        expect(textResult).to.contains(addTaxRulesPage.successfulCreationMessage);
+        const textResult = await boTaxRulesCreatePage.createEditTaxRulesGroup(page, taxRuleData);
+        expect(textResult).to.contains(boTaxRulesCreatePage.successfulCreationMessage);
 
         await boTaxesPage.goToTaxRulesPage(page);
 

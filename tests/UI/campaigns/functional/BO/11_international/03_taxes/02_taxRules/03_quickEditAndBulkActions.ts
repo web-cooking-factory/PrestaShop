@@ -2,7 +2,6 @@ import testContext from '@utils/testContext';
 
 // Import pages
 import taxRulesPage from '@pages/BO/international/taxes/taxRules';
-import addTaxRulesPage from '@pages/BO/international/taxes/taxRules/add';
 
 import {expect} from 'chai';
 
@@ -10,6 +9,7 @@ import {
   boDashboardPage,
   boLoginPage,
   boTaxesPage,
+  boTaxRulesCreatePage,
   type BrowserContext,
   FakerTaxRulesGroup,
   type Page,
@@ -91,15 +91,15 @@ describe('BO - International - Tax rules : Bulk actions', async () => {
 
         await taxRulesPage.goToAddNewTaxRulesGroupPage(page);
 
-        const pageTitle = await addTaxRulesPage.getPageTitle(page);
-        expect(pageTitle).to.contains(addTaxRulesPage.pageTitleCreate);
+        const pageTitle = await boTaxRulesCreatePage.getPageTitle(page);
+        expect(pageTitle).to.contains(boTaxRulesCreatePage.pageTitleCreate);
       });
 
       it('should create tax rule and check result', async function () {
         await testContext.addContextItem(this, 'testIdentifier', `CreateTax${index + 1}`, baseContext);
 
-        const textResult = await addTaxRulesPage.createEditTaxRulesGroup(page, test.args.taxRuleToCreate);
-        expect(textResult).to.contains(addTaxRulesPage.successfulCreationMessage);
+        const textResult = await boTaxRulesCreatePage.createEditTaxRulesGroup(page, test.args.taxRuleToCreate);
+        expect(textResult).to.contains(boTaxRulesCreatePage.successfulCreationMessage);
       });
 
       it('should go to Tax Rules page', async function () {

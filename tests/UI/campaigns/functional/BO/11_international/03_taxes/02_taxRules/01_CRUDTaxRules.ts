@@ -1,16 +1,14 @@
-// Import utils
 import testContext from '@utils/testContext';
+import {expect} from 'chai';
 
 // Import pages
 import taxRulesPage from '@pages/BO/international/taxes/taxRules';
-import addTaxRulesPage from '@pages/BO/international/taxes/taxRules/add';
-
-import {expect} from 'chai';
 
 import {
   boDashboardPage,
   boLoginPage,
   boTaxesPage,
+  boTaxRulesCreatePage,
   type BrowserContext,
   FakerTaxRulesGroup,
   type Page,
@@ -84,15 +82,15 @@ describe('BO - International - Tax rules : Create, Update and Delete Tax rule', 
 
       await taxRulesPage.goToAddNewTaxRulesGroupPage(page);
 
-      const pageTitle = await addTaxRulesPage.getPageTitle(page);
-      expect(pageTitle).to.contains(addTaxRulesPage.pageTitleCreate);
+      const pageTitle = await boTaxRulesCreatePage.getPageTitle(page);
+      expect(pageTitle).to.contains(boTaxRulesCreatePage.pageTitleCreate);
     });
 
     it('should create new tax rule group', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'createTaxRuleGroup', baseContext);
 
-      const textResult = await addTaxRulesPage.createEditTaxRulesGroup(page, taxRuleDataToCreate);
-      expect(textResult).to.contains(addTaxRulesPage.successfulCreationMessage);
+      const textResult = await boTaxRulesCreatePage.createEditTaxRulesGroup(page, taxRuleDataToCreate);
+      expect(textResult).to.contains(boTaxRulesCreatePage.successfulCreationMessage);
     });
   });
 
@@ -126,15 +124,15 @@ describe('BO - International - Tax rules : Create, Update and Delete Tax rule', 
 
       await taxRulesPage.goToEditTaxRulePage(page, 1);
 
-      const pageTitle = await addTaxRulesPage.getPageTitle(page);
-      expect(pageTitle).to.contains(addTaxRulesPage.pageTitleEdit);
+      const pageTitle = await boTaxRulesCreatePage.getPageTitle(page);
+      expect(pageTitle).to.contains(boTaxRulesCreatePage.pageTitleEdit);
     });
 
     it('should update tax', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'updateTaxRule', baseContext);
 
-      const textResult = await addTaxRulesPage.createEditTaxRulesGroup(page, taxRuleDataToEdit);
-      expect(textResult).to.contains(addTaxRulesPage.successfulUpdateMessage);
+      const textResult = await boTaxRulesCreatePage.createEditTaxRulesGroup(page, taxRuleDataToEdit);
+      expect(textResult).to.contains(boTaxRulesCreatePage.successfulUpdateMessage);
     });
 
     it('should go to \'Tax Rules\' page', async function () {

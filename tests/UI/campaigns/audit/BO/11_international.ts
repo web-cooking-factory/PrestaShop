@@ -9,7 +9,6 @@ import statesPage from '@pages/BO/international/locations/states';
 import addStatePage from '@pages/BO/international/locations/states/add';
 import addTaxPage from '@pages/BO/international/taxes/add';
 import taxRulesPage from '@pages/BO/international/taxes/taxRules';
-import addTaxRulesPage from '@pages/BO/international/taxes/taxRules/add';
 
 import {
   boCountriesPage,
@@ -22,6 +21,7 @@ import {
   boLanguagesPage,
   boLanguagesCreatePage,
   boTaxesPage,
+  boTaxRulesCreatePage,
   boTranslationsPage,
   type BrowserContext,
   type Page,
@@ -345,8 +345,8 @@ describe('BO - International', async () => {
 
     await taxRulesPage.goToAddNewTaxRulesGroupPage(page);
 
-    const pageTitle = await addTaxRulesPage.getPageTitle(page);
-    expect(pageTitle).to.contains(addTaxRulesPage.pageTitleCreate);
+    const pageTitle = await boTaxRulesCreatePage.getPageTitle(page);
+    expect(pageTitle).to.contains(boTaxRulesCreatePage.pageTitleCreate);
 
     const jsErrors = utilsPlaywright.getJsErrors();
     expect(jsErrors.length).to.equals(0);
@@ -358,8 +358,8 @@ describe('BO - International', async () => {
     await boTaxesPage.goToTaxRulesPage(page);
     await taxRulesPage.goToEditTaxRulePage(page, 1);
 
-    const pageTitle = await addTaxRulesPage.getPageTitle(page);
-    expect(pageTitle).to.contains(addTaxRulesPage.pageTitleEdit);
+    const pageTitle = await boTaxRulesCreatePage.getPageTitle(page);
+    expect(pageTitle).to.contains(boTaxRulesCreatePage.pageTitleEdit);
   });
 
   it('should go to \'International > Translations\' page', async function () {

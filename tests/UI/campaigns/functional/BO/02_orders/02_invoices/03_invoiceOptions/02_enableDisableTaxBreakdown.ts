@@ -1,12 +1,11 @@
-// Import utils
 import testContext from '@utils/testContext';
+import {expect} from 'chai';
 
 // Import commonSteps
 import {bulkDeleteProductsTest} from '@commonTests/BO/catalog/product';
 
 // Import pages
 // Import BO pages
-import addTaxRulesPage from '@pages/BO/international/taxes/taxRules/add';
 import taxRulesPage from '@pages/BO/international/taxes/taxRules';
 
 import {
@@ -18,6 +17,7 @@ import {
   boProductsPage,
   boProductsCreatePage,
   boTaxesPage,
+  boTaxRulesCreatePage,
   type BrowserContext,
   dataCustomers,
   dataOrderStatuses,
@@ -33,8 +33,6 @@ import {
   utilsFile,
   utilsPlaywright,
 } from '@prestashop-core/ui-testing';
-
-import {expect} from 'chai';
 
 const baseContext: string = 'functional_BO_orders_invoices_invoiceOptions_enableDisableTaxBreakdown';
 
@@ -147,38 +145,38 @@ describe('BO - Orders - Invoices : Enable/Disable tax breakdown', async () => {
 
         await taxRulesPage.goToAddNewTaxRulesGroupPage(page);
 
-        const pageTitle = await addTaxRulesPage.getPageTitle(page);
-        expect(pageTitle).to.contains(addTaxRulesPage.pageTitleCreate);
+        const pageTitle = await boTaxRulesCreatePage.getPageTitle(page);
+        expect(pageTitle).to.contains(boTaxRulesCreatePage.pageTitleCreate);
       });
 
       it('should create new tax rule group', async function () {
         await testContext.addContextItem(this, 'testIdentifier', 'createTaxRuleGroup', baseContext);
 
-        const textResult = await addTaxRulesPage.createEditTaxRulesGroup(page, taxRuleGroupToCreate);
-        expect(textResult).to.contains(addTaxRulesPage.successfulCreationMessage);
+        const textResult = await boTaxRulesCreatePage.createEditTaxRulesGroup(page, taxRuleGroupToCreate);
+        expect(textResult).to.contains(boTaxRulesCreatePage.successfulCreationMessage);
       });
 
       it('should create new tax rule n°1', async function () {
         await testContext.addContextItem(this, 'testIdentifier', 'createFirstTaxRule', baseContext);
 
-        const textResult = await addTaxRulesPage.createEditTaxRules(page, firstTaxRuleToCreate);
-        expect(textResult).to.contains(addTaxRulesPage.successfulUpdateMessage);
+        const textResult = await boTaxRulesCreatePage.createEditTaxRules(page, firstTaxRuleToCreate);
+        expect(textResult).to.contains(boTaxRulesCreatePage.successfulUpdateMessage);
       });
 
       it('should go to \'Add new tax rule\' page', async function () {
         await testContext.addContextItem(this, 'testIdentifier', 'clickToCreateSecondTaxRule', baseContext);
 
-        await addTaxRulesPage.clickOnAddNewTaxRule(page);
+        await boTaxRulesCreatePage.clickOnAddNewTaxRule(page);
 
-        const pageTitle = await addTaxRulesPage.getPageTitle(page);
-        expect(pageTitle).to.contains(addTaxRulesPage.pageTitleEdit);
+        const pageTitle = await boTaxRulesCreatePage.getPageTitle(page);
+        expect(pageTitle).to.contains(boTaxRulesCreatePage.pageTitleEdit);
       });
 
       it('should create new tax rule n°2', async function () {
         await testContext.addContextItem(this, 'testIdentifier', 'createSecondTaxRule', baseContext);
 
-        const textResult = await addTaxRulesPage.createEditTaxRules(page, secondTaxRuleToCreate);
-        expect(textResult).to.contains(addTaxRulesPage.successfulUpdateMessage);
+        const textResult = await boTaxRulesCreatePage.createEditTaxRules(page, secondTaxRuleToCreate);
+        expect(textResult).to.contains(boTaxRulesCreatePage.successfulUpdateMessage);
       });
     });
 
@@ -186,10 +184,10 @@ describe('BO - Orders - Invoices : Enable/Disable tax breakdown', async () => {
       it('should go to \'Products > Products\' page', async function () {
         await testContext.addContextItem(this, 'testIdentifier', 'goToProductPageToCreateProduct', baseContext);
 
-        await addTaxRulesPage.goToSubMenu(
+        await boTaxRulesCreatePage.goToSubMenu(
           page,
-          addTaxRulesPage.catalogParentLink,
-          addTaxRulesPage.productsLink,
+          boTaxRulesCreatePage.catalogParentLink,
+          boTaxRulesCreatePage.productsLink,
         );
 
         const pageTitle = await boProductsPage.getPageTitle(page);
