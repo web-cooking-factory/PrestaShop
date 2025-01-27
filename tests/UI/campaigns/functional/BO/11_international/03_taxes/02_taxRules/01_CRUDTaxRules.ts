@@ -2,14 +2,15 @@
 import testContext from '@utils/testContext';
 
 // Import pages
-import taxesPage from '@pages/BO/international/taxes';
 import taxRulesPage from '@pages/BO/international/taxes/taxRules';
 import addTaxRulesPage from '@pages/BO/international/taxes/taxRules/add';
 
 import {expect} from 'chai';
+
 import {
   boDashboardPage,
   boLoginPage,
+  boTaxesPage,
   type BrowserContext,
   FakerTaxRulesGroup,
   type Page,
@@ -58,14 +59,14 @@ describe('BO - International - Tax rules : Create, Update and Delete Tax rule', 
         boDashboardPage.taxesLink,
       );
 
-      const pageTitle = await taxesPage.getPageTitle(page);
-      expect(pageTitle).to.contains(taxesPage.pageTitle);
+      const pageTitle = await boTaxesPage.getPageTitle(page);
+      expect(pageTitle).to.contains(boTaxesPage.pageTitle);
     });
 
     it('should go to \'Tax Rules\' page', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'goToTaxRulesPage', baseContext);
 
-      await taxesPage.goToTaxRulesPage(page);
+      await boTaxesPage.goToTaxRulesPage(page);
 
       const pageTitle = await taxRulesPage.getPageTitle(page);
       expect(pageTitle).to.contains(taxRulesPage.pageTitle);
@@ -100,7 +101,7 @@ describe('BO - International - Tax rules : Create, Update and Delete Tax rule', 
     it('should go to \'Tax Rules\' page', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'goToTaxRulesPageToUpdate', baseContext);
 
-      await taxesPage.goToTaxRulesPage(page);
+      await boTaxesPage.goToTaxRulesPage(page);
 
       const pageTitle = await taxRulesPage.getPageTitle(page);
       expect(pageTitle).to.contains(taxRulesPage.pageTitle);
@@ -139,7 +140,7 @@ describe('BO - International - Tax rules : Create, Update and Delete Tax rule', 
     it('should go to \'Tax Rules\' page', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'goToTaxRulesPageToReset', baseContext);
 
-      await taxesPage.goToTaxRulesPage(page);
+      await boTaxesPage.goToTaxRulesPage(page);
 
       const pageTitle = await taxRulesPage.getPageTitle(page);
       expect(pageTitle).to.contains(taxRulesPage.pageTitle);

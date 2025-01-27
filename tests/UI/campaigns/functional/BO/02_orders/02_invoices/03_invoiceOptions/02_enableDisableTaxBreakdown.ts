@@ -6,7 +6,6 @@ import {bulkDeleteProductsTest} from '@commonTests/BO/catalog/product';
 
 // Import pages
 // Import BO pages
-import taxesPage from '@pages/BO/international/taxes';
 import addTaxRulesPage from '@pages/BO/international/taxes/taxRules/add';
 import taxRulesPage from '@pages/BO/international/taxes/taxRules';
 
@@ -18,6 +17,7 @@ import {
   boOrdersViewBlockTabListPage,
   boProductsPage,
   boProductsCreatePage,
+  boTaxesPage,
   type BrowserContext,
   dataCustomers,
   dataOrderStatuses,
@@ -129,14 +129,14 @@ describe('BO - Orders - Invoices : Enable/Disable tax breakdown', async () => {
           boInvoicesPage.taxesLink,
         );
 
-        const pageTitle = await taxesPage.getPageTitle(page);
-        expect(pageTitle).to.contains(taxesPage.pageTitle);
+        const pageTitle = await boTaxesPage.getPageTitle(page);
+        expect(pageTitle).to.contains(boTaxesPage.pageTitle);
       });
 
       it('should go to \'Tax Rules\' page', async function () {
         await testContext.addContextItem(this, 'testIdentifier', 'goToTaxRulesPage', baseContext);
 
-        await taxesPage.goToTaxRulesPage(page);
+        await boTaxesPage.goToTaxRulesPage(page);
 
         const pageTitle = await taxRulesPage.getPageTitle(page);
         expect(pageTitle).to.contains(taxRulesPage.pageTitle);
@@ -444,14 +444,14 @@ describe('BO - Orders - Invoices : Enable/Disable tax breakdown', async () => {
         boInvoicesPage.taxesLink,
       );
 
-      const pageTitle = await taxesPage.getPageTitle(page);
-      expect(pageTitle).to.contains(taxesPage.pageTitle);
+      const pageTitle = await boTaxesPage.getPageTitle(page);
+      expect(pageTitle).to.contains(boTaxesPage.pageTitle);
     });
 
     it('should go to \'Tax Rules\' page', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'goToTaxRulesPage1', baseContext);
 
-      await taxesPage.goToTaxRulesPage(page);
+      await boTaxesPage.goToTaxRulesPage(page);
 
       const pageTitle = await taxRulesPage.getPageTitle(page);
       expect(pageTitle).to.contains(taxRulesPage.pageTitle);

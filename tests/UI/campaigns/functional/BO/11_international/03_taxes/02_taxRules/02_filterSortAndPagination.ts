@@ -1,14 +1,14 @@
-// Import utils
 import testContext from '@utils/testContext';
+import {expect} from 'chai';
 
 // Import pages
-import taxesPage from '@pages/BO/international/taxes';
 import taxRulesPage from '@pages/BO/international/taxes/taxRules';
 import addTaxRulesPage from '@pages/BO/international/taxes/taxRules/add';
 
 import {
   boDashboardPage,
   boLoginPage,
+  boTaxesPage,
   dataTaxRules,
   type BrowserContext,
   FakerTaxRulesGroup,
@@ -16,8 +16,6 @@ import {
   utilsCore,
   utilsPlaywright,
 } from '@prestashop-core/ui-testing';
-
-import {expect} from 'chai';
 
 const baseContext: string = 'functional_BO_international_taxes_taxRules_filterSortAndPagination';
 
@@ -62,14 +60,14 @@ describe('BO - International - Tax rules : Filter, sort and pagination', async (
       boDashboardPage.taxesLink,
     );
 
-    const pageTitle = await taxesPage.getPageTitle(page);
-    expect(pageTitle).to.contains(taxesPage.pageTitle);
+    const pageTitle = await boTaxesPage.getPageTitle(page);
+    expect(pageTitle).to.contains(boTaxesPage.pageTitle);
   });
 
   it('should go to \'Tax Rules\' page', async function () {
     await testContext.addContextItem(this, 'testIdentifier', 'goToTaxRulesPage', baseContext);
 
-    await taxesPage.goToTaxRulesPage(page);
+    await boTaxesPage.goToTaxRulesPage(page);
 
     const pageTitle = await taxRulesPage.getPageTitle(page);
     expect(pageTitle).to.contains(taxRulesPage.pageTitle);
@@ -230,7 +228,7 @@ describe('BO - International - Tax rules : Filter, sort and pagination', async (
         const textResult = await addTaxRulesPage.createEditTaxRulesGroup(page, taxRuleData);
         expect(textResult).to.contains(addTaxRulesPage.successfulCreationMessage);
 
-        await taxesPage.goToTaxRulesPage(page);
+        await boTaxesPage.goToTaxRulesPage(page);
 
         const numberOfLinesAfterCreation = await taxRulesPage.getNumberOfElementInGrid(page);
         expect(numberOfLinesAfterCreation).to.be.equal(numberOfTaxRules + 1 + index);
