@@ -1,15 +1,15 @@
-// Import utils
 import testContext from '@utils/testContext';
 
 // Import pages
-import featuresPage from '@pages/BO/catalog/features';
 import addValuePage from '@pages/BO/catalog/features/addValue';
 import viewFeaturePage from '@pages/BO/catalog/features/view';
 
 import {expect} from 'chai';
+
 import {
   boAttributesPage,
   boDashboardPage,
+  boFeaturesPage,
   boLoginPage,
   type BrowserContext,
   dataFeatures,
@@ -75,23 +75,23 @@ describe('BO - Catalog - Catalog > Attributes & Features : Sort, pagination and 
 
     await boAttributesPage.goToFeaturesPage(page);
 
-    const pageTitle = await featuresPage.getPageTitle(page);
-    expect(pageTitle).to.contains(featuresPage.pageTitle);
+    const pageTitle = await boFeaturesPage.getPageTitle(page);
+    expect(pageTitle).to.contains(boFeaturesPage.pageTitle);
   });
 
   it('should filter list of features by name \'Composition\'', async function () {
     await testContext.addContextItem(this, 'testIdentifier', 'filterToBulkDeleteAttributes', baseContext);
 
-    await featuresPage.filterTable(page, 'name', dataFeatures.composition.name);
+    await boFeaturesPage.filterTable(page, 'name', dataFeatures.composition.name);
 
-    const textColumn = await featuresPage.getTextColumn(page, 1, 'name', 'id_feature');
+    const textColumn = await boFeaturesPage.getTextColumn(page, 1, 'name', 'id_feature');
     expect(textColumn).to.contains('Composition');
   });
 
   it('should view feature \'Composition\'', async function () {
     await testContext.addContextItem(this, 'testIdentifier', 'viewFeatureComposition1', baseContext);
 
-    await featuresPage.viewFeature(page, 1);
+    await boFeaturesPage.viewFeature(page, 1);
 
     const pageTitle = await viewFeaturePage.getPageTitle(page);
     expect(pageTitle).to.contains(`${dataFeatures.composition.name} • ${global.INSTALL.SHOP_NAME}`);

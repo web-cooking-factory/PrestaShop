@@ -8,7 +8,6 @@ import categoriesPage from '@pages/BO/catalog/categories';
 import addCategoryPage from '@pages/BO/catalog/categories/add';
 import catalogPriceRulesPage from '@pages/BO/catalog/discounts/catalogPriceRules';
 import addCatalogPriceRulePage from '@pages/BO/catalog/discounts/catalogPriceRules/add';
-import featuresPage from '@pages/BO/catalog/features';
 import addFeaturePage from '@pages/BO/catalog/features/addFeature';
 import addFeatureValuePage from '@pages/BO/catalog/features/addValue';
 import viewFeaturePage from '@pages/BO/catalog/features/view';
@@ -26,6 +25,7 @@ import {
   boCartRulesPage,
   boCartRulesCreatePage,
   boDashboardPage,
+  boFeaturesPage, 
   boLoginPage,
   boMonitoringPage,
   boProductsPage,
@@ -247,8 +247,8 @@ describe('BO - Catalog', async () => {
     );
     await boAttributesPage.goToFeaturesPage(page);
 
-    const pageTitle = await featuresPage.getPageTitle(page);
-    expect(pageTitle).to.contains(featuresPage.pageTitle);
+    const pageTitle = await boFeaturesPage.getPageTitle(page);
+    expect(pageTitle).to.contains(boFeaturesPage.pageTitle);
 
     const jsErrors = utilsPlaywright.getJsErrors();
     expect(jsErrors.length).to.equals(0);
@@ -257,7 +257,7 @@ describe('BO - Catalog', async () => {
   it('should go to \'Catalog > Attributes & Features > Features > Feature\' page', async function () {
     await testContext.addContextItem(this, 'testIdentifier', 'goToFeaturePage', baseContext);
 
-    await featuresPage.viewFeature(page, 1);
+    await boFeaturesPage.viewFeature(page, 1);
 
     const pageTitle = await viewFeaturePage.getPageTitle(page);
     expect(pageTitle).to.contains(`${dataFeatures.composition.name} • ${global.INSTALL.SHOP_NAME}`);
@@ -288,7 +288,7 @@ describe('BO - Catalog', async () => {
     );
     await boAttributesPage.goToFeaturesPage(page);
 
-    await featuresPage.goToAddFeaturePage(page);
+    await boFeaturesPage.goToAddFeaturePage(page);
 
     const pageTitle = await addFeaturePage.getPageTitle(page);
     expect(pageTitle).to.eq(addFeaturePage.createPageTitle);

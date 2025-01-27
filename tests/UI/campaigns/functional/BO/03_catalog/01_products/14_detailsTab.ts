@@ -1,10 +1,10 @@
 import testContext from '@utils/testContext';
-import featuresPage from '@pages/BO/catalog/features';
 import filesPage from '@pages/BO/catalog/files';
 import {expect} from 'chai';
 
 import {
   boDashboardPage,
+  boFeaturesPage,
   boLoginPage,
   boProductsPage,
   boProductsCreatePage,
@@ -236,8 +236,8 @@ describe('BO - Catalog - Products : Details tab', async () => {
       await boProductsCreatePage.goToTab(page, 'details');
       page = await boProductsCreateTabDetailsPage.clickonManageFeatures(page);
 
-      const pageTitle = await featuresPage.getPageTitle(page);
-      expect(pageTitle).to.contains(featuresPage.pageTitle);
+      const pageTitle = await boFeaturesPage.getPageTitle(page);
+      expect(pageTitle).to.contains(boFeaturesPage.pageTitle);
     });
 
     it('should close the Features pages', async function () {

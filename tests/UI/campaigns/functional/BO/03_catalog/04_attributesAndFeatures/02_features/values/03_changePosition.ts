@@ -1,14 +1,14 @@
-// Import utils
 import testContext from '@utils/testContext';
 
 // Import pages
-import featuresPage from '@pages/BO/catalog/features';
 import viewFeaturePage from '@pages/BO/catalog/features/view';
 
 import {expect} from 'chai';
+
 import {
   boAttributesPage,
   boDashboardPage,
+  boFeaturesPage,
   boLoginPage,
   type BrowserContext,
   dataFeatures,
@@ -67,14 +67,14 @@ describe('BO - Catalog - Attributes & Features : Change features values position
 
     await boAttributesPage.goToFeaturesPage(page);
 
-    const pageTitle = await featuresPage.getPageTitle(page);
-    expect(pageTitle).to.contains(featuresPage.pageTitle);
+    const pageTitle = await boFeaturesPage.getPageTitle(page);
+    expect(pageTitle).to.contains(boFeaturesPage.pageTitle);
   });
 
   it('should view feature', async function () {
     await testContext.addContextItem(this, 'testIdentifier', 'viewFeature', baseContext);
 
-    await featuresPage.viewFeature(page, 1);
+    await boFeaturesPage.viewFeature(page, 1);
 
     const pageTitle = await viewFeaturePage.getPageTitle(page);
     expect(pageTitle).to.contains(`${dataFeatures.composition.name} • ${global.INSTALL.SHOP_NAME}`);

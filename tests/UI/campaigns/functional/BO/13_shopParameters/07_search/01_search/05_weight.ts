@@ -9,7 +9,6 @@ import boCategoriesPage from '@pages/BO/catalog/categories';
 import boCategoriesCreatePage from '@pages/BO/catalog/categories/add';
 import boAttributesViewPage from '@pages/BO/catalog/attributes/view';
 import boAttributeValuesCreatePage from '@pages/BO/catalog/attributes/addValue';
-import boFeaturesPage from '@pages/BO/catalog/features';
 import boFeaturesCreatePage from '@pages/BO/catalog/features/addFeature';
 import boFeaturesViewPage from '@pages/BO/catalog/features/view';
 import boFeatureValuesCreatePage from '@pages/BO/catalog/features/addValue';
@@ -20,6 +19,7 @@ import {
   boAttributesCreatePage,
   boBrandsPage,
   boDashboardPage,
+  boFeaturesPage,
   boLoginPage,
   boProductsCreatePage,
   boProductsCreateTabCombinationsPage,
