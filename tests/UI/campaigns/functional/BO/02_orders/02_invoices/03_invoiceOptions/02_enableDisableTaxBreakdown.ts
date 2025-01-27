@@ -4,10 +4,6 @@ import {expect} from 'chai';
 // Import commonSteps
 import {bulkDeleteProductsTest} from '@commonTests/BO/catalog/product';
 
-// Import pages
-// Import BO pages
-import taxRulesPage from '@pages/BO/international/taxes/taxRules';
-
 import {
   boDashboardPage,
   boInvoicesPage,
@@ -17,6 +13,7 @@ import {
   boProductsPage,
   boProductsCreatePage,
   boTaxesPage,
+  boTaxRulesPage,
   boTaxRulesCreatePage,
   type BrowserContext,
   dataCustomers,
@@ -136,14 +133,14 @@ describe('BO - Orders - Invoices : Enable/Disable tax breakdown', async () => {
 
         await boTaxesPage.goToTaxRulesPage(page);
 
-        const pageTitle = await taxRulesPage.getPageTitle(page);
-        expect(pageTitle).to.contains(taxRulesPage.pageTitle);
+        const pageTitle = await boTaxRulesPage.getPageTitle(page);
+        expect(pageTitle).to.contains(boTaxRulesPage.pageTitle);
       });
 
       it('should go to \'Add new tax rules group\' page', async function () {
         await testContext.addContextItem(this, 'testIdentifier', 'goToAddTaxRulePage', baseContext);
 
-        await taxRulesPage.goToAddNewTaxRulesGroupPage(page);
+        await boTaxRulesPage.goToAddNewTaxRulesGroupPage(page);
 
         const pageTitle = await boTaxRulesCreatePage.getPageTitle(page);
         expect(pageTitle).to.contains(boTaxRulesCreatePage.pageTitleCreate);
@@ -451,24 +448,24 @@ describe('BO - Orders - Invoices : Enable/Disable tax breakdown', async () => {
 
       await boTaxesPage.goToTaxRulesPage(page);
 
-      const pageTitle = await taxRulesPage.getPageTitle(page);
-      expect(pageTitle).to.contains(taxRulesPage.pageTitle);
+      const pageTitle = await boTaxRulesPage.getPageTitle(page);
+      expect(pageTitle).to.contains(boTaxRulesPage.pageTitle);
     });
 
     it('should filter list by name', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'filterForBulkDelete', baseContext);
 
-      await taxRulesPage.filterTable(
+      await boTaxRulesPage.filterTable(
         page,
         'input',
         'name',
         taxRuleGroupToCreate.name,
       );
 
-      const numberOfLinesAfterFilter = await taxRulesPage.getNumberOfElementInGrid(page);
+      const numberOfLinesAfterFilter = await boTaxRulesPage.getNumberOfElementInGrid(page);
 
       for (let i = 1; i <= numberOfLinesAfterFilter; i++) {
-        const textColumn = await taxRulesPage.getTextColumnFromTable(
+        const textColumn = await boTaxRulesPage.getTextColumnFromTable(
           page,
           i,
           'name',
@@ -480,14 +477,14 @@ describe('BO - Orders - Invoices : Enable/Disable tax breakdown', async () => {
     it('should delete tax rules with Bulk Actions and check result', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'bulkDeleteCarriers', baseContext);
 
-      const deleteTextResult = await taxRulesPage.bulkDeleteTaxRules(page);
-      expect(deleteTextResult).to.be.contains(taxRulesPage.successfulMultiDeleteMessage);
+      const deleteTextResult = await boTaxRulesPage.bulkDeleteTaxRules(page);
+      expect(deleteTextResult).to.be.contains(boTaxRulesPage.successfulMultiDeleteMessage);
     });
 
     it('should reset all filters', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'resetFilterAfterDelete', baseContext);
 
-      const numberOfLinesAfterReset = await taxRulesPage.resetAndGetNumberOfLines(page);
+      const numberOfLinesAfterReset = await boTaxRulesPage.resetAndGetNumberOfLines(page);
       expect(numberOfLinesAfterReset).to.be.above(0);
     });
   });
