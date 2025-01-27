@@ -11,7 +11,6 @@ import addCatalogPriceRulePage from '@pages/BO/catalog/discounts/catalogPriceRul
 import addFeaturePage from '@pages/BO/catalog/features/addFeature';
 import addFeatureValuePage from '@pages/BO/catalog/features/addValue';
 import viewFeaturePage from '@pages/BO/catalog/features/view';
-import filesPage from '@pages/BO/catalog/files';
 import addFilePage from '@pages/BO/catalog/files/add';
 import movementsPage from '@pages/BO/catalog/stocks/movements';
 import suppliersPage from '@pages/BO/catalog/suppliers';
@@ -25,7 +24,8 @@ import {
   boCartRulesPage,
   boCartRulesCreatePage,
   boDashboardPage,
-  boFeaturesPage, 
+  boFeaturesPage,
+  boFilesPage,
   boLoginPage,
   boMonitoringPage,
   boProductsPage,
@@ -450,8 +450,8 @@ describe('BO - Catalog', async () => {
       boDashboardPage.filesLink,
     );
 
-    const pageTitle = await filesPage.getPageTitle(page);
-    expect(pageTitle).to.contains(filesPage.pageTitle);
+    const pageTitle = await boFilesPage.getPageTitle(page);
+    expect(pageTitle).to.contains(boFilesPage.pageTitle);
 
     const jsErrors = utilsPlaywright.getJsErrors();
     expect(jsErrors.length).to.equals(0);
@@ -460,7 +460,7 @@ describe('BO - Catalog', async () => {
   it('should go to \'Catalog > Files > Add new file\' page', async function () {
     await testContext.addContextItem(this, 'testIdentifier', 'goToAddNewFilePage', baseContext);
 
-    await filesPage.goToAddNewFilePage(page);
+    await boFilesPage.goToAddNewFilePage(page);
 
     const pageTitle = await addFilePage.getPageTitle(page);
     expect(pageTitle).to.contains(addFilePage.pageTitle);
