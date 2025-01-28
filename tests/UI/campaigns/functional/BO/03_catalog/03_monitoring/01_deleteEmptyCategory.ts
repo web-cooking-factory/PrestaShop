@@ -1,9 +1,9 @@
 import testContext from '@utils/testContext';
-import addCategoryPage from '@pages/BO/catalog/categories/add';
 import {expect} from 'chai';
 
 import {
   boCategoriesPage,
+  boCategoriesCreatePage,
   boDashboardPage,
   boLoginPage,
   boMonitoringPage,
@@ -82,14 +82,14 @@ describe('BO - Catalog - Monitoring : Create empty category and delete it from m
 
       await boCategoriesPage.goToAddNewCategoryPage(page);
 
-      const pageTitle = await addCategoryPage.getPageTitle(page);
-      expect(pageTitle).to.contains(addCategoryPage.pageTitleCreate);
+      const pageTitle = await boCategoriesCreatePage.getPageTitle(page);
+      expect(pageTitle).to.contains(boCategoriesCreatePage.pageTitleCreate);
     });
 
     it('should create category and check the categories number', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'createCategory', baseContext);
 
-      const textResult = await addCategoryPage.createEditCategory(page, createCategoryData);
+      const textResult = await boCategoriesCreatePage.createEditCategory(page, createCategoryData);
       expect(textResult).to.equal(boCategoriesPage.successfulCreationMessage);
 
       const numberOfCategoriesAfterCreation = await boCategoriesPage.getNumberOfElementInGrid(page);

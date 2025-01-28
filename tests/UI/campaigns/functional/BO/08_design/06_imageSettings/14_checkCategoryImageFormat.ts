@@ -5,11 +5,11 @@ import {expect} from 'chai';
 import bulkDeleteCategoriesTest from '@commonTests/BO/catalog/category';
 
 // Import pages
-import addCategoryPage from '@pages/BO/catalog/categories/add';
 import imageSettingsPage from '@pages/BO/design/imageSettings';
 
 import {
   boCategoriesPage,
+  boCategoriesCreatePage,
   boDashboardPage,
   boLoginPage,
   type BrowserContext,
@@ -182,16 +182,16 @@ describe('BO - Design - Image Settings - Check category image format', async () 
 
           await boCategoriesPage.goToAddNewCategoryPage(page);
 
-          const pageTitle = await addCategoryPage.getPageTitle(page);
-          expect(pageTitle).to.contains(addCategoryPage.pageTitleCreate);
+          const pageTitle = await boCategoriesCreatePage.getPageTitle(page);
+          expect(pageTitle).to.contains(boCategoriesCreatePage.pageTitleCreate);
         });
 
         it('should create category', async function () {
           await testContext.addContextItem(this, 'testIdentifier', `createCategory${argExtension}`, baseContext);
 
-          await addCategoryPage.closeSfToolBar(page);
+          await boCategoriesCreatePage.closeSfToolBar(page);
 
-          const textResult = await addCategoryPage.createEditCategory(page, arg.category);
+          const textResult = await boCategoriesCreatePage.createEditCategory(page, arg.category);
           expect(textResult).to.equal(boCategoriesPage.successfulCreationMessage);
         });
 
@@ -270,7 +270,7 @@ describe('BO - Design - Image Settings - Check category image format', async () 
         it('should go to FO page', async function () {
           await testContext.addContextItem(this, 'testIdentifier', `goToFo${argExtension}`, baseContext);
 
-          page = await addCategoryPage.viewMyShop(page);
+          page = await boCategoriesCreatePage.viewMyShop(page);
           await foClassicHomePage.changeLanguage(page, 'en');
 
           const isHomePage = await foClassicHomePage.isHomePage(page);

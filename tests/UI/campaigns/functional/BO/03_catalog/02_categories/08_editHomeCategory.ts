@@ -2,13 +2,12 @@ import testContext from '@utils/testContext';
 import {expect} from 'chai';
 
 // Import pages
-// Import BO pages
-import editCategoryPage from '@pages/BO/catalog/categories/add';
 // Import FO pages
 import {siteMapPage} from '@pages/FO/classic/siteMap';
 
 import {
   boCategoriesPage,
+  boCategoriesCreatePage,
   boDashboardPage,
   boLoginPage,
   type BrowserContext,
@@ -74,14 +73,14 @@ describe('BO - Catalog - Categories : Edit home category', async () => {
 
     await boCategoriesPage.goToEditHomeCategoryPage(page);
 
-    const pageTitle = await editCategoryPage.getPageTitle(page);
-    expect(pageTitle).to.contains(editCategoryPage.pageTitleEdit);
+    const pageTitle = await boCategoriesCreatePage.getPageTitle(page);
+    expect(pageTitle).to.contains(boCategoriesCreatePage.pageTitleEdit);
   });
 
   it('should update the category', async function () {
     await testContext.addContextItem(this, 'testIdentifier', 'updateCategory', baseContext);
 
-    const textResult = await editCategoryPage.editHomeCategory(page, editCategoryData);
+    const textResult = await boCategoriesCreatePage.editHomeCategory(page, editCategoryData);
     expect(textResult).to.equal(boCategoriesPage.pageRootTitle);
   });
 
@@ -146,14 +145,14 @@ describe('BO - Catalog - Categories : Edit home category', async () => {
 
     await boCategoriesPage.goToEditHomeCategoryPage(page);
 
-    const pageTitle = await editCategoryPage.getPageTitle(page);
+    const pageTitle = await boCategoriesCreatePage.getPageTitle(page);
     expect(pageTitle).to.contains(editCategoryData.name);
   });
 
   it('should reset update the category', async function () {
     await testContext.addContextItem(this, 'testIdentifier', 'resetUpdateCategory', baseContext);
 
-    const textResult = await editCategoryPage.editHomeCategory(page, dataCategories.home);
+    const textResult = await boCategoriesCreatePage.editHomeCategory(page, dataCategories.home);
     expect(textResult).to.equal(boCategoriesPage.pageRootTitle);
   });
 });

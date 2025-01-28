@@ -2,11 +2,11 @@ import testContext from '@utils/testContext';
 import {expect} from 'chai';
 
 // Import pages
-import addCategoryPage from '@pages/BO/catalog/categories/add';
 import imageSettingsPage from '@pages/BO/design/imageSettings';
 
 import {
   boCategoriesPage,
+  boCategoriesCreatePage,
   boDashboardPage,
   boLoginPage,
   boProductsPage,
@@ -265,14 +265,14 @@ describe('BO - Design - Image Settings - Image Generation on creation', async ()
 
       await boCategoriesPage.goToAddNewCategoryPage(page);
 
-      const pageTitle = await addCategoryPage.getPageTitle(page);
-      expect(pageTitle).to.contains(addCategoryPage.pageTitleCreate);
+      const pageTitle = await boCategoriesCreatePage.getPageTitle(page);
+      expect(pageTitle).to.contains(boCategoriesCreatePage.pageTitleCreate);
     });
 
     it('should create category', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'createCategory', baseContext);
 
-      const textResult = await addCategoryPage.createEditCategory(page, categoryData);
+      const textResult = await boCategoriesCreatePage.createEditCategory(page, categoryData);
       expect(textResult).to.equal(boCategoriesPage.successfulCreationMessage);
     });
 

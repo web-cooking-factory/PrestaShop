@@ -4,7 +4,6 @@ import viewAttributePage from '@pages/BO/catalog/attributes/view';
 import addBrandPage from '@pages/BO/catalog/brands/add';
 import addBrandAddressPage from '@pages/BO/catalog/brands/addAddress';
 import viewBrandPage from '@pages/BO/catalog/brands/view';
-import addCategoryPage from '@pages/BO/catalog/categories/add';
 import addFeaturePage from '@pages/BO/catalog/features/addFeature';
 import addFeatureValuePage from '@pages/BO/catalog/features/addValue';
 import viewFeaturePage from '@pages/BO/catalog/features/view';
@@ -22,6 +21,7 @@ import {
   boCatalogPriceRulesPage,
   boCatalogPriceRulesCreatePage,
   boCategoriesPage,
+  boCategoriesCreatePage,
   boDashboardPage,
   boFeaturesPage,
   boFilesPage,
@@ -138,7 +138,7 @@ describe('BO - Catalog', async () => {
 
     await boCategoriesPage.goToEditCategoryPage(page, 1);
 
-    const pageTitle = await addCategoryPage.getPageTitle(page);
+    const pageTitle = await boCategoriesCreatePage.getPageTitle(page);
     expect(pageTitle).to.contains(dataCategories.clothes.name);
 
     const jsErrors = utilsPlaywright.getJsErrors();
@@ -156,8 +156,8 @@ describe('BO - Catalog', async () => {
 
     await boCategoriesPage.goToAddNewCategoryPage(page);
 
-    const pageTitle = await addCategoryPage.getPageTitle(page);
-    expect(pageTitle).to.contains(addCategoryPage.pageTitleCreate);
+    const pageTitle = await boCategoriesCreatePage.getPageTitle(page);
+    expect(pageTitle).to.contains(boCategoriesCreatePage.pageTitleCreate);
 
     const jsErrors = utilsPlaywright.getJsErrors();
     expect(jsErrors.length).to.equals(0);

@@ -2,14 +2,13 @@ import testContext from '@utils/testContext';
 import {expect} from 'chai';
 
 // Import pages
-// Import BO pages
-import addCategoryPage from '@pages/BO/catalog/categories/add';
 // Import FO pages
 import {siteMapPage} from '@pages/FO/classic/siteMap';
 
 import {
   type APIRequestContext,
   boCategoriesPage,
+  boCategoriesCreatePage,
   boDashboardPage,
   boLoginPage,
   type BrowserContext,
@@ -109,14 +108,14 @@ describe('BO - Catalog - Categories : CRUD Category in BO', async () => {
 
         await boCategoriesPage.goToAddNewCategoryPage(page);
 
-        const pageTitle = await addCategoryPage.getPageTitle(page);
-        expect(pageTitle).to.contains(addCategoryPage.pageTitleCreate);
+        const pageTitle = await boCategoriesCreatePage.getPageTitle(page);
+        expect(pageTitle).to.contains(boCategoriesCreatePage.pageTitleCreate);
       });
 
       it('should create category and check the categories number', async function () {
         await testContext.addContextItem(this, 'testIdentifier', 'createCategory', baseContext);
 
-        const textResult = await addCategoryPage.createEditCategory(page, createCategoryData);
+        const textResult = await boCategoriesCreatePage.createEditCategory(page, createCategoryData);
         expect(textResult).to.equal(boCategoriesPage.successfulCreationMessage);
 
         const numberOfCategoriesAfterCreation = await boCategoriesPage.getNumberOfElementInGrid(page);
@@ -210,14 +209,14 @@ describe('BO - Catalog - Categories : CRUD Category in BO', async () => {
 
         await boCategoriesPage.goToAddNewCategoryPage(page);
 
-        const pageTitle = await addCategoryPage.getPageTitle(page);
-        expect(pageTitle).to.contains(addCategoryPage.pageTitleCreate);
+        const pageTitle = await boCategoriesCreatePage.getPageTitle(page);
+        expect(pageTitle).to.contains(boCategoriesCreatePage.pageTitleCreate);
       });
 
       it('should create a subcategory', async function () {
         await testContext.addContextItem(this, 'testIdentifier', 'createSubcategory', baseContext);
 
-        const textResult = await addCategoryPage.createEditCategory(page, createSubCategoryData);
+        const textResult = await boCategoriesCreatePage.createEditCategory(page, createSubCategoryData);
         expect(textResult).to.equal(boCategoriesPage.successfulCreationMessage);
       });
 
@@ -381,10 +380,10 @@ describe('BO - Catalog - Categories : CRUD Category in BO', async () => {
 
         await boCategoriesPage.goToEditCategoryPage(page, 1);
 
-        const pageTitle = await addCategoryPage.getPageTitle(page);
-        expect(pageTitle).to.contains(addCategoryPage.pageTitleEdit + arg.category.name);
+        const pageTitle = await boCategoriesCreatePage.getPageTitle(page);
+        expect(pageTitle).to.contains(boCategoriesCreatePage.pageTitleEdit + arg.category.name);
 
-        categoryFriendlyURL = await addCategoryPage.getValue(page, 'friendlyUrl');
+        categoryFriendlyURL = await boCategoriesCreatePage.getValue(page, 'friendlyUrl');
       });
 
       it(`should disable the ${arg.type}`, async function () {
@@ -392,7 +391,7 @@ describe('BO - Catalog - Categories : CRUD Category in BO', async () => {
 
         arg.category.setDisplayed(false);
 
-        const textResult = await addCategoryPage.createEditCategory(page, arg.category);
+        const textResult = await boCategoriesCreatePage.createEditCategory(page, arg.category);
         expect(textResult).to.equal(boCategoriesPage.successfulUpdateMessage);
 
         const numberOfCategoriesAfterUpdate = await boCategoriesPage.resetAndGetNumberOfLines(page);
@@ -501,10 +500,10 @@ describe('BO - Catalog - Categories : CRUD Category in BO', async () => {
 
         await boCategoriesPage.goToEditCategoryPage(page, 1);
 
-        const pageTitle = await addCategoryPage.getPageTitle(page);
-        expect(pageTitle).to.contains(addCategoryPage.pageTitleEdit + arg.category.name);
+        const pageTitle = await boCategoriesCreatePage.getPageTitle(page);
+        expect(pageTitle).to.contains(boCategoriesCreatePage.pageTitleEdit + arg.category.name);
 
-        categoryFriendlyURL = await addCategoryPage.getValue(page, 'friendlyUrl');
+        categoryFriendlyURL = await boCategoriesCreatePage.getValue(page, 'friendlyUrl');
       });
 
       it(`should set a new redirection type for ${arg.type}`, async function () {
@@ -512,7 +511,7 @@ describe('BO - Catalog - Categories : CRUD Category in BO', async () => {
 
         arg.category.setRedirectionWhenNotDisplayed(arg.newRedirect);
 
-        const textResult = await addCategoryPage.createEditCategory(page, arg.category);
+        const textResult = await boCategoriesCreatePage.createEditCategory(page, arg.category);
         expect(textResult).to.equal(boCategoriesPage.successfulUpdateMessage);
 
         const numberOfCategoriesAfterUpdate = await boCategoriesPage.resetAndGetNumberOfLines(page);
