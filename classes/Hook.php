@@ -31,6 +31,7 @@ use PrestaShop\PrestaShop\Adapter\SymfonyContainer;
 use PrestaShop\PrestaShop\Core\Exception\CoreException;
 use PrestaShop\PrestaShop\Core\Hook\HookModuleFilter;
 use PrestaShop\PrestaShop\Core\Module\WidgetInterface;
+use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 
 class HookCore extends ObjectModel
 {
@@ -1118,8 +1119,9 @@ class HookCore extends ObjectModel
     }
 
     /**
-     * @return HookModuleFilter|null
+     * @return HookModuleFilter
      * @throws \PrestaShop\PrestaShop\Core\Exception\ContainerNotFoundException
+     * @throws ServiceNotFoundException
      */
     private static function getHookModuleFilter()
     {
