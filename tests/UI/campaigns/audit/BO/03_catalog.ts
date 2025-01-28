@@ -6,7 +6,6 @@ import addBrandAddressPage from '@pages/BO/catalog/brands/addAddress';
 import viewBrandPage from '@pages/BO/catalog/brands/view';
 import categoriesPage from '@pages/BO/catalog/categories';
 import addCategoryPage from '@pages/BO/catalog/categories/add';
-import catalogPriceRulesPage from '@pages/BO/catalog/discounts/catalogPriceRules';
 import addFeaturePage from '@pages/BO/catalog/features/addFeature';
 import addFeatureValuePage from '@pages/BO/catalog/features/addValue';
 import viewFeaturePage from '@pages/BO/catalog/features/view';
@@ -21,6 +20,7 @@ import {
   boBrandsPage,
   boCartRulesPage,
   boCartRulesCreatePage,
+  boCatalogPriceRulesPage,
   boCatalogPriceRulesCreatePage,
   boDashboardPage,
   boFeaturesPage,
@@ -507,8 +507,8 @@ describe('BO - Catalog', async () => {
     );
     await boCartRulesPage.goToCatalogPriceRulesTab(page);
 
-    const pageTitle = await catalogPriceRulesPage.getPageTitle(page);
-    expect(pageTitle).to.contains(catalogPriceRulesPage.pageTitle);
+    const pageTitle = await boCatalogPriceRulesPage.getPageTitle(page);
+    expect(pageTitle).to.contains(boCatalogPriceRulesPage.pageTitle);
 
     const jsErrors = utilsPlaywright.getJsErrors();
     expect(jsErrors.length).to.equals(0);
@@ -517,7 +517,7 @@ describe('BO - Catalog', async () => {
   it('should go to \'Catalog > Discounts > Catalog Price Rules > Add new catalog price rule\' page', async function () {
     await testContext.addContextItem(this, 'testIdentifier', 'goToAddNewCatalogPriceRulePage', baseContext);
 
-    await catalogPriceRulesPage.goToAddNewCatalogPriceRulePage(page);
+    await boCatalogPriceRulesPage.goToAddNewCatalogPriceRulePage(page);
 
     const pageTitle = await boCatalogPriceRulesCreatePage.getPageTitle(page);
     expect(pageTitle).to.contains(boCatalogPriceRulesCreatePage.pageTitle);

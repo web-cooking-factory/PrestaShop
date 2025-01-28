@@ -1,13 +1,9 @@
-// Import utils
 import testContext from '@utils/testContext';
-
-// Import pages
-// Import BO pages
-import catalogPriceRulesPage from '@pages/BO/catalog/discounts/catalogPriceRules';
-
 import {expect} from 'chai';
+
 import {
   boCartRulesPage,
+  boCatalogPriceRulesPage,
   boCatalogPriceRulesCreatePage,
   boDashboardPage,
   boLoginPage,
@@ -98,20 +94,20 @@ describe('BO - Catalog - Discounts : CRUD catalog price rules', async () => {
 
       await boCartRulesPage.goToCatalogPriceRulesTab(page);
 
-      const pageTitle = await catalogPriceRulesPage.getPageTitle(page);
-      expect(pageTitle).to.contains(catalogPriceRulesPage.pageTitle);
+      const pageTitle = await boCatalogPriceRulesPage.getPageTitle(page);
+      expect(pageTitle).to.contains(boCatalogPriceRulesPage.pageTitle);
     });
 
     it('should create new catalog price rule', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'createCatalogPriceRule', baseContext);
 
-      await catalogPriceRulesPage.goToAddNewCatalogPriceRulePage(page);
+      await boCatalogPriceRulesPage.goToAddNewCatalogPriceRulePage(page);
 
       const pageTitle = await boCatalogPriceRulesCreatePage.getPageTitle(page);
       expect(pageTitle).to.contains(boCatalogPriceRulesCreatePage.pageTitle);
 
       const validationMessage = await boCatalogPriceRulesCreatePage.setCatalogPriceRule(page, newCatalogPriceRuleData);
-      expect(validationMessage).to.contains(catalogPriceRulesPage.successfulCreationMessage);
+      expect(validationMessage).to.contains(boCatalogPriceRulesPage.successfulCreationMessage);
     });
   });
 
@@ -176,20 +172,20 @@ describe('BO - Catalog - Discounts : CRUD catalog price rules', async () => {
 
       page = await foClassicProductPage.closePage(browserContext, page, 0);
 
-      const pageTitle = await catalogPriceRulesPage.getPageTitle(page);
-      expect(pageTitle).to.contains(catalogPriceRulesPage.pageTitle);
+      const pageTitle = await boCatalogPriceRulesPage.getPageTitle(page);
+      expect(pageTitle).to.contains(boCatalogPriceRulesPage.pageTitle);
     });
 
     it('should update the created catalog price rule', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'updateCatalogPriceRule', baseContext);
 
-      await catalogPriceRulesPage.goToEditCatalogPriceRulePage(page, newCatalogPriceRuleData.name);
+      await boCatalogPriceRulesPage.goToEditCatalogPriceRulePage(page, newCatalogPriceRuleData.name);
 
       const pageTitle = await boCatalogPriceRulesCreatePage.getPageTitle(page);
       expect(pageTitle).to.contains(boCatalogPriceRulesCreatePage.editPageTitle);
 
       const validationMessage = await boCatalogPriceRulesCreatePage.setCatalogPriceRule(page, editCatalogPriceRuleData);
-      expect(validationMessage).to.contains(catalogPriceRulesPage.successfulUpdateMessage);
+      expect(validationMessage).to.contains(boCatalogPriceRulesPage.successfulUpdateMessage);
     });
   });
 
@@ -254,15 +250,15 @@ describe('BO - Catalog - Discounts : CRUD catalog price rules', async () => {
 
       page = await foClassicProductPage.closePage(browserContext, page, 0);
 
-      const pageTitle = await catalogPriceRulesPage.getPageTitle(page);
-      expect(pageTitle).to.contains(catalogPriceRulesPage.pageTitle);
+      const pageTitle = await boCatalogPriceRulesPage.getPageTitle(page);
+      expect(pageTitle).to.contains(boCatalogPriceRulesPage.pageTitle);
     });
 
     it('should delete catalog price rule', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'deleteCatalogPriceRule', baseContext);
 
-      const deleteTextResult = await catalogPriceRulesPage.deleteCatalogPriceRule(page, editCatalogPriceRuleData.name);
-      expect(deleteTextResult).to.contains(catalogPriceRulesPage.successfulDeleteMessage);
+      const deleteTextResult = await boCatalogPriceRulesPage.deleteCatalogPriceRule(page, editCatalogPriceRuleData.name);
+      expect(deleteTextResult).to.contains(boCatalogPriceRulesPage.successfulDeleteMessage);
     });
   });
 });
