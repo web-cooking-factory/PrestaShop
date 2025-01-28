@@ -1,10 +1,6 @@
 import testContext from '@utils/testContext';
 import {expect} from 'chai';
 
-// Import pages
-// Import FO pages
-import {siteMapPage} from '@pages/FO/classic/siteMap';
-
 import {
   boCategoriesPage,
   boCategoriesCreatePage,
@@ -15,6 +11,7 @@ import {
   FakerCategory,
   foClassicHomePage,
   foClassicCategoryPage,
+  foClassicSitemapPage,
   type Page,
   utilsFile,
   utilsPlaywright,
@@ -99,18 +96,18 @@ describe('BO - Catalog - Categories : Edit home category', async () => {
     // Go to sitemap page
     await foClassicHomePage.goToFooterLink(page, 'Sitemap');
 
-    const pageTitle = await siteMapPage.getPageTitle(page);
-    expect(pageTitle).to.equal(siteMapPage.pageTitle);
+    const pageTitle = await foClassicSitemapPage.getPageTitle(page);
+    expect(pageTitle).to.equal(foClassicSitemapPage.pageTitle);
 
     // Check category name
-    const categoryName = await siteMapPage.getCategoryName(page, categoryID);
+    const categoryName = await foClassicSitemapPage.getCategoryName(page, categoryID);
     expect(categoryName).to.contains(editCategoryData.name);
   });
 
   it('should view the created category', async function () {
     await testContext.addContextItem(this, 'testIdentifier', 'viewCreatedCategoryFO', baseContext);
 
-    await siteMapPage.viewCreatedCategory(page, categoryID);
+    await foClassicSitemapPage.viewCreatedCategory(page, categoryID);
 
     // Check category name
     const pageTitle = await foClassicCategoryPage.getHeaderPageName(page);

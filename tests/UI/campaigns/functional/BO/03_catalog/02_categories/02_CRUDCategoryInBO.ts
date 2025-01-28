@@ -1,10 +1,6 @@
 import testContext from '@utils/testContext';
 import {expect} from 'chai';
 
-// Import pages
-// Import FO pages
-import {siteMapPage} from '@pages/FO/classic/siteMap';
-
 import {
   type APIRequestContext,
   boCategoriesPage,
@@ -17,6 +13,7 @@ import {
   FakerCategory,
   foClassicHomePage,
   foClassicCategoryPage,
+  foClassicSitemapPage,
   type Page,
   utilsFile,
   utilsPlaywright,
@@ -161,18 +158,18 @@ describe('BO - Catalog - Categories : CRUD Category in BO', async () => {
         // Go to sitemap page
         await foClassicHomePage.goToFooterLink(page, 'Sitemap');
 
-        const pageTitle = await siteMapPage.getPageTitle(page);
-        expect(pageTitle).to.equal(siteMapPage.pageTitle);
+        const pageTitle = await foClassicSitemapPage.getPageTitle(page);
+        expect(pageTitle).to.equal(foClassicSitemapPage.pageTitle);
 
         // Check category name
-        const categoryName = await siteMapPage.getCategoryName(page, categoryID);
+        const categoryName = await foClassicSitemapPage.getCategoryName(page, categoryID);
         expect(categoryName).to.contains(createCategoryData.name);
       });
 
       it('should view the created category', async function () {
         await testContext.addContextItem(this, 'testIdentifier', 'viewCreatedCategoryFO', baseContext);
 
-        await siteMapPage.viewCreatedCategory(page, categoryID);
+        await foClassicSitemapPage.viewCreatedCategory(page, categoryID);
 
         // Check category name
         const pageTitle = await foClassicCategoryPage.getHeaderPageName(page);
@@ -246,18 +243,18 @@ describe('BO - Catalog - Categories : CRUD Category in BO', async () => {
         // Go to sitemap page
         await foClassicHomePage.goToFooterLink(page, 'Sitemap');
 
-        const pageTitle = await siteMapPage.getPageTitle(page);
-        expect(pageTitle).to.equal(siteMapPage.pageTitle);
+        const pageTitle = await foClassicSitemapPage.getPageTitle(page);
+        expect(pageTitle).to.equal(foClassicSitemapPage.pageTitle);
 
         // Check category
-        const categoryName = await siteMapPage.getCategoryName(page, subcategoryID);
+        const categoryName = await foClassicSitemapPage.getCategoryName(page, subcategoryID);
         expect(categoryName).to.contains(createSubCategoryData.name);
       });
 
       it('should view the created subcategory', async function () {
         await testContext.addContextItem(this, 'testIdentifier', 'viewCreatedSubcategoryFO', baseContext);
 
-        await siteMapPage.viewCreatedCategory(page, subcategoryID);
+        await foClassicSitemapPage.viewCreatedCategory(page, subcategoryID);
 
         // Check subcategory name
         const pageTitle = await foClassicCategoryPage.getHeaderPageName(page);
@@ -410,11 +407,11 @@ describe('BO - Catalog - Categories : CRUD Category in BO', async () => {
         // Go to sitemap page
         await foClassicHomePage.goToFooterLink(page, 'Sitemap');
 
-        const pageTitle = await siteMapPage.getPageTitle(page);
-        expect(pageTitle).to.equal(siteMapPage.pageTitle);
+        const pageTitle = await foClassicSitemapPage.getPageTitle(page);
+        expect(pageTitle).to.equal(foClassicSitemapPage.pageTitle);
 
         // Check category name
-        const categoryName = await siteMapPage.isVisibleCategory(page, idCategory);
+        const categoryName = await foClassicSitemapPage.isVisibleCategory(page, idCategory);
         expect(categoryName).to.eq(false);
       });
 
@@ -445,7 +442,7 @@ describe('BO - Catalog - Categories : CRUD Category in BO', async () => {
           : boCategoriesPage.pageCategoryTitle(createCategoryData.name);
 
         // Close tab and init other page objects with new current tab
-        page = await siteMapPage.closePage(browserContext, page, 0);
+        page = await foClassicSitemapPage.closePage(browserContext, page, 0);
 
         const pageTitle = await boCategoriesPage.getPageTitle(page);
         expect(pageTitle).to.contains(titlePage);
@@ -530,11 +527,11 @@ describe('BO - Catalog - Categories : CRUD Category in BO', async () => {
         // Go to sitemap page
         await foClassicHomePage.goToFooterLink(page, 'Sitemap');
 
-        const pageTitle = await siteMapPage.getPageTitle(page);
-        expect(pageTitle).to.equal(siteMapPage.pageTitle);
+        const pageTitle = await foClassicSitemapPage.getPageTitle(page);
+        expect(pageTitle).to.equal(foClassicSitemapPage.pageTitle);
 
         // Check category name
-        const categoryName = await siteMapPage.isVisibleCategory(page, idCategory);
+        const categoryName = await foClassicSitemapPage.isVisibleCategory(page, idCategory);
         expect(categoryName).to.eq(false);
       });
 
@@ -557,7 +554,7 @@ describe('BO - Catalog - Categories : CRUD Category in BO', async () => {
           : boCategoriesPage.pageCategoryTitle(createCategoryData.name);
 
         // Close tab and init other page objects with new current tab
-        page = await siteMapPage.closePage(browserContext, page, 0);
+        page = await foClassicSitemapPage.closePage(browserContext, page, 0);
 
         const pageTitle = await boCategoriesPage.getPageTitle(page);
         expect(pageTitle).to.contains(titlePage);
@@ -624,10 +621,10 @@ describe('BO - Catalog - Categories : CRUD Category in BO', async () => {
       // Go to sitemap page
       await foClassicHomePage.goToFooterLink(page, 'Sitemap');
 
-      const pageTitle = await siteMapPage.getPageTitle(page);
-      expect(pageTitle).to.equal(siteMapPage.pageTitle);
+      const pageTitle = await foClassicSitemapPage.getPageTitle(page);
+      expect(pageTitle).to.equal(foClassicSitemapPage.pageTitle);
 
-      const categoryName = await siteMapPage.isVisibleCategory(page, categoryID);
+      const categoryName = await foClassicSitemapPage.isVisibleCategory(page, categoryID);
       expect(categoryName, 'Category is visible in FO!').to.eq(false);
     });
   });
