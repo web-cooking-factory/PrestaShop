@@ -1,6 +1,5 @@
 import {expect} from 'chai';
 import addValuePage from '@pages/BO/catalog/attributes/addValue';
-import viewAttributePage from '@pages/BO/catalog/attributes/view';
 import addBrandPage from '@pages/BO/catalog/brands/add';
 import addBrandAddressPage from '@pages/BO/catalog/brands/addAddress';
 import viewBrandPage from '@pages/BO/catalog/brands/view';
@@ -15,6 +14,7 @@ import testContext from '@utils/testContext';
 import {
   boAttributesPage,
   boAttributesCreatePage,
+  boAttributesViewPage,
   boBrandsPage,
   boCartRulesPage,
   boCartRulesCreatePage,
@@ -200,8 +200,8 @@ describe('BO - Catalog', async () => {
 
     await boAttributesPage.viewAttribute(page, 1);
 
-    const pageTitle = await viewAttributePage.getPageTitle(page);
-    expect(pageTitle).to.equal(viewAttributePage.pageTitle(dataAttributes.size.name));
+    const pageTitle = await boAttributesViewPage.getPageTitle(page);
+    expect(pageTitle).to.equal(boAttributesViewPage.pageTitle(dataAttributes.size.name));
 
     const jsErrors = utilsPlaywright.getJsErrors();
     expect(jsErrors.length).to.equals(0);
@@ -210,7 +210,7 @@ describe('BO - Catalog', async () => {
   it('should go to \'Catalog > Attributes & Features > Attributes > Add new value\' page', async function () {
     await testContext.addContextItem(this, 'testIdentifier', 'goToAddNewAttributeValuePage', baseContext);
 
-    await viewAttributePage.goToAddNewValuePage(page);
+    await boAttributesViewPage.goToAddNewValuePage(page);
 
     const pageTitle = await addValuePage.getPageTitle(page);
     expect(pageTitle).to.contains(addValuePage.createPageTitle);

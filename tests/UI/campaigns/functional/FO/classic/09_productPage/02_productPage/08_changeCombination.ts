@@ -1,12 +1,12 @@
 import testContext from '@utils/testContext';
 import {deleteProductTest} from '@commonTests/BO/catalog/product';
-import viewAttributePage from '@pages/BO/catalog/attributes/view';
 import addValuePage from '@pages/BO/catalog/attributes/addValue';
 import {expect} from 'chai';
 
 import {
   boAttributesPage,
   boAttributesCreatePage,
+  boAttributesViewPage,
   boDashboardPage,
   boLoginPage,
   boProductsPage,
@@ -150,14 +150,14 @@ describe('FO - Product page - Product page : Change combination', async () => {
 
       await boAttributesPage.viewAttribute(page, 1);
 
-      const pageTitle = await viewAttributePage.getPageTitle(page);
-      expect(pageTitle).to.equal(viewAttributePage.pageTitle(createAttributeData.name));
+      const pageTitle = await boAttributesViewPage.getPageTitle(page);
+      expect(pageTitle).to.equal(boAttributesViewPage.pageTitle(createAttributeData.name));
     });
 
     it('should go to add new value page', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'goToCreateValuePage', baseContext);
 
-      await viewAttributePage.goToAddNewValuePage(page);
+      await boAttributesViewPage.goToAddNewValuePage(page);
 
       const pageTitle = await addValuePage.getPageTitle(page);
       expect(pageTitle).to.equal(addValuePage.createPageTitle);
@@ -169,7 +169,7 @@ describe('FO - Product page - Product page : Change combination', async () => {
 
         valueToCreate.setAttributeId(attributeId);
         const textResult = await addValuePage.addEditValue(page, valueToCreate, index === 0);
-        expect(textResult).to.contains(viewAttributePage.successfulCreationMessage);
+        expect(textResult).to.contains(boAttributesViewPage.successfulCreationMessage);
       });
     });
   });

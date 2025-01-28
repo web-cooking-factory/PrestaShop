@@ -5,7 +5,6 @@ import opsBulkDeleteAttributes from '@commonTests/BO/catalog/attributes';
 import opsBulkDeleteBrands from '@commonTests/BO/catalog/brands';
 import {deleteProductTest} from '@commonTests/BO/catalog/product';
 import boBrandsCreatePage from '@pages/BO/catalog/brands/add';
-import boAttributesViewPage from '@pages/BO/catalog/attributes/view';
 import boAttributeValuesCreatePage from '@pages/BO/catalog/attributes/addValue';
 import boFeaturesCreatePage from '@pages/BO/catalog/features/addFeature';
 import boFeaturesViewPage from '@pages/BO/catalog/features/view';
@@ -15,6 +14,7 @@ import testContext from '@utils/testContext';
 import {
   boAttributesPage,
   boAttributesCreatePage,
+  boAttributesViewPage,
   boBrandsPage,
   boCategoriesPage,
   boCategoriesCreatePage,
