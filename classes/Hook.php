@@ -765,10 +765,7 @@ class HookCore extends ObjectModel
         }
 
         $hookModuleFilter = self::getHookModuleFilter();
-
-        if (!empty($hookModuleFilter) && !empty($modulesToInvoke)) {
-            $modulesToInvoke = $hookModuleFilter->filterHookModuleExecList($modulesToInvoke, $hookName);
-        }
+        $modulesToInvoke = $hookModuleFilter->filterHookModuleExecList($modulesToInvoke, $hookName);
 
         return !empty($modulesToInvoke) ? $modulesToInvoke : false;
     }
