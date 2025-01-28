@@ -1,15 +1,14 @@
-// Import utils
 import testContext from '@utils/testContext';
+import {expect} from 'chai';
 
 // Import pages
 // Import BO pages
-import categoriesPage from '@pages/BO/catalog/categories';
 import editCategoryPage from '@pages/BO/catalog/categories/add';
 // Import FO pages
 import {siteMapPage} from '@pages/FO/classic/siteMap';
 
-import {expect} from 'chai';
 import {
+  boCategoriesPage,
   boDashboardPage,
   boLoginPage,
   type BrowserContext,
@@ -64,16 +63,16 @@ describe('BO - Catalog - Categories : Edit home category', async () => {
       boDashboardPage.catalogParentLink,
       boDashboardPage.categoriesLink,
     );
-    await categoriesPage.closeSfToolBar(page);
+    await boCategoriesPage.closeSfToolBar(page);
 
-    const pageTitle = await categoriesPage.getPageTitle(page);
-    expect(pageTitle).to.contains(categoriesPage.pageTitle);
+    const pageTitle = await boCategoriesPage.getPageTitle(page);
+    expect(pageTitle).to.contains(boCategoriesPage.pageTitle);
   });
 
   it('should go to Edit Home category page', async function () {
     await testContext.addContextItem(this, 'testIdentifier', 'goToEditHomePage1', baseContext);
 
-    await categoriesPage.goToEditHomeCategoryPage(page);
+    await boCategoriesPage.goToEditHomeCategoryPage(page);
 
     const pageTitle = await editCategoryPage.getPageTitle(page);
     expect(pageTitle).to.contains(editCategoryPage.pageTitleEdit);
@@ -83,15 +82,15 @@ describe('BO - Catalog - Categories : Edit home category', async () => {
     await testContext.addContextItem(this, 'testIdentifier', 'updateCategory', baseContext);
 
     const textResult = await editCategoryPage.editHomeCategory(page, editCategoryData);
-    expect(textResult).to.equal(categoriesPage.pageRootTitle);
+    expect(textResult).to.equal(boCategoriesPage.pageRootTitle);
   });
 
   it('should go to FO and check the updated category', async function () {
     await testContext.addContextItem(this, 'testIdentifier', 'checkCreatedCategoryFO', baseContext);
 
-    categoryID = parseInt(await categoriesPage.getTextColumnFromTableCategories(page, 1, 'id_category'), 10);
+    categoryID = parseInt(await boCategoriesPage.getTextColumnFromTableCategories(page, 1, 'id_category'), 10);
     // View Shop
-    page = await categoriesPage.viewMyShop(page);
+    page = await boCategoriesPage.viewMyShop(page);
     // Change FO language
     await foClassicHomePage.changeLanguage(page, 'en');
 
@@ -129,23 +128,23 @@ describe('BO - Catalog - Categories : Edit home category', async () => {
     // Close tab and init other page objects with new current tab
     page = await foClassicCategoryPage.closePage(browserContext, page, 0);
 
-    const pageTitle = await categoriesPage.getPageTitle(page);
-    expect(pageTitle).to.contains(categoriesPage.pageRootTitle);
+    const pageTitle = await boCategoriesPage.getPageTitle(page);
+    expect(pageTitle).to.contains(boCategoriesPage.pageRootTitle);
   });
 
   it('should click on view category', async function () {
     await testContext.addContextItem(this, 'testIdentifier', 'goToViewCreatedCategoryPage', baseContext);
 
-    await categoriesPage.goToViewSubCategoriesPage(page, 1);
+    await boCategoriesPage.goToViewSubCategoriesPage(page, 1);
 
-    const pageTitle = await categoriesPage.getPageTitle(page);
-    expect(pageTitle).to.contains(categoriesPage.pageTitle);
+    const pageTitle = await boCategoriesPage.getPageTitle(page);
+    expect(pageTitle).to.contains(boCategoriesPage.pageTitle);
   });
 
   it('should go to Edit Home category page', async function () {
     await testContext.addContextItem(this, 'testIdentifier', 'goToEditHomePage2', baseContext);
 
-    await categoriesPage.goToEditHomeCategoryPage(page);
+    await boCategoriesPage.goToEditHomeCategoryPage(page);
 
     const pageTitle = await editCategoryPage.getPageTitle(page);
     expect(pageTitle).to.contains(editCategoryData.name);
@@ -155,6 +154,6 @@ describe('BO - Catalog - Categories : Edit home category', async () => {
     await testContext.addContextItem(this, 'testIdentifier', 'resetUpdateCategory', baseContext);
 
     const textResult = await editCategoryPage.editHomeCategory(page, dataCategories.home);
-    expect(textResult).to.equal(categoriesPage.pageRootTitle);
+    expect(textResult).to.equal(boCategoriesPage.pageRootTitle);
   });
 });

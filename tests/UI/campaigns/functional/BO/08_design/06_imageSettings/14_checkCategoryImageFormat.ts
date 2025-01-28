@@ -1,16 +1,15 @@
-// Import utils
 import testContext from '@utils/testContext';
+import {expect} from 'chai';
 
 // Import commonTests
 import bulkDeleteCategoriesTest from '@commonTests/BO/catalog/category';
 
 // Import pages
-import categoriesPage from '@pages/BO/catalog/categories';
 import addCategoryPage from '@pages/BO/catalog/categories/add';
 import imageSettingsPage from '@pages/BO/design/imageSettings';
 
-import {expect} from 'chai';
 import {
+  boCategoriesPage,
   boDashboardPage,
   boLoginPage,
   type BrowserContext,
@@ -172,16 +171,16 @@ describe('BO - Design - Image Settings - Check category image format', async () 
             boDashboardPage.categoriesLink,
           );
 
-          await categoriesPage.closeSfToolBar(page);
+          await boCategoriesPage.closeSfToolBar(page);
 
-          const pageTitle = await categoriesPage.getPageTitle(page);
-          expect(pageTitle).to.contains(categoriesPage.pageTitle);
+          const pageTitle = await boCategoriesPage.getPageTitle(page);
+          expect(pageTitle).to.contains(boCategoriesPage.pageTitle);
         });
 
         it('should click on \'Add new category\' button', async function () {
           await testContext.addContextItem(this, 'testIdentifier', `clickOnNewCategoryButton${argExtension}`, baseContext);
 
-          await categoriesPage.goToAddNewCategoryPage(page);
+          await boCategoriesPage.goToAddNewCategoryPage(page);
 
           const pageTitle = await addCategoryPage.getPageTitle(page);
           expect(pageTitle).to.contains(addCategoryPage.pageTitleCreate);
@@ -193,24 +192,24 @@ describe('BO - Design - Image Settings - Check category image format', async () 
           await addCategoryPage.closeSfToolBar(page);
 
           const textResult = await addCategoryPage.createEditCategory(page, arg.category);
-          expect(textResult).to.equal(categoriesPage.successfulCreationMessage);
+          expect(textResult).to.equal(boCategoriesPage.successfulCreationMessage);
         });
 
         it('should search for the new category and fetch the ID', async function () {
           await testContext.addContextItem(this, 'testIdentifier', `searchCreatedCategory${argExtension}`, baseContext);
 
-          await categoriesPage.resetFilter(page);
-          await categoriesPage.filterCategories(
+          await boCategoriesPage.resetFilter(page);
+          await boCategoriesPage.filterCategories(
             page,
             'input',
             'name',
             arg.category.name,
           );
 
-          const textColumn = await categoriesPage.getTextColumnFromTableCategories(page, 1, 'name');
+          const textColumn = await boCategoriesPage.getTextColumnFromTableCategories(page, 1, 'name');
           expect(textColumn).to.contains(arg.category.name);
 
-          idCategory = parseInt(await categoriesPage.getTextColumnFromTableCategories(page, 1, 'id_category'), 10);
+          idCategory = parseInt(await boCategoriesPage.getTextColumnFromTableCategories(page, 1, 'id_category'), 10);
         });
 
         it('should check that images are generated', async function () {

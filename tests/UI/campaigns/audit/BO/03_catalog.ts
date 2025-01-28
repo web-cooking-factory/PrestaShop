@@ -4,7 +4,6 @@ import viewAttributePage from '@pages/BO/catalog/attributes/view';
 import addBrandPage from '@pages/BO/catalog/brands/add';
 import addBrandAddressPage from '@pages/BO/catalog/brands/addAddress';
 import viewBrandPage from '@pages/BO/catalog/brands/view';
-import categoriesPage from '@pages/BO/catalog/categories';
 import addCategoryPage from '@pages/BO/catalog/categories/add';
 import addFeaturePage from '@pages/BO/catalog/features/addFeature';
 import addFeatureValuePage from '@pages/BO/catalog/features/addValue';
@@ -22,6 +21,7 @@ import {
   boCartRulesCreatePage,
   boCatalogPriceRulesPage,
   boCatalogPriceRulesCreatePage,
+  boCategoriesPage,
   boDashboardPage,
   boFeaturesPage,
   boFilesPage,
@@ -126,8 +126,8 @@ describe('BO - Catalog', async () => {
       boDashboardPage.categoriesLink,
     );
 
-    const pageTitle = await categoriesPage.getPageTitle(page);
-    expect(pageTitle).to.contains(categoriesPage.pageTitle);
+    const pageTitle = await boCategoriesPage.getPageTitle(page);
+    expect(pageTitle).to.contains(boCategoriesPage.pageTitle);
 
     const jsErrors = utilsPlaywright.getJsErrors();
     expect(jsErrors.length).to.equals(0);
@@ -136,7 +136,7 @@ describe('BO - Catalog', async () => {
   it('should go to \'Catalog > Categories > Category\' page', async function () {
     await testContext.addContextItem(this, 'testIdentifier', 'goToCategoryPage', baseContext);
 
-    await categoriesPage.goToEditCategoryPage(page, 1);
+    await boCategoriesPage.goToEditCategoryPage(page, 1);
 
     const pageTitle = await addCategoryPage.getPageTitle(page);
     expect(pageTitle).to.contains(dataCategories.clothes.name);
@@ -154,7 +154,7 @@ describe('BO - Catalog', async () => {
       boDashboardPage.categoriesLink,
     );
 
-    await categoriesPage.goToAddNewCategoryPage(page);
+    await boCategoriesPage.goToAddNewCategoryPage(page);
 
     const pageTitle = await addCategoryPage.getPageTitle(page);
     expect(pageTitle).to.contains(addCategoryPage.pageTitleCreate);
@@ -166,7 +166,7 @@ describe('BO - Catalog', async () => {
   it('should go to \'Catalog > Monitoring\' page', async function () {
     await testContext.addContextItem(this, 'testIdentifier', 'goToMonitoringPage', baseContext);
 
-    await categoriesPage.goToSubMenu(
+    await boCategoriesPage.goToSubMenu(
       page,
       boDashboardPage.catalogParentLink,
       boDashboardPage.monitoringLink,
