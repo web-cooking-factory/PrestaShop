@@ -12,7 +12,6 @@ import addFeaturePage from '@pages/BO/catalog/features/addFeature';
 import addFeatureValuePage from '@pages/BO/catalog/features/addValue';
 import viewFeaturePage from '@pages/BO/catalog/features/view';
 import addFilePage from '@pages/BO/catalog/files/add';
-import movementsPage from '@pages/BO/catalog/stocks/movements';
 import suppliersPage from '@pages/BO/catalog/suppliers';
 import viewSupplierPage from '@pages/BO/catalog/suppliers/view';
 import testContext from '@utils/testContext';
@@ -31,6 +30,7 @@ import {
   boProductsPage,
   boProductsCreatePage,
   boStockPage,
+  boStockMovementsPage,
   boSuppliersCreate,
   type BrowserContext,
   dataAttributes,
@@ -547,8 +547,8 @@ describe('BO - Catalog', async () => {
 
     await boStockPage.goToSubTabMovements(page);
 
-    const pageTitle = await movementsPage.getPageTitle(page);
-    expect(pageTitle).to.contains(movementsPage.pageTitle);
+    const pageTitle = await boStockMovementsPage.getPageTitle(page);
+    expect(pageTitle).to.contains(boStockMovementsPage.pageTitle);
 
     const jsErrors = utilsPlaywright.getJsErrors();
     expect(jsErrors.length).to.equals(0);
