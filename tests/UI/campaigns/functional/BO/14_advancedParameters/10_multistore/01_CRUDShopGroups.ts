@@ -6,14 +6,15 @@ import setMultiStoreStatus from '@commonTests/BO/advancedParameters/multistore';
 
 // Import pages
 import addShopGroupPage from '@pages/BO/advancedParameters/multistore/add';
-import addShopPage from '@pages/BO/advancedParameters/multistore/shop/add';
 import shopPage from '@pages/BO/advancedParameters/multistore/shop';
 
 import {expect} from 'chai';
+
 import {
   boDashboardPage,
   boLoginPage,
   boMultistorePage,
+  boMultistoreShopCreatePage,
   type BrowserContext,
   FakerShop,
   FakerShopGroup,
@@ -131,14 +132,14 @@ describe('BO - Advanced Parameters - Multistore : Create, Read, Update and Delet
 
       await boMultistorePage.goToNewShopPage(page);
 
-      const pageTitle = await addShopPage.getPageTitle(page);
-      expect(pageTitle).to.contains(addShopPage.pageTitleCreate);
+      const pageTitle = await boMultistoreShopCreatePage.getPageTitle(page);
+      expect(pageTitle).to.contains(boMultistoreShopCreatePage.pageTitleCreate);
     });
 
     it('should create shop', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'createShop', baseContext);
 
-      const textResult = await addShopPage.setShop(page, shopData);
+      const textResult = await boMultistoreShopCreatePage.setShop(page, shopData);
       expect(textResult).to.contains(boMultistorePage.successfulCreationMessage);
     });
 

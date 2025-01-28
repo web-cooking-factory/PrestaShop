@@ -1,18 +1,17 @@
-// Import utils
 import testContext from '@utils/testContext';
+import {expect} from 'chai';
 
 // Import pages
 // Import BO pages
 import shopPage from '@pages/BO/advancedParameters/multistore/shop';
-import addShopPage from '@pages/BO/advancedParameters/multistore/shop/add';
 import addShopUrlPage from '@pages/BO/advancedParameters/multistore/url/addURL';
 
-import {expect} from 'chai';
 import {
   boDashboardPage,
   boLoginPage,
   boModuleManagerPage,
   boMultistorePage,
+  boMultistoreShopCreatePage,
   boShopParametersPage,
   type BrowserContext,
   dataModules,
@@ -176,14 +175,14 @@ describe('BO - Modules - GDPR : Multistore', async () => {
 
         await boMultistorePage.goToNewShopPage(page);
 
-        const pageTitle = await addShopPage.getPageTitle(page);
-        expect(pageTitle).to.contains(addShopPage.pageTitleCreate);
+        const pageTitle = await boMultistoreShopCreatePage.getPageTitle(page);
+        expect(pageTitle).to.contains(boMultistoreShopCreatePage.pageTitleCreate);
       });
 
       it('should create the shop', async function () {
         await testContext.addContextItem(this, 'testIdentifier', `createShop${index}`, baseContext);
 
-        const textResult = await addShopPage.setShop(page, shop);
+        const textResult = await boMultistoreShopCreatePage.setShop(page, shop);
         expect(textResult).to.contains(boMultistorePage.successfulCreationMessage);
       });
 

@@ -1,18 +1,18 @@
-// Import utils
 import testContext from '@utils/testContext';
+import {expect} from 'chai';
 
 // Import commonTests
 import setMultiStoreStatus from '@commonTests/BO/advancedParameters/multistore';
 
 // Import pages
-import addShopPage from '@pages/BO/advancedParameters/multistore/shop/add';
 import shopPage from '@pages/BO/advancedParameters/multistore/shop';
 
-import {expect} from 'chai';
+
 import {
   boDashboardPage,
   boLoginPage,
   boMultistorePage,
+  boMultistoreShopCreatePage,
   type BrowserContext,
   FakerShop,
   type Page,
@@ -80,14 +80,14 @@ describe('BO - Advanced Parameters - Multistore : Filter, sort and pagination sh
 
       await boMultistorePage.goToNewShopPage(page);
 
-      const pageTitle = await addShopPage.getPageTitle(page);
-      expect(pageTitle).to.contains(addShopPage.pageTitleCreate);
+      const pageTitle = await boMultistoreShopCreatePage.getPageTitle(page);
+      expect(pageTitle).to.contains(boMultistoreShopCreatePage.pageTitleCreate);
     });
 
     it('should create shop', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'createFirstShop', baseContext);
 
-      const textResult = await addShopPage.setShop(page, shopCreate);
+      const textResult = await boMultistoreShopCreatePage.setShop(page, shopCreate);
       expect(textResult).to.contains(boMultistorePage.successfulCreationMessage);
     });
   });
@@ -105,14 +105,14 @@ describe('BO - Advanced Parameters - Multistore : Filter, sort and pagination sh
 
         await shopPage.goToNewShopPage(page);
 
-        const pageTitle = await addShopPage.getPageTitle(page);
-        expect(pageTitle).to.contains(addShopPage.pageTitleCreate);
+        const pageTitle = await boMultistoreShopCreatePage.getPageTitle(page);
+        expect(pageTitle).to.contains(boMultistoreShopCreatePage.pageTitleCreate);
       });
 
       it(`should create shop n°${index + 1}`, async function () {
         await testContext.addContextItem(this, 'testIdentifier', `createShop${index}`, baseContext);
 
-        const textResult = await addShopPage.setShop(page, shopCreate);
+        const textResult = await boMultistoreShopCreatePage.setShop(page, shopCreate);
         expect(textResult).to.contains(boMultistorePage.successfulCreationMessage);
       });
     });

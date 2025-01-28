@@ -1,19 +1,18 @@
-// Import utils
 import testContext from '@utils/testContext';
+import {expect} from 'chai';
 
 // Import commonTests
 import setMultiStoreStatus from '@commonTests/BO/advancedParameters/multistore';
 
 // Import pages
 import shopPage from '@pages/BO/advancedParameters/multistore/shop';
-import addShopPage from '@pages/BO/advancedParameters/multistore/shop/add';
 import addShopUrlPage from '@pages/BO/advancedParameters/multistore/url/addURL';
 
-import {expect} from 'chai';
 import {
   boDashboardPage,
   boLoginPage,
   boMultistorePage,
+  boMultistoreShopCreatePage,
   type BrowserContext,
   FakerShop,
   type Page,
@@ -72,14 +71,14 @@ describe('BO - Advanced Parameters - Multistore : Multistore options', async () 
 
       await boMultistorePage.goToNewShopPage(page);
 
-      const pageTitle = await addShopPage.getPageTitle(page);
-      expect(pageTitle).to.contains(addShopPage.pageTitleCreate);
+      const pageTitle = await boMultistoreShopCreatePage.getPageTitle(page);
+      expect(pageTitle).to.contains(boMultistoreShopCreatePage.pageTitleCreate);
     });
 
     it('should create shop', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'createShop', baseContext);
 
-      const textResult = await addShopPage.setShop(page, createShopData);
+      const textResult = await boMultistoreShopCreatePage.setShop(page, createShopData);
       expect(textResult).to.contains(boMultistorePage.successfulCreationMessage);
     });
 
@@ -126,21 +125,21 @@ describe('BO - Advanced Parameters - Multistore : Multistore options', async () 
 
       await boMultistorePage.goToNewShopPage(page);
 
-      const pageTitle = await addShopPage.getPageTitle(page);
-      expect(pageTitle).to.contains(addShopPage.pageTitleCreate);
+      const pageTitle = await boMultistoreShopCreatePage.getPageTitle(page);
+      expect(pageTitle).to.contains(boMultistoreShopCreatePage.pageTitleCreate);
     });
 
     it('should check that the source store is the created shop in the pre-condition', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'checkSourceStore', baseContext);
 
-      const sourceStore = await addShopPage.getSourceStore(page);
+      const sourceStore = await boMultistoreShopCreatePage.getSourceStore(page);
       expect(sourceStore).to.equal(createShopData.name);
     });
 
     it('should create shop', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'createShop2', baseContext);
 
-      const textResult = await addShopPage.setShop(page, secondCreateShopData);
+      const textResult = await boMultistoreShopCreatePage.setShop(page, secondCreateShopData);
       expect(textResult).to.contains(boMultistorePage.successfulCreationMessage);
     });
 
