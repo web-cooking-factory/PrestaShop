@@ -1,13 +1,13 @@
-// Import utils
 import testContext from '@utils/testContext';
 
 // Import pages
 import catalogPriceRulesPage from '@pages/BO/catalog/discounts/catalogPriceRules';
-import addCatalogPriceRulePage from '@pages/BO/catalog/discounts/catalogPriceRules/add';
 
 import {expect} from 'chai';
+
 import {
   boCartRulesPage,
+  boCatalogPriceRulesCreatePage,
   boDashboardPage,
   boLoginPage,
   type BrowserContext,
@@ -97,14 +97,14 @@ describe('BO - Catalog - Discounts : Filter, sort and pagination catalog price r
 
         await catalogPriceRulesPage.goToAddNewCatalogPriceRulePage(page);
 
-        const pageTitle = await addCatalogPriceRulePage.getPageTitle(page);
-        expect(pageTitle).to.contains(addCatalogPriceRulePage.pageTitle);
+        const pageTitle = await boCatalogPriceRulesCreatePage.getPageTitle(page);
+        expect(pageTitle).to.contains(boCatalogPriceRulesCreatePage.pageTitle);
       });
 
       it(`should create catalog price rule n°${index + 1}`, async function () {
         await testContext.addContextItem(this, 'testIdentifier', `createCatalogPriceRule${index}`, baseContext);
 
-        const validationMessage = await addCatalogPriceRulePage.setCatalogPriceRule(page, priceRuleData);
+        const validationMessage = await boCatalogPriceRulesCreatePage.setCatalogPriceRule(page, priceRuleData);
         expect(validationMessage).to.contains(catalogPriceRulesPage.successfulCreationMessage);
 
         const numberOfCatalogPriceRulesAfterCreation = await catalogPriceRulesPage.getNumberOfElementInGrid(page);

@@ -1,10 +1,10 @@
 import testContext from '@utils/testContext';
-import createCatalogPriceRulePage from '@pages/BO/catalog/discounts/catalogPriceRules/add';
 import catalogPriceRulesPage from '@pages/BO/catalog/discounts/catalogPriceRules';
 import {expect} from 'chai';
 
 import {
   boCartRulesPage,
+  boCatalogPriceRulesCreatePage,
   boDashboardPage,
   boLoginPage,
   boProductsPage,
@@ -439,7 +439,7 @@ describe('BO - Catalog - Products : Pricing tab', async () => {
 
       await catalogPriceRulesPage.goToAddNewCatalogPriceRulePage(page);
 
-      const validationMessage = await createCatalogPriceRulePage.setCatalogPriceRule(page, newCatalogPriceRuleData);
+      const validationMessage = await boCatalogPriceRulesCreatePage.setCatalogPriceRule(page, newCatalogPriceRuleData);
       expect(validationMessage).to.contains(catalogPriceRulesPage.successfulCreationMessage);
     });
 

@@ -7,7 +7,6 @@ import viewBrandPage from '@pages/BO/catalog/brands/view';
 import categoriesPage from '@pages/BO/catalog/categories';
 import addCategoryPage from '@pages/BO/catalog/categories/add';
 import catalogPriceRulesPage from '@pages/BO/catalog/discounts/catalogPriceRules';
-import addCatalogPriceRulePage from '@pages/BO/catalog/discounts/catalogPriceRules/add';
 import addFeaturePage from '@pages/BO/catalog/features/addFeature';
 import addFeatureValuePage from '@pages/BO/catalog/features/addValue';
 import viewFeaturePage from '@pages/BO/catalog/features/view';
@@ -22,6 +21,7 @@ import {
   boBrandsPage,
   boCartRulesPage,
   boCartRulesCreatePage,
+  boCatalogPriceRulesCreatePage,
   boDashboardPage,
   boFeaturesPage,
   boFilesPage,
@@ -519,8 +519,8 @@ describe('BO - Catalog', async () => {
 
     await catalogPriceRulesPage.goToAddNewCatalogPriceRulePage(page);
 
-    const pageTitle = await addCatalogPriceRulePage.getPageTitle(page);
-    expect(pageTitle).to.contains(addCatalogPriceRulePage.pageTitle);
+    const pageTitle = await boCatalogPriceRulesCreatePage.getPageTitle(page);
+    expect(pageTitle).to.contains(boCatalogPriceRulesCreatePage.pageTitle);
 
     const jsErrors = utilsPlaywright.getJsErrors();
     expect(jsErrors.length).to.equals(0);

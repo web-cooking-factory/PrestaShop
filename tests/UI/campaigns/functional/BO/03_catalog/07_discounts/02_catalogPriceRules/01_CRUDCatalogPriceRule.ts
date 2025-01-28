@@ -4,11 +4,11 @@ import testContext from '@utils/testContext';
 // Import pages
 // Import BO pages
 import catalogPriceRulesPage from '@pages/BO/catalog/discounts/catalogPriceRules';
-import addCatalogPriceRulePage from '@pages/BO/catalog/discounts/catalogPriceRules/add';
 
 import {expect} from 'chai';
 import {
   boCartRulesPage,
+  boCatalogPriceRulesCreatePage,
   boDashboardPage,
   boLoginPage,
   type BrowserContext,
@@ -107,10 +107,10 @@ describe('BO - Catalog - Discounts : CRUD catalog price rules', async () => {
 
       await catalogPriceRulesPage.goToAddNewCatalogPriceRulePage(page);
 
-      const pageTitle = await addCatalogPriceRulePage.getPageTitle(page);
-      expect(pageTitle).to.contains(addCatalogPriceRulePage.pageTitle);
+      const pageTitle = await boCatalogPriceRulesCreatePage.getPageTitle(page);
+      expect(pageTitle).to.contains(boCatalogPriceRulesCreatePage.pageTitle);
 
-      const validationMessage = await addCatalogPriceRulePage.setCatalogPriceRule(page, newCatalogPriceRuleData);
+      const validationMessage = await boCatalogPriceRulesCreatePage.setCatalogPriceRule(page, newCatalogPriceRuleData);
       expect(validationMessage).to.contains(catalogPriceRulesPage.successfulCreationMessage);
     });
   });
@@ -121,7 +121,7 @@ describe('BO - Catalog - Discounts : CRUD catalog price rules', async () => {
       await testContext.addContextItem(this, 'testIdentifier', 'viewMyShop_1', baseContext);
 
       // View my shop and init pages
-      page = await addCatalogPriceRulePage.viewMyShop(page);
+      page = await boCatalogPriceRulesCreatePage.viewMyShop(page);
       await foClassicHomePage.changeLanguage(page, 'en');
 
       const isHomePage = await foClassicHomePage.isHomePage(page);
@@ -185,10 +185,10 @@ describe('BO - Catalog - Discounts : CRUD catalog price rules', async () => {
 
       await catalogPriceRulesPage.goToEditCatalogPriceRulePage(page, newCatalogPriceRuleData.name);
 
-      const pageTitle = await addCatalogPriceRulePage.getPageTitle(page);
-      expect(pageTitle).to.contains(addCatalogPriceRulePage.editPageTitle);
+      const pageTitle = await boCatalogPriceRulesCreatePage.getPageTitle(page);
+      expect(pageTitle).to.contains(boCatalogPriceRulesCreatePage.editPageTitle);
 
-      const validationMessage = await addCatalogPriceRulePage.setCatalogPriceRule(page, editCatalogPriceRuleData);
+      const validationMessage = await boCatalogPriceRulesCreatePage.setCatalogPriceRule(page, editCatalogPriceRuleData);
       expect(validationMessage).to.contains(catalogPriceRulesPage.successfulUpdateMessage);
     });
   });
@@ -199,7 +199,7 @@ describe('BO - Catalog - Discounts : CRUD catalog price rules', async () => {
       await testContext.addContextItem(this, 'testIdentifier', 'viewMyShop_2', baseContext);
 
       // View my shop and init pages
-      page = await addCatalogPriceRulePage.viewMyShop(page);
+      page = await boCatalogPriceRulesCreatePage.viewMyShop(page);
       await foClassicHomePage.changeLanguage(page, 'en');
 
       const isHomePage = await foClassicHomePage.isHomePage(page);

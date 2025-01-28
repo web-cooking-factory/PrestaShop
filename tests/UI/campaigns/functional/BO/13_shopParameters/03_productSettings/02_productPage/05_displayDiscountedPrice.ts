@@ -4,11 +4,12 @@ import testContext from '@utils/testContext';
 // Import pages
 // Import BO pages
 import catalogPriceRulesPage from '@pages/BO/catalog/discounts/catalogPriceRules';
-import addCatalogPriceRulePage from '@pages/BO/catalog/discounts/catalogPriceRules/add';
 
 import {expect} from 'chai';
+
 import {
   boCartRulesPage,
+  boCatalogPriceRulesCreatePage,
   boDashboardPage,
   boLoginPage,
   boProductSettingsPage,
@@ -88,20 +89,20 @@ describe('BO - Shop Parameters - Product Settings : Enable/Disable display disco
 
     await catalogPriceRulesPage.goToAddNewCatalogPriceRulePage(page);
 
-    const pageTitle = await addCatalogPriceRulePage.getPageTitle(page);
-    expect(pageTitle).to.contains(addCatalogPriceRulePage.pageTitle);
+    const pageTitle = await boCatalogPriceRulesCreatePage.getPageTitle(page);
+    expect(pageTitle).to.contains(boCatalogPriceRulesCreatePage.pageTitle);
 
-    const validationMessage = await addCatalogPriceRulePage.setCatalogPriceRule(page, priceRuleData);
+    const validationMessage = await boCatalogPriceRulesCreatePage.setCatalogPriceRule(page, priceRuleData);
     expect(validationMessage).to.contains(catalogPriceRulesPage.successfulCreationMessage);
   });
 
   it('should go to \'Shop parameters > Product Settings\' page', async function () {
     await testContext.addContextItem(this, 'testIdentifier', 'goToProductSettingsPage', baseContext);
 
-    await addCatalogPriceRulePage.goToSubMenu(
+    await boCatalogPriceRulesCreatePage.goToSubMenu(
       page,
-      addCatalogPriceRulePage.shopParametersParentLink,
-      addCatalogPriceRulePage.productSettingsLink,
+      boCatalogPriceRulesCreatePage.shopParametersParentLink,
+      boCatalogPriceRulesCreatePage.productSettingsLink,
     );
     await boProductSettingsPage.closeSfToolBar(page);
 
