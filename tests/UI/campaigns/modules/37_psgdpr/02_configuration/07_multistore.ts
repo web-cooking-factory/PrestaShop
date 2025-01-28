@@ -3,7 +3,6 @@ import testContext from '@utils/testContext';
 
 // Import pages
 // Import BO pages
-import multiStorePage from '@pages/BO/advancedParameters/multistore';
 import shopPage from '@pages/BO/advancedParameters/multistore/shop';
 import addShopPage from '@pages/BO/advancedParameters/multistore/shop/add';
 import addShopUrlPage from '@pages/BO/advancedParameters/multistore/url/addURL';
@@ -13,6 +12,7 @@ import {
   boDashboardPage,
   boLoginPage,
   boModuleManagerPage,
+  boMultistorePage,
   boShopParametersPage,
   type BrowserContext,
   dataModules,
@@ -165,16 +165,16 @@ describe('BO - Modules - GDPR : Multistore', async () => {
           boDashboardPage.advancedParametersLink,
           boDashboardPage.multistoreLink,
         );
-        await multiStorePage.closeSfToolBar(page);
+        await boMultistorePage.closeSfToolBar(page);
 
-        const pageTitle = await multiStorePage.getPageTitle(page);
-        expect(pageTitle).to.contains(multiStorePage.pageTitle);
+        const pageTitle = await boMultistorePage.getPageTitle(page);
+        expect(pageTitle).to.contains(boMultistorePage.pageTitle);
       });
 
       it('should go to add new shop page', async function () {
         await testContext.addContextItem(this, 'testIdentifier', `goToAddNewShopPage${index}`, baseContext);
 
-        await multiStorePage.goToNewShopPage(page);
+        await boMultistorePage.goToNewShopPage(page);
 
         const pageTitle = await addShopPage.getPageTitle(page);
         expect(pageTitle).to.contains(addShopPage.pageTitleCreate);
@@ -184,7 +184,7 @@ describe('BO - Modules - GDPR : Multistore', async () => {
         await testContext.addContextItem(this, 'testIdentifier', `createShop${index}`, baseContext);
 
         const textResult = await addShopPage.setShop(page, shop);
-        expect(textResult).to.contains(multiStorePage.successfulCreationMessage);
+        expect(textResult).to.contains(boMultistorePage.successfulCreationMessage);
       });
 
       it('should get the id of the new shop', async function () {

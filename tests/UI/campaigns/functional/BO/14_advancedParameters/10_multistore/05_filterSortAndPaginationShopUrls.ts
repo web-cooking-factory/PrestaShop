@@ -5,14 +5,15 @@ import testContext from '@utils/testContext';
 import setMultiStoreStatus from '@commonTests/BO/advancedParameters/multistore';
 
 // Import pages
-import multiStorePage from '@pages/BO/advancedParameters/multistore';
 import addShopUrlPage from '@pages/BO/advancedParameters/multistore/url/addURL';
 import shopUrlPage from '@pages/BO/advancedParameters/multistore/url';
 
 import {expect} from 'chai';
+
 import {
   boDashboardPage,
   boLoginPage,
+  boMultistorePage,
   type BrowserContext,
   FakerShop,
   type Page,
@@ -69,17 +70,17 @@ describe('BO - Advanced Parameters - Multistore : Filter, sort and pagination sh
         boDashboardPage.multistoreLink,
       );
 
-      const pageTitle = await multiStorePage.getPageTitle(page);
-      expect(pageTitle).to.contains(multiStorePage.pageTitle);
+      const pageTitle = await boMultistorePage.getPageTitle(page);
+      expect(pageTitle).to.contains(boMultistorePage.pageTitle);
     });
 
     it('should go to \'Shop Urls\' page', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'goToShopUrlsPage', baseContext);
 
-      await multiStorePage.goToShopURLPage(page, 1);
+      await boMultistorePage.goToShopURLPage(page, 1);
 
-      const pageTitle = await multiStorePage.getPageTitle(page);
-      expect(pageTitle).to.contains(multiStorePage.pageTitle);
+      const pageTitle = await boMultistorePage.getPageTitle(page);
+      expect(pageTitle).to.contains(boMultistorePage.pageTitle);
     });
   });
 

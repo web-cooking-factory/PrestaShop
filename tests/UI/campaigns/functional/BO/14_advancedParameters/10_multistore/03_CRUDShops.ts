@@ -5,7 +5,6 @@ import testContext from '@utils/testContext';
 import setMultiStoreStatus from '@commonTests/BO/advancedParameters/multistore';
 
 // Import pages
-import multiStorePage from '@pages/BO/advancedParameters/multistore';
 import addShopPage from '@pages/BO/advancedParameters/multistore/shop/add';
 import addShopUrlPage from '@pages/BO/advancedParameters/multistore/url/addURL';
 import shopPage from '@pages/BO/advancedParameters/multistore/shop';
@@ -14,6 +13,7 @@ import {expect} from 'chai';
 import {
   boDashboardPage,
   boLoginPage,
+  boMultistorePage,
   type BrowserContext,
   FakerShop,
   type Page,
@@ -64,16 +64,16 @@ describe('BO - Advanced Parameters - Multistore : Create, Read, Update and Delet
         boDashboardPage.advancedParametersLink,
         boDashboardPage.multistoreLink,
       );
-      await multiStorePage.closeSfToolBar(page);
+      await boMultistorePage.closeSfToolBar(page);
 
-      const pageTitle = await multiStorePage.getPageTitle(page);
-      expect(pageTitle).to.contains(multiStorePage.pageTitle);
+      const pageTitle = await boMultistorePage.getPageTitle(page);
+      expect(pageTitle).to.contains(boMultistorePage.pageTitle);
     });
 
     it('should go to add new shop page', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'goToAddNewShopPage', baseContext);
 
-      await multiStorePage.goToNewShopPage(page);
+      await boMultistorePage.goToNewShopPage(page);
 
       const pageTitle = await addShopPage.getPageTitle(page);
       expect(pageTitle).to.contains(addShopPage.pageTitleCreate);
@@ -83,7 +83,7 @@ describe('BO - Advanced Parameters - Multistore : Create, Read, Update and Delet
       await testContext.addContextItem(this, 'testIdentifier', 'createShop', baseContext);
 
       const textResult = await addShopPage.setShop(page, createShopData);
-      expect(textResult).to.contains(multiStorePage.successfulCreationMessage);
+      expect(textResult).to.contains(boMultistorePage.successfulCreationMessage);
     });
 
     it('should get the id of the new shop', async function () {
@@ -138,7 +138,7 @@ describe('BO - Advanced Parameters - Multistore : Create, Read, Update and Delet
     it('should go to the created shop page', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'goToCreatedShopPage', baseContext);
 
-      await multiStorePage.goToShopPage(page, shopID);
+      await boMultistorePage.goToShopPage(page, shopID);
 
       const pageTitle = await shopPage.getPageTitle(page);
       expect(pageTitle).to.contains(updateShopData.name);

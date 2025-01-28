@@ -5,7 +5,6 @@ import testContext from '@utils/testContext';
 import setMultiStoreStatus from '@commonTests/BO/advancedParameters/multistore';
 
 // Import pages
-import multiStorePage from '@pages/BO/advancedParameters/multistore';
 import addShopPage from '@pages/BO/advancedParameters/multistore/shop/add';
 import shopPage from '@pages/BO/advancedParameters/multistore/shop';
 
@@ -13,6 +12,7 @@ import {expect} from 'chai';
 import {
   boDashboardPage,
   boLoginPage,
+  boMultistorePage,
   type BrowserContext,
   FakerShop,
   type Page,
@@ -69,16 +69,16 @@ describe('BO - Advanced Parameters - Multistore : Filter, sort and pagination sh
         boDashboardPage.advancedParametersLink,
         boDashboardPage.multistoreLink,
       );
-      await multiStorePage.closeSfToolBar(page);
+      await boMultistorePage.closeSfToolBar(page);
 
-      const pageTitle = await multiStorePage.getPageTitle(page);
-      expect(pageTitle).to.contains(multiStorePage.pageTitle);
+      const pageTitle = await boMultistorePage.getPageTitle(page);
+      expect(pageTitle).to.contains(boMultistorePage.pageTitle);
     });
 
     it('should go to add new shop page', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'goToAddNewShopsPage', baseContext);
 
-      await multiStorePage.goToNewShopPage(page);
+      await boMultistorePage.goToNewShopPage(page);
 
       const pageTitle = await addShopPage.getPageTitle(page);
       expect(pageTitle).to.contains(addShopPage.pageTitleCreate);
@@ -88,7 +88,7 @@ describe('BO - Advanced Parameters - Multistore : Filter, sort and pagination sh
       await testContext.addContextItem(this, 'testIdentifier', 'createFirstShop', baseContext);
 
       const textResult = await addShopPage.setShop(page, shopCreate);
-      expect(textResult).to.contains(multiStorePage.successfulCreationMessage);
+      expect(textResult).to.contains(boMultistorePage.successfulCreationMessage);
     });
   });
 
@@ -113,7 +113,7 @@ describe('BO - Advanced Parameters - Multistore : Filter, sort and pagination sh
         await testContext.addContextItem(this, 'testIdentifier', `createShop${index}`, baseContext);
 
         const textResult = await addShopPage.setShop(page, shopCreate);
-        expect(textResult).to.contains(multiStorePage.successfulCreationMessage);
+        expect(textResult).to.contains(boMultistorePage.successfulCreationMessage);
       });
     });
   });
