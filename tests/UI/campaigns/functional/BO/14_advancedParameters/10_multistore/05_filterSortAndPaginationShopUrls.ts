@@ -1,19 +1,17 @@
-// Import utils
 import testContext from '@utils/testContext';
+import {expect} from 'chai';
 
 // Import commonTests
 import setMultiStoreStatus from '@commonTests/BO/advancedParameters/multistore';
 
 // Import pages
-import addShopUrlPage from '@pages/BO/advancedParameters/multistore/url/addURL';
 import shopUrlPage from '@pages/BO/advancedParameters/multistore/url';
-
-import {expect} from 'chai';
 
 import {
   boDashboardPage,
   boLoginPage,
   boMultistorePage,
+  boMultistoreShopUrlCreatePage,
   type BrowserContext,
   FakerShop,
   type Page,
@@ -97,15 +95,15 @@ describe('BO - Advanced Parameters - Multistore : Filter, sort and pagination sh
 
         await shopUrlPage.goToAddNewUrl(page);
 
-        const pageTitle = await addShopUrlPage.getPageTitle(page);
-        expect(pageTitle).to.contains(addShopUrlPage.pageTitleCreate);
+        const pageTitle = await boMultistoreShopUrlCreatePage.getPageTitle(page);
+        expect(pageTitle).to.contains(boMultistoreShopUrlCreatePage.pageTitleCreate);
       });
 
       it(`should create shop URl n°${index + 1}`, async function () {
         await testContext.addContextItem(this, 'testIdentifier', `addURL${index}`, baseContext);
 
-        const textResult = await addShopUrlPage.setVirtualUrl(page, shopUrlData.name);
-        expect(textResult).to.contains(addShopUrlPage.successfulCreationMessage);
+        const textResult = await boMultistoreShopUrlCreatePage.setVirtualUrl(page, shopUrlData.name);
+        expect(textResult).to.contains(boMultistoreShopUrlCreatePage.successfulCreationMessage);
       });
     });
   });

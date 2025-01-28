@@ -4,15 +4,13 @@ import {expect} from 'chai';
 // Import commonTests
 import setMultiStoreStatus from '@commonTests/BO/advancedParameters/multistore';
 
-// Import pages
-import addShopUrlPage from '@pages/BO/advancedParameters/multistore/url/addURL';
-
 import {
   boDashboardPage,
   boLoginPage,
   boMultistorePage,
   boMultistoreShopPage,
   boMultistoreShopCreatePage,
+  boMultistoreShopUrlCreatePage,
   type BrowserContext,
   FakerShop,
   type Page,
@@ -98,15 +96,15 @@ describe('BO - Advanced Parameters - Multistore : Multistore options', async () 
       await boMultistoreShopPage.filterTable(page, 'a!name', createShopData.name);
       await boMultistoreShopPage.goToSetURL(page, 1);
 
-      const pageTitle = await addShopUrlPage.getPageTitle(page);
-      expect(pageTitle).to.contains(addShopUrlPage.pageTitleCreate);
+      const pageTitle = await boMultistoreShopUrlCreatePage.getPageTitle(page);
+      expect(pageTitle).to.contains(boMultistoreShopUrlCreatePage.pageTitleCreate);
     });
 
     it('should set URL', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'addURL', baseContext);
 
-      const textResult = await addShopUrlPage.setVirtualUrl(page, createShopData.name);
-      expect(textResult).to.contains(addShopUrlPage.successfulCreationMessage);
+      const textResult = await boMultistoreShopUrlCreatePage.setVirtualUrl(page, createShopData.name);
+      expect(textResult).to.contains(boMultistoreShopUrlCreatePage.successfulCreationMessage);
     });
   });
 
@@ -149,15 +147,15 @@ describe('BO - Advanced Parameters - Multistore : Multistore options', async () 
       await boMultistoreShopPage.filterTable(page, 'a!name', secondCreateShopData.name);
       await boMultistoreShopPage.goToSetURL(page, 1);
 
-      const pageTitle = await addShopUrlPage.getPageTitle(page);
-      expect(pageTitle).to.contains(addShopUrlPage.pageTitleCreate);
+      const pageTitle = await boMultistoreShopUrlCreatePage.getPageTitle(page);
+      expect(pageTitle).to.contains(boMultistoreShopUrlCreatePage.pageTitleCreate);
     });
 
     it('should set URL', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'addURL2', baseContext);
 
-      const textResult = await addShopUrlPage.setVirtualUrl(page, secondCreateShopData.name);
-      expect(textResult).to.contains(addShopUrlPage.successfulCreationMessage);
+      const textResult = await boMultistoreShopUrlCreatePage.setVirtualUrl(page, secondCreateShopData.name);
+      expect(textResult).to.contains(boMultistoreShopUrlCreatePage.successfulCreationMessage);
     });
 
     it('should click on Default shop link and select the default store on Default store select', async function () {

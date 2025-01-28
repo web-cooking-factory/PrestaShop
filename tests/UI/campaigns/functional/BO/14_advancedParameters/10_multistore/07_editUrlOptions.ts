@@ -6,13 +6,13 @@ import setMultiStoreStatus from '@commonTests/BO/advancedParameters/multistore';
 
 // Import pages
 import shopUrlPage from '@pages/BO/advancedParameters/multistore/url';
-import editShopUrlPage from '@pages/BO/advancedParameters/multistore/url/addURL';
 
 import {
   boDashboardPage,
   boLoginPage,
   boMultistorePage,
   boMultistoreShopPage,
+  boMultistoreShopUrlCreatePage,
   type BrowserContext,
   FakerShop,
   type Page,
@@ -91,23 +91,23 @@ describe('BO - Advanced Parameters - Multistore : Edit URL options', async () =>
 
       await shopUrlPage.goToEditShopURLPage(page, 1);
 
-      const pageTitle = await editShopUrlPage.getPageTitle(page);
-      expect(pageTitle).to.contains(editShopUrlPage.pageTitleEdit);
+      const pageTitle = await boMultistoreShopUrlCreatePage.getPageTitle(page);
+      expect(pageTitle).to.contains(boMultistoreShopUrlCreatePage.pageTitleEdit);
     });
 
     it('should disable the main URL and check the error message', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'disableMainURL', baseContext);
 
-      const errorAlertMessage = await editShopUrlPage.setMainURL(page, 'off');
-      expect(errorAlertMessage).to.contains(editShopUrlPage.errorDisableMainURLMessage);
+      const errorAlertMessage = await boMultistoreShopUrlCreatePage.setMainURL(page, 'off');
+      expect(errorAlertMessage).to.contains(boMultistoreShopUrlCreatePage.errorDisableMainURLMessage);
     });
 
     it('should disable the shop and check the error message', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'disableShop', baseContext);
 
-      const errorAlertMessage = await editShopUrlPage.setShopStatus(page, 'off');
-      expect(errorAlertMessage).to.contains(editShopUrlPage.errorDisableMainURLMessage)
-        .and.to.contains(editShopUrlPage.ErrorDisableShopMessage);
+      const errorAlertMessage = await boMultistoreShopUrlCreatePage.setShopStatus(page, 'off');
+      expect(errorAlertMessage).to.contains(boMultistoreShopUrlCreatePage.errorDisableMainURLMessage)
+        .and.to.contains(boMultistoreShopUrlCreatePage.errorDisableShopMessage);
     });
 
     it('should go to add shop URL', async function () {
@@ -115,15 +115,15 @@ describe('BO - Advanced Parameters - Multistore : Edit URL options', async () =>
 
       await shopUrlPage.goToAddNewUrl(page);
 
-      const pageTitle = await editShopUrlPage.getPageTitle(page);
-      expect(pageTitle).to.contains(editShopUrlPage.pageTitleCreate);
+      const pageTitle = await boMultistoreShopUrlCreatePage.getPageTitle(page);
+      expect(pageTitle).to.contains(boMultistoreShopUrlCreatePage.pageTitleCreate);
     });
 
     it('should create shop URL', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'addURL', baseContext);
 
-      const textResult = await editShopUrlPage.setVirtualUrl(page, ShopUrlData.name);
-      expect(textResult).to.contains(editShopUrlPage.successfulCreationMessage);
+      const textResult = await boMultistoreShopUrlCreatePage.setVirtualUrl(page, ShopUrlData.name);
+      expect(textResult).to.contains(boMultistoreShopUrlCreatePage.successfulCreationMessage);
     });
 
     it('should disable the shop URL for the created url', async function () {

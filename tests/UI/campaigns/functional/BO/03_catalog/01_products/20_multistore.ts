@@ -1,6 +1,5 @@
 import testContext from '@utils/testContext';
 import setMultiStoreStatus from '@commonTests/BO/advancedParameters/multistore';
-import addShopUrlPage from '@pages/BO/advancedParameters/multistore/url/addURL';
 import {expect} from 'chai';
 
 import {
@@ -9,6 +8,7 @@ import {
   boMultistorePage,
   boMultistoreShopPage,
   boMultistoreShopCreatePage,
+  boMultistoreShopUrlCreatePage,
   boProductsPage,
   boProductsCreatePage,
   type BrowserContext,
@@ -101,15 +101,15 @@ describe('BO - Catalog - Products : Multistore', async () => {
       await boMultistoreShopPage.filterTable(page, 'a!name', createShopData.name);
       await boMultistoreShopPage.goToSetURL(page, 1);
 
-      const pageTitle = await addShopUrlPage.getPageTitle(page);
-      expect(pageTitle).to.contains(addShopUrlPage.pageTitleCreate);
+      const pageTitle = await boMultistoreShopUrlCreatePage.getPageTitle(page);
+      expect(pageTitle).to.contains(boMultistoreShopUrlCreatePage.pageTitleCreate);
     });
 
     it('should set URL', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'addURL', baseContext);
 
-      const textResult = await addShopUrlPage.setVirtualUrl(page, createShopData.name);
-      expect(textResult).to.contains(addShopUrlPage.successfulCreationMessage);
+      const textResult = await boMultistoreShopUrlCreatePage.setVirtualUrl(page, createShopData.name);
+      expect(textResult).to.contains(boMultistoreShopUrlCreatePage.successfulCreationMessage);
     });
   });
 

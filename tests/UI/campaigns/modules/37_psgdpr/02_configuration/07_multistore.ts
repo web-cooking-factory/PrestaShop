@@ -1,10 +1,6 @@
 import testContext from '@utils/testContext';
 import {expect} from 'chai';
 
-// Import pages
-// Import BO pages
-import addShopUrlPage from '@pages/BO/advancedParameters/multistore/url/addURL';
-
 import {
   boDashboardPage,
   boLoginPage,
@@ -12,6 +8,7 @@ import {
   boMultistorePage,
   boMultistoreShopPage,
   boMultistoreShopCreatePage,
+  boMultistoreShopUrlCreatePage,
   boShopParametersPage,
   type BrowserContext,
   dataModules,
@@ -202,22 +199,22 @@ describe('BO - Modules - GDPR : Multistore', async () => {
         await boMultistoreShopPage.filterTable(page, 'a!name', shop.name);
         await boMultistoreShopPage.goToSetURL(page, 1);
 
-        const pageTitle = await addShopUrlPage.getPageTitle(page);
-        expect(pageTitle).to.contains(addShopUrlPage.pageTitleCreate);
+        const pageTitle = await boMultistoreShopUrlCreatePage.getPageTitle(page);
+        expect(pageTitle).to.contains(boMultistoreShopUrlCreatePage.pageTitleCreate);
       });
 
       it('should set URL', async function () {
         await testContext.addContextItem(this, 'testIdentifier', `addURL${index}`, baseContext);
 
-        const textResult = await addShopUrlPage.setVirtualUrl(page, shop.name);
-        expect(textResult).to.contains(addShopUrlPage.successfulCreationMessage);
+        const textResult = await boMultistoreShopUrlCreatePage.setVirtualUrl(page, shop.name);
+        expect(textResult).to.contains(boMultistoreShopUrlCreatePage.successfulCreationMessage);
       });
     });
 
     it('should go to \'Modules > Module Manager\' page', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'goToModuleManagerPageShopContext', baseContext);
 
-      await addShopUrlPage.goToSubMenu(
+      await boMultistoreShopUrlCreatePage.goToSubMenu(
         page,
         boDashboardPage.modulesParentLink,
         boDashboardPage.moduleManagerLink,
