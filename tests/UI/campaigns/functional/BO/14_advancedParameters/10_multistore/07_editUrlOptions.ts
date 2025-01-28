@@ -1,19 +1,18 @@
-// Import utils
 import testContext from '@utils/testContext';
+import {expect} from 'chai';
 
 // Import commonTests
 import setMultiStoreStatus from '@commonTests/BO/advancedParameters/multistore';
 
 // Import pages
 import shopUrlPage from '@pages/BO/advancedParameters/multistore/url';
-import shopPage from '@pages/BO/advancedParameters/multistore/shop';
 import editShopUrlPage from '@pages/BO/advancedParameters/multistore/url/addURL';
 
-import {expect} from 'chai';
 import {
   boDashboardPage,
   boLoginPage,
   boMultistorePage,
+  boMultistoreShopPage,
   type BrowserContext,
   FakerShop,
   type Page,
@@ -169,7 +168,7 @@ describe('BO - Advanced Parameters - Multistore : Edit URL options', async () =>
       await testContext.addContextItem(this, 'testIdentifier', 'deleteShop', baseContext);
 
       const textResult = await shopUrlPage.deleteShopURL(page, 2);
-      expect(textResult).to.contains(shopPage.successfulDeleteMessage);
+      expect(textResult).to.contains(boMultistoreShopPage.successfulDeleteMessage);
     });
   });
 

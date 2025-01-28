@@ -6,7 +6,6 @@ import setMultiStoreStatus from '@commonTests/BO/advancedParameters/multistore';
 
 // Import pages
 import addShopGroupPage from '@pages/BO/advancedParameters/multistore/add';
-import shopPage from '@pages/BO/advancedParameters/multistore/shop';
 
 import {expect} from 'chai';
 
@@ -14,6 +13,7 @@ import {
   boDashboardPage,
   boLoginPage,
   boMultistorePage,
+  boMultistoreShopPage,
   boMultistoreShopCreatePage,
   type BrowserContext,
   FakerShop,
@@ -146,10 +146,10 @@ describe('BO - Advanced Parameters - Multistore : Create, Read, Update and Delet
     it('should get the id of the new shop', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'getShopID', baseContext);
 
-      const numberOfShops = await shopPage.getNumberOfElementInGrid(page);
+      const numberOfShops = await boMultistoreShopPage.getNumberOfElementInGrid(page);
       expect(numberOfShops).to.be.above(0);
 
-      shopID = parseInt(await shopPage.getTextColumn(page, 1, 'id_shop'), 10);
+      shopID = parseInt(await boMultistoreShopPage.getTextColumn(page, 1, 'id_shop'), 10);
     });
   });
 
@@ -186,22 +186,22 @@ describe('BO - Advanced Parameters - Multistore : Create, Read, Update and Delet
 
       await boMultistorePage.goToShopPage(page, shopID);
 
-      const pageTitle = await shopPage.getPageTitle(page);
+      const pageTitle = await boMultistoreShopPage.getPageTitle(page);
       expect(pageTitle).to.contains(updateShopGroupData.name);
     });
 
     it('should delete the shop', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'deleteShop', baseContext);
 
-      const numberOfShops = await shopPage.getNumberOfElementInGrid(page);
+      const numberOfShops = await boMultistoreShopPage.getNumberOfElementInGrid(page);
       expect(numberOfShops).to.be.above(1);
 
-      await shopPage.filterTable(page, 'a!name', shopData.name);
+      await boMultistoreShopPage.filterTable(page, 'a!name', shopData.name);
 
-      const textResult = await shopPage.deleteShop(page, 1);
-      expect(textResult).to.contains(shopPage.successfulDeleteMessage);
+      const textResult = await boMultistoreShopPage.deleteShop(page, 1);
+      expect(textResult).to.contains(boMultistoreShopPage.successfulDeleteMessage);
 
-      const numberOfShopsAfterDelete = await shopPage.resetAndGetNumberOfLines(page);
+      const numberOfShopsAfterDelete = await boMultistoreShopPage.resetAndGetNumberOfLines(page);
       expect(numberOfShopsAfterDelete).to.be.equal(1);
     });
 

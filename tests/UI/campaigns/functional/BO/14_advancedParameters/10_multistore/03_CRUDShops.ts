@@ -6,7 +6,6 @@ import setMultiStoreStatus from '@commonTests/BO/advancedParameters/multistore';
 
 // Import pages
 import addShopUrlPage from '@pages/BO/advancedParameters/multistore/url/addURL';
-import shopPage from '@pages/BO/advancedParameters/multistore/shop';
 
 import {expect} from 'chai';
 
@@ -14,6 +13,7 @@ import {
   boDashboardPage,
   boLoginPage,
   boMultistorePage,
+  boMultistoreShopPage,
   boMultistoreShopCreatePage,
   type BrowserContext,
   FakerShop,
@@ -90,10 +90,10 @@ describe('BO - Advanced Parameters - Multistore : Create, Read, Update and Delet
     it('should get the id of the new shop', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'getShopID', baseContext);
 
-      const numberOfShops = await shopPage.getNumberOfElementInGrid(page);
+      const numberOfShops = await boMultistoreShopPage.getNumberOfElementInGrid(page);
       expect(numberOfShops).to.be.above(0);
 
-      shopID = parseInt(await shopPage.getTextColumn(page, 1, 'id_shop'), 10);
+      shopID = parseInt(await boMultistoreShopPage.getTextColumn(page, 1, 'id_shop'), 10);
     });
   });
 
@@ -102,8 +102,8 @@ describe('BO - Advanced Parameters - Multistore : Create, Read, Update and Delet
     it('should go to edit the created shop page', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'goToEditShopPage', baseContext);
 
-      await shopPage.filterTable(page, 'a!name', createShopData.name);
-      await shopPage.gotoEditShopPage(page, 1);
+      await boMultistoreShopPage.filterTable(page, 'a!name', createShopData.name);
+      await boMultistoreShopPage.gotoEditShopPage(page, 1);
 
       const pageTitle = await boMultistoreShopCreatePage.getPageTitle(page);
       expect(pageTitle).to.contains(boMultistoreShopCreatePage.pageTitleEdit);
@@ -119,8 +119,8 @@ describe('BO - Advanced Parameters - Multistore : Create, Read, Update and Delet
     it('should go to add URL', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'goToAddURL', baseContext);
 
-      await shopPage.filterTable(page, 'a!name', updateShopData.name);
-      await shopPage.goToSetURL(page, 1);
+      await boMultistoreShopPage.filterTable(page, 'a!name', updateShopData.name);
+      await boMultistoreShopPage.goToSetURL(page, 1);
 
       const pageTitle = await addShopUrlPage.getPageTitle(page);
       expect(pageTitle).to.contains(addShopUrlPage.pageTitleCreate);
@@ -141,17 +141,17 @@ describe('BO - Advanced Parameters - Multistore : Create, Read, Update and Delet
 
       await boMultistorePage.goToShopPage(page, shopID);
 
-      const pageTitle = await shopPage.getPageTitle(page);
+      const pageTitle = await boMultistoreShopPage.getPageTitle(page);
       expect(pageTitle).to.contains(updateShopData.name);
     });
 
     it('should delete the shop', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'deleteShop', baseContext);
 
-      await shopPage.filterTable(page, 'a!name', updateShopData.name);
+      await boMultistoreShopPage.filterTable(page, 'a!name', updateShopData.name);
 
-      const textResult = await shopPage.deleteShop(page, 1);
-      expect(textResult).to.contains(shopPage.successfulDeleteMessage);
+      const textResult = await boMultistoreShopPage.deleteShop(page, 1);
+      expect(textResult).to.contains(boMultistoreShopPage.successfulDeleteMessage);
     });
   });
 

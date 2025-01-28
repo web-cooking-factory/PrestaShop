@@ -1,6 +1,5 @@
 import testContext from '@utils/testContext';
 import setMultiStoreStatus from '@commonTests/BO/advancedParameters/multistore';
-import shopPage from '@pages/BO/advancedParameters/multistore/shop';
 import addShopUrlPage from '@pages/BO/advancedParameters/multistore/url/addURL';
 import {expect} from 'chai';
 
@@ -8,6 +7,7 @@ import {
   boDashboardPage,
   boLoginPage,
   boMultistorePage,
+  boMultistoreShopPage,
   boMultistoreShopCreatePage,
   boProductsPage,
   boProductsCreatePage,
@@ -98,8 +98,8 @@ describe('BO - Catalog - Products : Multistore', async () => {
     it('should go to add URL', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'goToAddURL', baseContext);
 
-      await shopPage.filterTable(page, 'a!name', createShopData.name);
-      await shopPage.goToSetURL(page, 1);
+      await boMultistoreShopPage.filterTable(page, 'a!name', createShopData.name);
+      await boMultistoreShopPage.goToSetURL(page, 1);
 
       const pageTitle = await addShopUrlPage.getPageTitle(page);
       expect(pageTitle).to.contains(addShopUrlPage.pageTitleCreate);

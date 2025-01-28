@@ -3,7 +3,6 @@ import {expect} from 'chai';
 
 // Import pages
 // Import BO pages
-import shopPage from '@pages/BO/advancedParameters/multistore/shop';
 import addShopUrlPage from '@pages/BO/advancedParameters/multistore/url/addURL';
 
 import {
@@ -11,6 +10,7 @@ import {
   boLoginPage,
   boModuleManagerPage,
   boMultistorePage,
+  boMultistoreShopPage,
   boMultistoreShopCreatePage,
   boShopParametersPage,
   type BrowserContext,
@@ -189,18 +189,18 @@ describe('BO - Modules - GDPR : Multistore', async () => {
       it('should get the id of the new shop', async function () {
         await testContext.addContextItem(this, 'testIdentifier', `getShopID${index}`, baseContext);
 
-        const numberOfShops = await shopPage.getNumberOfElementInGrid(page);
+        const numberOfShops = await boMultistoreShopPage.getNumberOfElementInGrid(page);
         expect(numberOfShops).to.be.above(0);
 
-        const shopID = parseInt(await shopPage.getTextColumn(page, 1, 'id_shop'), 10);
+        const shopID = parseInt(await boMultistoreShopPage.getTextColumn(page, 1, 'id_shop'), 10);
         shop.setID(shopID);
       });
 
       it('should go to add URL', async function () {
         await testContext.addContextItem(this, 'testIdentifier', `goToAddURL${index}`, baseContext);
 
-        await shopPage.filterTable(page, 'a!name', shop.name);
-        await shopPage.goToSetURL(page, 1);
+        await boMultistoreShopPage.filterTable(page, 'a!name', shop.name);
+        await boMultistoreShopPage.goToSetURL(page, 1);
 
         const pageTitle = await addShopUrlPage.getPageTitle(page);
         expect(pageTitle).to.contains(addShopUrlPage.pageTitleCreate);
