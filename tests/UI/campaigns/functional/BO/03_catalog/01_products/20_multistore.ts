@@ -25,6 +25,7 @@ describe('BO - Catalog - Products : Multistore', async () => {
   let browserContext: BrowserContext;
   let page: Page;
   const createShopData: FakerShop = new FakerShop({name: 'newShop', shopGroup: 'Default', categoryRoot: 'Home'});
+  let shopID: number = 0;
 
   // Data to create standard product
   const newProductData: FakerProduct = new FakerProduct({
@@ -93,6 +94,15 @@ describe('BO - Catalog - Products : Multistore', async () => {
 
       const textResult = await addShopPage.setShop(page, createShopData);
       expect(textResult).to.contains(multiStorePage.successfulCreationMessage);
+    });
+
+    it('should get the id of the new shop', async function () {
+      await testContext.addContextItem(this, 'testIdentifier', 'getShopID', baseContext);
+
+      const numberOfShops = await shopPage.getNumberOfElementInGrid(page);
+      expect(numberOfShops).to.be.above(0);
+
+      shopID = parseInt(await shopPage.getTextColumn(page, 1, 'id_shop'), 10);
     });
 
     it('should go to add URL', async function () {
@@ -293,6 +303,40 @@ describe('BO - Catalog - Products : Multistore', async () => {
 
       const textMessage = await boProductsPage.clickOnConfirmDialogButton(page);
       expect(textMessage).to.equal(boProductsPage.successfulDeleteMessage);
+    });
+  });
+
+  describe('Delete shop', async () => {
+    it('should go back to \'Advanced Parameters > Multistore\' page', async function () {
+      await testContext.addContextItem(this, 'testIdentifier', 'goBackToMultiStorePage', baseContext);
+
+      await boDashboardPage.goToSubMenu(
+        page,
+        boDashboardPage.advancedParametersLink,
+        boDashboardPage.multistoreLink,
+      );
+      await multiStorePage.closeSfToolBar(page);
+
+      const pageTitle = await multiStorePage.getPageTitle(page);
+      expect(pageTitle).to.contains(multiStorePage.pageTitle);
+    });
+
+    it('should go to the created shop page', async function () {
+      await testContext.addContextItem(this, 'testIdentifier', 'goToCreatedShopPage', baseContext);
+
+      await multiStorePage.goToShopPage(page, shopID);
+
+      const pageTitle = await shopPage.getPageTitle(page);
+      expect(pageTitle).to.contains(createShopData.name);
+    });
+
+    it('should delete the shop', async function () {
+      await testContext.addContextItem(this, 'testIdentifier', 'deleteShop', baseContext);
+
+      await shopPage.filterTable(page, 'a!name', createShopData.name);
+
+      const textResult = await shopPage.deleteShop(page, 1);
+      expect(textResult).to.contains(shopPage.successfulDeleteMessage);
     });
   });
 
