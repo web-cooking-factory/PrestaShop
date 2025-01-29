@@ -1,11 +1,11 @@
 import testContext from '@utils/testContext';
 import {deleteProductTest} from '@commonTests/BO/catalog/product';
-import addValuePage from '@pages/BO/catalog/attributes/addValue';
 import {expect} from 'chai';
 
 import {
   boAttributesPage,
   boAttributesCreatePage,
+  boAttributesValueCreatePage,
   boAttributesViewPage,
   boDashboardPage,
   boLoginPage,
@@ -159,8 +159,8 @@ describe('FO - Product page - Product page : Change combination', async () => {
 
       await boAttributesViewPage.goToAddNewValuePage(page);
 
-      const pageTitle = await addValuePage.getPageTitle(page);
-      expect(pageTitle).to.equal(addValuePage.createPageTitle);
+      const pageTitle = await boAttributesValueCreatePage.getPageTitle(page);
+      expect(pageTitle).to.equal(boAttributesValueCreatePage.createPageTitle);
     });
 
     valuesToCreate.forEach((valueToCreate: FakerAttributeValue, index: number) => {
@@ -168,7 +168,7 @@ describe('FO - Product page - Product page : Change combination', async () => {
         await testContext.addContextItem(this, 'testIdentifier', `createValue${index}`, baseContext);
 
         valueToCreate.setAttributeId(attributeId);
-        const textResult = await addValuePage.addEditValue(page, valueToCreate, index === 0);
+        const textResult = await boAttributesValueCreatePage.addEditValue(page, valueToCreate, index === 0);
         expect(textResult).to.contains(boAttributesViewPage.successfulCreationMessage);
       });
     });
@@ -246,7 +246,7 @@ describe('FO - Product page - Product page : Change combination', async () => {
     it('should view my shop', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'goToFoToCreateAccount', baseContext);
 
-      page = await addValuePage.viewMyShop(page);
+      page = await boAttributesValueCreatePage.viewMyShop(page);
       await foClassicHomePage.changeLanguage(page, 'en');
 
       const isHomePage = await foClassicHomePage.isHomePage(page);

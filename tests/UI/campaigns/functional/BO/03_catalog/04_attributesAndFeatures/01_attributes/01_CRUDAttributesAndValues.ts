@@ -1,12 +1,10 @@
 import testContext from '@utils/testContext';
 import {expect} from 'chai';
 
-// Import pages
-import addValuePage from '@pages/BO/catalog/attributes/addValue';
-
 import {
   boAttributesPage,
   boAttributesCreatePage,
+  boAttributesValueCreatePage,
   boAttributesViewPage,
   boDashboardPage,
   boLoginPage,
@@ -149,8 +147,8 @@ describe('BO - Catalog - Attributes & Features : CRUD attribute and values', asy
 
       await boAttributesViewPage.goToAddNewValuePage(page);
 
-      const pageTitle = await addValuePage.getPageTitle(page);
-      expect(pageTitle).to.equal(addValuePage.createPageTitle);
+      const pageTitle = await boAttributesValueCreatePage.getPageTitle(page);
+      expect(pageTitle).to.equal(boAttributesValueCreatePage.createPageTitle);
     });
 
     valuesToCreate.forEach((valueToCreate: FakerAttributeValue, index: number) => {
@@ -158,7 +156,7 @@ describe('BO - Catalog - Attributes & Features : CRUD attribute and values', asy
         await testContext.addContextItem(this, 'testIdentifier', `createValue${index}`, baseContext);
 
         valueToCreate.setAttributeId(attributeId);
-        const textResult = await addValuePage.addEditValue(page, valueToCreate, index === 0);
+        const textResult = await boAttributesValueCreatePage.addEditValue(page, valueToCreate, index === 0);
         expect(textResult).to.contains(boAttributesViewPage.successfulCreationMessage);
       });
     });
@@ -239,16 +237,16 @@ describe('BO - Catalog - Attributes & Features : CRUD attribute and values', asy
 
       await boAttributesViewPage.goToEditValuePage(page, 1);
 
-      const pageTitle = await addValuePage.getPageTitle(page);
-      expect(pageTitle).to.contains(addValuePage.editPageTitle(valuesToCreate[0].value));
+      const pageTitle = await boAttributesValueCreatePage.getPageTitle(page);
+      expect(pageTitle).to.contains(boAttributesValueCreatePage.editPageTitle(valuesToCreate[0].value));
     });
 
     it('should update value', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'updateValue', baseContext);
 
       updateValueData.setAttributeId(attributeId);
-      const textResult = await addValuePage.addEditValue(page, updateValueData);
-      expect(textResult).to.contains(addValuePage.successfulUpdateMessage);
+      const textResult = await boAttributesValueCreatePage.addEditValue(page, updateValueData);
+      expect(textResult).to.contains(boAttributesValueCreatePage.successfulUpdateMessage);
     });
   });
 

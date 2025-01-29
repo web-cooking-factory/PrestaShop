@@ -1,11 +1,9 @@
 import testContext from '@utils/testContext';
 import {expect} from 'chai';
 
-// Import pages
-import addValuePage from '@pages/BO/catalog/attributes/addValue';
-
 import {
   boAttributesPage,
+  boAttributesValueCreatePage,
   boAttributesViewPage,
   boDashboardPage,
   boLoginPage,
@@ -105,8 +103,8 @@ describe('BO - Catalog - Attributes & Features : Sort, pagination and bulk delet
 
       await boAttributesViewPage.goToAddNewValuePage(page);
 
-      const pageTitle = await addValuePage.getPageTitle(page);
-      expect(pageTitle).to.contains(addValuePage.createPageTitle);
+      const pageTitle = await boAttributesValueCreatePage.getPageTitle(page);
+      expect(pageTitle).to.contains(boAttributesValueCreatePage.createPageTitle);
     });
 
     creationTests.forEach((test: number, index: number) => {
@@ -119,7 +117,7 @@ describe('BO - Catalog - Attributes & Features : Sort, pagination and bulk delet
           value: `todelete${index}`,
         });
 
-        const textResult = await addValuePage.addEditValue(page, createValueData, index !== 6);
+        const textResult = await boAttributesValueCreatePage.addEditValue(page, createValueData, index !== 6);
         expect(textResult).to.contains(boAttributesPage.successfulCreationMessage);
       });
     });
