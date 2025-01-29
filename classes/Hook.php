@@ -32,8 +32,8 @@ use PrestaShop\PrestaShop\Core\Exception\CoreException;
 use PrestaShop\PrestaShop\Core\Hook\HookModuleFilter;
 use PrestaShop\PrestaShop\Core\Module\Exception\ModuleErrorInterface;
 use PrestaShop\PrestaShop\Core\Module\WidgetInterface;
-use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 use PrestaShopBundle\Form\Admin\Type\FormattedTextareaType;
+use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 
 class HookCore extends ObjectModel
 {
@@ -1293,7 +1293,6 @@ class HookCore extends ObjectModel
      *
      * @throws PrestaShop\PrestaShop\Core\Exception\ContainerNotFoundException
      * @throws ServiceNotFoundException
-     *
      * @throws PrestaShop\PrestaShop\Core\Exception\ContainerNotFoundException
      */
     private static function getHookModuleFilter(): HookModuleFilter
