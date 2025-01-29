@@ -32,6 +32,7 @@ use PrestaShop\PrestaShop\Core\Exception\CoreException;
 use PrestaShop\PrestaShop\Core\Hook\HookModuleFilter;
 use PrestaShop\PrestaShop\Core\Module\Exception\ModuleErrorInterface;
 use PrestaShop\PrestaShop\Core\Module\WidgetInterface;
+use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 use PrestaShopBundle\Form\Admin\Type\FormattedTextareaType;
 
 class HookCore extends ObjectModel
@@ -864,8 +865,7 @@ class HookCore extends ObjectModel
         }
 
         $hookModuleFilter = self::getHookModuleFilter();
-
-        if (!empty($hookModuleFilter) && !empty($modulesToInvoke)) {
+        if (!empty($modulesToInvoke)) {
             $modulesToInvoke = $hookModuleFilter->filterHookModuleExecList(
                 $modulesToInvoke,
                 $hookName
@@ -1289,11 +1289,14 @@ class HookCore extends ObjectModel
     }
 
     /**
-     * @return HookModuleFilter|null
+     * @return HookModuleFilter
+     *
+     * @throws PrestaShop\PrestaShop\Core\Exception\ContainerNotFoundException
+     * @throws ServiceNotFoundException
      *
      * @throws PrestaShop\PrestaShop\Core\Exception\ContainerNotFoundException
      */
-    private static function getHookModuleFilter()
+    private static function getHookModuleFilter(): HookModuleFilter
     {
         $serviceContainer = SymfonyContainer::getInstance();
 
@@ -1304,13 +1307,7 @@ class HookCore extends ObjectModel
             );
         }
 
-        try {
-            $hookModuleFilter = $serviceContainer->get(HookModuleFilter::class);
-        } catch (Exception $e) {
-            return null;
-        }
-
-        return $hookModuleFilter;
+        return $serviceContainer->get(HookModuleFilter::class);
     }
 
     /**
