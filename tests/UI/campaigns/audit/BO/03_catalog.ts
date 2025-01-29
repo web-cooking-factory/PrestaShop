@@ -3,7 +3,6 @@ import addBrandPage from '@pages/BO/catalog/brands/add';
 import addBrandAddressPage from '@pages/BO/catalog/brands/addAddress';
 import viewBrandPage from '@pages/BO/catalog/brands/view';
 import addFeatureValuePage from '@pages/BO/catalog/features/addValue';
-import viewFeaturePage from '@pages/BO/catalog/features/view';
 import addFilePage from '@pages/BO/catalog/files/add';
 import suppliersPage from '@pages/BO/catalog/suppliers';
 import viewSupplierPage from '@pages/BO/catalog/suppliers/view';
@@ -24,6 +23,7 @@ import {
   boDashboardPage,
   boFeaturesPage,
   boFeaturesCreatePage,
+  boFeaturesViewPage,
   boFilesPage,
   boLoginPage,
   boMonitoringPage,
@@ -259,7 +259,7 @@ describe('BO - Catalog', async () => {
 
     await boFeaturesPage.viewFeature(page, 1);
 
-    const pageTitle = await viewFeaturePage.getPageTitle(page);
+    const pageTitle = await boFeaturesViewPage.getPageTitle(page);
     expect(pageTitle).to.contains(`${dataFeatures.composition.name} • ${global.INSTALL.SHOP_NAME}`);
 
     const jsErrors = utilsPlaywright.getJsErrors();
@@ -269,7 +269,7 @@ describe('BO - Catalog', async () => {
   it('should go to \'Catalog > Attributes & Features > Features > Add new value\' page', async function () {
     await testContext.addContextItem(this, 'testIdentifier', 'goToAddNewFeatureValuePage', baseContext);
 
-    await viewFeaturePage.goToAddNewValuePage(page);
+    await boFeaturesViewPage.goToAddNewValuePage(page);
 
     const pageTitle = await addFeatureValuePage.getPageTitle(page);
     expect(pageTitle).to.contains(addFeatureValuePage.createPageTitle);
