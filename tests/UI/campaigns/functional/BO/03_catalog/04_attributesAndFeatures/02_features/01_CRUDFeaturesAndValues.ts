@@ -1,14 +1,12 @@
 import testContext from '@utils/testContext';
 import {expect} from 'chai';
 
-// Import pages
-import addValuePage from '@pages/BO/catalog/features/addValue';
-
 import {
   boAttributesPage,
   boDashboardPage,
   boFeaturesPage,
   boFeaturesCreatePage,
+  boFeaturesValueCreatePage,
   boFeaturesViewPage,
   boLoginPage,
   type BrowserContext,
@@ -144,21 +142,21 @@ describe('BO - Catalog - Attributes & Features : CRUD features and values', asyn
 
       await boFeaturesViewPage.goToAddNewValuePage(page);
 
-      const pageTitle = await addValuePage.getPageTitle(page);
-      expect(pageTitle).to.eq(addValuePage.createPageTitle);
+      const pageTitle = await boFeaturesValueCreatePage.getPageTitle(page);
+      expect(pageTitle).to.eq(boFeaturesValueCreatePage.createPageTitle);
     });
 
     it('should create value', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'createNewValue', baseContext);
 
-      const textResult = await addValuePage.addEditValue(page, createFeatureValueData, true);
-      expect(textResult).to.contains(addValuePage.successfulCreationMessage);
+      const textResult = await boFeaturesValueCreatePage.addEditValue(page, createFeatureValueData, true);
+      expect(textResult).to.contains(boFeaturesValueCreatePage.successfulCreationMessage);
     });
 
     it('should create a second value', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'createSecondValue', baseContext);
 
-      const textResult = await addValuePage.addEditValue(page, createSecondFeatureValueData, false);
+      const textResult = await boFeaturesValueCreatePage.addEditValue(page, createSecondFeatureValueData, false);
       expect(textResult).to.contains(boFeaturesViewPage.successfulCreationMessage);
     });
   });
@@ -181,14 +179,14 @@ describe('BO - Catalog - Attributes & Features : CRUD features and values', asyn
 
       await boFeaturesViewPage.goToEditValuePage(page, 2);
 
-      const pageTitle = await addValuePage.getPageTitle(page);
-      expect(pageTitle).to.eq(addValuePage.editPageTitle);
+      const pageTitle = await boFeaturesValueCreatePage.getPageTitle(page);
+      expect(pageTitle).to.eq(boFeaturesValueCreatePage.editPageTitle);
     });
 
     it('should update the second value', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'editValue', baseContext);
 
-      const textResult = await addValuePage.addEditValue(page, editSecondFeatureValueData, false);
+      const textResult = await boFeaturesValueCreatePage.addEditValue(page, editSecondFeatureValueData, false);
       expect(textResult).to.contains(boFeaturesViewPage.successfulUpdateMessage);
     });
   });

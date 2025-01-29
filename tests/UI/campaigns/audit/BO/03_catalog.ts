@@ -2,7 +2,6 @@ import {expect} from 'chai';
 import addBrandPage from '@pages/BO/catalog/brands/add';
 import addBrandAddressPage from '@pages/BO/catalog/brands/addAddress';
 import viewBrandPage from '@pages/BO/catalog/brands/view';
-import addFeatureValuePage from '@pages/BO/catalog/features/addValue';
 import addFilePage from '@pages/BO/catalog/files/add';
 import suppliersPage from '@pages/BO/catalog/suppliers';
 import viewSupplierPage from '@pages/BO/catalog/suppliers/view';
@@ -23,6 +22,7 @@ import {
   boDashboardPage,
   boFeaturesPage,
   boFeaturesCreatePage,
+  boFeaturesValueCreatePage,
   boFeaturesViewPage,
   boFilesPage,
   boLoginPage,
@@ -271,8 +271,8 @@ describe('BO - Catalog', async () => {
 
     await boFeaturesViewPage.goToAddNewValuePage(page);
 
-    const pageTitle = await addFeatureValuePage.getPageTitle(page);
-    expect(pageTitle).to.contains(addFeatureValuePage.createPageTitle);
+    const pageTitle = await boFeaturesValueCreatePage.getPageTitle(page);
+    expect(pageTitle).to.contains(boFeaturesValueCreatePage.createPageTitle);
 
     const jsErrors = utilsPlaywright.getJsErrors();
     expect(jsErrors.length).to.equals(0);

@@ -1,12 +1,11 @@
 import testContext from '@utils/testContext';
 import {expect} from 'chai';
 
-import addValuePage from '@pages/BO/catalog/features/addValue';
-
 import {
   boAttributesPage,
   boDashboardPage,
   boFeaturesPage,
+  boFeaturesValueCreatePage,
   boFeaturesViewPage,
   boLoginPage,
   type BrowserContext,
@@ -106,8 +105,8 @@ describe('BO - Catalog - Catalog > Attributes & Features : Sort, pagination and 
 
       await boFeaturesViewPage.goToAddNewValuePage(page);
 
-      const pageTitle = await addValuePage.getPageTitle(page);
-      expect(pageTitle).to.contains(addValuePage.createPageTitle);
+      const pageTitle = await boFeaturesValueCreatePage.getPageTitle(page);
+      expect(pageTitle).to.contains(boFeaturesValueCreatePage.createPageTitle);
     });
 
     creationTests.forEach((test: number, index: number) => {
@@ -119,10 +118,10 @@ describe('BO - Catalog - Catalog > Attributes & Features : Sort, pagination and 
         await testContext.addContextItem(this, 'testIdentifier', `createNewValue${index}`, baseContext);
 
         if (index === 14) {
-          const textResult = await addValuePage.addEditValue(page, createFeatureValueData, false);
+          const textResult = await boFeaturesValueCreatePage.addEditValue(page, createFeatureValueData, false);
           expect(textResult).to.contains(boFeaturesViewPage.successfulCreationMessage);
         } else {
-          await addValuePage.addEditValue(page, createFeatureValueData, true);
+          await boFeaturesValueCreatePage.addEditValue(page, createFeatureValueData, true);
         }
       });
     });

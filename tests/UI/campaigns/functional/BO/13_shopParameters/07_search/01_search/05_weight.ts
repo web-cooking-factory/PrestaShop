@@ -5,7 +5,6 @@ import opsBulkDeleteAttributes from '@commonTests/BO/catalog/attributes';
 import opsBulkDeleteBrands from '@commonTests/BO/catalog/brands';
 import {deleteProductTest} from '@commonTests/BO/catalog/product';
 import boBrandsCreatePage from '@pages/BO/catalog/brands/add';
-import boFeatureValuesCreatePage from '@pages/BO/catalog/features/addValue';
 import testContext from '@utils/testContext';
 
 import {
@@ -19,6 +18,7 @@ import {
   boDashboardPage,
   boFeaturesPage,
   boFeaturesCreatePage,
+  boFeaturesValueCreatePage,
   boFeaturesViewPage,
   boLoginPage,
   boProductsCreatePage,
@@ -442,15 +442,15 @@ describe('BO - Shop Parameters - Search: Weight', async () => {
 
         await boFeaturesViewPage.goToAddNewValuePage(page);
 
-        const pageTitle = await boFeatureValuesCreatePage.getPageTitle(page);
-        expect(pageTitle).to.eq(boFeatureValuesCreatePage.createPageTitle);
+        const pageTitle = await boFeaturesValueCreatePage.getPageTitle(page);
+        expect(pageTitle).to.eq(boFeaturesValueCreatePage.createPageTitle);
       });
 
       it('should create value', async function () {
         await testContext.addContextItem(this, 'testIdentifier', 'createNewValue', baseContext);
 
-        const textResult = await boFeatureValuesCreatePage.addEditValue(page, featureValueData);
-        expect(textResult).to.contains(boFeatureValuesCreatePage.successfulCreationMessage);
+        const textResult = await boFeaturesValueCreatePage.addEditValue(page, featureValueData);
+        expect(textResult).to.contains(boFeaturesValueCreatePage.successfulCreationMessage);
       });
     });
 
