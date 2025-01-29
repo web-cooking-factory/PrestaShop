@@ -1,16 +1,15 @@
 import testContext from '@utils/testContext';
+import {expect} from 'chai';
 
 // Import pages
-import addFeaturePage from '@pages/BO/catalog/features/addFeature';
 import viewFeaturePage from '@pages/BO/catalog/features/view';
 import addValuePage from '@pages/BO/catalog/features/addValue';
-
-import {expect} from 'chai';
 
 import {
   boAttributesPage,
   boDashboardPage,
   boFeaturesPage,
+  boFeaturesCreatePage,
   boLoginPage,
   type BrowserContext,
   FakerFeature,
@@ -107,14 +106,14 @@ describe('BO - Catalog - Attributes & Features : CRUD features and values', asyn
 
       await boFeaturesPage.goToAddFeaturePage(page);
 
-      const pageTitle = await addFeaturePage.getPageTitle(page);
-      expect(pageTitle).to.eq(addFeaturePage.createPageTitle);
+      const pageTitle = await boFeaturesCreatePage.getPageTitle(page);
+      expect(pageTitle).to.eq(boFeaturesCreatePage.createPageTitle);
     });
 
     it('should create feature', async function () {
       await testContext.addContextItem(this, 'testIdentifier', 'createNewFeature', baseContext);
 
-      const textResult = await addFeaturePage.setFeature(page, createFeatureData);
+      const textResult = await boFeaturesCreatePage.setFeature(page, createFeatureData);
       expect(textResult).to.contains(boFeaturesPage.successfulCreationMessage);
     });
   });
@@ -218,8 +217,8 @@ describe('BO - Catalog - Attributes & Features : CRUD features and values', asyn
 
       await boFeaturesPage.clickOnEditFeature(page, 1);
 
-      const textResult = await addFeaturePage.setFeature(page, editFeatureData);
-      expect(textResult).to.contains(addFeaturePage.successfulUpdateMessage);
+      const textResult = await boFeaturesCreatePage.setFeature(page, editFeatureData);
+      expect(textResult).to.contains(boFeaturesCreatePage.successfulUpdateMessage);
     });
   });
 
