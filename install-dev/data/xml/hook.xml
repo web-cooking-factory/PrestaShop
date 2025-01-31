@@ -5422,7 +5422,7 @@
     <hook id="actionPresentObject">
       <name>actionPresentObject</name>
       <title>Object Presenter</title>
-      <description>This hook is called before a object is presented</description>
+      <description>This hook is called before an object is presented</description>
     </hook>
   </entities>
 </entity_hook>
